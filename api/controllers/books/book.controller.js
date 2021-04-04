@@ -1,4 +1,8 @@
 class BookController {
+    constructor(userService) {
+        this._userService = userService;
+    }
+
     index(req, res) {
         return res.json({
             status: 200,

@@ -4,33 +4,47 @@ const container = createContainer();
 const StartUp = require('./startup');
 const Server = require('./server');
 
-const UserController = require('./controllers/user.controller');
-const BookController = require('./controllers/book.controller');
+const UserController = require('./controllers/users/user.controller');
+const BookController = require('./controllers/books/book.controller');
 
-const UserRoutes = require('./routes/user.routes');
-const BookRoutes = require('./routes/book.routes');
+// const UserService = require('./services/users/user.service');
+// const BookService = require('./services/books/book.service');
+
+const UserRoutes = require('./routes/users/user.routes');
+const BookRoutes = require('./routes/books/book.routes');
 
 const Routes = require('./routes');
 const Config = require('../config/environments');
 
 container
+    // App    
     .register({
         app: asClass(StartUp).singleton(),
         server: asClass(Server).singleton(),
     })
-    .register({
-        UserController: asClass(UserController).singleton(),
-        BookController: asClass(BookController).singleton(),
-    })
-    .register({
-        router: asFunction(Routes).singleton(),
-    })
+    // Config    
     .register({
         config: asValue(Config)
     })
+    // Router
     .register({
-        UserRoutes: asFunction(UserRoutes).singleton(),
-        BookRoutes: asFunction(BookRoutes).singleton(),
-    });
+        router: asFunction(Routes).singleton(),
+    })
+    // Routes
+    .register({
+        userRoutes: asFunction(UserRoutes).singleton(),
+        bookRoutes: asFunction(BookRoutes).singleton(),
+    })
+    // Controllers
+    .register({
+        userController: asClass(UserController).singleton(),
+        bookController: asClass(BookController).singleton(),
+    })
+    // Services
+    // .register({
+    //     userService: asClass(UserService).singleton(),
+    //     bookService: asClass(BookService).singleton(),
+    // })
+    ;
 
 module.exports = container;
