@@ -6,7 +6,7 @@ module.exports = () => {
   router.get('*', (request, response) => {
     response.send({
       status: 'Not Found',
-      message: `The ${request.path} route was not found on this server`,
+      message: `The ${request.originalUrl} route was not found on this server`,
     });
   });
 
