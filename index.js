@@ -1,4 +1,4 @@
-const container = require('./api/container');
+const container = require('./src/api/container');
 
 const application = container.resolve('app');
 
