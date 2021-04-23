@@ -2,19 +2,19 @@ const { Router, json } = require('express');
 const cors = require('cors');
 const compression = require('compression');
 
-module.exports = function ({ userRoutes, bookRoutes }) {
-    const router = Router();
-    const apiRouter = Router();
+module.exports = ({ userRoutes, bookRoutes }) => {
+  const router = Router();
+  const apiRouter = Router();
 
-    apiRouter
-        .use(cors())
-        .use(json())
-        .use(compression());
+  apiRouter
+    .use(cors())
+    .use(json())
+    .use(compression());
 
-    apiRouter.use('/user', userRoutes);
-    apiRouter.use('/book', bookRoutes);
+  apiRouter.use('/user', userRoutes);
+  apiRouter.use('/book', bookRoutes);
 
-    router.use('/api', apiRouter);
+  router.use('/api', apiRouter);
 
-    return router;
-}
+  return router;
+};

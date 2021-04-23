@@ -23,7 +23,11 @@
   },
   "homepage": "https://github.com/carlosarroyoam/node-express-architecture-example#readme",
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "eslint": "^7.24.0",
+    "nodemon": "^2.0.7",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.4.2"
   },
   "dependencies": {
     "awilix": "^4.3.3",

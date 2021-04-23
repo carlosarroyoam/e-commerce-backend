@@ -1,4 +1,7 @@
-const { asClass, asFunction, asValue, createContainer } = require('awilix');
+const {
+  asClass, asFunction, asValue, createContainer,
+} = require('awilix');
+
 const container = createContainer();
 
 const StartUp = require('./startup');
@@ -17,34 +20,33 @@ const Routes = require('./routes');
 const Config = require('../config/environments');
 
 container
-    // App    
-    .register({
-        app: asClass(StartUp).singleton(),
-        server: asClass(Server).singleton(),
-    })
-    // Config    
-    .register({
-        config: asValue(Config)
-    })
-    // Router
-    .register({
-        router: asFunction(Routes).singleton(),
-    })
-    // Routes
-    .register({
-        userRoutes: asFunction(UserRoutes).singleton(),
-        bookRoutes: asFunction(BookRoutes).singleton(),
-    })
-    // Controllers
-    .register({
-        userController: asClass(UserController).singleton(),
-        bookController: asClass(BookController).singleton(),
-    })
-    // Services
-    // .register({
-    //     userService: asClass(UserService).singleton(),
-    //     bookService: asClass(BookService).singleton(),
-    // })
-    ;
+// App
+  .register({
+    app: asClass(StartUp).singleton(),
+    server: asClass(Server).singleton(),
+  })
+// Config
+  .register({
+    config: asValue(Config),
+  })
+// Router
+  .register({
+    router: asFunction(Routes).singleton(),
+  })
+// Routes
+  .register({
+    userRoutes: asFunction(UserRoutes).singleton(),
+    bookRoutes: asFunction(BookRoutes).singleton(),
+  })
+// Controllers
+  .register({
+    userController: asClass(UserController).singleton(),
+    bookController: asClass(BookController).singleton(),
+  });
+// Services
+// .register({
+//     userService: asClass(UserService).singleton(),
+//     bookService: asClass(BookService).singleton(),
+// });
 
 module.exports = container;
