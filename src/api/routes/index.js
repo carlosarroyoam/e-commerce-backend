@@ -16,8 +16,7 @@ module.exports = ({
   apiRouter.use('/', rootRoute);
   apiRouter.use('/user', userRoutes);
   apiRouter.use('/book', bookRoutes);
-  apiRouter.use('/', defaultRoute);
-  apiRouter.get('*', defaultRoute);
+  apiRouter.use('*', defaultRoute);
 
   router.use('/api', apiRouter);
 
