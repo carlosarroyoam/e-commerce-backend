@@ -8,7 +8,7 @@ class Server {
   }
 
   start() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const http = this._express.listen(this._config.PORT, () => {
         const { port } = http.address();
         console.info(`Application running on port: ${port}`);

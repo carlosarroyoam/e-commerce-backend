@@ -15,7 +15,12 @@
             "error",
             "windows"
         ],
-        "allowAfterThis": true,
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allowAfterThis": true
+            }
+        ],
         "no-console": "off",
         "no-restricted-syntax": [
             "warn",
