@@ -36,6 +36,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
+    "morgan": "^1.10.0",
     "sequelize": "^6.6.2",
     "swagger-ui-express": "^4.1.6"
   }

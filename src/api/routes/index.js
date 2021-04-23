@@ -1,6 +1,7 @@
 const { Router, json } = require('express');
 const cors = require('cors');
 const compression = require('compression');
+const morgan = require('morgan');
 
 module.exports = ({
   userRoutes, bookRoutes, rootRoute, defaultRoute,
@@ -11,7 +12,8 @@ module.exports = ({
   apiRouter
     .use(cors())
     .use(json())
-    .use(compression());
+    .use(compression())
+    .use(morgan('dev'));
 
   apiRouter.use('/', rootRoute);
   apiRouter.use('/user', userRoutes);
