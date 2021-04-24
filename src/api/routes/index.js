@@ -1,19 +1,10 @@
-const { Router, json } = require('express');
-const cors = require('cors');
-const compression = require('compression');
-const morgan = require('morgan');
+const { Router } = require('express');
 
 module.exports = ({
   userRoutes, bookRoutes, rootRoute, defaultRoute,
 }) => {
   const router = Router();
   const apiRouter = Router();
-
-  apiRouter
-    .use(cors())
-    .use(json())
-    .use(compression())
-    .use(morgan('dev'));
 
   apiRouter.use('/', rootRoute);
   apiRouter.use('/user', userRoutes);
