@@ -7,11 +7,9 @@ const container = createContainer();
 const StartUp = require('./startup');
 const Server = require('./server');
 
-const UserController = require('./controllers/users/user.controller');
-const BookController = require('./controllers/books/book.controller');
+const { UserController, BookController } = require('./controllers/index');
 
-// const UserService = require('./services/users/user.service');
-// const BookService = require('./services/books/book.service');
+// const {UserService, BookService} = require('./services/index');
 
 const RootRoute = require('./routes/root/root.routes');
 const DefaultRoute = require('./routes/default/default.routes');
