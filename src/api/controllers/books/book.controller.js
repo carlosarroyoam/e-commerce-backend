@@ -1,15 +1,23 @@
 class BookController {
-  constructor(userService) {
-    this._userService = userService;
+  constructor({ dbConnection }) {
+    // this._userService = userService;
+    this._dbConnection = dbConnection;
   }
 
   index(req, res) {
-    return res.json({
-      status: 200,
-      message: 'OK',
-      data: {
-        message: 'hello world',
-      },
+    this._dbConnection.pool.query('SELECT * FROM books', (err, result) => {
+      if (err) {
+        throw new Error(err);
+      }
+
+      return res.json({
+        status: 200,
+        message: 'OK',
+        data: {
+          result,
+          message: 'hello world',
+        },
+      });
     });
   }
 }

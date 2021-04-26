@@ -6,6 +6,7 @@ const container = createContainer();
 
 const StartUp = require('./startup');
 const Server = require('./server');
+const DatabaseConnection = require('../lib/mysql/connexion');
 
 const { UserController, BookController } = require('./controllers/index');
 
@@ -44,6 +45,9 @@ container
   .register({
     userController: asClass(UserController).singleton(),
     bookController: asClass(BookController).singleton(),
+  })
+  .register({
+    dbConnection: asClass(DatabaseConnection).singleton(),
   });
 // Services
 // .register({
