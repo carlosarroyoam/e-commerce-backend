@@ -6,7 +6,7 @@ const TESTING = require('./testing');
 
 const { NODE_ENV } = process.env;
 
-const currentEnv = DEVELOPMENT;
+let currentEnv = DEVELOPMENT;
 
 if (NODE_ENV === 'production') {
   currentEnv = PRODUCTION;

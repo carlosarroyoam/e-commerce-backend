@@ -1,4 +1,7 @@
+const UserController = require('./users/user.controller');
+const BookController = require('./books/book.controller');
+
 module.exports = {
-  UserController: require('./users/user.controller'),
-  BookController: require('./books/book.controller'),
+  UserController,
+  BookController,
 };
