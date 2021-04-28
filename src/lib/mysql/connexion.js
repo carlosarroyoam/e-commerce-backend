@@ -13,7 +13,7 @@ class DatabaseConnection {
     });
   }
 
-  getPool() {
+  getConnection() {
     return this._pool;
   }
 }

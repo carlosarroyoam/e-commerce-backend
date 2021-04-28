@@ -4,13 +4,14 @@ class BookController {
     this._dbConnection = dbConnection;
   }
 
-  index(req, res) {
-    this._dbConnection.getPool().query('SELECT id, name FROM users', (err, result) => {
-      if (err) throw err;
-      res.send({
-        status: 200,
-        message: 'OK',
-        data: result,
+  index() {
+    return new Promise((resolve, reject) => {
+      this._dbConnection.getConnection().query('SELECT * FROM users', (err, result) => {
+        if (err) {
+          throw err;
+        }
+
+        resolve(result);
       });
     });
   }

@@ -13,7 +13,10 @@ class Server {
       .use(json())
       .use(compression())
       .use(morgan('dev'))
-      .use(router);
+      .use(router)
+      .use((err, req, res, next) => {
+        res.status(500).send({ message: 'Something broke!' });
+      });
   }
 
   start() {
