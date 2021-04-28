@@ -3,19 +3,11 @@ const { Router } = require('express');
 module.exports = ({ userController }) => {
   const router = Router();
 
-  router.get('/', async (request, response) => {
-    const users = await userController.index();
-
-    response.send({
-      status: 200,
-      message: 'OK',
-      data: users,
-    });
-  });
-
-  router.post('/', (request, response) => {
-    response.send(request.body);
-  });
+  router.get('/', userController.index.bind(userController));
+  // router.get('/:id', userController.show.bind(userController));
+  router.post('/', userController.store.bind(userController));
+  // router.put('/', userController.update.bind(userController));
+  // router.delete('/', userController.destroy.bind(userController));
 
   return router;
 };

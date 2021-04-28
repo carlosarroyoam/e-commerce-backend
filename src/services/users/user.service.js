@@ -6,9 +6,7 @@ class UserService {
   async findAll() {
     const users = await this._userRepository.findAll()
       .then((result) => result)
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => err);
 
     return users;
   }

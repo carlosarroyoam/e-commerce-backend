@@ -5,9 +5,9 @@ class UserRepository {
 
   findAll() {
     return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT * FROM userss', (err, result) => {
+      this._dbConnection.getConnection().query('SELECT * FROM users', (err, result) => {
         if (err) {
-          reject(new Error('Error while retrieving users'));
+          reject(err);
         }
 
         resolve(result);

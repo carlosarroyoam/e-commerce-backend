@@ -3,8 +3,14 @@ class BookController {
     this._bookService = bookService;
   }
 
-  index() {
-    return this._bookService.findAll();
+  async index(request, response, next) {
+    const books = await this._bookService.findAll();
+
+    response.send({
+      status: 200,
+      message: 'OK',
+      data: books,
+    });
   }
 }
 
