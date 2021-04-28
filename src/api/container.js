@@ -10,7 +10,9 @@ const DatabaseConnection = require('../lib/mysql/connexion');
 
 const { UserController, BookController } = require('./controllers/index');
 
-// const {UserService, BookService} = require('./services/index');
+const { UserService, BookService } = require('../services/index');
+
+const { UserRepository, BookRepository } = require('../repositories/index');
 
 const RootRoute = require('./routes/root/root.routes');
 const DefaultRoute = require('./routes/default/default.routes');
@@ -30,6 +32,10 @@ container
   .register({
     config: asValue(Config),
   })
+  // Database connection
+  .register({
+    dbConnection: asClass(DatabaseConnection).singleton(),
+  })
   // Router
   .register({
     router: asFunction(Routes).singleton(),
@@ -46,13 +52,15 @@ container
     userController: asClass(UserController).singleton(),
     bookController: asClass(BookController).singleton(),
   })
+  // Services
   .register({
-    dbConnection: asClass(DatabaseConnection).singleton(),
+    userService: asClass(UserService).singleton(),
+    bookService: asClass(BookService).singleton(),
+  })
+  // Repositories
+  .register({
+    userRepository: asClass(UserRepository).singleton(),
+    bookRepository: asClass(BookRepository).singleton(),
   });
-// Services
-// .register({
-//     userService: asClass(UserService).singleton(),
-//     bookService: asClass(BookService).singleton(),
-// });
 
 module.exports = container;

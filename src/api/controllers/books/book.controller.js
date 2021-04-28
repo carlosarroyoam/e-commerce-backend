@@ -1,19 +1,10 @@
 class BookController {
-  constructor({ config, dbConnection }) {
-    this._config = config;
-    this._dbConnection = dbConnection;
+  constructor({ bookService }) {
+    this._bookService = bookService;
   }
 
   index() {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT * FROM users', (err, result) => {
-        if (err) {
-          throw err;
-        }
-
-        resolve(result);
-      });
-    });
+    return this._bookService.findAll();
   }
 }
 

@@ -1,12 +1,10 @@
 class UserController {
-  index(req, res) {
-    return res.json({
-      status: 200,
-      message: 'OK',
-      data: {
-        message: 'hello world',
-      },
-    });
+  constructor({ userService }) {
+    this._userService = userService;
+  }
+
+  index() {
+    return this._userService.findAll();
   }
 }
 

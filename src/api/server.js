@@ -15,7 +15,10 @@ class Server {
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        res.status(500).send({ message: 'Something broke!' });
+        res.status(500).send({
+          status: 'Internal server error',
+          message: err.message,
+        });
       });
   }
 
