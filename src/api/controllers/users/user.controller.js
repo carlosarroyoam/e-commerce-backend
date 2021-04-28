@@ -17,13 +17,20 @@ class UserController {
     });
   }
 
+  // TODO change for corresponding method
   async store(request, response, next) {
-    const users = await this._userService.findAll();
+    const user = await this._userService.findAll();
+
+    if (user instanceof Error) {
+      return next(new Error('Error occurred while storing user'));
+    }
 
     return response.send({
       status: 201,
       message: 'Created',
-      data: users,
+      data: {
+        user,
+      },
     });
   }
 }
