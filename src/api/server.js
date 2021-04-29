@@ -14,6 +14,7 @@ class Server {
       .use(compression())
       .use(morgan('dev'))
       .use(router)
+      // eslint-disable-next-line no-unused-vars
       .use((err, req, res, next) => {
         res.status(500).send({
           status: 'Internal server error',

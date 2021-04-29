@@ -10,6 +10,14 @@ class UserService {
 
     return users;
   }
+
+  async find(id) {
+    const user = await this._userRepository.find(id)
+      .then((result) => result)
+      .catch((err) => err);
+
+    return user;
+  }
 }
 
 module.exports = UserService;

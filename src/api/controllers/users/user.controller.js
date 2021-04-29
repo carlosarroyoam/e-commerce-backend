@@ -17,6 +17,29 @@ class UserController {
     });
   }
 
+  async show(request, response, next) {
+    const { id } = request.params;
+
+    const user = await this._userService.find(id);
+
+    if (user instanceof Error) {
+      return next(new Error(`Error occurred while retrieving user with id: ${id}`));
+    }
+
+    if (user.length < 1) {
+      return response.status(404).send({
+        status: 404,
+        message: 'User was not found',
+      });
+    }
+
+    return response.send({
+      status: 200,
+      message: 'Ok',
+      data: user,
+    });
+  }
+
   // TODO change for corresponding method
   async store(request, response, next) {
     const user = await this._userService.findAll();
