@@ -5,8 +5,9 @@ class UserRepository {
 
   findAll() {
     return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, name FROM users', (err, result) => {
+      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users', (err, result) => {
         if (err) {
+          console.error(err);
           reject(err);
         }
 
@@ -17,7 +18,7 @@ class UserRepository {
 
   find(id) {
     return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, name FROM users WHERE id = ?', [id], (err, result) => {
+      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, result) => {
         if (err) {
           reject(err);
         }
