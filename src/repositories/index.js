@@ -1,5 +1,5 @@
-const UserRepository = require('./users/user.repository');
-const BookRepository = require('./books/book.repository');
+const UserRepository = require('./user.repository');
+const BookRepository = require('./book.repository');
 
 module.exports = {
   UserRepository,

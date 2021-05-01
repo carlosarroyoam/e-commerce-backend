@@ -1,5 +1,5 @@
-const UserService = require('./users/user.service');
-const BookService = require('./books/book.service');
+const UserService = require('./user.service');
+const BookService = require('./book.service');
 
 module.exports = {
   UserService,

@@ -6,18 +6,18 @@ const container = createContainer();
 
 const StartUp = require('./startup');
 const Server = require('./server');
-const DatabaseConnection = require('../lib/mysql/connexion');
+const DatabaseConnection = require('../lib/mysql/connection');
 
-const { UserController, BookController } = require('./controllers/index');
+const { UserController, BookController } = require('./controllers');
 
-const { UserService, BookService } = require('../services/index');
+const { UserService, BookService } = require('../services');
 
-const { UserRepository, BookRepository } = require('../repositories/index');
+const { UserRepository, BookRepository } = require('../repositories');
 
-const RootRoute = require('./routes/root/root.routes');
-const DefaultRoute = require('./routes/default/default.routes');
-const UserRoutes = require('./routes/users/user.routes');
-const BookRoutes = require('./routes/books/book.routes');
+const RootRoute = require('./routes/root.routes');
+const DefaultRoute = require('./routes/default.routes');
+const UserRoutes = require('./routes/user.routes');
+const BookRoutes = require('./routes/book.routes');
 
 const Routes = require('./routes');
 const Config = require('../config/environments');
