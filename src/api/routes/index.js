@@ -6,12 +6,12 @@ module.exports = ({
   const router = Router();
   const apiRouter = Router();
 
-  apiRouter.use('/', rootRoute);
   apiRouter.use('/user', userRoutes);
   apiRouter.use('/book', bookRoutes);
-  apiRouter.use('*', defaultRoute);
 
+  router.use('/', rootRoute);
   router.use('/api', apiRouter);
+  router.use('*', defaultRoute);
 
   return router;
 };
