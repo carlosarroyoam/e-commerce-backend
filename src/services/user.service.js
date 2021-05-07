@@ -4,17 +4,13 @@ class UserService {
   }
 
   async findAll() {
-    const users = await this._userRepository.findAll()
-      .then((result) => result)
-      .catch((err) => err);
+    const users = await this._userRepository.findAll();
 
     return users;
   }
 
   async find(id) {
-    const user = await this._userRepository.find(id)
-      .then((result) => result)
-      .catch((err) => err);
+    const user = await this._userRepository.find(id);
 
     return user;
   }

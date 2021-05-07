@@ -7,8 +7,7 @@ class UserRepository {
     return new Promise((resolve, reject) => {
       this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users', (err, result) => {
         if (err) {
-          console.error(err);
-          reject(err);
+          reject(new Error('Error while retrieving users'));
         }
 
         resolve(result);
@@ -20,7 +19,7 @@ class UserRepository {
     return new Promise((resolve, reject) => {
       this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, result) => {
         if (err) {
-          reject(err);
+          reject(new Error('Error while retrieving user'));
         }
 
         resolve(result);

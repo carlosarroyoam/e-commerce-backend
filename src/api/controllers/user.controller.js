@@ -4,57 +4,59 @@ class UserController {
   }
 
   async index(request, response, next) {
-    const users = await this._userService.findAll();
+    try {
+      const users = await this._userService.findAll();
 
-    if (users instanceof Error) {
-      return next(new Error('Error occurred while retrieving users'));
+      if (users.length < 1) {
+        response.status(404).send({
+          message: 'No users registered',
+        });
+      }
+
+      response.send({
+        message: 'Ok',
+        data: users,
+      });
+    } catch (error) {
+      next(error);
     }
-
-    return response.send({
-      status: 200,
-      message: 'Ok',
-      data: users,
-    });
   }
 
   async show(request, response, next) {
-    const { id } = request.params;
+    try {
+      const { id } = request.params;
 
-    const user = await this._userService.find(id);
+      const user = await this._userService.find(id);
 
-    if (user instanceof Error) {
-      return next(new Error(`Error occurred while retrieving user with id: ${id}`));
-    }
+      if (user.length < 1) {
+        response.status(404).send({
+          message: 'User was not found',
+        });
+      }
 
-    if (user.length < 1) {
-      return response.status(404).send({
-        status: 404,
-        message: 'User was not found',
+      response.send({
+        message: 'Ok',
+        data: user,
       });
+    } catch (error) {
+      next(error);
     }
-
-    return response.send({
-      status: 200,
-      message: 'Ok',
-      data: user,
-    });
   }
 
   // TODO change for corresponding method
   async store(request, response, next) {
-    const user = await this._userService.findAll();
+    try {
+      const user = await this._userService.findAll();
 
-    if (user instanceof Error) {
-      return next(new Error('Error occurred while storing user'));
+      response.send({
+        message: 'Created',
+        data: {
+          user,
+        },
+      });
+    } catch (error) {
+      next(error);
     }
-
-    return response.send({
-      status: 201,
-      message: 'Created',
-      data: {
-        user,
-      },
-    });
   }
 }
 
