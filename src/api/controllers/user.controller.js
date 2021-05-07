@@ -50,12 +50,15 @@ class UserController {
   // TODO change for corresponding method
   async store(request, response, next) {
     try {
-      const user = await this._userService.findAll();
+      const user = request.body;
+      console.log(user);
+
+      const createdUser = await this._userService.store(user);
 
       response.send({
         message: 'Created',
         data: {
-          user,
+          createdUser,
         },
       });
     } catch (error) {
