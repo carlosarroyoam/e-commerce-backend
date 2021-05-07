@@ -32,12 +32,16 @@ class UserController {
         response.status(404).send({
           message: 'User was not found',
         });
+
+        return;
       }
 
       response.send({
         message: 'Ok',
         data: user,
       });
+
+      return;
     } catch (error) {
       next(error);
     }

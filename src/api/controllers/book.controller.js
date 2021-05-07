@@ -7,10 +7,20 @@ class BookController {
     try {
       const books = await this._bookService.findAll();
 
+      if (books.length < 1) {
+        response.status(404).send({
+          message: 'No books registered',
+        });
+
+        return;
+      }
+
       response.send({
         message: 'Ok',
         data: books,
       });
+
+      return;
     } catch (error) {
       next(error);
     }
