@@ -14,6 +14,12 @@ class UserService {
 
     return user;
   }
+
+  async store(user) {
+    const createdUser = await this._userRepository.store(user);
+
+    return createdUser;
+  }
 }
 
 module.exports = UserService;

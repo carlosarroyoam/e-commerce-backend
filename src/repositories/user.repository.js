@@ -26,6 +26,20 @@ class UserRepository {
       });
     });
   }
+
+  store(user) {
+    return new Promise((resolve, reject) => {
+      const query = 'INSERT INTO users SET ?';
+
+      this._dbConnection.getConnection().query(query, user, (err, result) => {
+        if (err) {
+          reject(new Error('Error while storing user'));
+        }
+
+        resolve(result);
+      });
+    });
+  }
 }
 
 module.exports = UserRepository;
