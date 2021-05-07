@@ -4,11 +4,7 @@ class BookService {
   }
 
   async findAll() {
-    const books = await this._bookRepository.findAll()
-      .then((result) => result)
-      .catch((err) => {
-        console.error(err);
-      });
+    const books = await this._bookRepository.findAll();
 
     return books;
   }

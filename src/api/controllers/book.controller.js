@@ -4,13 +4,16 @@ class BookController {
   }
 
   async index(request, response, next) {
-    const books = await this._bookService.findAll();
+    try {
+      const books = await this._bookService.findAll();
 
-    response.send({
-      status: 200,
-      message: 'OK',
-      data: books,
-    });
+      response.send({
+        message: 'Ok',
+        data: books,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
