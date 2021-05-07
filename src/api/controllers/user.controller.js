@@ -63,6 +63,24 @@ class UserController {
       next(error);
     }
   }
+
+  async update(request, response, next) {
+    try {
+      const userId = request.params.id;
+      const user = request.body;
+
+      const updatedUser = await this._userService.update(userId, user);
+
+      response.send({
+        message: 'Updated',
+        data: {
+          updatedUser,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = UserController;

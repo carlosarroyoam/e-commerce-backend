@@ -40,6 +40,21 @@ class UserRepository {
       });
     });
   }
+
+  update(userId, user) {
+    return new Promise((resolve, reject) => {
+      const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
+
+      this._dbConnection.getConnection().query(query, [user, userId], (err, result) => {
+        if (err) {
+          console.error(err);
+          reject(new Error('Error while updating user'));
+        }
+
+        resolve(result);
+      });
+    });
+  }
 }
 
 module.exports = UserRepository;
