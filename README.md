@@ -10,11 +10,11 @@ Repository contains nodejs-api source code.
 Navigate to `http://localhost:3000/`.
 
 ```
+$ cp .env.example .env
 $ npm install
 $ npm run start
-$ cp .env.example .env
 ```
 
 ## License
 
-This project is licenced under the [MIT licensed](LICENSE).
+This project is licenced under the [Apache 2.0](LICENSE).
