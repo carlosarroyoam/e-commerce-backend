@@ -1,18 +1,16 @@
-# node-express-architecture-example
+# java-ee-api
 
 
 ## Description
 
-Repository contains nodejs-api source code.
+Repository contains java-ee-api source code.
 
 ## Developing
 
-Navigate to `http://localhost:3000/`.
+Navigate to `http://localhost:8080/`.
 
 ```
-$ cp .env.example .env
-$ npm install
-$ npm run start
+$ 
 ```
 
 ## License
