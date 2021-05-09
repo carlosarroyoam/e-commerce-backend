@@ -14,7 +14,6 @@ class Server {
       .use(compression())
       .use(morgan('dev'))
       .use(router)
-      // eslint-disable-next-line no-unused-vars
       .use((err, req, res, next) => {
         res.status(500).send({
           status: 'Internal server error',
@@ -23,6 +22,11 @@ class Server {
       });
   }
 
+  /**
+   * Starts the express server and listens for  incoming connections
+   *
+   * @returns {Promise}
+   */
   start() {
     return new Promise((resolve) => {
       const http = this._express.listen(this._config.PORT, () => {

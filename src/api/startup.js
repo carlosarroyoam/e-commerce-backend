@@ -3,6 +3,9 @@ class StartUp {
     this._server = server;
   }
 
+  /**
+   * Invokes server.start()
+   */
   async start() {
     try {
       await this._server.start();

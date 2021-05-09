@@ -1,8 +1,18 @@
+/**
+ * Book controller
+ */
 class BookController {
   constructor({ bookService }) {
     this._bookService = bookService;
   }
 
+  /**
+   * Handles incoming request from the /books endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
   async index(request, response, next) {
     try {
       const books = await this._bookService.findAll();
@@ -19,8 +29,6 @@ class BookController {
         message: 'Ok',
         data: books,
       });
-
-      return;
     } catch (error) {
       next(error);
     }
