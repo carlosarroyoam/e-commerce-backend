@@ -1,7 +1,7 @@
 {
-  "name": "express-architecture-example",
+  "name": "nodejs-api",
   "version": "1.0.0",
-  "description": "example api ",
+  "description": "Node.js and Express API",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -13,7 +13,8 @@
   },
   "keywords": [
     "nodejs",
-    "expressjs",
+    "express-js",
+    "mysql",
     "api"
   ],
   "author": "Carlos Alberto Arroyo Martínez",
