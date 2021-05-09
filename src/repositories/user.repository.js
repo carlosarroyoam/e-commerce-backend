@@ -1,59 +1,30 @@
 class UserRepository {
-  constructor({ dbConnection }) {
-    this._dbConnection = dbConnection;
+  constructor({ userDao }) {
+    this._userDao = userDao;
   }
 
-  findAll() {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users', (err, result) => {
-        if (err) {
-          reject(new Error('Error while retrieving users'));
-        }
+  async findAll() {
+    const users = await this._userDao.getAll();
 
-        resolve(result);
-      });
-    });
+    return users;
   }
 
-  find(id) {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, result) => {
-        if (err) {
-          reject(new Error('Error while retrieving user'));
-        }
+  async find(id) {
+    const user = await this._userDao.getById(id);
 
-        resolve(result);
-      });
-    });
+    return user;
   }
 
-  store(user) {
-    return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO users SET ?';
+  async store(user) {
+    const createdUser = await this._userDao.create(user);
 
-      this._dbConnection.getConnection().query(query, user, (err, result) => {
-        if (err) {
-          reject(new Error('Error while storing user'));
-        }
-
-        resolve(result);
-      });
-    });
+    return createdUser;
   }
 
-  update(userId, user) {
-    return new Promise((resolve, reject) => {
-      const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
+  async update(userId, user) {
+    const updatedUser = await this._userDao.update(userId, user);
 
-      this._dbConnection.getConnection().query(query, [user, userId], (err, result) => {
-        if (err) {
-          console.error(err);
-          reject(new Error('Error while updating user'));
-        }
-
-        resolve(result);
-      });
-    });
+    return updatedUser;
   }
 }
 
