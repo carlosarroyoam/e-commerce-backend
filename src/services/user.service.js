@@ -37,6 +37,12 @@ class UserService {
   }
 
   async update(userId, user) {
+    const user = await this._userRepository.findById(userId);
+
+    if (user.length < 1) {
+      throw new this._exceptions.ResourceNotFoundError(`User with id: ${id} was not found`, 'user');
+    }
+
     const updatedUser = await this._userRepository.update(userId, user);
 
     return updatedUser;
