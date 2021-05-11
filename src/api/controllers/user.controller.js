@@ -17,14 +17,6 @@ class UserController {
     try {
       const users = await this._userService.findAll();
 
-      if (users.length < 1) {
-        response.status(404).send({
-          message: 'No users registered',
-        });
-
-        return;
-      }
-
       response.send({
         message: 'Ok',
         data: users,
@@ -47,14 +39,6 @@ class UserController {
 
       const user = await this._userService.find(id);
 
-      if (user.length < 1) {
-        response.status(404).send({
-          message: 'User was not found',
-        });
-
-        return;
-      }
-
       response.send({
         message: 'Ok',
         data: user,
@@ -73,9 +57,9 @@ class UserController {
    */
   async store(request, response, next) {
     try {
-      const user = request.body;
+      const { first_name, last_name, email } = request.body;
 
-      const createdUser = await this._userService.store(user);
+      const createdUser = await this._userService.store({ first_name, last_name, email });
 
       response.status(201).send({
         message: 'Created',

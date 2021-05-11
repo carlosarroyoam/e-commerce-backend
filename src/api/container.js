@@ -16,6 +16,8 @@ const { UserRepository, BookRepository } = require('../repositories');
 
 const { UserDao } = require('../dal/dao');
 
+const Exceptions = require('../exceptions');
+
 const RootRoute = require('./routes/root.routes');
 const DefaultRoute = require('./routes/default.routes');
 const UserRoutes = require('./routes/user.routes');
@@ -68,6 +70,10 @@ container
   .register({
     userDao: asClass(UserDao).singleton(),
     // bookDao: asClass(BookDao).singleton(),
+  })
+  // Exceptions
+  .register({
+    exceptions: asValue(Exceptions),
   });
 
 module.exports = container;

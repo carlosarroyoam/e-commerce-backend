@@ -15,6 +15,16 @@ class Server {
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
+        // TODO make this accepts status, maybe with custom Error classes
+        if (err.status === 404) {
+          res.status(404).send({
+            error: err.name,
+            message: err.message,
+          });
+
+          return;
+        }
+
         res.status(500).send({
           status: 'Internal server error',
           message: err.message,
