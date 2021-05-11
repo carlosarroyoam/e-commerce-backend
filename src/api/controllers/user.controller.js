@@ -100,7 +100,7 @@ class UserController {
       const { id } = request.params;
       const user = request.body;
 
-      const updatedUser = await this._userService.update(userId, user);
+      const updatedUser = await this._userService.update(id, user);
 
       response.send({
         message: 'Updated',
