@@ -97,7 +97,7 @@ class UserController {
    */
   async update(request, response, next) {
     try {
-      const userId = request.params.id;
+      const { id } = request.params;
       const user = request.body;
 
       const updatedUser = await this._userService.update(userId, user);
