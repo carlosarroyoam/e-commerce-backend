@@ -1,10 +1,15 @@
 class BookService {
-  constructor({ bookRepository }) {
+  constructor({ bookRepository, exceptions }) {
     this._bookRepository = bookRepository;
+    this._exceptions = exceptions;
   }
 
   async findAll() {
     const books = await this._bookRepository.findAll();
+
+    if (books.length < 1) {
+      throw new this._exceptions.ResourceNotFoundError('No books registered', 'book');
+    }
 
     return books;
   }

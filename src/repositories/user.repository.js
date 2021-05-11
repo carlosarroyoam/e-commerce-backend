@@ -15,6 +15,12 @@ class UserRepository {
     return user;
   }
 
+  async findByEmail(email) {
+    const user = await this._userDao.getByEmail(email);
+
+    return user;
+  }
+
   async store(user) {
     const createdUser = await this._userDao.create(user);
 

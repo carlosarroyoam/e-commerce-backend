@@ -1,7 +1,6 @@
 class UserDao {
-  constructor({ dbConnection, exceptions }) {
+  constructor({ dbConnection }) {
     this._dbConnection = dbConnection;
-    this._exceptions = exceptions;
   }
 
   getAll() {
@@ -9,10 +8,6 @@ class UserDao {
       this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users', (err, result) => {
         if (err) {
           reject(new Error('Error while retrieving user'));
-        }
-
-        if (result.length < 1) {
-          reject(new this._exceptions.ResourceNotFoundError('No users registered', 'user'));
         }
 
         resolve(result);
@@ -27,8 +22,16 @@ class UserDao {
           reject(new Error('Error while retrieving user'));
         }
 
-        if (result.length < 1) {
-          reject(new this._exceptions.ResourceNotFoundError(`User with id: ${id} was not found`, 'user'));
+        resolve(result);
+      });
+    });
+  }
+
+  getByEmail(email) {
+    return new Promise((resolve, reject) => {
+      this._dbConnection.getConnection().query('SELECT id FROM users WHERE email = ?', [email], (err, result) => {
+        if (err) {
+          reject(new Error('Error while retrieving user'));
         }
 
         resolve(result);
@@ -42,10 +45,6 @@ class UserDao {
 
       this._dbConnection.getConnection().query(query, user, (err, result) => {
         if (err) {
-          if (err.errno === 1062 && /users.email/.test(err.message)) {
-            reject(new Error(`The email address: ${user.email} is already in use`));
-          }
-
           reject(new Error('Error while storing user'));
         }
 
