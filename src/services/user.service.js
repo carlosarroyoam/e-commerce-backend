@@ -36,14 +36,14 @@ class UserService {
     return createdUser;
   }
 
-  async update(userId, user) {
+  async update(userId, userDto) {
     const user = await this._userRepository.findById(userId);
 
     if (user.length < 1) {
-      throw new this._exceptions.ResourceNotFoundError(`User with id: ${id} was not found`, 'user');
+      throw new this._exceptions.ResourceNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
 
-    const updatedUser = await this._userRepository.update(userId, user);
+    const updatedUser = await this._userRepository.update(userId, userDto);
 
     return updatedUser;
   }
