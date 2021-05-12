@@ -31,19 +31,27 @@ class UserService {
       throw new this._exceptions.EmailAddressNotAvailableError(`The email address: ${user.email} is already in use`);
     }
 
-    const createdUser = await this._userRepository.store(user);
+    const createdUserId = await this._userRepository.store(user);
+
+    const createdUser = await this._userRepository.find(createdUserId);
 
     return createdUser;
   }
 
   async update(userId, userDto) {
-    const user = await this._userRepository.findById(userId);
+    const user = await this._userRepository.find(userId);
 
     if (user.length < 1) {
       throw new this._exceptions.ResourceNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
 
-    const updatedUser = await this._userRepository.update(userId, userDto);
+    const updatedUserResult = await this._userRepository.update(userId, userDto);
+
+    if (updatedUserResult.affectedRows > 1) {
+      throw new Error('User was not updated');
+    }
+
+    const updatedUser = await this._userRepository.find(userId);
 
     return updatedUser;
   }

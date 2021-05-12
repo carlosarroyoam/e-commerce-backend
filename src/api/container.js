@@ -12,7 +12,7 @@ const { UserController, BookController } = require('./controllers');
 
 const { UserService, BookService } = require('../services');
 
-const { UserRepository, BookRepository } = require('../repositories');
+const { UserRepository, BookRepository } = require('../dal/repositories');
 
 const { UserDao } = require('../dal/dao');
 

@@ -48,7 +48,7 @@ class UserDao {
           reject(new Error('Error while storing user'));
         }
 
-        resolve(result);
+        resolve(result.insertId);
       });
     });
   }
