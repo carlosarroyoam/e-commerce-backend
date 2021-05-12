@@ -47,7 +47,7 @@ class UserService {
 
     const updatedUserResult = await this._userRepository.update(userId, userDto);
 
-    if (updatedUserResult.affectedRows > 1) {
+    if (updatedUserResult.affectedRows < 1) {
       throw new Error('User was not updated');
     }
 
