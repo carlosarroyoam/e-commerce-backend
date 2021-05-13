@@ -15,8 +15,6 @@ class Server {
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        console.error(err.message);
-
         if (err.status === 404) {
           res.status(404).send({
             error: err.name,

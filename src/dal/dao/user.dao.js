@@ -7,7 +7,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users', (err, result) => {
         if (err) {
-          reject(new Error('Error while retrieving user'));
+          reject(err);
         }
 
         resolve(result);
@@ -19,7 +19,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, result) => {
         if (err) {
-          reject(new Error('Error while retrieving user'));
+          reject(err);
         }
 
         resolve(result);
@@ -31,7 +31,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       this._dbConnection.getConnection().query('SELECT id FROM users WHERE email = ?', [email], (err, result) => {
         if (err) {
-          reject(new Error('Error while retrieving user'));
+          reject(err);
         }
 
         resolve(result);
@@ -45,7 +45,7 @@ class UserDao {
 
       this._dbConnection.getConnection().query(query, user, (err, result) => {
         if (err) {
-          reject(new Error('Error while storing user'));
+          reject(err);
         }
 
         resolve(result.insertId);
@@ -60,7 +60,7 @@ class UserDao {
       this._dbConnection.getConnection().query(query, [user, userId], (err, result) => {
         if (err) {
           console.error(err);
-          reject(new Error('Error while updating user'));
+          reject(err);
         }
 
         resolve(result);
