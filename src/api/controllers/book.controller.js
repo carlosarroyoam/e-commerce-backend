@@ -22,6 +22,13 @@ class BookController {
         data: books,
       });
     } catch (error) {
+      console.error(error.message);
+
+      if (error.sqlMessage) {
+        next(new Error('Error while retrieving books'));
+        return;
+      }
+
       next(error);
     }
   }
