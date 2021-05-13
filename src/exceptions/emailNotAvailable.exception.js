@@ -1,4 +1,4 @@
-class EmailAddressNotAvailableError extends Error {
+class EmailAddressNotAvailableException extends Error {
   constructor(message) {
     super(message);
     this.name = 'Email already taken by another user';
@@ -6,4 +6,4 @@ class EmailAddressNotAvailableError extends Error {
   }
 }
 
-module.exports = EmailAddressNotAvailableError;
+module.exports = EmailAddressNotAvailableException;

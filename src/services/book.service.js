@@ -8,7 +8,7 @@ class BookService {
     const books = await this._bookRepository.findAll();
 
     if (books.length < 1) {
-      throw new this._exceptions.ResourceNotFoundError('No books registered', 'book');
+      throw new this._exceptions.ModelNotFoundException('No books registered', 'book');
     }
 
     return books;
