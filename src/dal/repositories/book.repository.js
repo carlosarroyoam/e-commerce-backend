@@ -5,9 +5,9 @@ class BookRepository {
 
   findAll() {
     return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id FROM users', (err, result) => {
+      this._dbConnection.getConnection().query('SELECT id, title FROM books', (err, result) => {
         if (err) {
-          reject(new Error('Error while retrieving books'));
+          reject(err);
         }
 
         resolve(result);
