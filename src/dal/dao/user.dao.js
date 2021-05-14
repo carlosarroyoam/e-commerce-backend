@@ -5,7 +5,7 @@ class UserDao {
 
   getAll() {
     return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users', (err, result) => {
+      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email, created_at, updated_at FROM users WHERE deleted_at IS NULL', (err, result) => {
         if (err) {
           reject(err);
         }
@@ -17,7 +17,7 @@ class UserDao {
 
   getById(id) {
     return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, result) => {
+      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email, created_at, updated_at FROM users WHERE id = ? AND deleted_at IS NULL', [id], (err, result) => {
         if (err) {
           reject(err);
         }
