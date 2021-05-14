@@ -48,10 +48,11 @@ class UserController {
       const { id } = request.params;
 
       const user = await this._userService.find(id);
+      const userDto = this._userMapper.toDto(user[0]);
 
       response.send({
         message: 'Ok',
-        data: user,
+        data: userDto,
       });
     } catch (error) {
       console.error(error.message);
