@@ -1,4 +1,4 @@
 module.exports = {
-  ResourceNotFoundError: require('./modelNotFound.exception'),
-  EmailAddressNotAvailableError: require('./emailNotAvailable.exception'),
+  ModelNotFoundException: require('./modelNotFound.exception'),
+  EmailAddressNotAvailableException: require('./emailNotAvailable.exception'),
 };
