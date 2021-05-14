@@ -10,6 +10,9 @@ CREATE TABLE `users` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT NOW(),
+  `updated_at` timestamp NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  `deleted_at` timestamp,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
