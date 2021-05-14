@@ -2,8 +2,9 @@
  * User controller
  */
 class UserController {
-  constructor({ userService }) {
+  constructor({ userService, userMapper }) {
     this._userService = userService;
+    this._userMapper = userMapper;
   }
 
   /**
@@ -17,9 +18,11 @@ class UserController {
     try {
       const users = await this._userService.findAll();
 
+      const usersDto = users.map((user) => this._userMapper.toDto(user));
+
       response.send({
         message: 'Ok',
-        data: users,
+        data: usersDto,
       });
     } catch (error) {
       console.error(error.message);

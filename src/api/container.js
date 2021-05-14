@@ -16,7 +16,7 @@ const { UserRepository, BookRepository } = require('../dal/repositories');
 
 const { UserDao } = require('../dal/dao');
 
-const Exceptions = require('../exceptions');
+const { UserMapper } = require('./mappers');
 
 const RootRoute = require('./routes/root.routes');
 const DefaultRoute = require('./routes/default.routes');
@@ -25,6 +25,7 @@ const BookRoutes = require('./routes/book.routes');
 
 const Routes = require('./routes');
 const Config = require('../config/environments');
+const Exceptions = require('../exceptions');
 
 container
   // App
@@ -69,7 +70,10 @@ container
   // Dao
   .register({
     userDao: asClass(UserDao).singleton(),
-    // bookDao: asClass(BookDao).singleton(),
+  })
+  // Mappers
+  .register({
+    userMapper: asClass(UserMapper).singleton(),
   })
   // Exceptions
   .register({

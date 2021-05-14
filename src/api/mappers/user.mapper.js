@@ -1,5 +1,5 @@
 class UserMapper {
-  static toDTO(user) {
+  toDto(user) {
     return {
       firstName: user.first_name,
       lastName: user.last_name,
