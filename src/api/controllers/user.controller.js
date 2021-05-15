@@ -77,12 +77,14 @@ class UserController {
     try {
       const { first_name, last_name, email } = request.body;
 
-      const createdUser = await this._userService.store({ first_name, last_name, email });
+      const insertedId = await this._userService.store({ first_name, last_name, email });
+      const createdUser = await this._userService.find(insertedId);
+      const createdUserDto = this._userMapper.toDto(createdUser);
 
       response.status(201).send({
         message: 'Created',
         data: {
-          createdUser,
+          createdUserDto,
         },
       });
     } catch (error) {
@@ -110,11 +112,12 @@ class UserController {
       const user = request.body;
 
       const updatedUser = await this._userService.update(id, user);
+      const updatedUserDto = this._userMapper.toDto(updatedUser[0]);
 
       response.send({
         message: 'Updated',
         data: {
-          updatedUser,
+          updatedUserDto,
         },
       });
     } catch (error) {
