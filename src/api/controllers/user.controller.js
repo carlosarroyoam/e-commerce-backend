@@ -48,7 +48,7 @@ class UserController {
       const { id } = request.params;
 
       const user = await this._userService.find(id);
-      const userDto = this._userMapper.toDto(user[0]);
+      const userDto = this._userMapper.toDto(user);
 
       response.send({
         message: 'Ok',
@@ -112,7 +112,7 @@ class UserController {
       const user = request.body;
 
       const updatedUser = await this._userService.update(id, user);
-      const updatedUserDto = this._userMapper.toDto(updatedUser[0]);
+      const updatedUserDto = this._userMapper.toDto(updatedUser);
 
       response.send({
         message: 'Updated',

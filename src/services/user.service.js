@@ -25,9 +25,9 @@ class UserService {
   }
 
   async store(user) {
-    const userByEmail = await this._userRepository.findByEmail(user.email);
+    const emailIsUsed = await this._userRepository.findByEmail(user.email);
 
-    if (userByEmail.length > 0) {
+    if (emailIsUsed) {
       throw new this._exceptions.EmailAddressNotAvailableException(`The email address: ${user.email} is already in use`);
     }
 
@@ -45,9 +45,9 @@ class UserService {
       throw new this._exceptions.ModelNotFoundException(`User with id: ${userId} was not found`, 'user');
     }
 
-    const updatedUserResult = await this._userRepository.update(userId, userDto);
+    const updatedUserAffectedRows = await this._userRepository.update(userId, userDto);
 
-    if (updatedUserResult.affectedRows < 1) {
+    if (updatedUserAffectedRows < 1) {
       throw new Error('User was not updated');
     }
 

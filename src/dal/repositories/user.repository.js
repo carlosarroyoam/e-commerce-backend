@@ -12,25 +12,25 @@ class UserRepository {
   async find(id) {
     const user = await this._userDao.getById(id);
 
-    return user;
+    return user[0];
   }
 
   async findByEmail(email) {
     const user = await this._userDao.getByEmail(email);
 
-    return user;
+    return user[0];
   }
 
   async store(user) {
     const createdUser = await this._userDao.create(user);
 
-    return createdUser;
+    return createdUser.insertId;
   }
 
   async update(userId, user) {
     const updatedUser = await this._userDao.update(userId, user);
 
-    return updatedUser;
+    return updatedUser.affectedRows;
   }
 }
 

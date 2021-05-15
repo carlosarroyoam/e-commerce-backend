@@ -39,6 +39,9 @@ class UserDao {
     });
   }
 
+  // TODO ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that
+  // corresponds to your MySQL server version for the right syntax to use near
+  // ', `first_name` = 'Stefania', `last_name` = 'Guido Rojas', `email` = 'aa@gmail.co' at line 1
   create(user) {
     return new Promise((resolve, reject) => {
       const query = 'INSERT INTO users SET ?';
@@ -48,7 +51,7 @@ class UserDao {
           reject(err);
         }
 
-        resolve(result.insertId);
+        resolve(result);
       });
     });
   }
