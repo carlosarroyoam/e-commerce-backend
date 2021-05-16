@@ -77,8 +77,7 @@ class UserController {
     try {
       const { first_name, last_name, email } = request.body;
 
-      const insertedId = await this._userService.store({ first_name, last_name, email });
-      const createdUser = await this._userService.find(insertedId);
+      const createdUser = await this._userService.store({ first_name, last_name, email });
       const createdUserDto = this._userMapper.toDto(createdUser);
 
       response.status(201).send({
