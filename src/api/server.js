@@ -17,8 +17,8 @@ class Server {
       .use((err, req, res, next) => {
         if (err.status === 404) {
           res.status(404).send({
-            error: err.name,
             message: err.message,
+            error: err.name,
           });
 
           return;
