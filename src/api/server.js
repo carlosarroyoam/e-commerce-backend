@@ -17,16 +17,16 @@ class Server {
       .use((err, req, res, next) => {
         if (err.status === 404) {
           res.status(404).send({
-            error: err.name,
             message: err.message,
+            error: err.name,
           });
 
           return;
         }
 
         res.status(500).send({
-          error: 'Internal server error',
           message: err.message,
+          error: 'Internal server error',
         });
       });
   }
