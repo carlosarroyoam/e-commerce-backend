@@ -16,7 +16,7 @@ const { UserRepository, BookRepository } = require('../dal/repositories');
 
 const { UserDao } = require('../dal/dao');
 
-const { UserMapper } = require('./mappers');
+const { UserMapper } = require('../mappers');
 
 const RootRoute = require('./routes/root.routes');
 const DefaultRoute = require('./routes/default.routes');
