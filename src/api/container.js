@@ -25,7 +25,7 @@ const BookRoutes = require('./routes/book.routes');
 
 const Routes = require('./routes');
 const Config = require('../config/environments');
-const Exceptions = require('../exceptions');
+const Exceptions = require('../errors');
 
 container
   // App

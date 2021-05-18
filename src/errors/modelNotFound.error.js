@@ -1,4 +1,4 @@
-class ModelNotFoundException  extends Error {
+class ModelNotFoundError extends Error {
   constructor(message, name) {
     super(message);
     this.name = `Resource ${name} not found`;
@@ -6,4 +6,4 @@ class ModelNotFoundException  extends Error {
   }
 }
 
-module.exports = ModelNotFoundException;
+module.exports = ModelNotFoundError;
