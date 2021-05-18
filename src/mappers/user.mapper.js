@@ -4,9 +4,9 @@ class UserMapper {
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
-      createdAt: user.created_at,
-      updatedAt: user.updated_at,
-      deletedAt: user.deleted_at,
+      createdAt: new Date(user.created_at).toLocaleString(),
+      updatedAt: new Date(user.updated_at).toLocaleString(),
+      deletedAt: user.deleted_at ? new Date(user.deleted_at).toLocaleString() : undefined,
     };
   }
 }
