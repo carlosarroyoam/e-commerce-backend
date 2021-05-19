@@ -8,7 +8,7 @@ module.exports = () => {
 
     response.send({
       version: '0.1.0-snapshot',
-      documentation: 'https://api.carlosarroyo.com/docs',
+      documentation: `${fullUrl}api/docs`,
       author: 'carlosarroyoam',
       resources: {
         users: {
@@ -20,6 +20,18 @@ module.exports = () => {
             {
               name: 'show',
               path: `${fullUrl}api/user/[id]`,
+            },
+          ],
+        },
+        books: {
+          paths: [
+            {
+              name: 'index',
+              path: `${fullUrl}api/book`,
+            },
+            {
+              name: 'show',
+              path: `${fullUrl}api/book/[id]`,
             },
           ],
         },
