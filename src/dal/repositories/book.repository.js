@@ -7,6 +7,8 @@ class BookRepository {
     return new Promise((resolve, reject) => {
       this._dbConnection.getConnection().query('SELECT id, title FROM books', (err, result) => {
         if (err) {
+          console.error(err);
+
           reject(err);
         }
 

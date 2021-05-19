@@ -16,6 +16,8 @@ class Server {
       .use(router)
       .use((err, req, res, next) => {
         if (err.status === 404) {
+          console.info(err.message);
+
           res.status(404).send({
             message: err.message,
             error: err.name,
@@ -23,6 +25,8 @@ class Server {
 
           return;
         }
+
+        console.error(err.message);
 
         res.status(500).send({
           message: err.message,

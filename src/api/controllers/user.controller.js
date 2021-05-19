@@ -25,8 +25,6 @@ class UserController {
         data: usersDto,
       });
     } catch (error) {
-      console.error(error.message);
-
       if (error.sqlMessage) {
         next(new Error('Error while retrieving users'));
         return;
@@ -55,8 +53,6 @@ class UserController {
         data: userDto,
       });
     } catch (error) {
-      console.error(error.message);
-
       if (error.sqlMessage) {
         next(new Error('Error while retrieving user'));
         return;
@@ -87,8 +83,6 @@ class UserController {
         },
       });
     } catch (error) {
-      console.error(error.message);
-
       if (error.sqlMessage) {
         next(new Error('Error while storing user'));
         return;
@@ -120,8 +114,6 @@ class UserController {
         },
       });
     } catch (error) {
-      console.error(error.message);
-
       if (error.sqlMessage) {
         next(new Error('Error while updating user'));
         return;
