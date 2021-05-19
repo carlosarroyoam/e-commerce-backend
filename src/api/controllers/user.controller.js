@@ -122,6 +122,35 @@ class UserController {
       next(error);
     }
   }
+
+  /**
+   * Handles incoming request from the /user/:id endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
+  async destroy(request, response, next) {
+    try {
+      const { id } = request.params;
+
+      const userDeletedId = await this._userService.delete(id);
+
+      response.send({
+        message: 'Deleted',
+        data: {
+          userDeletedId,
+        },
+      });
+    } catch (error) {
+      if (error.sqlMessage) {
+        next(new Error('Error while deleting user'));
+        return;
+      }
+
+      next(error);
+    }
+  }
 }
 
 module.exports = UserController;

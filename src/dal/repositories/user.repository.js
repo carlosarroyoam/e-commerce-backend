@@ -32,6 +32,12 @@ class UserRepository {
 
     return updatedUser.affectedRows;
   }
+
+  async delete(userId) {
+    const deletedUser = await this._userDao.delete(userId);
+
+    return deletedUser.affectedRows;
+  }
 }
 
 module.exports = UserRepository;

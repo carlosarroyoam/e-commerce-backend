@@ -55,6 +55,22 @@ class UserService {
 
     return updatedUser;
   }
+
+  async delete(userId) {
+    const user = await this._userRepository.find(userId);
+
+    if (!user) {
+      throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
+    }
+
+    const deletedUserAffectedRows = await this._userRepository.delete(userId);
+
+    if (deletedUserAffectedRows < 1) {
+      throw new Error('User was not deleted');
+    }
+
+    return userId;
+  }
 }
 
 module.exports = UserService;
