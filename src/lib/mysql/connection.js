@@ -5,7 +5,7 @@ class DatabaseConnection {
     this._config = config;
 
     this._pool = mysql.createPool({
-      connectionLimit: this._config.connectionLimit,
+      connectionLimit: this._config.DB.connectionLimit,
       host: this._config.DB.host,
       user: this._config.DB.user,
       password: this._config.DB.password,
