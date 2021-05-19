@@ -8,18 +8,18 @@ module.exports = () => {
 
     response.send({
       version: '0.1.0-snapshot',
-      documentation: `${fullUrl}api/docs`,
+      documentation: `${fullUrl}api/v1/docs`,
       author: 'carlosarroyoam',
       resources: {
         users: {
           paths: [
             {
               name: 'index',
-              path: `${fullUrl}api/user`,
+              path: `${fullUrl}api/v1/user`,
             },
             {
               name: 'show',
-              path: `${fullUrl}api/user/[id]`,
+              path: `${fullUrl}api/v1/user/[id]`,
             },
           ],
         },
@@ -27,11 +27,11 @@ module.exports = () => {
           paths: [
             {
               name: 'index',
-              path: `${fullUrl}api/book`,
+              path: `${fullUrl}api/v1/book`,
             },
             {
               name: 'show',
-              path: `${fullUrl}api/book/[id]`,
+              path: `${fullUrl}api/v1/book/[id]`,
             },
           ],
         },

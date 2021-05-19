@@ -13,7 +13,7 @@ module.exports = ({
   apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.use('/', rootRoute);
-  router.use('/api', apiRouter);
+  router.use('/api/v1', apiRouter);
   router.use('*', defaultRoute);
 
   return router;
