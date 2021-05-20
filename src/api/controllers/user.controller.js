@@ -71,9 +71,9 @@ class UserController {
    */
   async store(request, response, next) {
     try {
-      const { first_name, last_name, email } = request.body;
+      const { firstName, lastName, email } = request.body;
 
-      const createdUser = await this._userService.store({ first_name, last_name, email });
+      const createdUser = await this._userService.store({ firstName, lastName, email });
       const createdUserDto = this._userMapper.toDto(createdUser);
 
       response.status(201).send({
@@ -102,9 +102,9 @@ class UserController {
   async update(request, response, next) {
     try {
       const { id } = request.params;
-      const user = request.body;
+      const { firstName, lastName, email } = request.body;
 
-      const updatedUser = await this._userService.update(id, user);
+      const updatedUser = await this._userService.update(id, { firstName, lastName, email });
       const updatedUserDto = this._userMapper.toDto(updatedUser);
 
       response.send({

@@ -1,6 +1,7 @@
 class UserRepository {
-  constructor({ userDao }) {
+  constructor({ userDao, userMapper }) {
     this._userDao = userDao;
+    this._userMapper = userMapper;
   }
 
   async findAll() {
@@ -22,13 +23,17 @@ class UserRepository {
   }
 
   async store(user) {
-    const createdUser = await this._userDao.create(user);
+    const userDatabaseEntity = this._userMapper.toDatabaseEntity(user);
+
+    const createdUser = await this._userDao.create(userDatabaseEntity);
 
     return createdUser.insertId;
   }
 
   async update(userId, user) {
-    const updatedUser = await this._userDao.update(userId, user);
+    const userDatabaseEntity = this._userMapper.toDatabaseEntity(user);
+
+    const updatedUser = await this._userDao.update(userId, userDatabaseEntity);
 
     return updatedUser.affectedRows;
   }
