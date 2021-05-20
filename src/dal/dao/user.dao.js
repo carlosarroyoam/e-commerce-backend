@@ -9,7 +9,7 @@ class UserDao {
       FROM users
       WHERE deleted_at IS NULL`;
 
-      this._dbConnection.getConnection().query(query, (err, result) => {
+      this._dbConnection.pool.query(query, (err, result) => {
         if (err) {
           console.error(err);
 
@@ -27,7 +27,7 @@ class UserDao {
       FROM users
       WHERE id = ? AND deleted_at IS NULL`;
 
-      this._dbConnection.getConnection().query(query, [id], (err, result) => {
+      this._dbConnection.pool.query(query, [id], (err, result) => {
         if (err) {
           console.error(err);
 
@@ -43,7 +43,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       const query = 'SELECT id FROM users WHERE email = ?';
 
-      this._dbConnection.getConnection().query(query, [email], (err, result) => {
+      this._dbConnection.pool.query(query, [email], (err, result) => {
         if (err) {
           console.error(err);
 
@@ -59,7 +59,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       const query = 'INSERT INTO users SET ?';
 
-      this._dbConnection.getConnection().query(query, user, (err, result) => {
+      this._dbConnection.pool.query(query, user, (err, result) => {
         if (err) {
           console.error(err);
 
@@ -75,7 +75,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
 
-      this._dbConnection.getConnection().query(query, [user, userId], (err, result) => {
+      this._dbConnection.pool.query(query, [user, userId], (err, result) => {
         if (err) {
           console.error(err);
 
@@ -91,7 +91,7 @@ class UserDao {
     return new Promise((resolve, reject) => {
       const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-      this._dbConnection.getConnection().query(query, [userId], (err, result) => {
+      this._dbConnection.pool.query(query, [userId], (err, result) => {
         if (err) {
           console.error(err);
 
