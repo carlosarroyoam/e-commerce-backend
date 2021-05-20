@@ -7,6 +7,7 @@ const container = createContainer();
 const StartUp = require('./startup');
 const Server = require('./server');
 const DatabaseConnection = require('../lib/mysql/connection');
+const Logger = require('../lib/winston/logger');
 
 const { UserController, BookController } = require('./controllers');
 
@@ -40,6 +41,10 @@ container
   // Database connection
   .register({
     dbConnection: asClass(DatabaseConnection).singleton(),
+  })
+  // Logger
+  .register({
+    logger: asClass(Logger).singleton(),
   })
   // Router
   .register({

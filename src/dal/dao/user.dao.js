@@ -1,6 +1,7 @@
 class UserDao {
-  constructor({ dbConnection }) {
+  constructor({ dbConnection, logger }) {
     this._dbConnection = dbConnection;
+    this._logger = logger;
   }
 
   getAll() {
@@ -11,7 +12,10 @@ class UserDao {
 
       this._dbConnection.pool.query(query, (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }
@@ -29,7 +33,10 @@ class UserDao {
 
       this._dbConnection.pool.query(query, [id], (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }
@@ -45,7 +52,10 @@ class UserDao {
 
       this._dbConnection.pool.query(query, [email], (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }
@@ -61,7 +71,10 @@ class UserDao {
 
       this._dbConnection.pool.query(query, user, (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }
@@ -77,7 +90,10 @@ class UserDao {
 
       this._dbConnection.pool.query(query, [user, userId], (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }
@@ -93,7 +109,10 @@ class UserDao {
 
       this._dbConnection.pool.query(query, [userId], (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }

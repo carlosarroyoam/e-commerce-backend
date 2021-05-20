@@ -1,17 +1,14 @@
 class StartUp {
-  constructor({ server }) {
+  constructor({ server, logger }) {
     this._server = server;
+    this._logger = logger;
   }
 
   /**
    * Invokes server.start()
    */
   async start() {
-    try {
-      await this._server.start();
-    } catch (error) {
-      console.error(error);
-    }
+    await this._server.start();
   }
 }
 

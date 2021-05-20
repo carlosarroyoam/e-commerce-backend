@@ -4,13 +4,13 @@ const DEVELOPMENT = require('./development');
 const PRODUCTION = require('./production');
 const TESTING = require('./testing');
 
-const { NODE_ENV } = process.env;
+const { APP_ENV } = process.env;
 
 let currentEnv = DEVELOPMENT;
 
-if (NODE_ENV === 'production') {
+if (APP_ENV === 'production') {
   currentEnv = PRODUCTION;
-} else if (NODE_ENV === 'testing') {
+} else if (APP_ENV === 'testing') {
   currentEnv = TESTING;
 }
 

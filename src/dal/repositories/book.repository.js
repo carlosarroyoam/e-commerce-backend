@@ -1,6 +1,7 @@
 class BookRepository {
-  constructor({ dbConnection }) {
+  constructor({ dbConnection, logger }) {
     this._dbConnection = dbConnection;
+    this._logger = logger;
   }
 
   findAll() {
@@ -9,7 +10,10 @@ class BookRepository {
 
       this._dbConnection.pool.query(query, (err, result) => {
         if (err) {
-          console.error(err);
+          this._logger.instance.log({
+            level: 'error',
+            message: err.message,
+          });
 
           reject(err);
         }
