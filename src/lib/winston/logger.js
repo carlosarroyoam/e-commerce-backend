@@ -5,7 +5,10 @@ class Logger {
     this._config = config;
     this.instance = winston.createLogger({
       level: 'info',
-      format: winston.format.json(),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
       defaultMeta: { service: 'nodejs-api' },
       transports: [
         //
@@ -23,7 +26,10 @@ class Logger {
     //
     if (this._config.APP_ENV !== 'production') {
       this.instance.add(new winston.transports.Console({
-        format: winston.format.json(),
+        format: winston.format.combine(
+          winston.format.timestamp({ format: 'DD-MM-YYYY hh:mm A' }),
+          winston.format.json(),
+        ),
       }));
     }
   }
