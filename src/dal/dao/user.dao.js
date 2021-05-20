@@ -105,7 +105,7 @@ class UserDao {
 
   delete(userId) {
     return new Promise((resolve, reject) => {
-      const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
+      const query = 'UPDATE users SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
       this._dbConnection.pool.query(query, [userId], (err, result) => {
         if (err) {

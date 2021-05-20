@@ -71,6 +71,16 @@ class UserService {
 
     return userId;
   }
+
+  async restore(userId) {
+    const restoredUserAffectedRows = await this._userRepository.restore(userId);
+
+    if (restoredUserAffectedRows < 1) {
+      throw new Error('User was not restored');
+    }
+
+    return userId;
+  }
 }
 
 module.exports = UserService;

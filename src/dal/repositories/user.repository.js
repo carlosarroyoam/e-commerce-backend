@@ -38,6 +38,12 @@ class UserRepository {
 
     return deletedUser.affectedRows;
   }
+
+  async restore(userId) {
+    const restoredUser = await this._userDao.restore(userId);
+
+    return restoredUser.affectedRows;
+  }
 }
 
 module.exports = UserRepository;
