@@ -15,7 +15,7 @@ class UserService {
   }
 
   async find(id) {
-    const user = await this._userRepository.find(id);
+    const user = await this._userRepository.findById(id);
 
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${id} was not found`, 'user');
@@ -33,13 +33,13 @@ class UserService {
 
     const createdUserId = await this._userRepository.store(userDto);
 
-    const createdUser = await this._userRepository.find(createdUserId);
+    const createdUser = await this._userRepository.findById(createdUserId);
 
     return createdUser;
   }
 
   async update(userId, userDto) {
-    const user = await this._userRepository.find(userId);
+    const user = await this._userRepository.findById(userId);
 
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
@@ -51,13 +51,13 @@ class UserService {
       throw new Error('User was not updated');
     }
 
-    const updatedUser = await this._userRepository.find(userId);
+    const updatedUser = await this._userRepository.findById(userId);
 
     return updatedUser;
   }
 
   async delete(userId) {
-    const user = await this._userRepository.find(userId);
+    const user = await this._userRepository.findById(userId);
 
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');

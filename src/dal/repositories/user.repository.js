@@ -9,7 +9,7 @@ class UserRepository {
     return users;
   }
 
-  async find(id) {
+  async findById(id) {
     const user = await this._userDao.getById(id);
 
     return user[0];
