@@ -19,6 +19,10 @@
     {
       "name": "user",
       "description": "Operations about user"
+    },
+    {
+      "name": "book",
+      "description": "Operations about book"
     }
   ],
   "schemes": [
@@ -98,7 +102,7 @@
         "tags": [
           "user"
         ],
-        "summary": "Gets all users",
+        "summary": "Gets a user",
         "description": "",
         "operationId": "getUserById",
         "consumes": [
@@ -251,7 +255,7 @@
         "tags": [
           "book"
         ],
-        "summary": "Gets all books",
+        "summary": "Gets a book",
         "description": "",
         "operationId": "getBookById",
         "consumes": [
