@@ -1,7 +1,6 @@
 class StartUp {
-  constructor({ server, logger }) {
+  constructor({ server }) {
     this._server = server;
-    this._logger = logger;
   }
 
   /**

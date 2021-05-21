@@ -7,7 +7,7 @@ const morgan = require('morgan');
 class Server {
   constructor({ config, router, logger }) {
     this._config = config;
-    this._logger = logger;
+    this._logger = logger.instance;
     this._express = express();
     this._express
       .use(cors())
@@ -17,7 +17,7 @@ class Server {
       .use(router)
       .use((err, req, res, next) => {
         if (err.status === 404) {
-          this._logger.instance.log({
+          this._logger.log({
             level: 'info',
             message: err.message,
           });
@@ -30,7 +30,7 @@ class Server {
           return;
         }
 
-        this._logger.instance.log({
+        this._logger.log({
           level: 'error',
           message: err.message,
         });
