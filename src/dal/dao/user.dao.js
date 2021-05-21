@@ -18,6 +18,7 @@ class UserDao {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
@@ -39,6 +40,7 @@ class UserDao {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
@@ -58,6 +60,7 @@ class UserDao {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
@@ -77,6 +80,7 @@ class UserDao {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
@@ -96,6 +100,7 @@ class UserDao {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
@@ -115,6 +120,7 @@ class UserDao {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
