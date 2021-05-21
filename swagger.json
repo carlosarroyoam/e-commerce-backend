@@ -48,7 +48,7 @@
             "description": "Ok"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         }
       },
@@ -84,14 +84,14 @@
             "description": "Invalid input"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
+            "userstore_auth": [
+              "write:users",
+              "read:users"
             ]
           }
         ]
@@ -126,7 +126,7 @@
             "description": "Ok"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         }
       },
@@ -170,14 +170,14 @@
             "description": "Invalid input"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
+            "userstore_auth": [
+              "write:users",
+              "read:users"
             ]
           }
         ]
@@ -213,14 +213,14 @@
             "description": "Invalid input"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
+            "userstore_auth": [
+              "write:users",
+              "read:users"
             ]
           }
         ]
@@ -245,7 +245,7 @@
             "description": "Ok"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         }
       }
@@ -279,20 +279,22 @@
             "description": "Ok"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         }
       }
     }
   },
   "securityDefinitions": {
-    "petstore_auth": {
+    "bookstore_auth": {
       "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "authorizationUrl": "http://localhost:3000/api/v1/auth",
       "flow": "implicit",
       "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
+        "write:users": "modify users in your account",
+        "read:users": "read your users",
+        "write:books": "modify books in your account",
+        "read:books": "read your books"
       }
     },
     "api_key": {
@@ -321,9 +323,6 @@
         "password": {
           "type": "string"
         }
-      },
-      "xml": {
-        "name": "User"
       }
     },
     "Book": {
@@ -334,14 +333,6 @@
           "format": "int64"
         },
         "title": {
-          "type": "string"
-        }
-      }
-    },
-    "ApiResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
           "type": "string"
         }
       }
