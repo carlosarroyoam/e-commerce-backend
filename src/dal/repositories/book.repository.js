@@ -16,6 +16,7 @@ class BookRepository {
           });
 
           reject(err);
+          return;
         }
 
         resolve(result);
