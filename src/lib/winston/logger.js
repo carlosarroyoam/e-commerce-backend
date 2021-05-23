@@ -13,8 +13,8 @@ class Logger {
       defaultMeta: { service: 'nodejs-api' },
       transports: [
         //
-        // - Write all logs with level `error` and below to `error.log`
-        // - Write all logs with level `info` and below to `combined.log`
+        // - Write all logs with level `error` and below to `error-%DATE%.log`
+        // - Write all logs with level `info` and below to `combined-%DATE%.log`
         //
         new winston.transports.DailyRotateFile({
           filename: 'logs/errors-%DATE%.log',
@@ -33,8 +33,7 @@ class Logger {
     });
 
     //
-    // If we're not in production then log to the `console` with the format:
-    // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+    // If we're not in production then log to the `console`
     //
     if (this._config.APP_ENV !== 'production') {
       this.instance.add(new winston.transports.Console({
