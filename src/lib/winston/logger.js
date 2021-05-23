@@ -1,4 +1,5 @@
 const winston = require('winston');
+require('winston-daily-rotate-file');
 
 class Logger {
   constructor({ config }) {
@@ -15,8 +16,19 @@ class Logger {
         // - Write all logs with level `error` and below to `error.log`
         // - Write all logs with level `info` and below to `combined.log`
         //
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'logs/combined.log' }),
+        new winston.transports.DailyRotateFile({
+          filename: 'logs/errors-%DATE%.log',
+          datePattern: 'DD-MM-YYYY',
+          zippedArchive: true,
+          maxFiles: '14d',
+          level: 'error',
+        }),
+        new winston.transports.DailyRotateFile({
+          filename: 'logs/combined-%DATE%.log',
+          datePattern: 'DD-MM-YYYY',
+          zippedArchive: true,
+          maxFiles: '14d',
+        }),
       ],
     });
 
