@@ -1,7 +1,8 @@
 class UserService {
-  constructor({ userRepository, exceptions }) {
+  constructor({ userRepository, exceptions, bcrypt }) {
     this._userRepository = userRepository;
     this._exceptions = exceptions;
+    this._bcrypt = bcrypt;
   }
 
   async findAll() {
@@ -31,6 +32,9 @@ class UserService {
       throw new this._exceptions.EmailAlreadyTakenError(`The email address: ${userDto.email} is already in use`);
     }
 
+    // eslint-disable-next-line no-param-reassign
+    userDto.password = await this._bcrypt.hashPassword(userDto.password);
+
     const createdUserId = await this._userRepository.store(userDto);
 
     const createdUser = await this._userRepository.findById(createdUserId);
@@ -44,6 +48,9 @@ class UserService {
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
+
+    // eslint-disable-next-line no-param-reassign
+    userDto.password = await this._bcrypt.hashPassword(userDto.password);
 
     const updatedUserAffectedRows = await this._userRepository.update(userId, userDto);
 

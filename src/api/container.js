@@ -8,6 +8,7 @@ const StartUp = require('./startup');
 const Server = require('./server');
 const DatabaseConnection = require('../lib/mysql/connection');
 const Logger = require('../lib/winston/logger');
+const BcryptHashing = require('../lib/bcrypt');
 
 const { UserController, BookController } = require('./controllers');
 
@@ -45,6 +46,10 @@ container
   // Logger
   .register({
     logger: asClass(Logger).singleton(),
+  })
+  // Bcrypt
+  .register({
+    bcrypt: asClass(BcryptHashing).singleton(),
   })
   // Router
   .register({
