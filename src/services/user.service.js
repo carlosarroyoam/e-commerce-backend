@@ -34,7 +34,7 @@ class UserService {
 
     const passwordHash = await this._bcrypt.hashPassword(userDto.password);
 
-    const createdUserId = await this._userRepository.store({ ...userDto, passwordHash });
+    const createdUserId = await this._userRepository.store({ ...userDto, password: passwordHash });
 
     const createdUser = await this._userRepository.findById(createdUserId);
 
