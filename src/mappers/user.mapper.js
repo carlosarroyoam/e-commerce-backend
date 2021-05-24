@@ -2,6 +2,7 @@
 class UserMapper {
   toDto(user) {
     return {
+      id: user.id,
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
@@ -16,6 +17,7 @@ class UserMapper {
 
   toDatabaseEntity(userDto) {
     return {
+      id: userDto.id,
       first_name: userDto.firstName,
       last_name: userDto.lastName,
       email: userDto.email,
