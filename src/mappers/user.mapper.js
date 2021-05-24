@@ -5,6 +5,7 @@ class UserMapper {
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
+      password: user.password,
       createdAt: user.created_at,
       updatedAt: user.updated_at,
       deletedAt: user.deleted_at,
@@ -16,6 +17,7 @@ class UserMapper {
       first_name: userDto.firstName,
       last_name: userDto.lastName,
       email: userDto.email,
+      password: userDto.password,
     };
   }
 }
