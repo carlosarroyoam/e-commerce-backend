@@ -32,10 +32,9 @@ class UserService {
       throw new this._exceptions.EmailAlreadyTakenError(`The email address: ${userDto.email} is already in use`);
     }
 
-    // eslint-disable-next-line no-param-reassign
-    userDto.password = await this._bcrypt.hashPassword(userDto.password);
+    const passwordHash = await this._bcrypt.hashPassword(userDto.password);
 
-    const createdUserId = await this._userRepository.store(userDto);
+    const createdUserId = await this._userRepository.store({ ...userDto, passwordHash });
 
     const createdUser = await this._userRepository.findById(createdUserId);
 
@@ -49,12 +48,14 @@ class UserService {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
 
-    // eslint-disable-next-line no-param-reassign
-    userDto.password = await this._bcrypt.hashPassword(userDto.password);
+    let password;
+    if (userDto.password) {
+      password = await this._bcrypt.hashPassword(userDto.password);
+    }
 
-    const updatedUserAffectedRows = await this._userRepository.update(userId, userDto);
+    const affectedRows = await this._userRepository.update(userId, { ...userDto, password });
 
-    if (updatedUserAffectedRows < 1) {
+    if (affectedRows < 1) {
       throw new Error('User was not updated');
     }
 
@@ -70,9 +71,9 @@ class UserService {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
 
-    const deletedUserAffectedRows = await this._userRepository.delete(userId);
+    const affectedRows = await this._userRepository.delete(userId);
 
-    if (deletedUserAffectedRows < 1) {
+    if (affectedRows < 1) {
       throw new Error('User was not deleted');
     }
 
