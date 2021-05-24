@@ -7,7 +7,6 @@ class UserService {
 
   async findAll() {
     const users = await this._userRepository.findAll();
-
     if (users.length < 1) {
       throw new this._exceptions.ModelNotFoundError('No users registered', 'user');
     }
@@ -17,7 +16,6 @@ class UserService {
 
   async find(id) {
     const user = await this._userRepository.findById(id);
-
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${id} was not found`, 'user');
     }
@@ -27,7 +25,6 @@ class UserService {
 
   async store(userDto) {
     const emailIsUsed = await this._userRepository.findByEmail(userDto.email);
-
     if (emailIsUsed) {
       throw new this._exceptions.EmailAlreadyTakenError(`The email address: ${userDto.email} is already in use`);
     }
