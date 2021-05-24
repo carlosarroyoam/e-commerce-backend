@@ -8,7 +8,7 @@ class UserService {
   async findAll() {
     const users = await this._userRepository.findAll();
     if (users.length < 1) {
-      throw new this._exceptions.ModelNotFoundError('No users registered', 'user');
+      throw new this._exceptions.NoResourcesInDatabaseError({ name: 'users' });
     }
 
     return users;
@@ -17,7 +17,7 @@ class UserService {
   async find(id) {
     const user = await this._userRepository.findById(id);
     if (!user) {
-      throw new this._exceptions.ModelNotFoundError(`User with id: ${id} was not found`, 'user');
+      throw new this._exceptions.ResourseNotFoundError({ name: 'user' });
     }
 
     return user;
@@ -26,7 +26,7 @@ class UserService {
   async store(userDto) {
     const emailIsUsed = await this._userRepository.findByEmail(userDto.email);
     if (emailIsUsed) {
-      throw new this._exceptions.EmailAlreadyTakenError(`The email address: ${userDto.email} is already in use`);
+      throw new this._exceptions.EmailAlreadyTakenError({ email: userDto.email });
     }
 
     const passwordHash = await this._bcrypt.hashPassword(userDto.password);
@@ -41,7 +41,7 @@ class UserService {
   async update(userId, userDto) {
     const user = await this._userRepository.findById(userId);
     if (!user) {
-      throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
+      throw new this._exceptions.ResourseNotFoundError({ name: 'user' });
     }
 
     let password;
@@ -62,7 +62,7 @@ class UserService {
   async delete(userId) {
     const user = await this._userRepository.findById(userId);
     if (!user) {
-      throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
+      throw new this._exceptions.ResourseNotFoundError({ name: 'user' });
     }
 
     const affectedRows = await this._userRepository.delete(userId);
