@@ -33,6 +33,10 @@ class UserRepository {
   async update(userId, user) {
     const userDatabaseEntity = this._userMapper.toDatabaseEntity(user);
 
+    Object.keys(userDatabaseEntity).forEach(
+      (key) => userDatabaseEntity[key] === undefined && delete userDatabaseEntity[key],
+    );
+
     const updatedUser = await this._userDao.update(userId, userDatabaseEntity);
 
     return updatedUser.affectedRows;
