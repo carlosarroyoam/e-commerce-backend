@@ -43,7 +43,6 @@ class UserService {
 
   async update(userId, userDto) {
     const user = await this._userRepository.findById(userId);
-
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
@@ -54,7 +53,6 @@ class UserService {
     }
 
     const affectedRows = await this._userRepository.update(userId, { ...userDto, password });
-
     if (affectedRows < 1) {
       throw new Error('User was not updated');
     }
@@ -66,13 +64,11 @@ class UserService {
 
   async delete(userId) {
     const user = await this._userRepository.findById(userId);
-
     if (!user) {
       throw new this._exceptions.ModelNotFoundError(`User with id: ${userId} was not found`, 'user');
     }
 
     const affectedRows = await this._userRepository.delete(userId);
-
     if (affectedRows < 1) {
       throw new Error('User was not deleted');
     }
