@@ -6,6 +6,8 @@ class UserMapper {
       lastName: user.last_name,
       email: user.email,
       password: user.password,
+      userableType: user.userable_type,
+      userableId: user.userable_id,
       createdAt: user.created_at,
       updatedAt: user.updated_at,
       deletedAt: user.deleted_at,
@@ -18,6 +20,8 @@ class UserMapper {
       last_name: userDto.lastName,
       email: userDto.email,
       password: userDto.password,
+      userable_type: userDto.userableType,
+      userable_id: userDto.userableId,
     };
   }
 }

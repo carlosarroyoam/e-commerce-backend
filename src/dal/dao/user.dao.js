@@ -6,7 +6,7 @@ class UserDao {
 
   getAll() {
     return new Promise((resolve, reject) => {
-      const query = `SELECT id, first_name, last_name, email, created_at, updated_at
+      const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users
       WHERE deleted_at IS NULL`;
 
@@ -28,7 +28,7 @@ class UserDao {
 
   getById(id) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT id, first_name, last_name, email, created_at, updated_at
+      const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users
       WHERE id = ? AND deleted_at IS NULL`;
 
