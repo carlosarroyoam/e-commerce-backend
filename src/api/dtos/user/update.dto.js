@@ -1,6 +1,6 @@
 module.exports = {
-  firstName: 'min:5',
-  lastName: 'min:5',
-  email: 'email',
-  password: 'min:8',
+  firstName: 'required|min:5',
+  lastName: 'required|min:5',
+  email: 'required|email',
+  password: 'required|min:8',
 };
