@@ -17,7 +17,7 @@ class UserService {
   async find(id) {
     const user = await this._userRepository.findById(id);
     if (!user) {
-      throw new this._exceptions.ResourseNotFoundError({ resourceName: 'user' });
+      throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
     }
 
     return user;
@@ -41,7 +41,7 @@ class UserService {
   async update(userId, userDto) {
     const user = await this._userRepository.findById(userId);
     if (!user) {
-      throw new this._exceptions.ResourseNotFoundError({ resourceName: 'user' });
+      throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
     }
 
     let password;
@@ -62,7 +62,7 @@ class UserService {
   async delete(userId) {
     const user = await this._userRepository.findById(userId);
     if (!user) {
-      throw new this._exceptions.ResourseNotFoundError({ resourceName: 'user' });
+      throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
     }
 
     const affectedRows = await this._userRepository.delete(userId);

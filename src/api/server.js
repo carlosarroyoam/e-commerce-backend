@@ -24,7 +24,7 @@ class Server {
 
           res.status(404).send({
             message: err.message,
-            error: err.name,
+            error: 'Not found',
           });
 
           return;

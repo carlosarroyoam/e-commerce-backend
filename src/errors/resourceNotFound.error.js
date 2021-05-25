@@ -1,8 +1,8 @@
-class ResourseNotFoundError extends Error {
+class ResourceNotFoundError extends Error {
   constructor({ resourceName }) {
     super(`Resource ${resourceName} not found`);
     this.status = 404;
   }
 }
 
-module.exports = ResourseNotFoundError;
+module.exports = ResourceNotFoundError;

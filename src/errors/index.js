@@ -1,7 +1,7 @@
 const EmailAlreadyTakenError = require('./emailAlreadyTakenError.error');
-const ResourseNotFoundError = require('./resourceNotFound.error');
+const ResourceNotFoundError = require('./resourceNotFound.error');
 
 module.exports = {
-  ResourseNotFoundError,
+  ResourceNotFoundError,
   EmailAlreadyTakenError,
 };
