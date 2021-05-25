@@ -63,7 +63,7 @@ class Server {
    */
   start() {
     return new Promise((resolve) => {
-      const http = this._express.listen(this._config.PORT, () => {
+      this._express.listen(this._config.PORT, () => {
         console.info(`Application running on: http://localhost:${this._config.PORT}`);
         resolve();
       });
