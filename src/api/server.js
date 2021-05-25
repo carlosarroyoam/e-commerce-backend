@@ -30,6 +30,15 @@ class Server {
           return;
         }
 
+        if (err.status === 400) {
+          res.status(400).send({
+            message: err.message,
+            error: 'Bad request',
+          });
+
+          return;
+        }
+
         this._logger.log({
           level: 'error',
           message: err.message,

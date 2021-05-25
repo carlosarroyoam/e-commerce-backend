@@ -7,7 +7,7 @@ module.exports = (rules, customMessages) => (req, res, next) => {
 
   validation.fails(() => {
     res.status(400).send({
-      message: 'Validation failed',
+      message: 'Bad request',
       errors: validation.errors,
     });
   });
