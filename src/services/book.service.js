@@ -7,7 +7,7 @@ class BookService {
   async findAll() {
     const books = await this._bookRepository.findAll();
     if (books.length < 1) {
-      throw new this._exceptions.NoResourcesInDatabaseError({ name: 'books' });
+      throw new this._exceptions.NoResourcesInDatabaseError({ resourceName: 'books' });
     }
 
     return books;
