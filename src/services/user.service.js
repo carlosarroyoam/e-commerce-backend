@@ -74,9 +74,8 @@ class UserService {
   }
 
   async restore(userId) {
-    const restoredUserAffectedRows = await this._userRepository.restore(userId);
-
-    if (restoredUserAffectedRows < 1) {
+    const affectedRows = await this._userRepository.restore(userId);
+    if (affectedRows < 1) {
       throw new Error('User was not restored');
     }
 

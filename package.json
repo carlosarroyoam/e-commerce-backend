@@ -41,6 +41,7 @@
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.2",
     "swagger-ui-express": "^4.1.6",
+    "validatorjs": "^3.22.1",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5"
   }
