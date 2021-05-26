@@ -5,12 +5,12 @@ class Logger {
   constructor({ config }) {
     this._config = config;
     this.instance = winston.createLogger({
-      level: 'info',
+      level: 'warn',
       format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.json(),
       ),
-      defaultMeta: { service: 'nodejs-api' },
+      defaultMeta: { service: this._config.APP_NAME },
       transports: [
         //
         // - Write all logs with level `error` and below to `error-%DATE%.log`
@@ -41,6 +41,7 @@ class Logger {
           winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss A' }),
           winston.format.json(),
         ),
+        level: 'info',
       }));
     }
   }

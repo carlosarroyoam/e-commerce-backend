@@ -13,6 +13,7 @@ class BookRepository {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);

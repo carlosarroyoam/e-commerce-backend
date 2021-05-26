@@ -15,6 +15,7 @@ class UserDao {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);
@@ -37,6 +38,7 @@ class UserDao {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);
@@ -57,6 +59,7 @@ class UserDao {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);
@@ -77,6 +80,7 @@ class UserDao {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);
@@ -97,6 +101,7 @@ class UserDao {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);
@@ -117,6 +122,7 @@ class UserDao {
           this._logger.log({
             level: 'error',
             message: err.message,
+            meta: err,
           });
 
           reject(err);
