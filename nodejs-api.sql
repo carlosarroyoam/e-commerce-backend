@@ -1,11 +1,11 @@
 --
--- Table structure for table `users`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
+CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
@@ -23,12 +23,12 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users`(`id`, `first_name`, `last_name`, `email`, `password`, `userable_type`, `userable_id`) VALUES (1,'Carlos Alberto','Arroyo Martínez','carlosarroyo@gmail.com', '$2b$10$UkLqEOO/wrjWxKao4PqgEe68DesQEpvTfags.dYISmxWC.beeflv.', 'App/Admin', '1'),(2,'Stefania','Guido Rojas','stefaniaguido@gmail.com', '$2b$10$UkLqEOO/wrjWxKao4PqgEe68DesQEpvTfags.dYISmxWC.beeflv.', 'App/Client', '1');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user`(`id`, `first_name`, `last_name`, `email`, `password`, `userable_type`, `userable_id`) VALUES (1,'Carlos Alberto','Arroyo Martínez','carlosarroyo@gmail.com', '$2b$10$UkLqEOO/wrjWxKao4PqgEe68DesQEpvTfags.dYISmxWC.beeflv.', 'App/Admin', '1'),(2,'Stefania','Guido Rojas','stefaniaguido@gmail.com', '$2b$10$UkLqEOO/wrjWxKao4PqgEe68DesQEpvTfags.dYISmxWC.beeflv.', 'App/Client', '1');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

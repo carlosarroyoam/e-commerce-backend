@@ -7,7 +7,7 @@ class UserDao {
   getAll() {
     return new Promise((resolve, reject) => {
       const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users
+      FROM user
       WHERE deleted_at IS NULL`;
 
       this._dbConnection.query(query, (err, result) => {
@@ -30,7 +30,7 @@ class UserDao {
   getById(id) {
     return new Promise((resolve, reject) => {
       const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users
+      FROM user
       WHERE id = ? AND deleted_at IS NULL`;
 
       this._dbConnection.query(query, [id], (err, result) => {
@@ -52,7 +52,7 @@ class UserDao {
 
   getByEmail(email) {
     return new Promise((resolve, reject) => {
-      const query = 'SELECT id FROM users WHERE email = ?';
+      const query = 'SELECT id FROM user WHERE email = ?';
 
       this._dbConnection.query(query, [email], (err, result) => {
         if (err) {
@@ -73,7 +73,7 @@ class UserDao {
 
   create(user) {
     return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO users SET ?';
+      const query = 'INSERT INTO user SET ?';
 
       this._dbConnection.query(query, user, (err, result) => {
         if (err) {
@@ -94,7 +94,7 @@ class UserDao {
 
   update(userId, user) {
     return new Promise((resolve, reject) => {
-      const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
+      const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
 
       this._dbConnection.query(query, [user, userId], (err, result) => {
         if (err) {
@@ -115,7 +115,7 @@ class UserDao {
 
   delete(userId) {
     return new Promise((resolve, reject) => {
-      const query = 'UPDATE users SET deleted_at = NULL WHERE id = ? LIMIT 1';
+      const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
       this._dbConnection.query(query, [userId], (err, result) => {
         if (err) {
