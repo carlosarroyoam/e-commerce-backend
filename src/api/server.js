@@ -47,6 +47,7 @@ class Server {
         this._logger.log({
           level: 'error',
           message: err.message,
+          meta: err,
         });
 
         res.status(500).send({

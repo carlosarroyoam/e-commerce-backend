@@ -13,7 +13,11 @@ class BcryptHashing {
 
       return passwordHash;
     } catch (err) {
-      this._logger.log('error', err.message);
+      this._logger.log({
+        level: 'error',
+        message: err.message,
+        meta: err,
+      });
 
       return null;
     }
@@ -25,7 +29,11 @@ class BcryptHashing {
 
       return result;
     } catch (err) {
-      this._logger.log('error', err.message);
+      this._logger.log({
+        level: 'error',
+        message: err.message,
+        meta: err,
+      });
 
       return false;
     }
