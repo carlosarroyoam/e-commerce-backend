@@ -38,7 +38,7 @@ class Logger {
     if (this._config.APP_ENV !== 'production') {
       this.instance.add(new winston.transports.Console({
         format: winston.format.combine(
-          winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss A' }),
+          winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss a' }),
           winston.format.json(),
         ),
         level: 'info',
