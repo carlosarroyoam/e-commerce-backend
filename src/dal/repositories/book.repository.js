@@ -4,7 +4,7 @@ class BookRepository {
     this._logger = logger.instance;
   }
 
-  findAll() {
+  async findAll() {
     const query = 'SELECT id, title FROM book';
 
     return this._dbConnection.query(query);

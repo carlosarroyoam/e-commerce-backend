@@ -3,7 +3,7 @@ class UserDao {
     this.connection = connection;
   }
 
-  getAll() {
+  async getAll() {
     const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
       WHERE deleted_at IS NULL`;
@@ -11,7 +11,7 @@ class UserDao {
     return this.connection.query(query);
   }
 
-  getById(id) {
+  async getById(id) {
     const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
       WHERE id = ? AND deleted_at IS NULL`;
@@ -19,7 +19,7 @@ class UserDao {
     return this.connection.query(query, [id]);
   }
 
-  getByEmail(email) {
+  async getByEmail(email) {
     const query = 'SELECT id FROM user WHERE email = ?';
 
     return this.connection.query(query, [email]);
@@ -31,19 +31,19 @@ class UserDao {
     return this.connection.query(query, [user]);
   }
 
-  update(userId, user) {
+  async update(userId, user) {
     const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
 
     return this.connection.query(query, [user, userId]);
   }
 
-  delete(userId) {
+  async delete(userId) {
     const query = 'UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
     return this.connection.query(query, [userId]);
   }
 
-  restore(userId) {
+  async restore(userId) {
     const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
     return this.connection.query(query, [userId]);
