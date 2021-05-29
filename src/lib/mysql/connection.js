@@ -11,18 +11,6 @@ class DatabaseConnection {
       password: this._config.DB.password,
       database: this._config.DB.database,
     });
-
-    this.pool.on('connection', (connection) => {
-      console.log('connected', connection.threadId);
-    });
-
-    this.pool.on('release', (connection) => {
-      console.log('Connection %d released', connection.threadId);
-    });
-
-    this.pool.on('acquire', (connection) => {
-      console.log('Connection %d acquired', connection.threadId);
-    });
   }
 }
 
