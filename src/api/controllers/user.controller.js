@@ -159,6 +159,35 @@ class UserController {
       next(error);
     }
   }
+
+  /**
+   * Handles incoming request from the /user/:id/restore endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
+  async restore(request, response, next) {
+    try {
+      const { id } = request.params;
+
+      const userRestoredId = await this._userService.restore(id);
+
+      response.send({
+        message: 'Restored',
+        data: {
+          userRestoredId,
+        },
+      });
+    } catch (error) {
+      if (error.sqlMessage) {
+        next(new Error('Error while restoring user'));
+        return;
+      }
+
+      next(error);
+    }
+  }
 }
 
 module.exports = UserController;

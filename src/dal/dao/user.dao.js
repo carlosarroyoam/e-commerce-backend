@@ -1,137 +1,52 @@
 class UserDao {
-  constructor({ dbConnection, logger }) {
-    this._dbConnection = dbConnection.pool;
-    this._logger = logger.instance;
+  constructor(connection) {
+    this.connection = connection;
   }
 
   getAll() {
-    return new Promise((resolve, reject) => {
-      const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
       WHERE deleted_at IS NULL`;
 
-      this._dbConnection.query(query, (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
-
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return this.connection.query(query);
   }
 
   getById(id) {
-    return new Promise((resolve, reject) => {
-      const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
       WHERE id = ? AND deleted_at IS NULL`;
 
-      this._dbConnection.query(query, [id], (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
-
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return this.connection.query(query, [id]);
   }
 
   getByEmail(email) {
-    return new Promise((resolve, reject) => {
-      const query = 'SELECT id FROM user WHERE email = ?';
+    const query = 'SELECT id FROM user WHERE email = ?';
 
-      this._dbConnection.query(query, [email], (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
-
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return this.connection.query(query, [email]);
   }
 
-  create(user) {
-    return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO user SET ?';
+  async create(user) {
+    const query = 'INSERT INTO user SET ?';
 
-      this._dbConnection.query(query, user, (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
-
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return this.connection.query(query, [user]);
   }
 
   update(userId, user) {
-    return new Promise((resolve, reject) => {
-      const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
+    const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
 
-      this._dbConnection.query(query, [user, userId], (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
-
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return this.connection.query(query, [user, userId]);
   }
 
   delete(userId) {
-    return new Promise((resolve, reject) => {
-      const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
+    const query = 'UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-      this._dbConnection.query(query, [userId], (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
+    return this.connection.query(query, [userId]);
+  }
 
-          reject(err);
-          return;
-        }
+  restore(userId) {
+    const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
-        resolve(result);
-      });
-    });
+    return this.connection.query(query, [userId]);
   }
 }
 

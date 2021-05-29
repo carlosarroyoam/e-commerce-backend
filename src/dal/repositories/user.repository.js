@@ -1,57 +1,60 @@
+const { UserDao } = require('../dao');
+const { UserMapper } = require('../../mappers');
+
 class UserRepository {
-  constructor({ userDao, userMapper }) {
-    this._userDao = userDao;
-    this._userMapper = userMapper;
+  constructor(connection) {
+    this._userDao = new UserDao(connection);
+    this._userMapper = new UserMapper();
   }
 
   async findAll() {
-    const users = await this._userDao.getAll();
+    const [result] = await this._userDao.getAll();
 
-    return users;
+    return result;
   }
 
   async findById(id) {
-    const user = await this._userDao.getById(id);
+    const [result] = await this._userDao.getById(id);
 
-    return user[0];
+    return result[0];
   }
 
   async findByEmail(email) {
-    const user = await this._userDao.getByEmail(email);
+    const [result] = await this._userDao.getByEmail(email);
 
-    return user[0];
+    return result[0];
   }
 
   async store(user) {
-    const userDatabaseEntity = this._userMapper.toDatabaseEntity(user);
+    const userDbEntity = this._userMapper.toDatabaseEntity(user);
 
-    const createdUser = await this._userDao.create(userDatabaseEntity);
+    const [result] = await this._userDao.create(userDbEntity);
 
-    return createdUser.insertId;
+    return result.insertId;
   }
 
   async update(userId, user) {
-    const userDatabaseEntity = this._userMapper.toDatabaseEntity(user);
+    const userDbEntity = this._userMapper.toDatabaseEntity(user);
 
-    Object.keys(userDatabaseEntity).forEach(
-      (key) => userDatabaseEntity[key] === undefined && delete userDatabaseEntity[key],
+    Object.keys(userDbEntity).forEach(
+      (key) => userDbEntity[key] === undefined && delete userDbEntity[key],
     );
 
-    const updatedUser = await this._userDao.update(userId, userDatabaseEntity);
+    const [result] = await this._userDao.update(userId, userDbEntity);
 
-    return updatedUser.affectedRows;
+    return result.affectedRows;
   }
 
   async delete(userId) {
-    const deletedUser = await this._userDao.delete(userId);
+    const [result] = await this._userDao.delete(userId);
 
-    return deletedUser.affectedRows;
+    return result.affectedRows;
   }
 
   async restore(userId) {
-    const restoredUser = await this._userDao.restore(userId);
+    const [result] = await this._userDao.restore(userId);
 
-    return restoredUser.affectedRows;
+    return result.affectedRows;
   }
 }
 

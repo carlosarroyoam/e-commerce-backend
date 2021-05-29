@@ -10,6 +10,7 @@ module.exports = ({ userController }) => {
   router.get('/:id', userController.show.bind(userController));
   router.post('/', validateMiddleware(createUserDto), userController.store.bind(userController));
   router.put('/:id', validateMiddleware(updateUserDto), userController.update.bind(userController));
+  router.put('/:id/restore', userController.restore.bind(userController));
   router.delete('/:id', userController.destroy.bind(userController));
 
   return router;

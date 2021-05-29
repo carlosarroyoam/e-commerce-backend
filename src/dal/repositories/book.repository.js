@@ -5,24 +5,9 @@ class BookRepository {
   }
 
   findAll() {
-    return new Promise((resolve, reject) => {
-      const query = 'SELECT id, title FROM book';
+    const query = 'SELECT id, title FROM book';
 
-      this._dbConnection.query(query, (err, result) => {
-        if (err) {
-          this._logger.log({
-            level: 'error',
-            message: err.message,
-            meta: err,
-          });
-
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return this._dbConnection.query(query);
   }
 }
 
