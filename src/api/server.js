@@ -23,8 +23,8 @@ class Server {
           });
 
           res.status(400).send({
-            message: err.message,
-            error: 'Bad request',
+            message: 'Bad request',
+            error: err.message,
           });
 
           return;
@@ -37,8 +37,8 @@ class Server {
           });
 
           res.status(404).send({
-            message: err.message,
-            error: 'Not found',
+            message: 'Not found',
+            error: err.message,
           });
 
           return;
@@ -51,8 +51,8 @@ class Server {
         });
 
         res.status(500).send({
-          message: err.message,
-          error: 'Internal server error',
+          message: 'Internal server error',
+          error: err.message,
         });
       });
   }
