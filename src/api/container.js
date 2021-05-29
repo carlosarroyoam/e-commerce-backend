@@ -4,7 +4,6 @@ const {
 
 const container = createContainer();
 
-const StartUp = require('./startup');
 const Server = require('./server');
 const DatabaseConnection = require('../lib/mysql/connection');
 const Logger = require('../lib/winston/logger');
@@ -32,7 +31,6 @@ const Exceptions = require('../errors');
 container
   // App
   .register({
-    app: asClass(StartUp).singleton(),
     server: asClass(Server).singleton(),
   })
   // Config
