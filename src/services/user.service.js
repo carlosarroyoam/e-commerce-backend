@@ -35,14 +35,14 @@ class UserService {
     }
   }
 
-  async find(id) {
+  async find(userId) {
     let connection;
 
     try {
       connection = await this._dbConnection.getConnection();
       const userRepository = new UserRepository(connection);
 
-      const user = await userRepository.findById(id);
+      const user = await userRepository.findById(userId);
       if (!user) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
       }
@@ -63,21 +63,21 @@ class UserService {
     }
   }
 
-  async store(userDto) {
+  async store(user) {
     let connection;
 
     try {
       connection = await this._dbConnection.getConnection();
       const userRepository = new UserRepository(connection);
 
-      const emailIsUsed = await userRepository.findByEmail(userDto.email);
-      if (emailIsUsed) {
-        throw new this._exceptions.EmailAlreadyTakenError({ email: userDto.email });
+      const userByEmail = await userRepository.findByEmail(user.email);
+      if (userByEmail) {
+        throw new this._exceptions.EmailAlreadyTakenError({ email: user.email });
       }
 
-      const passwordHash = await this._bcrypt.hashPassword(userDto.password);
+      const passwordHash = await this._bcrypt.hashPassword(user.password);
 
-      const createdUserId = await userRepository.store({ ...userDto, password: passwordHash });
+      const createdUserId = await userRepository.store({ ...user, password: passwordHash });
 
       const createdUser = await userRepository.findById(createdUserId);
 
@@ -97,24 +97,24 @@ class UserService {
     }
   }
 
-  async update(userId, userDto) {
+  async update(userId, user) {
     let connection;
 
     try {
       connection = await this._dbConnection.getConnection();
       const userRepository = new UserRepository(connection);
 
-      const user = await userRepository.findById(userId);
-      if (!user) {
+      const userById = await userRepository.findById(userId);
+      if (!userById) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
       }
 
       let password;
-      if (userDto.password) {
-        password = await this._bcrypt.hashPassword(userDto.password);
+      if (user.password) {
+        password = await this._bcrypt.hashPassword(user.password);
       }
 
-      const affectedRows = await userRepository.update(userId, { ...userDto, password });
+      const affectedRows = await userRepository.update(userId, { ...user, password });
       if (affectedRows < 1) {
         throw new Error('User was not updated');
       }
@@ -144,8 +144,8 @@ class UserService {
       connection = await this._dbConnection.getConnection();
       const userRepository = new UserRepository(connection);
 
-      const user = await userRepository.findById(userId);
-      if (!user) {
+      const userById = await userRepository.findById(userId);
+      if (!userById) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
       }
 
