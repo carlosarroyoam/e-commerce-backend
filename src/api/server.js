@@ -16,29 +16,15 @@ class Server {
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        if (err.status === 400) {
+        if (err.status) {
           this._logger.log({
             level: 'info',
             message: err.message,
           });
 
-          res.status(400).send({
-            message: 'Bad request',
-            error: err.message,
-          });
-
-          return;
-        }
-
-        if (err.status === 404) {
-          this._logger.log({
-            level: 'info',
+          res.status(err.status).send({
             message: err.message,
-          });
-
-          res.status(404).send({
-            message: 'Not found',
-            error: err.message,
+            error: err.name,
           });
 
           return;
