@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const validateMiddleware = require('../middleware/validate.middleware');
+const validateMiddleware = require('../middlewares/validate.middleware');
 const createUserDto = require('../dtos/user/create.dto');
 const updateUserDto = require('../dtos/user/update.dto');
 
