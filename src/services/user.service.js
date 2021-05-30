@@ -176,6 +176,7 @@ class UserService {
     try {
       connection = await this._dbConnection.getConnection();
       const userRepository = new UserRepository(connection);
+
       const affectedRows = await userRepository.restore(userId);
       if (affectedRows < 1) {
         throw new Error('User was not restored');
