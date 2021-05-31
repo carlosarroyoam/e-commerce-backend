@@ -30,6 +30,17 @@ class Logger {
           maxFiles: '14d',
         }),
       ],
+      exceptionHandlers: [
+        //
+        // - Write exceptions logs `exceptions-%DATE%.log`
+        //
+        new winston.transports.DailyRotateFile({
+          filename: 'logs/exceptions-%DATE%.log',
+          datePattern: 'DD-MM-YYYY',
+          zippedArchive: true,
+          maxFiles: '14d',
+        }),
+      ],
     });
 
     //
@@ -42,6 +53,7 @@ class Logger {
           winston.format.json(),
         ),
         level: 'info',
+        handleExceptions: true,
       }));
     }
   }
