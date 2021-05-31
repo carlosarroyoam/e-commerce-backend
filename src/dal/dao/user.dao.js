@@ -11,10 +11,33 @@ class UserDao {
     return this.connection.query(query);
   }
 
+  async getAllTrashed() {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user
+      WHERE deleted_at IS NOT NULL`;
+
+    return this.connection.query(query);
+  }
+
+  async getAllWithTrashed() {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user`;
+
+    return this.connection.query(query);
+  }
+
   async getById(id) {
     const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
       WHERE id = ? AND deleted_at IS NULL`;
+
+    return this.connection.query(query, [id]);
+  }
+
+  async getTrashedById(id) {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user
+      WHERE id = ? AND deleted_at IS NOT NULL`;
 
     return this.connection.query(query, [id]);
   }

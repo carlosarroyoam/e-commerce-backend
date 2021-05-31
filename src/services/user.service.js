@@ -177,6 +177,11 @@ class UserService {
       connection = await this._dbConnection.getConnection();
       const userRepository = new UserRepository(connection);
 
+      const userById = await userRepository.findTrashedById(userId);
+      if (!userById) {
+        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+      }
+
       const affectedRows = await userRepository.restore(userId);
       if (affectedRows < 1) {
         throw new Error('User was not restored');
