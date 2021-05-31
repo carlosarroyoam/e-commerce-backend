@@ -19,6 +19,12 @@ class UserRepository {
     return result[0];
   }
 
+  async findTrashedById(userId) {
+    const [result] = await this._userDao.getTrashedById(userId);
+
+    return result.affectedRows;
+  }
+
   async findByEmail(email) {
     const [result] = await this._userDao.getByEmail(email);
 
