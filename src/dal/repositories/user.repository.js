@@ -42,10 +42,6 @@ class UserRepository {
   async update(userId, user) {
     const userDbEntity = this._userMapper.toDatabaseEntity(user);
 
-    Object.keys(userDbEntity).forEach(
-      (key) => userDbEntity[key] === undefined && delete userDbEntity[key],
-    );
-
     const [result] = await this._userDao.update(userId, userDbEntity);
 
     return result.affectedRows;

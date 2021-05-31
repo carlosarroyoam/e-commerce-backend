@@ -16,7 +16,7 @@ class UserMapper {
   }
 
   toDatabaseEntity(userDto) {
-    return {
+    const userDbEntity = {
       id: userDto.id,
       first_name: userDto.firstName,
       last_name: userDto.lastName,
@@ -25,6 +25,12 @@ class UserMapper {
       userable_type: userDto.userableType,
       userable_id: userDto.userableId,
     };
+
+    Object.keys(userDbEntity).forEach(
+      (key) => userDbEntity[key] === undefined && delete userDbEntity[key],
+    );
+
+    return userDbEntity;
   }
 }
 
