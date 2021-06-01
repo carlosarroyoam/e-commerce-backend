@@ -1,5 +1,5 @@
 /**
- * User controller
+ * Admin controller
  */
 class AdminController {
   constructor({ adminService, adminMapper }) {

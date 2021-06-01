@@ -17,11 +17,11 @@ class AdminService {
       connection = await this._dbConnection.getConnection();
       const adminRepository = new AdminRepository(connection);
 
-      const users = await adminRepository.findAll();
+      const admins = await adminRepository.findAll();
 
       connection.release();
 
-      return users;
+      return admins;
     } catch (err) {
       connection.release();
 
@@ -32,28 +32,28 @@ class AdminService {
       });
 
       if (err.sqlMessage) {
-        throw new Error('Error while retrieving users');
+        throw new Error('Error while retrieving admins');
       }
 
       throw err;
     }
   }
 
-  async find(userId) {
+  async find(adminId) {
     let connection;
 
     try {
       connection = await this._dbConnection.getConnection();
       const adminRepository = new AdminRepository(connection);
 
-      const user = await adminRepository.findById(userId);
-      if (!user) {
+      const admin = await adminRepository.findById(adminId);
+      if (!admin) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
       }
 
       connection.release();
 
-      return user;
+      return admin;
     } catch (err) {
       connection.release();
 
@@ -64,14 +64,14 @@ class AdminService {
       });
 
       if (err.sqlMessage) {
-        throw new Error('Error while retrieving user');
+        throw new Error('Error while retrieving admin');
       }
 
       throw err;
     }
   }
 
-  async store(user) {
+  async store(admin) {
     let connection;
 
     try {
@@ -81,17 +81,17 @@ class AdminService {
 
       connection.beginTransaction();
 
-      const userByEmail = await userRepository.findByEmailWithTrashed(user.email);
+      const userByEmail = await userRepository.findByEmailWithTrashed(admin.email);
       if (userByEmail) {
-        throw new this._exceptions.EmailAlreadyTakenError({ email: user.email });
+        throw new this._exceptions.EmailAlreadyTakenError({ email: admin.email });
       }
 
-      const passwordHash = await this._bcrypt.hashPassword(user.password);
+      const passwordHash = await this._bcrypt.hashPassword(admin.password);
 
-      const createdAdminId = await adminRepository.store({ isSuper: user.isSuper });
+      const createdAdminId = await adminRepository.store({ isSuper: admin.isSuper });
 
       await userRepository.store({
-        ...user, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
+        ...admin, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
       });
 
       const createdAdmin = await adminRepository.findById(createdAdminId);
@@ -118,7 +118,7 @@ class AdminService {
     }
   }
 
-  async update(userId, user) {
+  async update(adminId, admin) {
     let connection;
 
     try {
@@ -128,25 +128,25 @@ class AdminService {
 
       connection.beginTransaction();
 
-      const adminById = await adminRepository.findById(userId);
+      const adminById = await adminRepository.findById(adminId);
       if (!adminById) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
       }
 
       let password;
-      if (user.password) {
-        password = await this._bcrypt.hashPassword(user.password);
+      if (admin.password) {
+        password = await this._bcrypt.hashPassword(admin.password);
       }
 
-      const adminAffectedRows = await adminRepository.update(userId, { isSuper: user.isSuper });
+      const adminAffectedRows = await adminRepository.update(adminId, { isSuper: admin.isSuper });
 
-      const userAffectedRows = await userRepository.update(adminById.id, { ...user, password });
+      const userAffectedRows = await userRepository.update(adminById.id, { ...admin, password });
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {
         throw new Error('Admin was not updated');
       }
 
-      const updatedAdmin = await adminRepository.findById(userId);
+      const updatedAdmin = await adminRepository.findById(adminId);
 
       connection.commit();
       connection.release();
@@ -162,33 +162,33 @@ class AdminService {
       });
 
       if (err.sqlMessage) {
-        throw new Error('Error while updating user');
+        throw new Error('Error while updating admin');
       }
 
       throw err;
     }
   }
 
-  async delete(userId) {
+  async delete(adminId) {
     let connection;
 
     try {
       connection = await this._dbConnection.getConnection();
       const adminRepository = new AdminRepository(connection);
 
-      const userById = await adminRepository.findById(userId);
-      if (!userById) {
+      const adminById = await adminRepository.findById(adminId);
+      if (!adminById) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
       }
 
-      const affectedRows = await adminRepository.delete(userId);
+      const affectedRows = await adminRepository.delete(adminId);
       if (affectedRows < 1) {
         throw new Error('User was not deleted');
       }
 
       connection.release();
 
-      return userId;
+      return adminId;
     } catch (err) {
       connection.release();
 
@@ -199,33 +199,33 @@ class AdminService {
       });
 
       if (err.sqlMessage) {
-        throw new Error('Error while deleting user');
+        throw new Error('Error while deleting admin');
       }
 
       throw err;
     }
   }
 
-  async restore(userId) {
+  async restore(adminId) {
     let connection;
 
     try {
       connection = await this._dbConnection.getConnection();
       const adminRepository = new AdminRepository(connection);
 
-      const userById = await adminRepository.findTrashedById(userId);
-      if (!userById) {
+      const adminById = await adminRepository.findTrashedById(adminId);
+      if (!adminById) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
       }
 
-      const affectedRows = await adminRepository.restore(userId);
+      const affectedRows = await adminRepository.restore(adminId);
       if (affectedRows < 1) {
-        throw new Error('User was not restored');
+        throw new Error('Admin was not restored');
       }
 
       connection.release();
 
-      return userId;
+      return adminId;
     } catch (err) {
       connection.release();
 
@@ -236,7 +236,7 @@ class AdminService {
       });
 
       if (err.sqlMessage) {
-        throw new Error('Error while restoring user');
+        throw new Error('Error while restoring admin');
       }
 
       throw err;
