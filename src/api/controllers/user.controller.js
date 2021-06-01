@@ -25,11 +25,6 @@ class UserController {
         data: usersDto,
       });
     } catch (error) {
-      if (error.sqlMessage) {
-        next(new Error('Error while retrieving users'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -53,11 +48,6 @@ class UserController {
         data: userDto,
       });
     } catch (error) {
-      if (error.sqlMessage) {
-        next(new Error('Error while retrieving user'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -87,11 +77,6 @@ class UserController {
         },
       });
     } catch (error) {
-      if (error.sqlMessage) {
-        next(new Error('Error while storing user'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -122,11 +107,6 @@ class UserController {
         },
       });
     } catch (error) {
-      if (error.sqlMessage) {
-        next(new Error('Error while updating user'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -151,11 +131,6 @@ class UserController {
         },
       });
     } catch (error) {
-      if (error.sqlMessage) {
-        next(new Error('Error while deleting user'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -180,11 +155,6 @@ class UserController {
         },
       });
     } catch (error) {
-      if (error.sqlMessage) {
-        next(new Error('Error while restoring user'));
-        return;
-      }
-
       next(error);
     }
   }

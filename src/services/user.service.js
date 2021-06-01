@@ -31,6 +31,10 @@ class UserService {
         meta: err,
       });
 
+      if (err.sqlMessage) {
+        throw new Error('Error while retrieving users');
+      }
+
       throw err;
     }
   }
@@ -58,6 +62,10 @@ class UserService {
         message: err.message,
         meta: err,
       });
+
+      if (err.sqlMessage) {
+        throw new Error('Error while retrieving user');
+      }
 
       throw err;
     }
@@ -92,6 +100,10 @@ class UserService {
         message: err.message,
         meta: err,
       });
+
+      if (err.sqlMessage) {
+        throw new Error('Error while storing user');
+      }
 
       throw err;
     }
@@ -133,6 +145,10 @@ class UserService {
         meta: err,
       });
 
+      if (err.sqlMessage) {
+        throw new Error('Error while updating user');
+      }
+
       throw err;
     }
   }
@@ -166,6 +182,10 @@ class UserService {
         meta: err,
       });
 
+      if (err.sqlMessage) {
+        throw new Error('Error while deleting user');
+      }
+
       throw err;
     }
   }
@@ -198,6 +218,10 @@ class UserService {
         message: err.message,
         meta: err,
       });
+
+      if (err.sqlMessage) {
+        throw new Error('Error while restoring user');
+      }
 
       throw err;
     }
