@@ -9,22 +9,23 @@ const DatabaseConnection = require('../lib/mysql/connection');
 const Logger = require('../lib/winston/logger');
 const BcryptHashing = require('../lib/bcrypt');
 
-const { UserController, BookController } = require('./controllers');
+const { UserController, AdminController, BookController } = require('./controllers');
 
-const { UserService, BookService } = require('../services');
+const { UserService, AdminService, BookService } = require('../services');
 
 const { UserRepository, BookRepository } = require('../dal/repositories');
 
-const { UserDao } = require('../dal/dao');
+const { UserDao, AdminDao } = require('../dal/dao');
 
-const { UserMapper } = require('../mappers');
+const { UserMapper, AdminMapper } = require('../mappers');
 
 const RootRoute = require('./routes/root.routes');
 const DefaultRoute = require('./routes/default.routes');
 const UserRoutes = require('./routes/user.routes');
+const AdminRoutes = require('./routes/admin.routes');
 const BookRoutes = require('./routes/book.routes');
 
-const Routes = require('./routes');
+const Routes = require('./router');
 const Config = require('../config');
 const Exceptions = require('../errors');
 
@@ -58,16 +59,19 @@ container
     rootRoute: asFunction(RootRoute).singleton(),
     defaultRoute: asFunction(DefaultRoute).singleton(),
     userRoutes: asFunction(UserRoutes).singleton(),
+    adminRoutes: asFunction(AdminRoutes).singleton(),
     bookRoutes: asFunction(BookRoutes).singleton(),
   })
   // Controllers
   .register({
     userController: asClass(UserController).singleton(),
+    adminController: asClass(AdminController).singleton(),
     bookController: asClass(BookController).singleton(),
   })
   // Services
   .register({
     userService: asClass(UserService).singleton(),
+    adminService: asClass(AdminService).singleton(),
     bookService: asClass(BookService).singleton(),
   })
   // Repositories
@@ -78,10 +82,12 @@ container
   // Dao
   .register({
     userDao: asClass(UserDao).singleton(),
+    adminDao: asClass(AdminDao).singleton(),
   })
   // Mappers
   .register({
     userMapper: asClass(UserMapper).singleton(),
+    adminMapper: asClass(AdminMapper).singleton(),
   })
   // Exceptions
   .register({

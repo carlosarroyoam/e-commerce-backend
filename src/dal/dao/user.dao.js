@@ -43,6 +43,12 @@ class UserDao {
   }
 
   async getByEmail(email) {
+    const query = 'SELECT id FROM user WHERE email = ? AND deleted_at IS NULL';
+
+    return this.connection.query(query, [email]);
+  }
+
+  async getByEmailWithTrashed(email) {
     const query = 'SELECT id FROM user WHERE email = ?';
 
     return this.connection.query(query, [email]);

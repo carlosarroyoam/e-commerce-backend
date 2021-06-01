@@ -53,65 +53,6 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /user endpoint
-   *
-   * @param {*} request
-   * @param {*} response
-   * @param {*} next
-   */
-  async store(request, response, next) {
-    try {
-      const {
-        firstName, lastName, email, password,
-      } = request.body;
-
-      const createdUser = await this._userService.store({
-        firstName, lastName, email, password,
-      });
-      const createdUserDto = this._userMapper.toDto(createdUser);
-
-      response.status(201).send({
-        message: 'Created',
-        data: {
-          createdUserDto,
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * Handles incoming request from the /user/:id endpoint
-   *
-   * @param {*} request
-   * @param {*} response
-   * @param {*} next
-   */
-  async update(request, response, next) {
-    try {
-      const { id } = request.params;
-      const {
-        firstName, lastName, email, password,
-      } = request.body;
-
-      const updatedUser = await this._userService.update(id, {
-        firstName, lastName, email, password,
-      });
-      const updatedUserDto = this._userMapper.toDto(updatedUser);
-
-      response.send({
-        message: 'Updated',
-        data: {
-          updatedUserDto,
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
    * Handles incoming request from the /user/:id endpoint
    *
    * @param {*} request

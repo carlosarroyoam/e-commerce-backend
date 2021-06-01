@@ -10,18 +10,15 @@ DROP TABLE IF EXISTS `admin`;
 
 CREATE TABLE `admin` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `is_super` tinyint NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`),
-  CONSTRAINT `fk_admin_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  `is_super` tinyint NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` VALUES (1,1,1);
+INSERT INTO `admin` VALUES (1,1);
 
 --
 -- Table structure for table `customer`
@@ -31,17 +28,14 @@ DROP TABLE IF EXISTS `customer`;
 
 CREATE TABLE `customer` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`),
-  CONSTRAINT `fk_customer_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` VALUES (1,2);
+INSERT INTO `customer` VALUES (1);
 
 --
 -- Table structure for table `user`
