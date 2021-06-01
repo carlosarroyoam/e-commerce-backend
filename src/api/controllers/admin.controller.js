@@ -72,9 +72,7 @@ class AdminController {
 
       response.status(201).send({
         message: 'Created',
-        data: {
-          createdAdminDto,
-        },
+        data: createdAdminDto,
       });
     } catch (error) {
       next(error);
@@ -102,9 +100,7 @@ class AdminController {
 
       response.send({
         message: 'Updated',
-        data: {
-          updatedAdminDto,
-        },
+        data: updatedAdminDto,
       });
     } catch (error) {
       next(error);
