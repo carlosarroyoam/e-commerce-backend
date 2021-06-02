@@ -5,7 +5,9 @@ const compression = require('compression');
 const morgan = require('morgan');
 
 class Server {
-  constructor({ config, router, logger }) {
+  constructor({
+    config, router, logger, passportLoader,
+  }) {
     this._config = config;
     this._logger = logger.instance;
     this._express = express();
