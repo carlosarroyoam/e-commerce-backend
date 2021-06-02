@@ -1,5 +1,5 @@
 module.exports = ({ jsonwebtoken, stringUtils }) => (req, res, next) => {
-  const accessToken = req.headers.authorization;
+  const { authorization: accessToken } = req.headers;
 
   if (!accessToken) {
     res.status(400).send({

@@ -26,7 +26,7 @@ class AuthService {
 
       const passwordMatchs = await this._bcrypt.compare(password, userByEmail.password);
       if (!passwordMatchs) {
-        throw new Error('Unauthorized');
+        throw new this._exceptions.UnauthorizedError(email);
       }
 
       const jwt = this._jsonwebtoken.sign({ subcriberId: userByEmail.id });

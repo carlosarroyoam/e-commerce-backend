@@ -3,11 +3,13 @@ const { UserRepository } = require('../dal/repositories');
 class UserService {
   constructor({
     dbConnection, exceptions, bcrypt, logger,
+    userRepository,
   }) {
     this._dbConnection = dbConnection.pool;
     this._exceptions = exceptions;
     this._bcrypt = bcrypt;
     this._logger = logger.instance;
+    this._userrepository = userRepository;
   }
 
   async findAll() {
@@ -15,7 +17,7 @@ class UserService {
 
     try {
       connection = await this._dbConnection.getConnection();
-      const userRepository = new UserRepository(connection);
+      const userRepository = new UserRepository();
 
       const users = await userRepository.findAll();
 
