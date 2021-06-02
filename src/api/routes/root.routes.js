@@ -1,25 +1,37 @@
 const { Router } = require('express');
 
-module.exports = () => {
+module.exports = ({ config }) => {
   const router = Router();
 
   router.get('/', (request, response) => {
-    const fullUrl = `${request.protocol}://${request.hostname}:3000${request.originalUrl}`;
+    const APP_URL = `${config.APP_URL}:${config.PORT}`;
 
     response.send({
       version: '0.1.0-snapshot',
-      documentation: 'https://api.carlosarroyo.com/docs',
+      documentation: `${APP_URL}/api/v1/docs`,
       author: 'carlosarroyoam',
       resources: {
         users: {
           paths: [
             {
               name: 'index',
-              path: `${fullUrl}api/user`,
+              path: `${APP_URL}/api/v1/user`,
             },
             {
               name: 'show',
-              path: `${fullUrl}api/user/[id]`,
+              path: `${APP_URL}/api/v1/user/[id]`,
+            },
+          ],
+        },
+        books: {
+          paths: [
+            {
+              name: 'index',
+              path: `${APP_URL}/api/v1/book`,
+            },
+            {
+              name: 'show',
+              path: `${APP_URL}/api/v1/book/[id]`,
             },
           ],
         },

@@ -1,17 +1,27 @@
 class BookService {
-  constructor({ bookRepository, exceptions }) {
+  constructor({ bookRepository, exceptions, logger }) {
     this._bookRepository = bookRepository;
     this._exceptions = exceptions;
+    this._logger = logger.instance;
   }
 
   async findAll() {
-    const books = await this._bookRepository.findAll();
+    try {
+      const books = await this._bookRepository.findAll();
+      if (books.length < 1) {
+        throw new this._exceptions.NoResourcesInDatabaseError({ resourceName: 'books' });
+      }
 
-    if (books.length < 1) {
-      throw new this._exceptions.ModelNotFoundException('No books registered', 'book');
+      return books;
+    } catch (err) {
+      this._logger.log({
+        level: 'error',
+        message: err.message,
+        meta: err,
+      });
+
+      throw err;
     }
-
-    return books;
   }
 }
 

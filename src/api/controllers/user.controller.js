@@ -25,13 +25,6 @@ class UserController {
         data: usersDto,
       });
     } catch (error) {
-      console.error(error.message);
-
-      if (error.sqlMessage) {
-        next(new Error('Error while retrieving users'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -55,45 +48,6 @@ class UserController {
         data: userDto,
       });
     } catch (error) {
-      console.error(error.message);
-
-      if (error.sqlMessage) {
-        next(new Error('Error while retrieving user'));
-        return;
-      }
-
-      next(error);
-    }
-  }
-
-  /**
-   * Handles incoming request from the /user endpoint
-   *
-   * @param {*} request
-   * @param {*} response
-   * @param {*} next
-   */
-  async store(request, response, next) {
-    try {
-      const { first_name, last_name, email } = request.body;
-
-      const createdUser = await this._userService.store({ first_name, last_name, email });
-      const createdUserDto = this._userMapper.toDto(createdUser);
-
-      response.status(201).send({
-        message: 'Created',
-        data: {
-          createdUserDto,
-        },
-      });
-    } catch (error) {
-      console.error(error.message);
-
-      if (error.sqlMessage) {
-        next(new Error('Error while storing user'));
-        return;
-      }
-
       next(error);
     }
   }
@@ -105,28 +59,43 @@ class UserController {
    * @param {*} response
    * @param {*} next
    */
-  async update(request, response, next) {
+  async destroy(request, response, next) {
     try {
       const { id } = request.params;
-      const user = request.body;
 
-      const updatedUser = await this._userService.update(id, user);
-      const updatedUserDto = this._userMapper.toDto(updatedUser);
+      const userDeletedId = await this._userService.delete(id);
 
       response.send({
-        message: 'Updated',
+        message: 'Deleted',
         data: {
-          updatedUserDto,
+          userDeletedId,
         },
       });
     } catch (error) {
-      console.error(error.message);
+      next(error);
+    }
+  }
 
-      if (error.sqlMessage) {
-        next(new Error('Error while updating user'));
-        return;
-      }
+  /**
+   * Handles incoming request from the /user/:id/restore endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
+  async restore(request, response, next) {
+    try {
+      const { id } = request.params;
 
+      const userRestoredId = await this._userService.restore(id);
+
+      response.send({
+        message: 'Restored',
+        data: {
+          userRestoredId,
+        },
+      });
+    } catch (error) {
       next(error);
     }
   }

@@ -1,36 +1,74 @@
+const { UserDao } = require('../dao');
+const { UserMapper } = require('../../mappers');
+
 class UserRepository {
-  constructor({ userDao }) {
-    this._userDao = userDao;
+  constructor(connection) {
+    this._userDao = new UserDao(connection);
+    this._userMapper = new UserMapper();
   }
 
   async findAll() {
-    const users = await this._userDao.getAll();
+    const [result] = await this._userDao.getAll();
 
-    return users;
+    return result;
   }
 
-  async find(id) {
-    const user = await this._userDao.getById(id);
+  async findById(id) {
+    const [result] = await this._userDao.getById(id);
 
-    return user[0];
+    return result[0];
+  }
+
+  async findTrashedById(userId) {
+    const [result] = await this._userDao.getTrashedById(userId);
+
+    return result[0];
   }
 
   async findByEmail(email) {
-    const user = await this._userDao.getByEmail(email);
+    const [result] = await this._userDao.getByEmail(email);
 
-    return user[0];
+    return result[0];
+  }
+
+  async findByEmailForLogin(email) {
+    const [result] = await this._userDao.getByEmailForLogin(email);
+
+    return result[0];
+  }
+
+  async findByEmailWithTrashed(email) {
+    const [result] = await this._userDao.getByEmailWithTrashed(email);
+
+    return result[0];
   }
 
   async store(user) {
-    const createdUser = await this._userDao.create(user);
+    const userDbEntity = this._userMapper.toDatabaseEntity(user);
 
-    return createdUser.insertId;
+    const [result] = await this._userDao.create(userDbEntity);
+
+    return result.insertId;
   }
 
   async update(userId, user) {
-    const updatedUser = await this._userDao.update(userId, user);
+    const userDbEntity = this._userMapper.toDatabaseEntity(user);
 
-    return updatedUser.affectedRows;
+    const [result] = await this._userDao.update(userId, userDbEntity);
+
+    return result.affectedRows;
+  }
+
+  async delete(userId) {
+    const [result] = await this._userDao.delete(userId);
+
+    return result.affectedRows;
+  }
+
+  async restore(userId) {
+    const [result] = await this._userDao.restore(userId);
+
+    return result.affectedRows;
   }
 }
 

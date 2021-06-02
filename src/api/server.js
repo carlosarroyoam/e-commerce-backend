@@ -5,8 +5,11 @@ const compression = require('compression');
 const morgan = require('morgan');
 
 class Server {
-  constructor({ config, router }) {
+  constructor({
+    config, router, logger,
+  }) {
     this._config = config;
+    this._logger = logger.instance;
     this._express = express();
     this._express
       .use(cors())
@@ -15,14 +18,25 @@ class Server {
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        if (err.status === 404) {
-          res.status(404).send({
+        if (err.status) {
+          this._logger.log({
+            level: 'info',
+            message: err.message,
+          });
+
+          res.status(err.status).send({
             message: err.message,
             error: err.name,
           });
 
           return;
         }
+
+        this._logger.log({
+          level: 'error',
+          message: err.message,
+          meta: err,
+        });
 
         res.status(500).send({
           message: err.message,
@@ -38,9 +52,8 @@ class Server {
    */
   start() {
     return new Promise((resolve) => {
-      const http = this._express.listen(this._config.PORT, () => {
-        const { port } = http.address();
-        console.info(`Application running on port: ${port}`);
+      this._express.listen(this._config.PORT, () => {
+        console.info(`Application running on: http://localhost:${this._config.PORT}`);
         resolve();
       });
     });

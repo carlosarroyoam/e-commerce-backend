@@ -1,71 +1,87 @@
 class UserDao {
-  constructor({ dbConnection }) {
-    this._dbConnection = dbConnection;
+  constructor(connection) {
+    this.connection = connection;
   }
 
-  getAll() {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email, created_at, updated_at FROM users WHERE deleted_at IS NULL', (err, result) => {
-        if (err) {
-          reject(err);
-        }
+  async getAll() {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user
+      WHERE deleted_at IS NULL`;
 
-        resolve(result);
-      });
-    });
+    return this.connection.query(query);
   }
 
-  getById(id) {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, first_name, last_name, email, created_at, updated_at FROM users WHERE id = ? AND deleted_at IS NULL', [id], (err, result) => {
-        if (err) {
-          reject(err);
-        }
+  async getTrashed() {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user
+      WHERE deleted_at IS NOT NULL`;
 
-        resolve(result);
-      });
-    });
+    return this.connection.query(query);
   }
 
-  getByEmail(email) {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id FROM users WHERE email = ?', [email], (err, result) => {
-        if (err) {
-          reject(err);
-        }
+  async getAllWithTrashed() {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user`;
 
-        resolve(result);
-      });
-    });
+    return this.connection.query(query);
   }
 
-  create(user) {
-    return new Promise((resolve, reject) => {
-      const query = 'INSERT INTO users SET ?';
+  async getById(id) {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user
+      WHERE id = ? AND deleted_at IS NULL`;
 
-      this._dbConnection.getConnection().query(query, user, (err, result) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(result);
-      });
-    });
+    return this.connection.query(query, [id]);
   }
 
-  update(userId, user) {
-    return new Promise((resolve, reject) => {
-      const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
+  async getTrashedById(id) {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+      FROM user
+      WHERE id = ? AND deleted_at IS NOT NULL`;
 
-      this._dbConnection.getConnection().query(query, [user, userId], (err, result) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        }
+    return this.connection.query(query, [id]);
+  }
 
-        resolve(result);
-      });
-    });
+  async getByEmail(email) {
+    const query = 'SELECT id, email, password FROM user WHERE email = ? AND deleted_at IS NULL';
+
+    return this.connection.query(query, [email]);
+  }
+
+  async getByEmailForLogin(email) {
+    const query = 'SELECT id, email, password FROM user WHERE email = ? AND deleted_at IS NULL';
+
+    return this.connection.query(query, [email]);
+  }
+
+  async getByEmailWithTrashed(email) {
+    const query = 'SELECT id FROM user WHERE email = ?';
+
+    return this.connection.query(query, [email]);
+  }
+
+  async create(user) {
+    const query = 'INSERT INTO user SET ?';
+
+    return this.connection.query(query, [user]);
+  }
+
+  async update(userId, user) {
+    const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
+
+    return this.connection.query(query, [user, userId]);
+  }
+
+  async delete(userId) {
+    const query = 'UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
+
+    return this.connection.query(query, [userId]);
+  }
+
+  async restore(userId) {
+    const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
+
+    return this.connection.query(query, [userId]);
   }
 }
 

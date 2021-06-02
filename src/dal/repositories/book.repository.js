@@ -1,18 +1,13 @@
 class BookRepository {
-  constructor({ dbConnection }) {
-    this._dbConnection = dbConnection;
+  constructor({ dbConnection, logger }) {
+    this._dbConnection = dbConnection.pool;
+    this._logger = logger.instance;
   }
 
-  findAll() {
-    return new Promise((resolve, reject) => {
-      this._dbConnection.getConnection().query('SELECT id, title FROM books', (err, result) => {
-        if (err) {
-          reject(err);
-        }
+  async findAll() {
+    const query = 'SELECT id, title FROM book';
 
-        resolve(result);
-      });
-    });
+    return this._dbConnection.query(query);
   }
 }
 
