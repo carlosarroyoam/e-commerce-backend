@@ -31,6 +31,12 @@ class UserRepository {
     return result[0];
   }
 
+  async findByEmailForLogin(email) {
+    const [result] = await this._userDao.getByEmailForLogin(email);
+
+    return result[0];
+  }
+
   async findByEmailWithTrashed(email) {
     const [result] = await this._userDao.getByEmailWithTrashed(email);
 
