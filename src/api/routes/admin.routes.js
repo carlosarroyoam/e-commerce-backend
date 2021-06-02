@@ -3,10 +3,10 @@ const validateMiddleware = require('../middlewares/validate.middleware');
 const createAdminDto = require('../dtos/admins/create.dto');
 const updateAdminDto = require('../dtos/admins/update.dto');
 
-module.exports = ({ adminController }) => {
+module.exports = ({ adminController, verifyJwtMiddleware }) => {
   const router = Router();
 
-  router.get('/', adminController.index.bind(adminController));
+  router.get('/', verifyJwtMiddleware, adminController.index.bind(adminController));
   router.get('/:id', adminController.show.bind(adminController));
   router.post('/', validateMiddleware(createAdminDto), adminController.store.bind(adminController));
   router.put('/:id', validateMiddleware(updateAdminDto), adminController.update.bind(adminController));

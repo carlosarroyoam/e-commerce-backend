@@ -25,9 +25,7 @@ class BcryptHashing {
 
   async compare(plainTextPassword, passwordHash) {
     try {
-      const result = await bcrypt.compare(plainTextPassword, passwordHash);
-
-      return result;
+      return bcrypt.compare(plainTextPassword, passwordHash);
     } catch (err) {
       this._logger.log({
         level: 'error',

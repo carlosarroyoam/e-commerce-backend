@@ -15,9 +15,13 @@ class AuthController {
    */
   async login(request, response, next) {
     try {
+      const { email, password } = request.body;
+
+      const auth = await this._authService.login({ email, password });
+
       response.send({
         message: 'Ok',
-        data: [],
+        data: auth,
       });
     } catch (error) {
       next(error);

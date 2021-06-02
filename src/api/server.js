@@ -6,7 +6,7 @@ const morgan = require('morgan');
 
 class Server {
   constructor({
-    config, router, logger, passportLoader,
+    config, router, logger,
   }) {
     this._config = config;
     this._logger = logger.instance;
