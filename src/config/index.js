@@ -12,7 +12,7 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
   },
-  PASSPORT: {
-    SECRET: process.env.PASSPORT_SECRET,
+  JWT: {
+    SECRET: process.env.JWT_SECRET,
   },
 };

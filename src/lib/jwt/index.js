@@ -11,13 +11,13 @@ class JsonWebToken {
       sub: subscriberId,
       iat: new Date().getTime(),
       exp: new Date().setDate(new Date().getDate() + 1),
-    }, this._config.PASSPORT.SECRET);
+    }, this._config.JWT.SECRET);
 
     return token;
   }
 
   verify(accessToken) {
-    return jwt.verify(accessToken, this._config.PASSPORT.SECRET);
+    return jwt.verify(accessToken, this._config.JWT.SECRET);
   }
 }
 
