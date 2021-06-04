@@ -1,4 +1,4 @@
-const { UserRepository } = require('../dal/repositories');
+const { AuthRepository } = require('../dal/repositories');
 
 class AuthService {
   constructor({
@@ -17,9 +17,9 @@ class AuthService {
 
     try {
       connection = await this._dbConnection.getConnection();
-      const userRepository = new UserRepository(connection);
+      const authRepository = new AuthRepository(connection);
 
-      const userByEmail = await userRepository.findByEmailForLogin(email);
+      const userByEmail = await authRepository.findByEmail(email);
       if (!userByEmail) {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
       }
