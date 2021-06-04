@@ -3,7 +3,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../../swagger.json');
 
 module.exports = ({
-  authRoutes, userRoutes, adminRoutes, bookRoutes, rootRoute, defaultRoute,
+  authRoutes, userRoutes, adminRoutes, rootRoute, defaultRoute,
 }) => {
   const router = Router();
   const apiRouter = Router();
@@ -11,7 +11,6 @@ module.exports = ({
   apiRouter.use('/auth', authRoutes);
   apiRouter.use('/user', userRoutes);
   apiRouter.use('/admin', adminRoutes);
-  apiRouter.use('/book', bookRoutes);
   apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.use('/', rootRoute);

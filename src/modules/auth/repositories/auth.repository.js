@@ -1,5 +1,5 @@
-const { AuthDao } = require('../dao');
-const { UserMapper } = require('../../mappers');
+const AuthDao = require('../dao/auth.dao');
+const UserMapper = require('../../users/mappers/user.mapper');
 
 class AuthRepository {
   constructor(connection) {

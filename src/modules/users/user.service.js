@@ -1,4 +1,4 @@
-const { UserRepository } = require('../dal/repositories');
+const UserRepository = require('./repositories/user.repository');
 
 class UserService {
   constructor({

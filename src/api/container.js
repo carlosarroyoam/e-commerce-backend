@@ -10,26 +10,30 @@ const Logger = require('../lib/winston/logger');
 const BcryptHashing = require('../lib/bcrypt');
 const JsonWebToken = require('../lib/jwt');
 
-const {
-  AuthController, UserController, AdminController, BookController,
-} = require('./controllers');
+const AuthController = require('../modules/auth/auth.controller');
+const UserController = require('../modules/users/user.controller');
+const AdminController = require('../modules/admins/admin.controller');
 
-const {
-  AuthService, UserService, AdminService, BookService,
-} = require('../services');
+const AuthService = require('../modules/auth/auth.service');
+const UserService = require('../modules/users/user.service');
+const AdminService = require('../modules/admins/admin.service');
 
-const { UserRepository, BookRepository } = require('../dal/repositories');
+const AuthRepository = require('../modules/auth/repositories/auth.repository');
+const UserRepository = require('../modules/users/repositories/user.repository');
+const AdminRepository = require('../modules/admins/repositories/admin.repository');
 
-const { UserDao, AdminDao } = require('../dal/dao');
+const AuthDao = require('../modules/auth/dao/auth.dao');
+const UserDao = require('../modules/users/dao/user.dao');
+const AdminDao = require('../modules/admins/dao/admin.dao');
 
-const { UserMapper, AdminMapper } = require('../mappers');
+const UserMapper = require('../modules/users/mappers/user.mapper');
+const AdminMapper = require('../modules/admins/mappers/admin.mapper');
 
 const RootRoute = require('./routes/root.routes');
 const DefaultRoute = require('./routes/default.routes');
-const AuthRoutes = require('./routes/auth.routes');
-const UserRoutes = require('./routes/user.routes');
-const AdminRoutes = require('./routes/admin.routes');
-const BookRoutes = require('./routes/book.routes');
+const AuthRoutes = require('../modules/auth/auth.routes');
+const UserRoutes = require('../modules/users/user.routes');
+const AdminRoutes = require('../modules/admins/admin.routes');
 
 const VerifyJwt = require('./middlewares/verifyJwt.middleware');
 const Validate = require('./middlewares/validate.middleware');
@@ -75,7 +79,6 @@ container
     authRoutes: asFunction(AuthRoutes).singleton(),
     userRoutes: asFunction(UserRoutes).singleton(),
     adminRoutes: asFunction(AdminRoutes).singleton(),
-    bookRoutes: asFunction(BookRoutes).singleton(),
   })
   // Middlewares
   .register({
@@ -87,22 +90,22 @@ container
     authController: asClass(AuthController).singleton(),
     userController: asClass(UserController).singleton(),
     adminController: asClass(AdminController).singleton(),
-    bookController: asClass(BookController).singleton(),
   })
   // Services
   .register({
     authService: asClass(AuthService).singleton(),
     userService: asClass(UserService).singleton(),
     adminService: asClass(AdminService).singleton(),
-    bookService: asClass(BookService).singleton(),
   })
   // Repositories
   .register({
+    authRepository: asClass(AuthRepository).singleton(),
     userRepository: asClass(UserRepository).singleton(),
-    bookRepository: asClass(BookRepository).singleton(),
+    adminRepository: asClass(AdminRepository).singleton(),
   })
   // Dao
   .register({
+    authDao: asClass(AuthDao).singleton(),
     userDao: asClass(UserDao).singleton(),
     adminDao: asClass(AdminDao).singleton(),
   })

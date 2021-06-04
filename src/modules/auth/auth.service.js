@@ -1,4 +1,4 @@
-const { AuthRepository } = require('../dal/repositories');
+const AuthRepository = require('./repositories/auth.repository');
 
 class AuthService {
   constructor({

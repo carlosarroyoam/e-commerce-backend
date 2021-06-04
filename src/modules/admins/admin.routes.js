@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const validateMiddleware = require('../middlewares/validate.middleware');
-const createAdminDto = require('../dtos/admins/create.dto');
-const updateAdminDto = require('../dtos/admins/update.dto');
+const validateMiddleware = require('../../api/middlewares/validate.middleware');
+const createAdminDto = require('./dtos/create.dto');
+const updateAdminDto = require('./dtos/update.dto');
 
 module.exports = ({ adminController, verifyJwtMiddleware }) => {
   const router = Router();

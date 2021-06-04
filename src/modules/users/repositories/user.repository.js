@@ -1,5 +1,5 @@
-const { UserDao } = require('../dao');
-const { UserMapper } = require('../../mappers');
+const UserDao = require('../dao/user.dao');
+const UserMapper = require('../mappers/user.mapper');
 
 class UserRepository {
   constructor(connection) {
