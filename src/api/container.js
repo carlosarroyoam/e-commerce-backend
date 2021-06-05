@@ -10,12 +10,10 @@ const Logger = require('../lib/winston/logger');
 const BcryptHashing = require('../lib/bcrypt');
 const JsonWebToken = require('../lib/jwt');
 
+const CoreModule = require('../modules/core/core.resolver');
 const AuthModule = require('../modules/auth/auth.resolver');
 const UserModule = require('../modules/users/user.resolver');
 const AdminModule = require('../modules/admins/admin.resolver');
-
-const RootRoute = require('./routes/root.routes');
-const DefaultRoute = require('./routes/default.routes');
 
 const VerifyJwt = require('./middlewares/verifyJwt.middleware');
 const Validate = require('./middlewares/validate.middleware');
@@ -34,6 +32,19 @@ container
   .register({
     config: asValue(Config),
   })
+  // Router
+  .register({
+    router: asFunction(Router).singleton(),
+  })
+  // Middlewares
+  .register({
+    validateMiddleware: asFunction(Validate).singleton(),
+    verifyJwtMiddleware: asFunction(VerifyJwt).singleton(),
+  })
+  // Exceptions
+  .register({
+    exceptions: asValue(Exceptions),
+  })
   // Libraries
   .register({
     dbConnection: asClass(DatabaseConnection).singleton(),
@@ -41,31 +52,14 @@ container
     bcrypt: asClass(BcryptHashing).singleton(),
     jsonwebtoken: asClass(JsonWebToken).singleton(),
   })
-  // Router
-  .register({
-    router: asFunction(Router).singleton(),
-  })
-  // Routes
-  .register({
-    rootRoute: asFunction(RootRoute).singleton(),
-    defaultRoute: asFunction(DefaultRoute).singleton(),
-  })
-  // Middlewares
-  .register({
-    validateMiddleware: asFunction(Validate).singleton(),
-    verifyJwtMiddleware: asFunction(VerifyJwt).singleton(),
-  })
-  // Modules
-  .register(AuthModule)
-  .register(UserModule)
-  .register(AdminModule)
-  // Exceptions
-  .register({
-    exceptions: asValue(Exceptions),
-  })
   // Utils
   .register({
     stringUtils: asValue(StringUtils),
-  });
+  })
+  // Modules
+  .register(CoreModule)
+  .register(AuthModule)
+  .register(UserModule)
+  .register(AdminModule);
 
 module.exports = container;
