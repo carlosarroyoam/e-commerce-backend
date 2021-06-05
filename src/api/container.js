@@ -10,19 +10,17 @@ const Logger = require('../lib/winston/logger');
 const BcryptHashing = require('../lib/bcrypt');
 const JsonWebToken = require('../lib/jwt');
 
-const AuthController = require('../modules/auth/auth.controller');
+const AuthModule = require('../modules/auth/resolver');
+
 const UserController = require('../modules/users/user.controller');
 const AdminController = require('../modules/admins/admin.controller');
 
-const AuthService = require('../modules/auth/auth.service');
 const UserService = require('../modules/users/user.service');
 const AdminService = require('../modules/admins/admin.service');
 
-const AuthRepository = require('../modules/auth/repositories/auth.repository');
 const UserRepository = require('../modules/users/repositories/user.repository');
 const AdminRepository = require('../modules/admins/repositories/admin.repository');
 
-const AuthDao = require('../modules/auth/dao/auth.dao');
 const UserDao = require('../modules/users/dao/user.dao');
 const AdminDao = require('../modules/admins/dao/admin.dao');
 
@@ -85,27 +83,25 @@ container
     validateMiddleware: asFunction(Validate).singleton(),
     verifyJwtMiddleware: asFunction(VerifyJwt).singleton(),
   })
+  // Auth module
+  .register(AuthModule)
   // Controllers
   .register({
-    authController: asClass(AuthController).singleton(),
     userController: asClass(UserController).singleton(),
     adminController: asClass(AdminController).singleton(),
   })
   // Services
   .register({
-    authService: asClass(AuthService).singleton(),
     userService: asClass(UserService).singleton(),
     adminService: asClass(AdminService).singleton(),
   })
   // Repositories
   .register({
-    authRepository: asClass(AuthRepository).singleton(),
     userRepository: asClass(UserRepository).singleton(),
     adminRepository: asClass(AdminRepository).singleton(),
   })
   // Dao
   .register({
-    authDao: asClass(AuthDao).singleton(),
     userDao: asClass(UserDao).singleton(),
     adminDao: asClass(AdminDao).singleton(),
   })
