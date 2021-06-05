@@ -10,22 +10,9 @@ const Logger = require('../lib/winston/logger');
 const BcryptHashing = require('../lib/bcrypt');
 const JsonWebToken = require('../lib/jwt');
 
-const AuthModule = require('../modules/auth/resolver');
-
-const UserController = require('../modules/users/user.controller');
-const AdminController = require('../modules/admins/admin.controller');
-
-const UserService = require('../modules/users/user.service');
-const AdminService = require('../modules/admins/admin.service');
-
-const UserRepository = require('../modules/users/repositories/user.repository');
-const AdminRepository = require('../modules/admins/repositories/admin.repository');
-
-const UserDao = require('../modules/users/dao/user.dao');
-const AdminDao = require('../modules/admins/dao/admin.dao');
-
-const UserMapper = require('../modules/users/mappers/user.mapper');
-const AdminMapper = require('../modules/admins/mappers/admin.mapper');
+const AuthModule = require('../modules/auth/auth.resolver');
+const UserModule = require('../modules/users/user.resolver');
+const AdminModule = require('../modules/admins/admin.resolver');
 
 const RootRoute = require('./routes/root.routes');
 const DefaultRoute = require('./routes/default.routes');
@@ -83,33 +70,10 @@ container
     validateMiddleware: asFunction(Validate).singleton(),
     verifyJwtMiddleware: asFunction(VerifyJwt).singleton(),
   })
-  // Auth module
+  // Modules
   .register(AuthModule)
-  // Controllers
-  .register({
-    userController: asClass(UserController).singleton(),
-    adminController: asClass(AdminController).singleton(),
-  })
-  // Services
-  .register({
-    userService: asClass(UserService).singleton(),
-    adminService: asClass(AdminService).singleton(),
-  })
-  // Repositories
-  .register({
-    userRepository: asClass(UserRepository).singleton(),
-    adminRepository: asClass(AdminRepository).singleton(),
-  })
-  // Dao
-  .register({
-    userDao: asClass(UserDao).singleton(),
-    adminDao: asClass(AdminDao).singleton(),
-  })
-  // Mappers
-  .register({
-    userMapper: asClass(UserMapper).singleton(),
-    adminMapper: asClass(AdminMapper).singleton(),
-  })
+  .register(UserModule)
+  .register(AdminModule)
   // Exceptions
   .register({
     exceptions: asValue(Exceptions),
