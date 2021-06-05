@@ -1,7 +1,8 @@
 const {
-  asClass,
+  asClass, asFunction,
 } = require('awilix');
 
+const UserRoutes = require('./user.routes');
 const UserController = require('./user.controller');
 const UserService = require('./user.service');
 const UserRepository = require('./repositories/user.repository');
@@ -9,6 +10,7 @@ const UserDao = require('./dao/user.dao');
 const UserMapper = require('./mappers/user.mapper');
 
 module.exports = {
+  userRoutes: asFunction(UserRoutes).singleton(),
   userController: asClass(UserController).singleton(),
   userService: asClass(UserService).singleton(),
   userRepository: asClass(UserRepository).singleton(),
