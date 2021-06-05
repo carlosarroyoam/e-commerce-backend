@@ -24,16 +24,16 @@ class AuthService {
         throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
       }
 
-      const passwordMatchs = await this._bcrypt.compare(password, userByEmail.password);
-      if (!passwordMatchs) {
+      const passwordMatches = await this._bcrypt.compare(password, userByEmail.password);
+      if (!passwordMatches) {
         throw new this._exceptions.UnauthorizedError({ email });
       }
 
-      const jwt = this._jsonwebtoken.sign({ subcriberId: userByEmail.id });
+      const jwt = this._jsonwebtoken.sign({ subscriberId: userByEmail.id });
 
       connection.release();
 
-      return jwt;
+      return { accessToken: jwt };
     } catch (err) {
       connection.release();
 
