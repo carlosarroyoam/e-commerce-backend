@@ -2,8 +2,8 @@ const {
   asFunction,
 } = require('awilix');
 
-const RootRoute = require('./routes/default.routes');
-const DefaultRoute = require('./routes/root.routes');
+const RootRoute = require('./routes/root.routes');
+const DefaultRoute = require('./routes/default.routes');
 
 module.exports = {
   rootRoute: asFunction(RootRoute).singleton(),
