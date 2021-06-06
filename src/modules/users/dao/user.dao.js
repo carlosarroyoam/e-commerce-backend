@@ -1,5 +1,5 @@
 /**
- * This class contains methods for user management in
+ * This class contains methods for users management in
  * the database.
  */
 class UserDao {
