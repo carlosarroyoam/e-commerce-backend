@@ -28,7 +28,7 @@ class AuthService {
         throw new this._authErrors.UnauthorizedError({ email });
       }
 
-      const jwt = this._jsonwebtoken.sign({ subscriberId: userByEmail.id });
+      const jwt = this._jsonwebtoken.sign({ subject: userByEmail.id });
 
       connection.release();
 
