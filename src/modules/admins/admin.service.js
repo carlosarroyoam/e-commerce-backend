@@ -3,12 +3,11 @@ const UserRepository = require('../users/repositories/user.repository');
 
 class AdminService {
   constructor({
-    dbConnection, adminErrors, bcrypt, logger,
+    dbConnection, adminErrors, bcrypt,
   }) {
     this._dbConnection = dbConnection.pool;
     this._adminErrors = adminErrors;
     this._bcrypt = bcrypt;
-    this._logger = logger.instance;
   }
 
   async findAll() {
@@ -25,12 +24,6 @@ class AdminService {
       return admins;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while retrieving admins');
@@ -57,12 +50,6 @@ class AdminService {
       return admin;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while retrieving admin');
@@ -104,12 +91,6 @@ class AdminService {
     } catch (err) {
       connection.rollback();
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while storing admin');
@@ -156,12 +137,6 @@ class AdminService {
     } catch (err) {
       connection.release();
 
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
       if (err.sqlMessage) {
         throw new Error('Error while updating admin');
       }
@@ -193,12 +168,6 @@ class AdminService {
     } catch (err) {
       connection.release();
 
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
       if (err.sqlMessage) {
         throw new Error('Error while deleting admin');
       }
@@ -229,12 +198,6 @@ class AdminService {
       return adminId;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while restoring admin');

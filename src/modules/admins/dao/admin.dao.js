@@ -15,8 +15,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM nodejs_api.user usr
-    LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+    FROM user usr
+    LEFT JOIN admin adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.deleted_at IS NULL`;
 
     return this.connection.query(query);
@@ -33,8 +33,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM nodejs_api.user usr
-    LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+    FROM user usr
+    LEFT JOIN admin adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.deleted_at IS NOT NULL`;
 
     return this.connection.query(query);
@@ -51,8 +51,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM nodejs_api.user usr
-    LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+    FROM user usr
+    LEFT JOIN admin adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}'`;
 
     return this.connection.query(query);
@@ -69,8 +69,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM nodejs_api.user usr
-    LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+    FROM user usr
+    LEFT JOIN admin adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NULL`;
 
     return this.connection.query(query, [id]);
@@ -87,8 +87,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM nodejs_api.user usr
-    LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+    FROM user usr
+    LEFT JOIN admin adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NOT NULL`;
 
     return this.connection.query(query, [id]);
@@ -105,8 +105,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-  FROM nodejs_api.user usr
-  LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+  FROM user usr
+  LEFT JOIN admin adm ON usr.userable_id = adm.id
   WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.email = ? AND usr.deleted_at IS NULL`;
 
     return this.connection.query(query, [email]);
@@ -123,8 +123,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at       
-    FROM nodejs_api.user usr
-    LEFT JOIN nodejs_api.admin adm ON usr.userable_id = adm.id
+    FROM user usr
+    LEFT JOIN admin adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.email = ?`;
 
     return this.connection.query(query, [email]);

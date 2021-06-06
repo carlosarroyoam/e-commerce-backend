@@ -2,13 +2,12 @@ const AuthRepository = require('./repositories/auth.repository');
 
 class AuthService {
   constructor({
-    dbConnection, userErrors, bcrypt, jsonwebtoken, logger, config,
+    dbConnection, userErrors, bcrypt, jsonwebtoken, config,
   }) {
     this._dbConnection = dbConnection.pool;
     this._userErrors = userErrors;
     this._bcrypt = bcrypt;
     this._jsonwebtoken = jsonwebtoken;
-    this._logger = logger.instance;
     this._config = config;
   }
 
@@ -36,12 +35,6 @@ class AuthService {
       return { accessToken: jwt };
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       throw err;
     }
