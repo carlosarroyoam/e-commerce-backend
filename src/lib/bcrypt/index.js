@@ -1,19 +1,18 @@
 const bcrypt = require('bcrypt');
 
-const saltRounds = 10;
-
 class BcryptHashing {
-  constructor({ logger }) {
-    this._logger = logger.instance;
+  constructor({ config, logger }) {
+    this.config = config;
+    this.logger = logger.instance;
   }
 
   async hashPassword(plainTextPassword) {
     try {
-      const passwordHash = await bcrypt.hash(plainTextPassword, saltRounds);
+      const passwordHash = await bcrypt.hash(plainTextPassword, this.config.BCRYPT.SALT_ROUNDS);
 
       return passwordHash;
     } catch (err) {
-      this._logger.log({
+      this.logger.log({
         level: 'error',
         message: err.message,
         meta: err,
@@ -27,7 +26,7 @@ class BcryptHashing {
     try {
       return bcrypt.compare(plainTextPassword, passwordHash);
     } catch (err) {
-      this._logger.log({
+      this.logger.log({
         level: 'error',
         message: err.message,
         meta: err,

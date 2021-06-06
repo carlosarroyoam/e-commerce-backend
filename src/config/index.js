@@ -15,4 +15,7 @@ module.exports = {
   JWT: {
     SECRET: process.env.JWT_SECRET,
   },
+  BCRYPT: {
+    SALT_ROUNDS: process.env.SALT_ROUNDS,
+  },
 };
