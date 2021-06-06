@@ -2,22 +2,29 @@ const jwt = require('jsonwebtoken');
 
 class JsonWebToken {
   constructor({ config }) {
-    this._config = config;
+    this.config = config;
+    this.options = {
+      expiresIn: '2d',
+      issuer: this.config.APP_NAME,
+    };
   }
 
-  sign({ subscriberId }) {
-    const token = jwt.sign({
-      iss: this._config.APP_NAME,
-      sub: subscriberId,
-      iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 1),
-    }, this._config.JWT.SECRET);
+  sign({ subject }) {
+    const payload = {
+      sub: subject,
+    };
+
+    const token = jwt.sign(
+      payload,
+      this.config.JWT.SECRET,
+      this.options,
+    );
 
     return token;
   }
 
   verify(accessToken) {
-    return jwt.verify(accessToken, this._config.JWT.SECRET);
+    return jwt.verify(accessToken, this.config.JWT.SECRET);
   }
 }
 
