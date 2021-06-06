@@ -9,8 +9,8 @@ module.exports = ({
   const apiRouter = Router();
 
   apiRouter.use('/auth', authRoutes);
-  apiRouter.use('/user', userRoutes);
-  apiRouter.use('/admin', adminRoutes);
+  apiRouter.use('/users', userRoutes);
+  apiRouter.use('/admins', adminRoutes);
   apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.use('/', rootRoute);
