@@ -2,12 +2,11 @@ const UserRepository = require('./repositories/user.repository');
 
 class UserService {
   constructor({
-    dbConnection, userErrors, bcrypt, logger,
+    dbConnection, userErrors, bcrypt,
   }) {
     this._dbConnection = dbConnection.pool;
     this._userErrors = userErrors;
     this._bcrypt = bcrypt;
-    this._logger = logger.instance;
   }
 
   async findAll() {
@@ -24,12 +23,6 @@ class UserService {
       return users;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while retrieving users');
@@ -57,12 +50,6 @@ class UserService {
     } catch (err) {
       connection.release();
 
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
       if (err.sqlMessage) {
         throw new Error('Error while retrieving user');
       }
@@ -88,12 +75,6 @@ class UserService {
       return user;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while retrieving user');
@@ -126,12 +107,6 @@ class UserService {
       return createdUser;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while storing user');
@@ -171,12 +146,6 @@ class UserService {
     } catch (err) {
       connection.release();
 
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
       if (err.sqlMessage) {
         throw new Error('Error while updating user');
       }
@@ -208,12 +177,6 @@ class UserService {
     } catch (err) {
       connection.release();
 
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
       if (err.sqlMessage) {
         throw new Error('Error while deleting user');
       }
@@ -244,12 +207,6 @@ class UserService {
       return userId;
     } catch (err) {
       connection.release();
-
-      this._logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
 
       if (err.sqlMessage) {
         throw new Error('Error while restoring user');
