@@ -2,10 +2,10 @@ const UserRepository = require('./repositories/user.repository');
 
 class UserService {
   constructor({
-    dbConnection, exceptions, bcrypt, logger,
+    dbConnection, userErrors, bcrypt, logger,
   }) {
     this._dbConnection = dbConnection.pool;
-    this._exceptions = exceptions;
+    this._userErrors = userErrors;
     this._bcrypt = bcrypt;
     this._logger = logger.instance;
   }
@@ -48,7 +48,7 @@ class UserService {
 
       const user = await userRepository.findById(userId);
       if (!user) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+        throw new this._userErrors.UserNotFoundError();
       }
 
       connection.release();
@@ -80,7 +80,7 @@ class UserService {
 
       const user = await userRepository.findByEmailForLogin(email);
       if (!user) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+        throw new this._userErrors.UserNotFoundError();
       }
 
       connection.release();
@@ -112,7 +112,7 @@ class UserService {
 
       const userByEmail = await userRepository.findByEmail(user.email);
       if (userByEmail) {
-        throw new this._exceptions.EmailAlreadyTakenError({ email: user.email });
+        throw new this._userErrors.EmailAlreadyTakenError({ email: user.email });
       }
 
       const passwordHash = await this._bcrypt.hashPassword(user.password);
@@ -150,7 +150,7 @@ class UserService {
 
       const userById = await userRepository.findById(userId);
       if (!userById) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+        throw new this._userErrors.UserNotFoundError();
       }
 
       let password;
@@ -194,7 +194,7 @@ class UserService {
 
       const userById = await userRepository.findById(userId);
       if (!userById) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+        throw new this._userErrors.UserNotFoundError();
       }
 
       const affectedRows = await userRepository.delete(userId);
@@ -231,7 +231,7 @@ class UserService {
 
       const userById = await userRepository.findTrashedById(userId);
       if (!userById) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+        throw new this._userErrors.UserNotFoundError();
       }
 
       const affectedRows = await userRepository.restore(userId);

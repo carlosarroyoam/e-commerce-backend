@@ -1,5 +1,5 @@
 const {
-  asClass, asFunction,
+  asClass, asFunction, asValue,
 } = require('awilix');
 
 const AdminRoutes = require('./admin.routes');
@@ -8,6 +8,7 @@ const AdminService = require('./admin.service');
 const AdminRepository = require('./repositories/admin.repository');
 const AdminDao = require('./dao/admin.dao');
 const AdminMapper = require('./mappers/admin.mapper');
+const AdminErrors = require('./errors');
 
 module.exports = {
   adminRoutes: asFunction(AdminRoutes).singleton(),
@@ -16,4 +17,5 @@ module.exports = {
   adminRepository: asClass(AdminRepository).singleton(),
   adminDao: asClass(AdminDao).singleton(),
   adminMapper: asClass(AdminMapper).singleton(),
+  adminErrors: asValue(AdminErrors),
 };

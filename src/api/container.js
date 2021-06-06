@@ -20,7 +20,6 @@ const Validate = require('./middlewares/validate.middleware');
 
 const Router = require('./router');
 const Config = require('../config');
-const Exceptions = require('../errors');
 const StringUtils = require('../utils/string.utils');
 
 container
@@ -40,10 +39,6 @@ container
   .register({
     validateMiddleware: asFunction(Validate).singleton(),
     verifyJwtMiddleware: asFunction(VerifyJwt).singleton(),
-  })
-  // Exceptions
-  .register({
-    exceptions: asValue(Exceptions),
   })
   // Libraries
   .register({

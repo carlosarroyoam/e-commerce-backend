@@ -2,10 +2,10 @@ const AuthRepository = require('./repositories/auth.repository');
 
 class AuthService {
   constructor({
-    dbConnection, exceptions, bcrypt, jsonwebtoken, logger, config,
+    dbConnection, userErrors, bcrypt, jsonwebtoken, logger, config,
   }) {
     this._dbConnection = dbConnection.pool;
-    this._exceptions = exceptions;
+    this._userErrors = userErrors;
     this._bcrypt = bcrypt;
     this._jsonwebtoken = jsonwebtoken;
     this._logger = logger.instance;
@@ -21,12 +21,12 @@ class AuthService {
 
       const userByEmail = await authRepository.findByEmail(email);
       if (!userByEmail) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'user' });
+        throw new this._userErrors.UserNotFoundError();
       }
 
       const passwordMatches = await this._bcrypt.compare(password, userByEmail.password);
       if (!passwordMatches) {
-        throw new this._exceptions.UnauthorizedError({ email });
+        throw new this._userErrors.UnauthorizedError({ email });
       }
 
       const jwt = this._jsonwebtoken.sign({ subscriberId: userByEmail.id });

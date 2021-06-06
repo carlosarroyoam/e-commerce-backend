@@ -3,10 +3,10 @@ const UserRepository = require('../users/repositories/user.repository');
 
 class AdminService {
   constructor({
-    dbConnection, exceptions, bcrypt, logger,
+    dbConnection, adminErrors, bcrypt, logger,
   }) {
     this._dbConnection = dbConnection.pool;
-    this._exceptions = exceptions;
+    this._adminErrors = adminErrors;
     this._bcrypt = bcrypt;
     this._logger = logger.instance;
   }
@@ -49,7 +49,7 @@ class AdminService {
 
       const admin = await adminRepository.findById(adminId);
       if (!admin) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
+        throw new this._adminErrors.UserNotFoundError();
       }
 
       connection.release();
@@ -84,7 +84,7 @@ class AdminService {
 
       const userByEmail = await userRepository.findByEmailWithTrashed(admin.email);
       if (userByEmail) {
-        throw new this._exceptions.EmailAlreadyTakenError({ email: admin.email });
+        throw new this._adminErrors.EmailAlreadyTakenError({ email: admin.email });
       }
 
       const passwordHash = await this._bcrypt.hashPassword(admin.password);
@@ -131,7 +131,7 @@ class AdminService {
 
       const adminById = await adminRepository.findById(adminId);
       if (!adminById) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
+        throw new this._adminErrors.UserNotFoundError();
       }
 
       let password;
@@ -179,7 +179,7 @@ class AdminService {
 
       const adminById = await adminRepository.findById(adminId);
       if (!adminById) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
+        throw new this._adminErrors.UserNotFoundError();
       }
 
       const affectedRows = await adminRepository.delete(adminId);
@@ -216,7 +216,7 @@ class AdminService {
 
       const adminById = await adminRepository.findTrashedById(adminId);
       if (!adminById) {
-        throw new this._exceptions.ResourceNotFoundError({ resourceName: 'admin' });
+        throw new this._adminErrors.UserNotFoundError();
       }
 
       const affectedRows = await adminRepository.restore(adminId);
