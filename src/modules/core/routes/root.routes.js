@@ -15,23 +15,23 @@ module.exports = ({ config }) => {
           paths: [
             {
               name: 'index',
-              path: `${APP_URL}/api/v1/user`,
+              path: `${APP_URL}/api/v1/users`,
             },
             {
               name: 'show',
-              path: `${APP_URL}/api/v1/user/[id]`,
+              path: `${APP_URL}/api/v1/users/[id]`,
             },
           ],
         },
-        books: {
+        admins: {
           paths: [
             {
               name: 'index',
-              path: `${APP_URL}/api/v1/book`,
+              path: `${APP_URL}/api/v1/admins`,
             },
             {
               name: 'show',
-              path: `${APP_URL}/api/v1/book/[id]`,
+              path: `${APP_URL}/api/v1/admins/[id]`,
             },
           ],
         },
