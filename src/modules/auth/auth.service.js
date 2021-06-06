@@ -2,10 +2,10 @@ const AuthRepository = require('./repositories/auth.repository');
 
 class AuthService {
   constructor({
-    dbConnection, userErrors, bcrypt, jsonwebtoken, config,
+    dbConnection, authErrors, bcrypt, jsonwebtoken, config,
   }) {
     this._dbConnection = dbConnection.pool;
-    this._userErrors = userErrors;
+    this._authErrors = authErrors;
     this._bcrypt = bcrypt;
     this._jsonwebtoken = jsonwebtoken;
     this._config = config;
@@ -20,12 +20,12 @@ class AuthService {
 
       const userByEmail = await authRepository.findByEmail(email);
       if (!userByEmail) {
-        throw new this._userErrors.UserNotFoundError();
+        throw new this._authErrors.UserNotFoundError({ email });
       }
 
       const passwordMatches = await this._bcrypt.compare(password, userByEmail.password);
       if (!passwordMatches) {
-        throw new this._userErrors.UnauthorizedError({ email });
+        throw new this._authErrors.UnauthorizedError({ email });
       }
 
       const jwt = this._jsonwebtoken.sign({ subscriberId: userByEmail.id });
