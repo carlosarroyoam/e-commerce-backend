@@ -15,9 +15,6 @@ const AuthModule = require('../modules/auth/auth.resolver');
 const UserModule = require('../modules/users/user.resolver');
 const AdminModule = require('../modules/admins/admin.resolver');
 
-const VerifyJwt = require('./middlewares/verifyToken.middleware');
-const Validate = require('./middlewares/validateRequest.middleware');
-
 const Router = require('./router');
 const Config = require('../config');
 const StringUtils = require('../utils/string.utils');
@@ -34,11 +31,6 @@ container
   // Router
   .register({
     router: asFunction(Router).singleton(),
-  })
-  // Middlewares
-  .register({
-    validateMiddleware: asFunction(Validate).singleton(),
-    verifyJwtMiddleware: asFunction(VerifyJwt).singleton(),
   })
   // Libraries
   .register({
