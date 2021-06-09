@@ -6,11 +6,11 @@ module.exports = {
   APP_URL: process.env.APP_URL,
   PORT: process.env.PORT || 3000,
   DB: {
-    connectionLimit: process.env.DB_CONNECTION_LIMIT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    CONNECTION_LIMIT: process.env.DB_CONNECTION_LIMIT,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASSWORD,
+    DATABASE_NAME: process.env.DB_NAME,
+    HOST: process.env.DB_HOST,
   },
   JWT: {
     SECRET: process.env.JWT_SECRET,
