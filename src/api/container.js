@@ -15,8 +15,8 @@ const AuthModule = require('../modules/auth/auth.resolver');
 const UserModule = require('../modules/users/user.resolver');
 const AdminModule = require('../modules/admins/admin.resolver');
 
-const VerifyJwt = require('./middlewares/verifyJwt.middleware');
-const Validate = require('./middlewares/validate.middleware');
+const VerifyJwt = require('./middlewares/verifyToken.middleware');
+const Validate = require('./middlewares/validateRequest.middleware');
 
 const Router = require('./router');
 const Config = require('../config');

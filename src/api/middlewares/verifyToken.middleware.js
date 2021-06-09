@@ -1,4 +1,4 @@
-module.exports = ({ jsonwebtoken, stringUtils }) => (req, res, next) => {
+module.exports = ({ jsonwebtoken }) => (req, res, next) => {
   const { authorization } = req.headers;
   const accessToken = authorization && authorization.split(' ')[1];
 
@@ -15,6 +15,6 @@ module.exports = ({ jsonwebtoken, stringUtils }) => (req, res, next) => {
 
     next();
   } catch (err) {
-    res.status(401).send({ message: 'Unauthorized', error: stringUtils.capitalize(err.message) });
+    res.status(401).send({ message: 'Unauthorized', error: 'The provided token is not valid' });
   }
 };
