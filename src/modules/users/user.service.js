@@ -58,32 +58,6 @@ class UserService {
     }
   }
 
-  async findByEmailForLogin(email) {
-    let connection;
-
-    try {
-      connection = await this._dbConnection.getConnection();
-      const userRepository = new UserRepository(connection);
-
-      const user = await userRepository.findByEmailForLogin(email);
-      if (!user) {
-        throw new this._userErrors.UserNotFoundError();
-      }
-
-      connection.release();
-
-      return user;
-    } catch (err) {
-      connection.release();
-
-      if (err.sqlMessage) {
-        throw new Error('Error while retrieving user');
-      }
-
-      throw err;
-    }
-  }
-
   async store(user) {
     let connection;
 
