@@ -18,29 +18,14 @@ class Server {
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        if (err.status) {
-          this._logger.log({
-            level: 'info',
-            message: err.message,
-          });
-
-          res.status(err.status).send({
-            message: err.message,
-            error: err.name,
-          });
-
-          return;
-        }
-
         this._logger.log({
-          level: 'error',
+          level: err.status ? 'info' : 'error',
           message: err.message,
-          meta: err,
         });
 
-        res.status(500).send({
+        res.status(err.status || 500).send({
           message: err.message,
-          error: 'Internal server error',
+          error: err.name || 'Internal server error',
         });
       });
   }
