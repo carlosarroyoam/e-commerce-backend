@@ -1,5 +1,4 @@
 const express = require('express');
-const { json } = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -13,7 +12,7 @@ class Server {
     this._express = express();
     this._express
       .use(cors())
-      .use(json())
+      .use(express.json())
       .use(compression())
       .use(morgan('dev'))
       .use(router)
