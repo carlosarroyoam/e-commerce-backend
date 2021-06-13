@@ -1,5 +1,5 @@
-const AdminDao = require('../dao/admin.dao');
-const AdminMapper = require('../mappers/admin.mapper');
+const AdminDao = require('./admin.dao');
+const AdminMapper = require('./mappers/admin.mapper');
 
 class AdminRepository {
   constructor(connection) {

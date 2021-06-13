@@ -5,8 +5,8 @@ const {
 const AuthRoutes = require('./auth.routes');
 const AuthController = require('./auth.controller');
 const AuthService = require('./auth.service');
-const AuthRepository = require('./repositories/auth.repository');
-const AuthDao = require('./dao/auth.dao');
+const AuthRepository = require('./auth.repository');
+const AuthDao = require('./auth.dao');
 const AuthErrors = require('./errors');
 const VerifyTokenMiddleware = require('./middlewares/verifyToken.middleware');
 

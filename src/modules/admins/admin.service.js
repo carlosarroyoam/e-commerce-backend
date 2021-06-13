@@ -1,5 +1,5 @@
-const AdminRepository = require('./repositories/admin.repository');
-const UserRepository = require('../users/repositories/user.repository');
+const AdminRepository = require('./admin.repository');
+const UserRepository = require('../users/user.repository');
 
 class AdminService {
   constructor({

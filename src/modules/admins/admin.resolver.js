@@ -5,8 +5,8 @@ const {
 const AdminRoutes = require('./admin.routes');
 const AdminController = require('./admin.controller');
 const AdminService = require('./admin.service');
-const AdminRepository = require('./repositories/admin.repository');
-const AdminDao = require('./dao/admin.dao');
+const AdminRepository = require('./admin.repository');
+const AdminDao = require('./admin.dao');
 const AdminMapper = require('./mappers/admin.mapper');
 const AdminErrors = require('./errors');
 

@@ -5,8 +5,8 @@ const {
 const UserRoutes = require('./user.routes');
 const UserController = require('./user.controller');
 const UserService = require('./user.service');
-const UserRepository = require('./repositories/user.repository');
-const UserDao = require('./dao/user.dao');
+const UserRepository = require('./user.repository');
+const UserDao = require('./user.dao');
 const UserMapper = require('./mappers/user.mapper');
 const UserErrors = require('./errors');
 
