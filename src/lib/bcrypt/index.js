@@ -1,40 +1,25 @@
 const bcrypt = require('bcrypt');
+const config = require('../../config');
 
-class BcryptHashing {
-  constructor({ config, logger }) {
-    this.config = config;
-    this.logger = logger.instance;
-  }
+async function hashPassword(plainTextPassword) {
+  try {
+    const passwordHash = await bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
 
-  async hashPassword(plainTextPassword) {
-    try {
-      const passwordHash = await bcrypt.hash(plainTextPassword, this.config.BCRYPT.SALT_ROUNDS);
-
-      return passwordHash;
-    } catch (err) {
-      this.logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
-      return null;
-    }
-  }
-
-  async compare(plainTextPassword, passwordHash) {
-    try {
-      return bcrypt.compare(plainTextPassword, passwordHash);
-    } catch (err) {
-      this.logger.log({
-        level: 'error',
-        message: err.message,
-        meta: err,
-      });
-
-      return false;
-    }
+    return passwordHash;
+  } catch (err) {
+    return null;
   }
 }
 
-module.exports = BcryptHashing;
+async function compare(plainTextPassword, passwordHash) {
+  try {
+    return bcrypt.compare(plainTextPassword, passwordHash);
+  } catch (err) {
+    return false;
+  }
+}
+
+module.exports = {
+  hashPassword,
+  compare,
+};

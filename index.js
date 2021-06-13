@@ -4,7 +4,7 @@ const server = container.resolve('server');
 const logger = container.resolve('logger');
 
 server.start().catch((err) => {
-  logger.instance.log({
+  logger.log({
     level: 'error',
     message: err.message,
   });

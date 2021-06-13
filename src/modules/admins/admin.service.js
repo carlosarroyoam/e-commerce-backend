@@ -5,7 +5,7 @@ class AdminService {
   constructor({
     dbConnection, adminErrors, bcrypt,
   }) {
-    this._dbConnection = dbConnection.pool;
+    this._dbConnection = dbConnection;
     this._adminErrors = adminErrors;
     this._bcrypt = bcrypt;
   }

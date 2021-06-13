@@ -9,7 +9,7 @@ class Server {
     config, router, logger,
   }) {
     this._config = config;
-    this._logger = logger.instance;
+    this._logger = logger;
     this._express = express();
     this._express
       .use(cors())

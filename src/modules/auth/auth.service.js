@@ -4,7 +4,7 @@ class AuthService {
   constructor({
     dbConnection, authErrors, bcrypt, jsonwebtoken, config,
   }) {
-    this._dbConnection = dbConnection.pool;
+    this._dbConnection = dbConnection;
     this._authErrors = authErrors;
     this._bcrypt = bcrypt;
     this._jsonwebtoken = jsonwebtoken;

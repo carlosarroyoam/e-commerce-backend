@@ -1,31 +1,28 @@
 const jwt = require('jsonwebtoken');
+const config = require('../../config');
 
-class JsonWebToken {
-  constructor({ config }) {
-    this.config = config;
-    this.options = {
-      expiresIn: '2d',
-      issuer: this.config.APP_NAME,
-    };
-  }
+function sign({ subject }) {
+  const payload = {
+    sub: subject,
+  };
 
-  sign({ subject }) {
-    const payload = {
-      sub: subject,
-    };
+  const token = jwt.sign(
+    payload,
+    config.JWT.SECRET,
+    {
+      expiresIn: config.JWT.EXPIRES,
+      issuer: config.APP_NAME,
+    },
+  );
 
-    const token = jwt.sign(
-      payload,
-      this.config.JWT.SECRET,
-      this.options,
-    );
-
-    return token;
-  }
-
-  verify(accessToken) {
-    return jwt.verify(accessToken, this.config.JWT.SECRET);
-  }
+  return token;
 }
 
-module.exports = JsonWebToken;
+function verify(accessToken) {
+  return jwt.verify(accessToken, config.JWT.SECRET);
+}
+
+module.exports = {
+  sign,
+  verify,
+};

@@ -4,7 +4,7 @@ class UserService {
   constructor({
     dbConnection, userErrors, bcrypt,
   }) {
-    this._dbConnection = dbConnection.pool;
+    this._dbConnection = dbConnection;
     this._userErrors = userErrors;
     this._bcrypt = bcrypt;
   }

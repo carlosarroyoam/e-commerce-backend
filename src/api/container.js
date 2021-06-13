@@ -34,10 +34,10 @@ container
   })
   // Libraries
   .register({
-    dbConnection: asClass(DatabaseConnection).singleton(),
-    logger: asClass(Logger).singleton(),
-    bcrypt: asClass(BcryptHashing).singleton(),
-    jsonwebtoken: asClass(JsonWebToken).singleton(),
+    dbConnection: asValue(DatabaseConnection),
+    logger: asValue(Logger),
+    bcrypt: asValue(BcryptHashing),
+    jsonwebtoken: asValue(JsonWebToken),
   })
   // Utils
   .register({
