@@ -10,7 +10,7 @@ function sign({ subject }) {
     payload,
     config.JWT.SECRET,
     {
-      expiresIn: config.JWT.EXPIRES,
+      expiresIn: config.JWT.EXPIRATION,
       issuer: config.APP_NAME,
     },
   );

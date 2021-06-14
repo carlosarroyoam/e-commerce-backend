@@ -3,8 +3,8 @@ module.exports = ({ jsonwebtoken }) => (req, res, next) => {
   const accessToken = authorization && authorization.split(' ')[1];
 
   if (!accessToken) {
-    res.status(400).send({
-      message: 'Bad request',
+    res.status(401).send({
+      message: 'Unauthorized',
       error: 'No token authorization provided',
     });
     return;
@@ -15,6 +15,6 @@ module.exports = ({ jsonwebtoken }) => (req, res, next) => {
 
     next();
   } catch (err) {
-    res.status(401).send({ message: 'Unauthorized', error: 'The provided token is not valid' });
+    res.status(403).send({ message: 'Forbidden', error: 'The provided token is not valid or the user hasn\'t access' });
   }
 };
