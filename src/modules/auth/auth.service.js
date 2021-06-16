@@ -32,7 +32,10 @@ class AuthService {
 
       connection.release();
 
-      return { accessToken: jwt };
+      return {
+        user_id: userByEmail.id,
+        access_token: jwt,
+      };
     } catch (err) {
       connection.release();
 
