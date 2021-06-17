@@ -1,21 +1,12 @@
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
+const config = require('../../config');
 
-class DatabaseConnection {
-  constructor({ config }) {
-    this._config = config;
+const pool = mysql.createPool({
+  connectionLimit: config.DB.CONNECTION_LIMIT,
+  host: config.DB.DB_HOST,
+  user: config.DB.USER,
+  password: config.DB.PASSWORD,
+  database: config.DB.DATABASE_NAME,
+});
 
-    this._pool = mysql.createPool({
-      connectionLimit: this._config.connectionLimit,
-      host: this._config.DB.host,
-      user: this._config.DB.user,
-      password: this._config.DB.password,
-      database: this._config.DB.database,
-    });
-  }
-
-  getConnection() {
-    return this._pool;
-  }
-}
-
-module.exports = DatabaseConnection;
+module.exports = pool;

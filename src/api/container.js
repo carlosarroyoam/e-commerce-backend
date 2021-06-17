@@ -4,80 +4,49 @@ const {
 
 const container = createContainer();
 
-const StartUp = require('./startup');
 const Server = require('./server');
 const DatabaseConnection = require('../lib/mysql/connection');
+const Logger = require('../lib/winston/logger');
+const BcryptHashing = require('../lib/bcrypt');
+const JsonWebToken = require('../lib/jwt');
 
-const { UserController, BookController } = require('./controllers');
+const CoreModule = require('../modules/core/core.resolver');
+const AuthModule = require('../modules/auth/auth.resolver');
+const UserModule = require('../modules/users/user.resolver');
+const AdminModule = require('../modules/admins/admin.resolver');
 
-const { UserService, BookService } = require('../services');
-
-const { UserRepository, BookRepository } = require('../dal/repositories');
-
-const { UserDao } = require('../dal/dao');
-
-const { UserMapper } = require('../mappers');
-
-const RootRoute = require('./routes/root.routes');
-const DefaultRoute = require('./routes/default.routes');
-const UserRoutes = require('./routes/user.routes');
-const BookRoutes = require('./routes/book.routes');
-
-const Routes = require('./routes');
-const Config = require('../config/environments');
-const Exceptions = require('../exceptions');
+const Router = require('./router');
+const Config = require('../config');
+const StringUtils = require('../utils/string.utils');
 
 container
   // App
   .register({
-    app: asClass(StartUp).singleton(),
     server: asClass(Server).singleton(),
   })
   // Config
   .register({
     config: asValue(Config),
   })
-  // Database connection
-  .register({
-    dbConnection: asClass(DatabaseConnection).singleton(),
-  })
   // Router
   .register({
-    router: asFunction(Routes).singleton(),
+    router: asFunction(Router).singleton(),
   })
-  // Routes
+  // Libraries
   .register({
-    rootRoute: asFunction(RootRoute).singleton(),
-    defaultRoute: asFunction(DefaultRoute).singleton(),
-    userRoutes: asFunction(UserRoutes).singleton(),
-    bookRoutes: asFunction(BookRoutes).singleton(),
+    dbConnection: asValue(DatabaseConnection),
+    logger: asValue(Logger),
+    bcrypt: asValue(BcryptHashing),
+    jsonwebtoken: asValue(JsonWebToken),
   })
-  // Controllers
+  // Utils
   .register({
-    userController: asClass(UserController).singleton(),
-    bookController: asClass(BookController).singleton(),
+    stringUtils: asValue(StringUtils),
   })
-  // Services
-  .register({
-    userService: asClass(UserService).singleton(),
-    bookService: asClass(BookService).singleton(),
-  })
-  // Repositories
-  .register({
-    userRepository: asClass(UserRepository).singleton(),
-    bookRepository: asClass(BookRepository).singleton(),
-  })
-  // Dao
-  .register({
-    userDao: asClass(UserDao).singleton(),
-  })
-  // Mappers
-  .register({
-    userMapper: asClass(UserMapper).singleton(),
-  })
-  // Exceptions
-  .register({
-    exceptions: asValue(Exceptions),
-  });
+  // Modules
+  .register(CoreModule)
+  .register(AuthModule)
+  .register(UserModule)
+  .register(AdminModule);
 
 module.exports = container;

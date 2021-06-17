@@ -1,32 +1,30 @@
 const express = require('express');
-const { json } = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 
 class Server {
-  constructor({ config, router }) {
+  constructor({
+    config, router, logger,
+  }) {
     this._config = config;
+    this._logger = logger;
     this._express = express();
     this._express
       .use(cors())
-      .use(json())
+      .use(express.json())
       .use(compression())
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        if (err.status === 404) {
-          res.status(404).send({
-            message: err.message,
-            error: err.name,
-          });
-
-          return;
-        }
-
-        res.status(500).send({
+        this._logger.log({
+          level: err.status ? 'info' : 'error',
           message: err.message,
-          error: 'Internal server error',
+        });
+
+        res.status(err.status || 500).send({
+          message: err.message,
+          error: err.name || 'Internal server error',
         });
       });
   }
@@ -38,9 +36,8 @@ class Server {
    */
   start() {
     return new Promise((resolve) => {
-      const http = this._express.listen(this._config.PORT, () => {
-        const { port } = http.address();
-        console.info(`Application running on port: ${port}`);
+      this._express.listen(this._config.PORT, () => {
+        console.info(`Application running on: http://localhost:${this._config.PORT}`);
         resolve();
       });
     });
