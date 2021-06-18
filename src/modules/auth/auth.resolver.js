@@ -7,7 +7,9 @@ const AuthController = require('./auth.controller');
 const AuthService = require('./auth.service');
 const AuthRepository = require('./auth.repository');
 const AuthDao = require('./auth.dao');
-const AuthErrors = require('./errors');
+const UserNotFoundError = require('./errors/userNotFound.error');
+const UnauthorizedError = require('./errors/unauthorizedError.error');
+const ForbiddenError = require('./errors/forbiddenError.error');
 const VerifyTokenMiddleware = require('./middlewares/verifyToken.middleware');
 
 module.exports = {
@@ -16,6 +18,10 @@ module.exports = {
   authService: asClass(AuthService).singleton(),
   authRepository: asClass(AuthRepository).singleton(),
   authDao: asClass(AuthDao).singleton(),
-  authErrors: asValue(AuthErrors),
+  authErrors: asValue({
+    UserNotFoundError,
+    UnauthorizedError,
+    ForbiddenError,
+  }),
   verifyTokenMiddleware: asFunction(VerifyTokenMiddleware).singleton(),
 };

@@ -1,4 +1,4 @@
-module.exports = ({ jsonwebtoken, logger }) => (req, res, next) => {
+module.exports = ({ jsonwebtoken, authErrors, logger }) => (req, res, next) => {
   const { authorization } = req.headers;
   const accessToken = authorization && authorization.split(' ')[1];
 
@@ -13,6 +13,8 @@ module.exports = ({ jsonwebtoken, logger }) => (req, res, next) => {
   try {
     const decoded = jsonwebtoken.verify(accessToken);
 
+    req.app.userId = decoded.sub;
+
     next();
   } catch (err) {
     logger.log({
@@ -20,6 +22,6 @@ module.exports = ({ jsonwebtoken, logger }) => (req, res, next) => {
       message: err.message,
     });
 
-    res.status(403).send({ message: 'Forbidden', error: 'The provided token is not valid or the user hasn\'t access' });
+    throw new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user hasn\'t access' });
   }
 };
