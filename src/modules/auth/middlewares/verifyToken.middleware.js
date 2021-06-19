@@ -3,11 +3,7 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => (req, res, next) => {
   const accessToken = authorization && authorization.split(' ')[1];
 
   if (!accessToken) {
-    res.status(401).send({
-      message: 'Unauthorized',
-      error: 'No token authorization provided',
-    });
-    return;
+    throw new authErrors.UnauthorizedError({ message: 'No token authorization provided' });
   }
 
   try {
