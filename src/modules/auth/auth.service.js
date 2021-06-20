@@ -40,7 +40,7 @@ class AuthService {
         throw new this.authErrors.UnauthorizedError({ email });
       }
 
-      const jwt = this.jsonwebtoken.sign({ subject: userByEmail.id });
+      const jwt = await this.jsonwebtoken.sign({ subject: userByEmail.id });
 
       connection.release();
 

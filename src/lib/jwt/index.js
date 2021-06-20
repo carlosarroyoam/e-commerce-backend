@@ -4,23 +4,25 @@ const config = require('../../config');
 /**
  *
  * @param {object} payload
- * @returns {string} The signed token
+ * @returns {Promise} The signed token
  */
 function sign({ subject }) {
-  const payload = {
-    sub: subject,
-  };
+  return new Promise((resolve, reject) => {
+    const payload = {
+      sub: subject,
+    };
 
-  const token = jwt.sign(
-    payload,
-    config.JWT.SECRET,
-    {
+    const options = {
       expiresIn: config.JWT.EXPIRATION,
       issuer: config.APP_NAME,
-    },
-  );
+    };
 
-  return token;
+    jwt.sign(payload, config.JWT.SECRET, options, (err, token) => {
+      if (err) return reject(err);
+
+      return resolve(token);
+    });
+  });
 }
 
 /**
@@ -28,7 +30,12 @@ function sign({ subject }) {
  * @returns {object | string} The decoded token
  */
 function verify(accessToken) {
-  return jwt.verify(accessToken, config.JWT.SECRET);
+  // eslint-disable-next-line max-len
+  return new Promise((resolve, reject) => jwt.verify(accessToken, config.JWT.SECRET, (err, decoded) => {
+    if (err) return reject(err);
+
+    return resolve(decoded);
+  }));
 }
 
 module.exports = {
