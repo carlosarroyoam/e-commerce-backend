@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
+const helmet = require('helmet');
 
 class Server {
   constructor({
@@ -15,6 +16,7 @@ class Server {
       .use(express.json())
       .use(compression())
       .use(morgan('dev'))
+      .use(helmet())
       .use(router)
       .use((err, req, res, next) => {
         this.logger.log({
