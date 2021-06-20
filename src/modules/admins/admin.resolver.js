@@ -8,7 +8,8 @@ const AdminService = require('./admin.service');
 const AdminRepository = require('./admin.repository');
 const AdminDao = require('./admin.dao');
 const AdminMapper = require('./mappers/admin.mapper');
-const AdminErrors = require('./errors');
+const UserNotFoundError = require('./errors/userNotFound.error');
+const EmailAlreadyTakenError = require('./errors/emailAlreadyTakenError.error');
 
 module.exports = {
   adminRoutes: asFunction(AdminRoutes).singleton(),
@@ -17,5 +18,8 @@ module.exports = {
   adminRepository: asClass(AdminRepository).singleton(),
   adminDao: asClass(AdminDao).singleton(),
   adminMapper: asClass(AdminMapper).singleton(),
-  adminErrors: asValue(AdminErrors),
+  adminErrors: asValue({
+    UserNotFoundError,
+    EmailAlreadyTakenError,
+  }),
 };
