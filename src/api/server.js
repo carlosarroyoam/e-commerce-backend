@@ -7,24 +7,24 @@ class Server {
   constructor({
     config, router, logger,
   }) {
-    this._config = config;
-    this._logger = logger;
-    this._express = express();
-    this._express
+    this.config = config;
+    this.logger = logger;
+    this.express = express();
+    this.express
       .use(cors())
       .use(express.json())
       .use(compression())
       .use(morgan('dev'))
       .use(router)
       .use((err, req, res, next) => {
-        this._logger.log({
+        this.logger.log({
           level: err.status ? 'info' : 'error',
           message: err.message,
         });
 
         res.status(err.status || 500).send({
           message: err.message,
-          error: err.name !== 'Error' || 'Internal server error',
+          error: err.name !== 'Error' ? err.name : 'Internal server error',
         });
       });
   }
@@ -36,8 +36,8 @@ class Server {
    */
   start() {
     return new Promise((resolve) => {
-      this._express.listen(this._config.PORT, () => {
-        console.info(`Application running on: http://localhost:${this._config.PORT}`);
+      this.express.listen(this.config.PORT, () => {
+        console.info(`Application running on: http://localhost:${this.config.PORT}`);
         resolve();
       });
     });

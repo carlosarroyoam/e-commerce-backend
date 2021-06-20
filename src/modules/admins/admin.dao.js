@@ -83,10 +83,11 @@ class AdminDao {
   }
 
   /**
-  * Performs the SQL query to get a non-deleted/active admin user by its id.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to get a non-deleted/active admin user by its id.
+   *
+   * @param {number} id
+   * @returns {Promise}
+   */
   async getById(id) {
     const query = `SELECT 
       adm.id,
@@ -108,6 +109,7 @@ class AdminDao {
   /**
   * Performs the SQL query to get a deleted/inactive admin user by its id.
   *
+  * @param {number} id
   * @returns {Promise}
   */
   async getTrashedById(id) {
@@ -154,6 +156,7 @@ class AdminDao {
   /**
   * Performs the SQL query to get a admin user by its email address.
   *
+  * @param {string} email
   * @returns {Promise}
   */
   async getByEmailWithTrashed(email) {
@@ -177,6 +180,7 @@ class AdminDao {
   /**
   * Performs the SQL query to insert a admin user.
   *
+  * @param {object} admin
   * @returns {Promise}
   */
   async create(admin) {
@@ -188,6 +192,8 @@ class AdminDao {
   /**
   * Performs the SQL query to update a admin user.
   *
+  * @param {number} adminId
+  * @param {object} admin
   * @returns {Promise}
   */
   async update(adminId, admin) {
@@ -199,6 +205,7 @@ class AdminDao {
   /**
   * Performs the SQL query to set a deleted/inactive state to a admin user.
   *
+  * @param {number} adminId
   * @returns {Promise}
   */
   async delete(adminId) {
@@ -210,6 +217,7 @@ class AdminDao {
   /**
   * Performs the SQL query to set a non-deleted/active state to a admin user.
   *
+  * @param {number} adminId
   * @returns {Promise}
   */
   async restore(adminId) {

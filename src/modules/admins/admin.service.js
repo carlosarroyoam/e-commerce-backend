@@ -3,18 +3,21 @@ const UserRepository = require('../users/user.repository');
 
 class AdminService {
   constructor({
-    dbConnection, adminErrors, bcrypt,
+    dbConnectionPool, adminErrors, bcrypt,
   }) {
-    this._dbConnection = dbConnection;
+    this.dbConnectionPool = dbConnectionPool;
     this._adminErrors = adminErrors;
     this._bcrypt = bcrypt;
   }
 
+  /**
+   *
+   */
   async findAll() {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
       const admins = await adminRepository.findAll();
@@ -33,11 +36,14 @@ class AdminService {
     }
   }
 
+  /**
+   * @param {number} adminId
+   */
   async find(adminId) {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
       const admin = await adminRepository.findById(adminId);
@@ -59,11 +65,14 @@ class AdminService {
     }
   }
 
+  /**
+   * @param {object} admin
+   */
   async store(admin) {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
       const adminRepository = new AdminRepository(connection);
 
@@ -100,11 +109,15 @@ class AdminService {
     }
   }
 
+  /**
+   * @param {number} adminId
+   * @param {object} admin
+   */
   async update(adminId, admin) {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
       const adminRepository = new AdminRepository(connection);
 
@@ -145,11 +158,14 @@ class AdminService {
     }
   }
 
+  /**
+   * @param {number} adminId
+   */
   async delete(adminId) {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
       const adminById = await adminRepository.findById(adminId);
@@ -176,11 +192,14 @@ class AdminService {
     }
   }
 
+  /**
+   * @param {number} adminId
+   */
   async restore(adminId) {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
       const adminById = await adminRepository.findTrashedById(adminId);

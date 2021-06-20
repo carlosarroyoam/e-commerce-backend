@@ -8,7 +8,7 @@ const UserService = require('./user.service');
 const UserRepository = require('./user.repository');
 const UserDao = require('./user.dao');
 const UserMapper = require('./mappers/user.mapper');
-const UserErrors = require('./errors');
+const UserNotFoundError = require('./errors/userNotFound.error');
 
 module.exports = {
   userRoutes: asFunction(UserRoutes).singleton(),
@@ -17,5 +17,5 @@ module.exports = {
   userRepository: asClass(UserRepository).singleton(),
   userDao: asClass(UserDao).singleton(),
   userMapper: asClass(UserMapper).singleton(),
-  userErrors: asValue(UserErrors),
+  userErrors: asValue({ UserNotFoundError }),
 };

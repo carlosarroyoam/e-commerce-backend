@@ -2,9 +2,9 @@ const AuthRepository = require('./auth.repository');
 
 class AuthService {
   constructor({
-    dbConnection, authErrors, bcrypt, jsonwebtoken,
+    dbConnectionPool, authErrors, bcrypt, jsonwebtoken,
   }) {
-    this.dbConnection = dbConnection;
+    this.dbConnectionPool = dbConnectionPool;
     this.authErrors = authErrors;
     this.bcrypt = bcrypt;
     this.jsonwebtoken = jsonwebtoken;
@@ -14,7 +14,7 @@ class AuthService {
     let connection;
 
     try {
-      connection = await this.dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const authRepository = new AuthRepository(connection);
 
       const userByEmail = await authRepository.findByEmail(email);

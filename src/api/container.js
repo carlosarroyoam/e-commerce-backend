@@ -5,7 +5,7 @@ const {
 const container = createContainer();
 
 const Server = require('./server');
-const DatabaseConnection = require('../lib/mysql/connection');
+const DatabaseConnectionPool = require('../lib/mysql/connectionPool');
 const Logger = require('../lib/winston/logger');
 const BcryptHashing = require('../lib/bcrypt');
 const JsonWebToken = require('../lib/jwt');
@@ -34,7 +34,7 @@ container
   })
   // Libraries
   .register({
-    dbConnection: asValue(DatabaseConnection),
+    dbConnectionPool: asValue(DatabaseConnectionPool),
     logger: asValue(Logger),
     bcrypt: asValue(BcryptHashing),
     jsonwebtoken: asValue(JsonWebToken),

@@ -1,5 +1,5 @@
 const {
-  asFunction,
+  asFunction, asValue,
 } = require('awilix');
 
 const RootRoute = require('./routes/root.routes');
@@ -11,7 +11,7 @@ module.exports = {
   rootRoute: asFunction(RootRoute).singleton(),
   defaultRoute: asFunction(DefaultRoute).singleton(),
   validateRequestMiddleware: asFunction(ValidateRequestMiddleware).singleton(),
-  commonErrors: {
+  commonErrors: asValue({
     BadRequestError,
-  },
+  }),
 };

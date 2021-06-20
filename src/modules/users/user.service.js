@@ -2,18 +2,18 @@ const UserRepository = require('./user.repository');
 
 class UserService {
   constructor({
-    dbConnection, userErrors, bcrypt,
+    dbConnectionPool, userErrors, bcrypt,
   }) {
-    this._dbConnection = dbConnection;
-    this._userErrors = userErrors;
-    this._bcrypt = bcrypt;
+    this.dbConnectionPool = dbConnectionPool;
+    this.userErrors = userErrors;
+    this.bcrypt = bcrypt;
   }
 
   async findAll() {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
       const users = await userRepository.findAll();
@@ -36,12 +36,12 @@ class UserService {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
       const user = await userRepository.findById(userId);
       if (!user) {
-        throw new this._userErrors.UserNotFoundError();
+        throw new this.userErrors.UserNotFoundError();
       }
 
       connection.release();
@@ -62,15 +62,15 @@ class UserService {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
       const userByEmail = await userRepository.findByEmail(user.email);
       if (userByEmail) {
-        throw new this._userErrors.EmailAlreadyTakenError({ email: user.email });
+        throw new this.userErrors.EmailAlreadyTakenError({ email: user.email });
       }
 
-      const passwordHash = await this._bcrypt.hashPassword(user.password);
+      const passwordHash = await this.bcrypt.hashPassword(user.password);
 
       const createdUserId = await userRepository.store({ ...user, password: passwordHash });
 
@@ -94,17 +94,17 @@ class UserService {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
       const userById = await userRepository.findById(userId);
       if (!userById) {
-        throw new this._userErrors.UserNotFoundError();
+        throw new this.userErrors.UserNotFoundError();
       }
 
       let password;
       if (user.password) {
-        password = await this._bcrypt.hashPassword(user.password);
+        password = await this.bcrypt.hashPassword(user.password);
       }
 
       const affectedRows = await userRepository.update(userId, { ...user, password });
@@ -132,12 +132,12 @@ class UserService {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
       const userById = await userRepository.findById(userId);
       if (!userById) {
-        throw new this._userErrors.UserNotFoundError();
+        throw new this.userErrors.UserNotFoundError();
       }
 
       const affectedRows = await userRepository.delete(userId);
@@ -163,12 +163,12 @@ class UserService {
     let connection;
 
     try {
-      connection = await this._dbConnection.getConnection();
+      connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
       const userById = await userRepository.findTrashedById(userId);
       if (!userById) {
-        throw new this._userErrors.UserNotFoundError();
+        throw new this.userErrors.UserNotFoundError();
       }
 
       const affectedRows = await userRepository.restore(userId);
