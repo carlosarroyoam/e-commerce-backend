@@ -21,7 +21,8 @@ class UserController {
    */
   async index(request, response, next) {
     try {
-      const users = await this.userService.findAll();
+      const { skip } = request.query;
+      const users = await this.userService.findAll(skip);
 
       const usersDto = users.map((user) => this.userMapper.toDto(user));
 

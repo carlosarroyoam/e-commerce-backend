@@ -20,8 +20,8 @@ class UserRepository {
    *
    * @returns {Promise} The result of the query
    */
-  async findAll() {
-    const [result] = await this.userDao.getAll();
+  async findAll(skip) {
+    const [result] = await this.userDao.getAll({ skip });
 
     return result;
   }

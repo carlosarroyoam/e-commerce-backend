@@ -10,24 +10,25 @@ class UserService {
    * @param {*} dependencies The dependencies payload
    */
   constructor({
-    dbConnectionPool, userErrors, bcrypt,
+    dbConnectionPool, userErrors, bcrypt, logger,
   }) {
     this.dbConnectionPool = dbConnectionPool;
     this.userErrors = userErrors;
     this.bcrypt = bcrypt;
+    this.logger = logger;
   }
 
   /**
    *
    */
-  async findAll() {
+  async findAll(skip) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
-      const users = await userRepository.findAll();
+      const users = await userRepository.findAll(skip);
 
       connection.release();
 
@@ -36,6 +37,11 @@ class UserService {
       connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while retrieving users');
       }
 
@@ -65,6 +71,11 @@ class UserService {
       connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while retrieving user');
       }
 
@@ -100,6 +111,11 @@ class UserService {
       connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while storing user');
       }
 
@@ -142,6 +158,11 @@ class UserService {
       connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while updating user');
       }
 
@@ -176,6 +197,11 @@ class UserService {
       connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while deleting user');
       }
 
@@ -210,6 +236,11 @@ class UserService {
       connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while restoring user');
       }
 
