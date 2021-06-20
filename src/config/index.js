@@ -17,6 +17,6 @@ module.exports = {
     EXPIRATION: process.env.JWT_EXPIRATION,
   },
   BCRYPT: {
-    SALT_ROUNDS: process.env.SALT_ROUNDS || 10,
+    SALT_ROUNDS: Number(process.env.SALT_ROUNDS) || 10,
   },
 };
