@@ -2,7 +2,7 @@
  * Capitalizes a string.
  *
  * @param {string} string The string to capitalize
- * @returns {string}
+ * @returns {string} The capitalized string
  */
 const capitalize = (string) => {
   if (typeof string !== 'string') return '';
