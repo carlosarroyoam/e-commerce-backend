@@ -1,6 +1,14 @@
 const AuthRepository = require('./auth.repository');
 
+/**
+ * Auth service class.
+ */
 class AuthService {
+  /**
+   * Constructor for AuthService.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
   constructor({
     dbConnectionPool, authErrors, bcrypt, jsonwebtoken,
   }) {
@@ -10,6 +18,11 @@ class AuthService {
     this.jsonwebtoken = jsonwebtoken;
   }
 
+  /**
+   *
+   * @param {*} credentials The user credentials for the login attempt
+   * @returns {Promise} The user access token
+   */
   async login({ email, password }) {
     let connection;
 

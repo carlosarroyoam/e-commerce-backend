@@ -1,13 +1,18 @@
 /**
- * Admin controller
+ * Auth controller class.
  */
 class AuthController {
+  /**
+   * Constructor for AuthController.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
   constructor({ authService }) {
     this._authService = authService;
   }
 
   /**
-   * Handles incoming request from the /admin endpoint
+   * Handles incoming request from the /auth/login endpoint
    *
    * @param {*} request
    * @param {*} response

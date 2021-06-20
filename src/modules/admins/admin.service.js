@@ -1,7 +1,15 @@
 const AdminRepository = require('./admin.repository');
 const UserRepository = require('../users/user.repository');
 
+/**
+ * Admin service class.
+ */
 class AdminService {
+  /**
+   * Constructor for AdminService.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
   constructor({
     dbConnectionPool, adminErrors, bcrypt,
   }) {

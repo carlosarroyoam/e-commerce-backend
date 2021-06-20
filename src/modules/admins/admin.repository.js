@@ -1,8 +1,13 @@
 const AdminDao = require('./admin.dao');
 const AdminMapper = require('./mappers/admin.mapper');
 
+/**
+ * Admin repository class.
+ */
 class AdminRepository {
   /**
+   * Constructor for AdminRepository.
+   *
    * @param {any} connection
    */
   constructor(connection) {
@@ -10,6 +15,10 @@ class AdminRepository {
     this._adminMapper = new AdminMapper();
   }
 
+  /**
+   *
+   * @returns {Promise} The query result
+   */
   async findAll() {
     const [result] = await this._adminDao.getAll();
 
@@ -18,6 +27,7 @@ class AdminRepository {
 
   /**
    * @param {number} id
+   * @returns {Promise} The query result
    */
   async findById(id) {
     const [result] = await this._adminDao.getById(id);
@@ -36,6 +46,7 @@ class AdminRepository {
 
   /**
    * @param {string} email
+   * @returns {Promise} The query result
    */
   async findByEmail(email) {
     const [result] = await this._adminDao.getByEmail(email);
@@ -57,6 +68,7 @@ class AdminRepository {
   /**
    * @param {number} userId
    * @param {object} user
+   * @returns {Promise} The query result
    */
   async update(userId, user) {
     const userDbEntity = this._adminMapper.toDatabaseEntity(user);
@@ -68,6 +80,7 @@ class AdminRepository {
 
   /**
    * @param {number} userId
+   * @returns {Promise} The query result
    */
   async delete(userId) {
     const [result] = await this._adminDao.delete(userId);
@@ -77,6 +90,7 @@ class AdminRepository {
 
   /**
    * @param {number} userId
+   * @returns {Promise} The query result
    */
   async restore(userId) {
     const [result] = await this._adminDao.restore(userId);

@@ -1,6 +1,14 @@
 const UserRepository = require('./user.repository');
 
+/**
+ * User service class.
+ */
 class UserService {
+  /**
+   * Constructor for UserService.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
   constructor({
     dbConnectionPool, userErrors, bcrypt,
   }) {
@@ -9,6 +17,9 @@ class UserService {
     this.bcrypt = bcrypt;
   }
 
+  /**
+   *
+   */
   async findAll() {
     let connection;
 
@@ -32,6 +43,9 @@ class UserService {
     }
   }
 
+  /**
+   * @param {number} userId
+   */
   async find(userId) {
     let connection;
 
@@ -58,6 +72,9 @@ class UserService {
     }
   }
 
+  /**
+   * @param {object} user
+   */
   async store(user) {
     let connection;
 
@@ -90,6 +107,10 @@ class UserService {
     }
   }
 
+  /**
+   * @param {number} userId
+   * @param {object} user
+   */
   async update(userId, user) {
     let connection;
 
@@ -128,6 +149,9 @@ class UserService {
     }
   }
 
+  /**
+   * @param {number} userId
+   */
   async delete(userId) {
     let connection;
 
@@ -159,6 +183,9 @@ class UserService {
     }
   }
 
+  /**
+   * @param {number} userId
+   */
   async restore(userId) {
     let connection;
 

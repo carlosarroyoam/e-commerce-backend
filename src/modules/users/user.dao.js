@@ -51,10 +51,11 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to get a non-deleted/active user by its id.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to get a non-deleted/active user by its id.
+   *
+   * @param {number} id
+   * @returns {Promise}
+   */
   async getById(id) {
     const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
@@ -64,10 +65,11 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to get a deleted/inactive user by its id.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to get a deleted/inactive user by its id.
+   *
+   * @param {number} id
+   * @returns {Promise}
+   */
   async getTrashedById(id) {
     const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
@@ -77,10 +79,10 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to get a non-deleted/active user by its email address.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to get a non-deleted/active user by its email address.
+   * @returns {Promise}
+   * @param {string} email
+   */
   async getByEmail(email) {
     const query = 'SELECT id, email, password FROM user WHERE email = ? AND deleted_at IS NULL';
 
@@ -88,10 +90,11 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to get a user by its email address.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to get a user by its email address.
+   *
+   * @param {string} email
+   * @returns {Promise}
+   */
   async getByEmailWithTrashed(email) {
     const query = 'SELECT id FROM user WHERE email = ?';
 
@@ -99,10 +102,11 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to insert a user.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to insert a user.
+   *
+   * @param {object} user
+   * @returns {Promise}
+   */
   async create(user) {
     const query = 'INSERT INTO user SET ?';
 
@@ -110,10 +114,12 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to update a user.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to update a user.
+   *
+   * @param {number} userId
+   * @param {object} user
+   * @returns {Promise}
+   */
   async update(userId, user) {
     const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
 
@@ -121,10 +127,11 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to set a deleted/inactive state to a user.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to set a deleted/inactive state to a user.
+   *
+   * @param {number} userId
+   * @returns {Promise}
+   */
   async delete(userId) {
     const query = 'UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
@@ -132,10 +139,11 @@ class UserDao {
   }
 
   /**
-  * Performs the SQL query to set a non-deleted/active state to a user.
-  *
-  * @returns {Promise}
-  */
+   * Performs the SQL query to set a non-deleted/active state to a user.
+   *
+   * @param {number} userId
+   * @returns {Promise}
+   */
   async restore(userId) {
     const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
 

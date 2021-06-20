@@ -1,10 +1,15 @@
 /**
- * User controller
+ * User controller class.
  */
 class UserController {
+  /**
+   * Constructor for UserController.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
   constructor({ userService, userMapper }) {
-    this._userService = userService;
-    this._userMapper = userMapper;
+    this.userService = userService;
+    this.userMapper = userMapper;
   }
 
   /**
@@ -16,9 +21,9 @@ class UserController {
    */
   async index(request, response, next) {
     try {
-      const users = await this._userService.findAll();
+      const users = await this.userService.findAll();
 
-      const usersDto = users.map((user) => this._userMapper.toDto(user));
+      const usersDto = users.map((user) => this.userMapper.toDto(user));
 
       response.send({
         message: 'Ok',
@@ -30,7 +35,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /user/:id endpoint
+   * Handles incoming request from the /users/:id endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -40,8 +45,8 @@ class UserController {
     try {
       const { id } = request.params;
 
-      const user = await this._userService.find(id);
-      const userDto = this._userMapper.toDto(user);
+      const user = await this.userService.find(id);
+      const userDto = this.userMapper.toDto(user);
 
       response.send({
         message: 'Ok',
@@ -53,7 +58,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /user/:id endpoint
+   * Handles incoming request from the /users/:id endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -63,7 +68,7 @@ class UserController {
     try {
       const { id } = request.params;
 
-      const userDeletedId = await this._userService.delete(id);
+      const userDeletedId = await this.userService.delete(id);
 
       response.send({
         message: 'Deleted',
@@ -77,7 +82,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /user/:id/restore endpoint
+   * Handles incoming request from the /users/:id/restore endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -87,7 +92,7 @@ class UserController {
     try {
       const { id } = request.params;
 
-      const userRestoredId = await this._userService.restore(id);
+      const userRestoredId = await this.userService.restore(id);
 
       response.send({
         message: 'Restored',

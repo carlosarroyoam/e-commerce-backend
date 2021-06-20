@@ -1,14 +1,19 @@
 /**
- * Admin controller
+ * Admin controller class.
  */
 class AdminController {
+  /**
+   * Constructor for AdminController.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
   constructor({ adminService, adminMapper }) {
     this._adminService = adminService;
     this._adminMapper = adminMapper;
   }
 
   /**
-   * Handles incoming request from the /admin endpoint
+   * Handles incoming request from the /admins endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -30,7 +35,7 @@ class AdminController {
   }
 
   /**
-   * Handles incoming request from the /admin/:id endpoint
+   * Handles incoming request from the /admins/:id endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -53,7 +58,7 @@ class AdminController {
   }
 
   /**
-   * Handles incoming request from the /admin endpoint
+   * Handles incoming request from the /admins endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -80,7 +85,7 @@ class AdminController {
   }
 
   /**
-   * Handles incoming request from the /admin/:id endpoint
+   * Handles incoming request from the /admins/:id endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -108,7 +113,7 @@ class AdminController {
   }
 
   /**
-   * Handles incoming request from the /admin/:id endpoint
+   * Handles incoming request from the /admins/:id endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -132,7 +137,7 @@ class AdminController {
   }
 
   /**
-   * Handles incoming request from the /admin/:id/restore endpoint
+   * Handles incoming request from the /admins/:id/restore endpoint
    *
    * @param {*} request
    * @param {*} response
