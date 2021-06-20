@@ -3,7 +3,8 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next
   const accessToken = authorization && authorization.split(' ')[1];
 
   if (!accessToken) {
-    return next(new authErrors.UnauthorizedError({ message: 'No token authorization provided' }));
+    const unauthorizedError = new authErrors.UnauthorizedError({ message: 'No token authorization provided' });
+    return next(unauthorizedError);
   }
 
   try {
@@ -18,6 +19,7 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next
       message: err.message,
     });
 
-    next(new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user hasn\'t access' }));
+    const forbiddenError = new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user hasn\'t access' });
+    next(forbiddenError);
   }
 };
