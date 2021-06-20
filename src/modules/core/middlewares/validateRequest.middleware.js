@@ -1,4 +1,5 @@
 const Validator = require('validatorjs');
+const BadRequestError = require('../errors/badRequest.error');
 
 module.exports = (rules, customMessages) => (req, res, next) => {
   const validation = new Validator(req.body, rules, customMessages);
@@ -6,9 +7,7 @@ module.exports = (rules, customMessages) => (req, res, next) => {
   validation.passes(() => next());
 
   validation.fails(() => {
-    res.status(400).send({
-      message: 'Bad request',
-      errors: validation.errors.errors,
-    });
+    const badRequestError = new BadRequestError({ errors: validation.errors.errors });
+    next(badRequestError);
   });
 };

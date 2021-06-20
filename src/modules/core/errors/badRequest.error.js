@@ -2,10 +2,11 @@
  * Error thrown when a user request is malformed.
  */
 class BadRequestError extends Error {
-  constructor() {
-    super('Bad request');
-    this.name = 'Unauthorized';
+  constructor({ message = 'The request data is not valid', errors }) {
+    super(message);
+    this.name = 'Bad request';
     this.status = 400;
+    this.errors = errors;
   }
 }
 

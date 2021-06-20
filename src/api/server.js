@@ -25,6 +25,7 @@ class Server {
         res.status(err.status || 500).send({
           message: err.message,
           error: err.name !== 'Error' ? err.name : 'Internal server error',
+          data: err.errors,
         });
       });
   }
