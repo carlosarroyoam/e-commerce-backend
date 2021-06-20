@@ -1,13 +1,13 @@
-module.exports = ({ jsonwebtoken, authErrors, logger }) => (req, res, next) => {
+module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next) => {
   const { authorization } = req.headers;
   const accessToken = authorization && authorization.split(' ')[1];
 
   if (!accessToken) {
-    throw new authErrors.UnauthorizedError({ message: 'No token authorization provided' });
+    return next(new authErrors.UnauthorizedError({ message: 'No token authorization provided' }));
   }
 
   try {
-    const decoded = jsonwebtoken.verify(accessToken);
+    const decoded = await jsonwebtoken.verify(accessToken);
 
     req.app.userId = decoded.sub;
 
@@ -18,6 +18,6 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => (req, res, next) => {
       message: err.message,
     });
 
-    throw new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user hasn\'t access' });
+    next(new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user hasn\'t access' }));
   }
 };
