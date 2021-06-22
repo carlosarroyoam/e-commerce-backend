@@ -4,8 +4,12 @@
         "commonjs": true,
         "es2021": true
     },
+    "plugins": [
+        "security"
+    ],
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "plugin:security/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 12
