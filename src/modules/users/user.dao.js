@@ -17,13 +17,15 @@ class UserDao {
   *
   * @returns {Promise}
   */
-  async getAll({ skip = 0 }) {
+  async getAll({
+    skip = 0, limit = 20,
+  }) {
     const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM user
       WHERE deleted_at IS NULL
-      LIMIT ?,100`;
+      LIMIT ?, ?`;
 
-    return this.connection.query(query, [Number(skip)]);
+    return this.connection.query(query, [Number(skip), Number(limit)]);
   }
 
   /**
