@@ -15,7 +15,7 @@ module.exports = {
   userController: asClass(UserController).singleton(),
   userService: asClass(UserService).singleton(),
   userRepository: asClass(UserRepository).singleton(),
-  userDao: asClass(UserDao).singleton(),
+  userDao: asValue(UserDao),
   userMapper: asClass(UserMapper).singleton(),
   userErrors: asValue({ UserNotFoundError }),
 };

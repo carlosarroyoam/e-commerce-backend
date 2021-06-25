@@ -1,6 +1,3 @@
-const UserDao = require('./user.dao');
-const UserMapper = require('./mappers/user.mapper');
-
 /**
  * User repository class.
  */
@@ -8,11 +5,11 @@ class UserRepository {
   /**
    * Constructor for UserRepository.
    *
-   * @param {any} connection
+   * @param {*} dependencies The dependencies payload
    */
-  constructor(connection) {
-    this.userDao = new UserDao(connection);
-    this.userMapper = new UserMapper();
+  constructor({ userDao, userMapper }) {
+    this.userDao = userDao;
+    this.userMapper = userMapper;
   }
 
   /**
@@ -20,8 +17,8 @@ class UserRepository {
    *
    * @returns {Promise} The result of the query
    */
-  async findAll(skip) {
-    const [result] = await this.userDao.getAll({ skip });
+  async findAll({ skip }, connection) {
+    const [result] = await this.userDao.getAll({ skip }, connection);
 
     return result;
   }
