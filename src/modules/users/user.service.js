@@ -56,7 +56,7 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const user = await this.userRepository.findById(userId);
+      const user = await this.userRepository.findById(userId, connection);
       if (!user) {
         throw new this.userErrors.UserNotFoundError();
       }
@@ -89,16 +89,16 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userByEmail = await this.userRepository.findByEmail(user.email);
+      const userByEmail = await this.userRepository.findByEmail(user.email, connection);
       if (userByEmail) {
         throw new this.userErrors.EmailAlreadyTakenError({ email: user.email });
       }
 
       const passwordHash = await this.bcrypt.hashPassword(user.password);
 
-      const createdUserId = await this.userRepository.store({ ...user, password: passwordHash });
+      const createdUserId = await this.userRepository.store({ ...user, password: passwordHash }, connection);
 
-      const createdUser = await this.userRepository.findById(createdUserId);
+      const createdUser = await this.userRepository.findById(createdUserId, connection);
 
       connection.release();
 
@@ -129,7 +129,7 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findById(userId);
+      const userById = await this.userRepository.findById(userId, connection);
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
@@ -139,12 +139,12 @@ class UserService {
         password = await this.bcrypt.hashPassword(user.password);
       }
 
-      const affectedRows = await this.userRepository.update(userId, { ...user, password });
+      const affectedRows = await this.userRepository.update(userId, { ...user, password }, connection);
       if (affectedRows < 1) {
         throw new Error('User was not updated');
       }
 
-      const updatedUser = await this.userRepository.findById(userId);
+      const updatedUser = await this.userRepository.findById(userId, connection);
 
       connection.release();
 
@@ -174,12 +174,12 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findById(userId);
+      const userById = await this.userRepository.findById(userId, connection);
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
 
-      const affectedRows = await this.userRepository.delete(userId);
+      const affectedRows = await this.userRepository.delete(userId, connection);
       if (affectedRows < 1) {
         throw new Error('User was not deleted');
       }
@@ -212,12 +212,12 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findTrashedById(userId);
+      const userById = await this.userRepository.findTrashedById(userId, connection);
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
 
-      const affectedRows = await this.userRepository.restore(userId);
+      const affectedRows = await this.userRepository.restore(userId, connection);
       if (affectedRows < 1) {
         throw new Error('User was not restored');
       }

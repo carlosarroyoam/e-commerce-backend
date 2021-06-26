@@ -107,13 +107,13 @@ const create = async (user, connection) => {
  * Performs the SQL query to update a user.
  *
  * @param {object} data
- * @param {number} userId
+ * @param {number} id
  * @returns {Promise}
  */
-const update = async ({ user }, userId, connection) => {
+const update = async ({ user }, id, connection) => {
   const query = 'UPDATE user SET ? WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [user, userId]);
+  return connection.query(query, [user, id]);
 };
 
 /**
@@ -122,10 +122,10 @@ const update = async ({ user }, userId, connection) => {
  * @param {object} data
  * @returns {Promise}
  */
-const inactivate = async ({ userId }, connection) => {
+const inactivate = async ({ id }, connection) => {
   const query = 'UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [userId]);
+  return connection.query(query, [id]);
 };
 
 /**
@@ -134,10 +134,10 @@ const inactivate = async ({ userId }, connection) => {
  * @param {object} data
  * @returns {Promise}
  */
-const restore = async ({ userId }, connection) => {
+const restore = async ({ id }, connection) => {
   const query = 'UPDATE user SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [userId]);
+  return connection.query(query, [id]);
 };
 
 module.exports = {

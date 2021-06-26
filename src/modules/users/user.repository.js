@@ -26,11 +26,11 @@ class UserRepository {
   /**
    *  Retrieves a non-deleted/active user by its id.
    *
-   * @param {number} userId
+   * @param {number} id
    * @returns {Promise} The result of the query
    */
-  async findById(userId) {
-    const [result] = await this.userDao.getById(userId);
+  async findById(id, connection) {
+    const [result] = await this.userDao.getById({ id }, connection);
 
     return result[0];
   }
@@ -38,11 +38,11 @@ class UserRepository {
   /**
    *  Retrieves a deleted/non-active user by its id.
    *
-   * @param {number} userId
+   * @param {number} id
    * @returns {Promise} The result of the query
    */
-  async findTrashedById(userId) {
-    const [result] = await this.userDao.getTrashedById(userId);
+  async findTrashedById(id, connection) {
+    const [result] = await this.userDao.getTrashedById(id, connection);
 
     return result[0];
   }
@@ -53,8 +53,8 @@ class UserRepository {
    * @param {string} email
    * @returns {Promise} The result of the query
    */
-  async findByEmail(email) {
-    const [result] = await this.userDao.getByEmail(email);
+  async findByEmail(email, connection) {
+    const [result] = await this.userDao.getByEmail({ email }, connection);
 
     return result[0];
   }
@@ -65,8 +65,8 @@ class UserRepository {
    * @param {string} email
    * @returns {Promise} The result of the query
    */
-  async findByEmailWithTrashed(email) {
-    const [result] = await this.userDao.getByEmailWithTrashed(email);
+  async findByEmailWithTrashed(email, connection) {
+    const [result] = await this.userDao.getByEmailWithTrashed(email, connection);
 
     return result[0];
   }
@@ -77,10 +77,10 @@ class UserRepository {
    * @param {object} user
    * @returns {Promise} The result of the query
    */
-  async store(user) {
+  async store(user, connection) {
     const userDbEntity = this.userMapper.toDatabaseEntity(user);
 
-    const [result] = await this.userDao.create(userDbEntity);
+    const [result] = await this.userDao.create(userDbEntity, connection);
 
     return result.insertId;
   }
@@ -88,14 +88,14 @@ class UserRepository {
   /**
    *  Updates a user.
    *
-   * @param {number} userId
+   * @param {number} id
    * @param {object} user
    * @returns {Promise} The result of the query
    */
-  async update(userId, user) {
-    const userDbEntity = this.userMapper.toDatabaseEntity(user);
+  async update(id, user, connection) {
+    const userDbEntity = this.userMapper.toDatabaseEntity(user, connection);
 
-    const [result] = await this.userDao.update(userId, userDbEntity);
+    const [result] = await this.userDao.update(id, userDbEntity, connection);
 
     return result.affectedRows;
   }
@@ -103,11 +103,11 @@ class UserRepository {
   /**
    *  Deletes a user.
    *
-   * @param {number} userId
+   * @param {number} id
    * @returns {Promise} The result of the query
    */
-  async delete(userId) {
-    const [result] = await this.userDao.delete(userId);
+  async delete(id, connection) {
+    const [result] = await this.userDao.inactivate(id, connection);
 
     return result.affectedRows;
   }
@@ -115,11 +115,11 @@ class UserRepository {
   /**
    *  Restores a user.
    *
-   * @param {number} userId
+   * @param {number} id
    * @returns {Promise} The result of the query
    */
-  async restore(userId) {
-    const [result] = await this.userDao.restore(userId);
+  async restore(id, connection) {
+    const [result] = await this.userDao.restore(id, connection);
 
     return result.affectedRows;
   }
