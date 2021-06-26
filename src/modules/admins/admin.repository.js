@@ -77,26 +77,6 @@ class AdminRepository {
 
     return result.affectedRows;
   }
-
-  /**
-   * @param {number} userId
-   * @returns {Promise} The query result
-   */
-  async delete(userId) {
-    const [result] = await this._adminDao.delete(userId);
-
-    return result.affectedRows;
-  }
-
-  /**
-   * @param {number} userId
-   * @returns {Promise} The query result
-   */
-  async restore(userId) {
-    const [result] = await this._adminDao.restore(userId);
-
-    return result.affectedRows;
-  }
 }
 
 module.exports = AdminRepository;

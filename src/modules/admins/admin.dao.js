@@ -201,30 +201,6 @@ class AdminDao {
 
     return this.connection.query(query, [admin, adminId]);
   }
-
-  /**
-  * Performs the SQL query to set a deleted/inactive state to a admin user.
-  *
-  * @param {number} adminId
-  * @returns {Promise}
-  */
-  async delete(adminId) {
-    const query = `UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE userable_type = '${this.USERABLE_TYPE}' AND userable_id = ? LIMIT 1`;
-
-    return this.connection.query(query, [adminId]);
-  }
-
-  /**
-  * Performs the SQL query to set a non-deleted/active state to a admin user.
-  *
-  * @param {number} adminId
-  * @returns {Promise}
-  */
-  async restore(adminId) {
-    const query = `UPDATE user SET deleted_at = NULL WHERE userable_type = '${this.USERABLE_TYPE}' AND userable_id = ? LIMIT 1`;
-
-    return this.connection.query(query, [adminId]);
-  }
 }
 
 module.exports = AdminDao;

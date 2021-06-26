@@ -111,54 +111,6 @@ class AdminController {
       next(error);
     }
   }
-
-  /**
-   * Handles incoming request from the /admins/:id endpoint
-   *
-   * @param {*} request
-   * @param {*} response
-   * @param {*} next
-   */
-  async destroy(request, response, next) {
-    try {
-      const { id } = request.params;
-
-      const adminDeletedId = await this._adminService.delete(id);
-
-      response.send({
-        message: 'Deleted',
-        data: {
-          adminDeletedId,
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * Handles incoming request from the /admins/:id/restore endpoint
-   *
-   * @param {*} request
-   * @param {*} response
-   * @param {*} next
-   */
-  async restore(request, response, next) {
-    try {
-      const { id } = request.params;
-
-      const adminRestoredId = await this._adminService.restore(id);
-
-      response.send({
-        message: 'Restored',
-        data: {
-          adminRestoredId,
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
 }
 
 module.exports = AdminController;

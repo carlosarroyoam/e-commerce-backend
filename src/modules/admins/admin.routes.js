@@ -10,8 +10,6 @@ module.exports = ({ adminController, verifyTokenMiddleware }) => {
   router.get('/:id', adminController.show.bind(adminController));
   router.post('/', validateMiddleware(createAdminDto), adminController.store.bind(adminController));
   router.put('/:id', validateMiddleware(updateAdminDto), adminController.update.bind(adminController));
-  router.put('/:id/restore', adminController.restore.bind(adminController));
-  router.delete('/:id', adminController.destroy.bind(adminController));
 
   return router;
 };
