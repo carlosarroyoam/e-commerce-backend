@@ -29,8 +29,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
+    FROM admin adm
+    LEFT JOIN user usr ON adm.id = usr.userable_id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.deleted_at IS NULL`;
 
     return this.connection.query(query);
@@ -52,8 +52,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
+    FROM admin adm
+    LEFT JOIN user usr ON adm.id = usr.userable_id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.deleted_at IS NOT NULL`;
 
     return this.connection.query(query);
@@ -75,8 +75,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
+    FROM admin adm
+    LEFT JOIN user usr ON adm.id = usr.userable_id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}'`;
 
     return this.connection.query(query);
@@ -99,8 +99,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
+    FROM admin adm
+    LEFT JOIN user usr ON adm.id = usr.userable_id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NULL`;
 
     return this.connection.query(query, [id]);
@@ -123,8 +123,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
+    FROM admin adm
+    LEFT JOIN user usr ON adm.id = usr.userable_id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NOT NULL`;
 
     return this.connection.query(query, [id]);
@@ -146,8 +146,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-  FROM user usr
-  LEFT JOIN admin adm ON usr.userable_id = adm.id
+  FROM admin adm
+  LEFT JOIN user usr ON adm.id = usr.userable_id
   WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.email = ? AND usr.deleted_at IS NULL`;
 
     return this.connection.query(query, [email]);
@@ -170,8 +170,8 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at       
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
+    FROM admin adm
+    LEFT JOIN user usr ON adm.id = usr.userable_id
     WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.email = ?`;
 
     return this.connection.query(query, [email]);
