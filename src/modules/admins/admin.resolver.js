@@ -16,7 +16,7 @@ module.exports = {
   adminController: asClass(AdminController).singleton(),
   adminService: asClass(AdminService).singleton(),
   adminRepository: asClass(AdminRepository).singleton(),
-  adminDao: asClass(AdminDao).singleton(),
+  adminDao: asValue(AdminDao),
   adminMapper: asClass(AdminMapper).singleton(),
   adminErrors: asValue({
     UserNotFoundError,

@@ -11,12 +11,13 @@ class AdminService {
    * @param {*} dependencies The dependencies payload
    */
   constructor({
-    dbConnectionPool, userRepository, adminErrors, bcrypt,
+    dbConnectionPool, adminRepository, userRepository, adminErrors, bcrypt,
   }) {
     this.dbConnectionPool = dbConnectionPool;
+    this.adminRepository = adminRepository;
     this.userRepository = userRepository;
-    this._adminErrors = adminErrors;
-    this._bcrypt = bcrypt;
+    this.adminErrors = adminErrors;
+    this.bcrypt = bcrypt;
   }
 
   /**
@@ -27,9 +28,8 @@ class AdminService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const adminRepository = new AdminRepository(connection);
 
-      const admins = await adminRepository.findAll();
+      const admins = await this.adminRepository.findAll(connection);
 
       connection.release();
 
@@ -53,11 +53,10 @@ class AdminService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const adminRepository = new AdminRepository(connection);
 
-      const admin = await adminRepository.findById(adminId);
+      const admin = await this.adminRepository.findById(adminId, connection);
       if (!admin) {
-        throw new this._adminErrors.UserNotFoundError();
+        throw new this.adminErrors.UserNotFoundError();
       }
 
       connection.release();
@@ -82,24 +81,23 @@ class AdminService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const adminRepository = new AdminRepository(connection);
 
       connection.beginTransaction();
 
       const userByEmail = await this.userRepository.findByEmailWithTrashed(admin.email, connection);
       if (userByEmail) {
-        throw new this._adminErrors.EmailAlreadyTakenError({ email: admin.email });
+        throw new this.adminErrors.EmailAlreadyTakenError({ email: admin.email });
       }
 
-      const passwordHash = await this._bcrypt.hashPassword(admin.password);
+      const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      const createdAdminId = await adminRepository.store({ isSuper: admin.isSuper });
+      const createdAdminId = await this.adminRepository.store({ isSuper: admin.isSuper }, connection);
 
       await this.userRepository.store({
         ...admin, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
       }, connection);
 
-      const createdAdmin = await adminRepository.findById(createdAdminId);
+      const createdAdmin = await this.adminRepository.findById(createdAdminId);
 
       connection.commit();
       connection.release();
@@ -126,29 +124,25 @@ class AdminService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const adminRepository = new AdminRepository(connection);
 
       connection.beginTransaction();
 
-      const adminById = await adminRepository.findById(adminId);
+      const adminById = await this.adminRepository.findById(adminId);
       if (!adminById) {
-        throw new this._adminErrors.UserNotFoundError();
+        throw new this.adminErrors.UserNotFoundError();
       }
 
-      let password;
-      if (admin.password) {
-        password = await this._bcrypt.hashPassword(admin.password);
-      }
+      const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      const adminAffectedRows = await adminRepository.update(adminId, { isSuper: admin.isSuper });
+      const adminAffectedRows = await this.adminRepository.update(adminId, { isSuper: admin.isSuper }, connection);
 
-      const userAffectedRows = await this.userRepository.update(adminById.id, { ...admin, password }, connection);
+      const userAffectedRows = await this.userRepository.update(adminById.id, { ...admin, password: passwordHash }, connection);
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {
         throw new Error('Admin was not updated');
       }
 
-      const updatedAdmin = await adminRepository.findById(adminId);
+      const updatedAdmin = await this.adminRepository.findById(adminId, connection);
 
       connection.commit();
       connection.release();
