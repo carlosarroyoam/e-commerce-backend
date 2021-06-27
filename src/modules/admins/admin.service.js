@@ -11,9 +11,10 @@ class AdminService {
    * @param {*} dependencies The dependencies payload
    */
   constructor({
-    dbConnectionPool, adminErrors, bcrypt,
+    dbConnectionPool, userRepository, adminErrors, bcrypt,
   }) {
     this.dbConnectionPool = dbConnectionPool;
+    this.userRepository = userRepository;
     this._adminErrors = adminErrors;
     this._bcrypt = bcrypt;
   }
@@ -81,12 +82,11 @@ class AdminService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const userRepository = new UserRepository(connection);
       const adminRepository = new AdminRepository(connection);
 
       connection.beginTransaction();
 
-      const userByEmail = await userRepository.findByEmailWithTrashed(admin.email);
+      const userByEmail = await this.userRepository.findByEmailWithTrashed(admin.email, connection);
       if (userByEmail) {
         throw new this._adminErrors.EmailAlreadyTakenError({ email: admin.email });
       }
@@ -95,9 +95,9 @@ class AdminService {
 
       const createdAdminId = await adminRepository.store({ isSuper: admin.isSuper });
 
-      await userRepository.store({
+      await this.userRepository.store({
         ...admin, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
-      });
+      }, connection);
 
       const createdAdmin = await adminRepository.findById(createdAdminId);
 
@@ -126,7 +126,6 @@ class AdminService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const userRepository = new UserRepository(connection);
       const adminRepository = new AdminRepository(connection);
 
       connection.beginTransaction();
@@ -143,7 +142,7 @@ class AdminService {
 
       const adminAffectedRows = await adminRepository.update(adminId, { isSuper: admin.isSuper });
 
-      const userAffectedRows = await userRepository.update(adminById.id, { ...admin, password });
+      const userAffectedRows = await this.userRepository.update(adminById.id, { ...admin, password }, connection);
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {
         throw new Error('Admin was not updated');
@@ -156,6 +155,7 @@ class AdminService {
 
       return updatedAdmin;
     } catch (err) {
+      connection.rollback();
       connection.release();
 
       if (err.sqlMessage) {
