@@ -1,17 +1,14 @@
-const AuthDao = require('./auth.dao');
-const UserMapper = require('../users/mappers/user.mapper');
-
 /**
  * Auth repository class.
  */
 class AuthRepository {
   /**
+   * Constructor for AuthRepository.
    *
-   * @param {any} connection
+   * @param {*} dependencies The dependencies payload
    */
-  constructor(connection) {
-    this._authDao = new AuthDao(connection);
-    this._userMapper = new UserMapper();
+  constructor({ authDao }) {
+    this.authDao = authDao;
   }
 
   /**
@@ -19,8 +16,8 @@ class AuthRepository {
    * @param {string} email The user email to query
    * @returns {Promise} The query result
    */
-  async findByEmail(email) {
-    const [result] = await this._authDao.getByEmail(email);
+  async findByEmail(email, connection) {
+    const [result] = await this.authDao.getByEmail(email, connection);
 
     return result[0];
   }

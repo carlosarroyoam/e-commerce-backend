@@ -1,5 +1,3 @@
-const AuthRepository = require('./auth.repository');
-
 /**
  * Auth service class.
  */
@@ -10,9 +8,10 @@ class AuthService {
    * @param {*} dependencies The dependencies payload
    */
   constructor({
-    dbConnectionPool, authErrors, bcrypt, jsonwebtoken, logger,
+    dbConnectionPool, authRepository, authErrors, bcrypt, jsonwebtoken, logger,
   }) {
     this.dbConnectionPool = dbConnectionPool;
+    this.authRepository = authRepository;
     this.authErrors = authErrors;
     this.bcrypt = bcrypt;
     this.jsonwebtoken = jsonwebtoken;
@@ -29,12 +28,13 @@ class AuthService {
 
     try {
       connection = await this.dbConnectionPool.getConnection();
-      const authRepository = new AuthRepository(connection);
 
-      const userByEmail = await authRepository.findByEmail(email);
+      const userByEmail = await this.authRepository.findByEmail(email, connection);
       if (!userByEmail) {
         throw new this.authErrors.UserNotFoundError({ email });
       }
+
+      connection.release();
 
       const passwordMatches = await this.bcrypt.compare(password, userByEmail.password);
       if (!passwordMatches) {
@@ -42,8 +42,6 @@ class AuthService {
       }
 
       const jwt = await this.jsonwebtoken.sign({ subject: userByEmail.id });
-
-      connection.release();
 
       return {
         user_id: userByEmail.id,

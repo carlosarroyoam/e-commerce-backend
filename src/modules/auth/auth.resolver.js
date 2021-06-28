@@ -17,7 +17,7 @@ module.exports = {
   authController: asClass(AuthController).singleton(),
   authService: asClass(AuthService).singleton(),
   authRepository: asClass(AuthRepository).singleton(),
-  authDao: asClass(AuthDao).singleton(),
+  authDao: asValue(AuthDao),
   authErrors: asValue({
     UserNotFoundError,
     UnauthorizedError,
