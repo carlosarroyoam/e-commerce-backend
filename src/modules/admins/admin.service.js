@@ -1,6 +1,3 @@
-const AdminRepository = require('./admin.repository');
-const UserRepository = require('../users/user.repository');
-
 /**
  * Admin service class.
  */
@@ -91,7 +88,9 @@ class AdminService {
 
       const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      const createdAdminId = await this.adminRepository.store({ isSuper: admin.isSuper }, connection);
+      const createdAdminId = await this.adminRepository.store({
+        isSuper: admin.isSuper,
+      }, connection);
 
       await this.userRepository.store({
         ...admin, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
@@ -136,9 +135,15 @@ class AdminService {
 
       const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      const adminAffectedRows = await this.adminRepository.update(adminId, { isSuper: admin.isSuper }, connection);
+      const adminAffectedRows = await this.adminRepository.update(adminId, {
+        isSuper: admin.isSuper,
+      },
+      connection);
 
-      const userAffectedRows = await this.userRepository.update(adminById.id, { ...admin, password: passwordHash }, connection);
+      const userAffectedRows = await this.userRepository.update(adminById.id, {
+        ...admin, password: passwordHash,
+      },
+      connection);
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {
         throw new Error('Admin was not updated');

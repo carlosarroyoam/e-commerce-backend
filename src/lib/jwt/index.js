@@ -30,12 +30,13 @@ function sign({ subject }) {
  * @returns {object | string} The decoded token
  */
 function verify(accessToken) {
-  // eslint-disable-next-line max-len
-  return new Promise((resolve, reject) => jwt.verify(accessToken, config.JWT.SECRET, (err, decoded) => {
-    if (err) return reject(err);
+  return new Promise((resolve, reject) => {
+    jwt.verify(accessToken, config.JWT.SECRET, (err, decoded) => {
+      if (err) return reject(err);
 
-    return resolve(decoded);
-  }));
+      return resolve(decoded);
+    });
+  });
 }
 
 module.exports = {
