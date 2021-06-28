@@ -35,7 +35,7 @@ class AdminService {
 
       return admins;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         throw new Error('Error while retrieving admins');
@@ -63,7 +63,7 @@ class AdminService {
 
       return admin;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         throw new Error('Error while retrieving admin');
@@ -104,8 +104,10 @@ class AdminService {
 
       return createdAdmin;
     } catch (err) {
-      connection.rollback();
-      connection.release();
+      if (connection) {
+        connection.rollback();
+        connection.release();
+      }
 
       if (err.sqlMessage) {
         throw new Error('Error while storing admin');
@@ -149,8 +151,10 @@ class AdminService {
 
       return updatedAdmin;
     } catch (err) {
-      connection.rollback();
-      connection.release();
+      if (connection) {
+        connection.rollback();
+        connection.release();
+      }
 
       if (err.sqlMessage) {
         throw new Error('Error while updating admin');

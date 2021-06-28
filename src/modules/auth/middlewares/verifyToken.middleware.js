@@ -19,7 +19,7 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next
       message: err.message,
     });
 
-    const forbiddenError = new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user hasn\'t access' });
+    const forbiddenError = new authErrors.ForbiddenError({ message: 'The provided token is not valid or the user has not access' });
     next(forbiddenError);
   }
 };

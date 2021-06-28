@@ -32,7 +32,7 @@ class UserService {
 
       return users;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({
@@ -65,7 +65,7 @@ class UserService {
 
       return user;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({
@@ -104,7 +104,7 @@ class UserService {
 
       return createdUser;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({
@@ -150,7 +150,7 @@ class UserService {
 
       return updatedUser;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({
@@ -188,7 +188,7 @@ class UserService {
 
       return userId;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({
@@ -226,7 +226,7 @@ class UserService {
 
       return userId;
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({

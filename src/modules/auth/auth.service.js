@@ -10,12 +10,13 @@ class AuthService {
    * @param {*} dependencies The dependencies payload
    */
   constructor({
-    dbConnectionPool, authErrors, bcrypt, jsonwebtoken,
+    dbConnectionPool, authErrors, bcrypt, jsonwebtoken, logger,
   }) {
     this.dbConnectionPool = dbConnectionPool;
     this.authErrors = authErrors;
     this.bcrypt = bcrypt;
     this.jsonwebtoken = jsonwebtoken;
+    this.logger = logger;
   }
 
   /**
@@ -49,9 +50,14 @@ class AuthService {
         access_token: jwt,
       };
     } catch (err) {
-      connection.release();
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
         throw new Error('Error while authenticating');
       }
 
