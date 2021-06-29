@@ -1,13 +1,13 @@
 module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next) => {
-  const { authorization } = req.headers;
-  const accessToken = authorization && authorization.split(' ')[1];
-
-  if (!accessToken) {
-    const unauthorizedError = new authErrors.UnauthorizedError({ message: 'No token authorization provided' });
-    return next(unauthorizedError);
-  }
-
   try {
+    const { authorization } = req.headers;
+    const accessToken = authorization && authorization.split(' ')[1];
+
+    if (!accessToken) {
+      const unauthorizedError = new authErrors.UnauthorizedError({ message: 'No token authorization provided' });
+      return next(unauthorizedError);
+    }
+
     const decoded = await jsonwebtoken.verify(accessToken);
 
     req.app.user = {

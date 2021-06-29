@@ -11,6 +11,8 @@ const UserNotFoundError = require('./errors/userNotFound.error');
 const UnauthorizedError = require('./errors/unauthorizedError.error');
 const ForbiddenError = require('./errors/forbiddenError.error');
 const VerifyTokenMiddleware = require('./middlewares/verifyToken.middleware');
+const AdminGuardMiddleware = require('./middlewares/adminGuard.middleware');
+const Roles = require('./roles');
 
 module.exports = {
   authRoutes: asFunction(AuthRoutes).singleton(),
@@ -24,4 +26,6 @@ module.exports = {
     ForbiddenError,
   }),
   verifyTokenMiddleware: asFunction(VerifyTokenMiddleware).singleton(),
+  adminGuardMiddleware: asFunction(AdminGuardMiddleware).singleton(),
+  userRoles: asValue(Roles),
 };
