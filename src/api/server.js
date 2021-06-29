@@ -24,6 +24,8 @@ module.exports = ({ config, router, logger }) => {
         error: err.name !== 'Error' ? err.name : 'Internal server error',
         data: err.errors,
       });
+
+      next();
     });
 
   return new Promise((resolve) => {

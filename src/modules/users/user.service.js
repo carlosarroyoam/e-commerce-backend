@@ -18,7 +18,7 @@ class UserService {
   }
 
   /**
-   *
+   * @param {number} skip
    */
   async findAll(skip) {
     let connection;
@@ -96,7 +96,10 @@ class UserService {
 
       const passwordHash = await this.bcrypt.hashPassword(user.password);
 
-      const createdUserId = await this.userRepository.store({ ...user, password: passwordHash }, connection);
+      const createdUserId = await this.userRepository.store({
+        password: passwordHash,
+        ...user,
+      }, connection);
 
       const createdUser = await this.userRepository.findById(createdUserId, connection);
 
@@ -139,7 +142,10 @@ class UserService {
         password = await this.bcrypt.hashPassword(user.password);
       }
 
-      const affectedRows = await this.userRepository.update(userId, { ...user, password }, connection);
+      const affectedRows = await this.userRepository.update(userId, {
+        password,
+        ...user,
+      }, connection);
       if (affectedRows < 1) {
         throw new Error('User was not updated');
       }
