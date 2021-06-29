@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const validateMiddleware = require('../core/middlewares/validateRequest.middleware');
-const loginDto = require('./dtos/login.dto');
+const loginDto = require('./schemas/login.dto');
 
 module.exports = ({ authController }) => {
   const router = Router();

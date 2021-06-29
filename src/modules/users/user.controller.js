@@ -44,9 +44,9 @@ class UserController {
    */
   async show(request, response, next) {
     try {
-      const { id } = request.params;
+      const { userId } = request.params;
 
-      const user = await this.userService.find(id);
+      const user = await this.userService.find(userId);
       const userDto = this.userMapper.toDto(user);
 
       response.send({
@@ -59,7 +59,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /users/:id endpoint
+   * Handles incoming request from the /users/:userId endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -67,9 +67,9 @@ class UserController {
    */
   async destroy(request, response, next) {
     try {
-      const { id } = request.params;
+      const { userId } = request.params;
 
-      const userDeletedId = await this.userService.delete(id);
+      const userDeletedId = await this.userService.delete(userId);
 
       response.send({
         message: 'Deleted',
@@ -83,7 +83,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /users/:id/restore endpoint
+   * Handles incoming request from the /users/:userId/restore endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -91,9 +91,9 @@ class UserController {
    */
   async restore(request, response, next) {
     try {
-      const { id } = request.params;
+      const { userId } = request.params;
 
-      const userRestoredId = await this.userService.restore(id);
+      const userRestoredId = await this.userService.restore(userId);
 
       response.send({
         message: 'Restored',

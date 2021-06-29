@@ -6,10 +6,11 @@ const config = require('../../config');
  * @param {object} payload
  * @returns {Promise} The signed token
  */
-function sign({ subject }) {
+function sign({ subject, userRole }) {
   return new Promise((resolve, reject) => {
     const payload = {
       sub: subject,
+      userRole,
     };
 
     const options = {

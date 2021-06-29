@@ -89,11 +89,11 @@ class AdminService {
       const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
       const createdAdminId = await this.adminRepository.store({
-        isSuper: admin.isSuper,
+        is_super: admin.is_super,
       }, connection);
 
       await this.userRepository.store({
-        ...admin, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
+        ...admin, password: passwordHash, userable_type: 'App/Admin', userable_id: createdAdminId,
       }, connection);
 
       const createdAdmin = await this.adminRepository.findById(createdAdminId);
@@ -128,7 +128,7 @@ class AdminService {
 
       connection.beginTransaction();
 
-      const adminById = await this.adminRepository.findById(adminId);
+      const adminById = await this.adminRepository.findById(adminId, connection);
       if (!adminById) {
         throw new this.adminErrors.UserNotFoundError();
       }
@@ -138,12 +138,12 @@ class AdminService {
       const adminAffectedRows = await this.adminRepository.update(adminId, {
         isSuper: admin.isSuper,
       },
-      connection);
+        connection);
 
       const userAffectedRows = await this.userRepository.update(adminById.id, {
         ...admin, password: passwordHash,
       },
-      connection);
+        connection);
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {
         throw new Error('Admin was not updated');

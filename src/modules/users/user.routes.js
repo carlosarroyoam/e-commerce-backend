@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
-module.exports = ({ userController }) => {
+module.exports = ({ userController, verifyTokenMiddleware }) => {
   const router = Router();
 
-  router.get('/', userController.index.bind(userController));
-  router.get('/:id', userController.show.bind(userController));
-  router.put('/:id/restore', userController.restore.bind(userController));
-  router.delete('/:id', userController.destroy.bind(userController));
+  router.get('/', verifyTokenMiddleware, userController.index.bind(userController));
+  router.get('/:userId', verifyTokenMiddleware, userController.show.bind(userController));
+  router.put('/:userId/restore', verifyTokenMiddleware, userController.restore.bind(userController));
+  router.delete('/:userId', verifyTokenMiddleware, userController.destroy.bind(userController));
 
   return router;
 };

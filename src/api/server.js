@@ -23,6 +23,7 @@ module.exports = ({ config, router, logger }) => {
         message: err.message,
         error: err.name !== 'Error' ? err.name : 'Internal server error',
         data: err.errors,
+        stack: err.stack,
       });
 
       next();
@@ -30,6 +31,7 @@ module.exports = ({ config, router, logger }) => {
 
   return new Promise((resolve) => {
     app.listen(config.PORT, () => {
+      // eslint-disable-next-line no-console
       console.info(`Application running on: http://localhost:${config.PORT}`);
       resolve();
     });

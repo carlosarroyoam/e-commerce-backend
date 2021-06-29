@@ -13,7 +13,7 @@ class AdminRepository {
   }
 
   /**
-   *
+   * @param {any} connection
    * @returns {Promise} The query result
    */
   async findAll(connection) {
@@ -23,16 +23,18 @@ class AdminRepository {
   }
 
   /**
-   * @param {number} id
+   * @param {number} adminId
+   * @param {any} connection
    * @returns {Promise} The query result
    */
-  async findById(id, connection) {
-    const [result] = await this.adminDao.getById({ id }, connection);
+  async findById(adminId, connection) {
+    const [result] = await this.adminDao.getById({ adminId }, connection);
 
     return result[0];
   }
 
   /**
+   * @param {any} connection
    * @param {number} userId
    */
   async findTrashedById(userId, connection) {
@@ -43,6 +45,7 @@ class AdminRepository {
 
   /**
    * @param {string} email
+   * @param {any} connection
    * @returns {Promise} The query result
    */
   async findByEmail(email, connection) {
@@ -52,6 +55,7 @@ class AdminRepository {
   }
 
   /**
+   * @param {any} connection
    * @param {object} user
    */
   async store(user, connection) {
@@ -65,6 +69,7 @@ class AdminRepository {
   /**
    * @param {number} userId
    * @param {object} user
+   * @param {any} connection
    * @returns {Promise} The query result
    */
   async update(userId, user, connection) {

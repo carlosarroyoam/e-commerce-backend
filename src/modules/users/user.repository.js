@@ -66,7 +66,7 @@ class UserRepository {
    * @returns {Promise} The result of the query
    */
   async findByEmailWithTrashed(email, connection) {
-    const [result] = await this.userDao.getByEmailWithTrashed(email, connection);
+    const [result] = await this.userDao.getByEmailWithTrashed({email}, connection);
 
     return result[0];
   }
@@ -107,7 +107,7 @@ class UserRepository {
    * @returns {Promise} The result of the query
    */
   async delete(id, connection) {
-    const [result] = await this.userDao.inactivate(id, connection);
+    const [result] = await this.userDao.inactivate({id}, connection);
 
     return result.affectedRows;
   }
@@ -119,7 +119,7 @@ class UserRepository {
    * @returns {Promise} The result of the query
    */
   async restore(id, connection) {
-    const [result] = await this.userDao.restore(id, connection);
+    const [result] = await this.userDao.restore({id}, connection);
 
     return result.affectedRows;
   }

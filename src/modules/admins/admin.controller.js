@@ -8,8 +8,8 @@ class AdminController {
    * @param {*} dependencies The dependencies payload
    */
   constructor({ adminService, adminMapper }) {
-    this._adminService = adminService;
-    this._adminMapper = adminMapper;
+    this.adminService = adminService;
+    this.adminMapper = adminMapper;
   }
 
   /**
@@ -21,9 +21,9 @@ class AdminController {
    */
   async index(request, response, next) {
     try {
-      const admins = await this._adminService.findAll();
+      const admins = await this.adminService.findAll();
 
-      const adminsDto = admins.map((admin) => this._adminMapper.toDto(admin));
+      const adminsDto = admins.map((admin) => this.adminMapper.toDto(admin));
 
       response.send({
         message: 'Ok',
@@ -45,8 +45,8 @@ class AdminController {
     try {
       const { adminId } = request.params;
 
-      const admin = await this._adminService.find(adminId);
-      const adminDto = this._adminMapper.toDto(admin);
+      const admin = await this.adminService.find(adminId);
+      const adminDto = this.adminMapper.toDto(admin);
 
       response.send({
         message: 'Ok',
@@ -67,13 +67,13 @@ class AdminController {
   async store(request, response, next) {
     try {
       const {
-        firstName, lastName, email, password, isSuper,
+        first_name, last_name, email, password, is_super,
       } = request.body;
 
-      const createdAdmin = await this._adminService.store({
-        firstName, lastName, email, password, isSuper,
+      const createdAdmin = await this.adminService.store({
+        first_name, last_name, email, password, is_super,
       });
-      const createdAdminDto = this._adminMapper.toDto(createdAdmin);
+      const createdAdminDto = this.adminMapper.toDto(createdAdmin);
 
       response.status(201).send({
         message: 'Created',
@@ -98,10 +98,10 @@ class AdminController {
         firstName, lastName, email, password, isSuper,
       } = request.body;
 
-      const updatedAdmin = await this._adminService.update(adminId, {
+      const updatedAdmin = await this.adminService.update(adminId, {
         firstName, lastName, email, password, isSuper,
       });
-      const updatedAdminDto = this._adminMapper.toDto(updatedAdmin);
+      const updatedAdminDto = this.adminMapper.toDto(updatedAdmin);
 
       response.send({
         message: 'Updated',

@@ -15,23 +15,12 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "camelcase": [
+            { "ignoreDestructuring": false } 
+        ],
         "linebreak-style": [
             "error",
             "windows"
-        ],
-        "no-underscore-dangle": [
-            "error",
-            {
-                "allowAfterThis": true
-            }
-        ],
-        "no-console": "off",
-        "no-restricted-syntax": [
-            "warn",
-            {
-                "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|trace)$/]",
-                "message": "Unexpected console statement"
-            }
         ]
     }
 }
