@@ -10,7 +10,10 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next
   try {
     const decoded = await jsonwebtoken.verify(accessToken);
 
-    req.app.userId = decoded.sub;
+    req.app.user = {
+      id: decoded.sub,
+      role: decoded.userRole,
+    }
 
     next();
   } catch (err) {
