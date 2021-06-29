@@ -23,7 +23,6 @@ module.exports = ({ config, router, logger }) => {
         message: err.message,
         error: err.name !== 'Error' ? err.name : 'Internal server error',
         data: err.errors,
-        stack: err.stack,
       });
 
       next();
