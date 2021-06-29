@@ -43,9 +43,9 @@ class AdminController {
    */
   async show(request, response, next) {
     try {
-      const { id } = request.params;
+      const { adminId } = request.params;
 
-      const admin = await this._adminService.find(id);
+      const admin = await this._adminService.find(adminId);
       const adminDto = this._adminMapper.toDto(admin);
 
       response.send({
@@ -93,12 +93,12 @@ class AdminController {
    */
   async update(request, response, next) {
     try {
-      const { id } = request.params;
+      const { adminId } = request.params;
       const {
         firstName, lastName, email, password, isSuper,
       } = request.body;
 
-      const updatedAdmin = await this._adminService.update(id, {
+      const updatedAdmin = await this._adminService.update(adminId, {
         firstName, lastName, email, password, isSuper,
       });
       const updatedAdminDto = this._adminMapper.toDto(updatedAdmin);

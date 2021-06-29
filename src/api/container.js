@@ -22,7 +22,7 @@ const StringUtils = require('../utils/string.utils');
 container
   // App
   .register({
-    server: asClass(Server).singleton(),
+    server: asFunction(Server).singleton(),
   })
   // Config
   .register({

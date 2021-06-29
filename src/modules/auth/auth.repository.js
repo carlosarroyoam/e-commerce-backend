@@ -12,8 +12,8 @@ class AuthRepository {
   }
 
   /**
-   *
    * @param {string} email The user email to query
+   * @param {any} connection
    * @returns {Promise} The query result
    */
   async findByEmail(email, connection) {
