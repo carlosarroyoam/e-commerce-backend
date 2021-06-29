@@ -1,5 +1,5 @@
 const {
-  asClass, asFunction, asValue, createContainer,
+  asFunction, asValue, createContainer,
 } = require('awilix');
 
 const container = createContainer();
@@ -22,7 +22,7 @@ const StringUtils = require('../utils/string.utils');
 container
   // App
   .register({
-    server: asClass(Server).singleton(),
+    server: asFunction(Server).singleton(),
   })
   // Config
   .register({

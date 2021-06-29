@@ -8,7 +8,7 @@ class AuthController {
    * @param {*} dependencies The dependencies payload
    */
   constructor({ authService }) {
-    this._authService = authService;
+    this.authService = authService;
   }
 
   /**
@@ -22,7 +22,7 @@ class AuthController {
     try {
       const { email, password } = request.body;
 
-      const auth = await this._authService.login({ email, password });
+      const auth = await this.authService.login({ email, password });
 
       response.send({
         message: 'Ok',
