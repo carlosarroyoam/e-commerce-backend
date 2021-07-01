@@ -30,11 +30,12 @@ class AuthService {
       connection = await this.dbConnectionPool.getConnection();
 
       const userByEmail = await this.authRepository.findByEmail(email, connection);
+      
+      connection.release();
+
       if (!userByEmail) {
         throw new this.authErrors.UserNotFoundError({ email });
       }
-
-      connection.release();
 
       const passwordMatches = await this.bcrypt.compare(password, userByEmail.password);
       if (!passwordMatches) {
@@ -49,6 +50,7 @@ class AuthService {
       return {
         user_id: userByEmail.id,
         userable_type: userByEmail.userable_type,
+        userable_id: userByEmail.userable_id,
         access_token: jwt,
       };
     } catch (err) {

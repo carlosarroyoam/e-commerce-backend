@@ -6,7 +6,7 @@
  * @param {any} connection
  */
 async function getByEmail(email, connection) {
-  const query = 'SELECT id, email, password, userable_type FROM users WHERE email = ? AND deleted_at IS NULL';
+  const query = 'SELECT id, email, password, userable_type, userable_id FROM users WHERE email = ? AND deleted_at IS NULL';
 
   return connection.query(query, [email]);
 }
