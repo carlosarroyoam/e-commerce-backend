@@ -13,7 +13,7 @@ module.exports = ({ jsonwebtoken, authErrors, logger }) => async (req, res, next
     req.app.user = {
       id: decoded.sub,
       role: decoded.userRole,
-    }
+    };
 
     next();
   } catch (err) {

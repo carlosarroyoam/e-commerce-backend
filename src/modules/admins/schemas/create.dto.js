@@ -1,7 +1,7 @@
 module.exports = {
-  first_name: ['required', 'min:5'],
-  last_name: ['required', 'min:5'],
-  email: ['required', 'email'],
-  password: ['required', 'min:8'],
+  first_name: ['required', 'alpha', 'min:5', 'max:50'],
+  last_name: ['required', 'alpha', 'min:5', 'max:50'],
+  email: ['required', 'email', 'max:128'],
+  password: ['required', 'min:8', 'max:16'],
   is_super: ['required', 'boolean'],
 };

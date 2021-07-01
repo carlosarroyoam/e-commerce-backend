@@ -30,7 +30,7 @@ class AuthService {
       connection = await this.dbConnectionPool.getConnection();
 
       const userByEmail = await this.authRepository.findByEmail(email, connection);
-      
+
       connection.release();
 
       if (!userByEmail) {

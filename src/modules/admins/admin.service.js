@@ -138,12 +138,12 @@ class AdminService {
       const adminAffectedRows = await this.adminRepository.update(adminId, {
         isSuper: admin.isSuper,
       },
-        connection);
+      connection);
 
       const userAffectedRows = await this.userRepository.update(adminById.id, {
         ...admin, password: passwordHash,
       },
-        connection);
+      connection);
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {
         throw new Error('Admin was not updated');

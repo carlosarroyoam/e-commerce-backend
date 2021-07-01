@@ -91,6 +91,9 @@
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
                     },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
+                    },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
                     }
@@ -174,6 +177,9 @@
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
                     },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
+                    },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
                     }
@@ -214,6 +220,9 @@
                     },
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
                     },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
@@ -267,6 +276,9 @@
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
                     },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
+                    },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
                     }
@@ -297,6 +309,9 @@
                     },
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
                     },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
@@ -378,6 +393,9 @@
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
                     },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
+                    },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
                     }
@@ -420,6 +438,9 @@
                     },
                     "403": {
                         "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NOT_FOUND"
                     },
                     "500": {
                         "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
@@ -470,6 +491,19 @@
                                         "The password must be at least 8 characters."
                                     ]
                                 }
+                            }
+                        }
+                    }
+                }
+            },
+            "NOT_FOUND": {
+                "description": "NOT_FOUND",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "message": "Not found",
+                                "error": "The /api/v1/wrong-route route was not found on this server"
                             }
                         }
                     }

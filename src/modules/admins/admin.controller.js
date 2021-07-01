@@ -45,7 +45,7 @@ class AdminController {
     try {
       const { adminId } = request.params;
 
-      const admin = await this.adminService.find(adminId);
+      const admin = await this.adminService.find(Number(adminId));
       const adminDto = this.adminMapper.toDto(admin);
 
       response.send({

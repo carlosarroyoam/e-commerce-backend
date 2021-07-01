@@ -15,9 +15,7 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "camelcase": [
-            { "ignoreDestructuring": false } 
-        ],
+        
         "linebreak-style": [
             "error",
             "windows"
