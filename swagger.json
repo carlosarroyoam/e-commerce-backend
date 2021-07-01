@@ -1,215 +1,569 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "Book Store",
-    "description": "This is a backend system for a book store",
-    "termsOfService": "http://swagger.io/terms/",
-    "contact": {
-      "email": "carlosarroyoam@gmail.com"
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Book Store",
+        "description": "This is a backend system for a book store",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "carlosarroyoam@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.1.0-snapshot"
     },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "version": "0.1.0-snapshot"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:3000/api/v1"
-    }
-  ],
-  "tags": [
-    {
-      "name": "user",
-      "description": "Operations about user"
-    },
-    {
-      "name": "book",
-      "description": "Operations about book"
-    }
-  ],
-  "paths": {
-    "/users": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Gets all users",
-        "operationId": "getUsers",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {}
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {}
-          }
+    "servers": [
+        {
+            "url": "http://localhost:3000/api/v1"
         }
-      },
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Add a new user",
-        "operationId": "addUser",
-        "requestBody": {
-          "description": "User object that needs to be added",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Operations about authentication"
+        },
+        {
+            "name": "user",
+            "description": "Operations about user"
+        },
+        {
+            "name": "admin",
+            "description": "Operations about admin users"
+        },
+        {
+            "name": "book",
+            "description": "Operations about book"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Authenticates a user",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "User credentials object that will be authenticated",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCredentials"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                }
             }
-          },
-          "required": true
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Gets all users",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Add a new user",
+                "operationId": "addUser",
+                "requestBody": {
+                    "description": "User object that needs to be added",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{adminId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Gets a user",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "adminId",
+                        "in": "path",
+                        "description": "ID of user to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Deletes a user",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "adminId",
+                        "in": "path",
+                        "description": "ID of user to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Updates a user",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "adminId",
+                        "in": "path",
+                        "description": "ID of user to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User object that needs to be added",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admins": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Gets all admins",
+                "operationId": "getAdmins",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Add a new admin",
+                "operationId": "addAdmin",
+                "requestBody": {
+                    "description": "Admin object that needs to be added",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Updates a admin by its id",
+                "operationId": "updatesAdmin",
+                "requestBody": {
+                    "description": "Admin object that needs to be updated",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admins/{adminId}": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Gets a admin",
+                "operationId": "getAdminById",
+                "parameters": [
+                    {
+                        "name": "adminId",
+                        "in": "path",
+                        "description": "ID of admin to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UNAUTHORIZED"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/FORBIDDEN"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
         },
         "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {}
-          },
-          "400": {
-            "description": "Invalid input",
-            "content": {}
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {}
-          }
-        },
-        "x-codegen-request-body-name": "body"
-      }
-    },
-    "/users/{userId}": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Gets a user",
-        "operationId": "getUserById",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "ID of user to return",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+            "OK": {
+                "description": "OK",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "message": "Ok",
+                                "data": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "BAD_REQUEST": {
+                "description": "BAD_REQUEST",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "message": "The request data is not valid",
+                                "error": "Bad request",
+                                "data": {
+                                    "email": [
+                                        "The email format is invalid."
+                                    ],
+                                    "password": [
+                                        "The password must be at least 8 characters."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "UNAUTHORIZED": {
+                "description": "UNAUTHORIZED",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "message": "Failed to authorize user with the email: example@domain.com",
+                                "error": "Unauthorized"
+                            }
+                        }
+                    }
+                }
+            },
+            "FORBIDDEN": {
+                "description": "FORBIDDEN",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "message": "The user has not permission to perform this action",
+                                "error": "Forbidden"
+                            }
+                        }
+                    }
+                }
+            },
+            "INTERNAL_SERVER_ERROR": {
+                "description": "INTERNAL_SERVER_ERROR",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "example": {
+                                "message": "Error while updating information",
+                                "error": "Internal server error"
+                            }
+                        }
+                    }
+                }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {}
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {}
-          }
+        },
+        "schemas": {
+            "UserCredentials": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Admin": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "is_super": {
+                        "type": "number"
+                    }
+                }
+            }
         }
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Deletes a user",
-        "operationId": "deleteUser",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "ID of user to return",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {}
-          },
-          "400": {
-            "description": "Invalid input",
-            "content": {}
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {}
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Updates a user",
-        "operationId": "updateUser",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "ID of user to return",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "User object that needs to be added",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {}
-          },
-          "400": {
-            "description": "Invalid input",
-            "content": {}
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {}
-          }
-        },
-        "x-codegen-request-body-name": "body"
-      }
     }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "first_name": {
-            "type": "string"
-          },
-          "last_name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
 }
