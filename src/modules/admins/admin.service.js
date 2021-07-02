@@ -163,14 +163,6 @@ class AdminService {
 
             const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-            const adminAffectedRows = await this.adminRepository.update(
-                {
-                    is_super: admin.is_super,
-                },
-                adminId,
-                connection
-            );
-
             const userAffectedRows = await this.userRepository.update(
                 {
                     ...admin,
@@ -180,7 +172,7 @@ class AdminService {
                 connection
             );
 
-            if (adminAffectedRows < 1 || userAffectedRows < 1) {
+            if (userAffectedRows < 1) {
                 throw new Error('Admin was not updated');
             }
 
@@ -194,6 +186,7 @@ class AdminService {
 
             return updatedAdmin;
         } catch (err) {
+            console.log(err);
             if (connection) {
                 connection.rollback();
                 connection.release();

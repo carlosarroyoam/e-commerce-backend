@@ -11,6 +11,7 @@ module.exports = [
         .withMessage('The adminId must be an integer'),
 
     body('first_name')
+        .whitelist('A-zÀ-ú\\s\\.')
         .trim()
         .customSanitizer((value) => sanitizers.capitalizeWords(value))
         .exists({ checkNull: true, checkFalsy: true })
@@ -19,10 +20,11 @@ module.exports = [
         .withMessage('The first_name must be between 5 and 50 characters'),
 
     body('last_name')
+        .whitelist('A-zÀ-ú\\s\\.')
         .trim()
         .customSanitizer((value) => sanitizers.capitalizeWords(value))
         .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The first_name is required')
+        .withMessage('The last_name is required')
         .isLength({ min: 5, max: 50 })
         .withMessage('The last_name must be between 5 and 50 characters'),
 
@@ -30,7 +32,7 @@ module.exports = [
         .trim()
         .toLowerCase()
         .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The first_name is required')
+        .withMessage('The email is required')
         .isEmail()
         .withMessage('The email format is invalid')
         .isLength({ min: 5, max: 128 })
@@ -39,7 +41,7 @@ module.exports = [
     body('password')
         .trim()
         .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The first_name is required')
+        .withMessage('The password is required')
         .isLength({ min: 8, max: 16 })
         .withMessage('The password must be between 8 and 16 characters'),
 ];

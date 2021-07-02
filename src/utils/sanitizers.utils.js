@@ -5,7 +5,9 @@ const capitalizeWords = (string) => {
 
     const words = string.toLowerCase().split(' ');
 
-    const capitalizedWords = words.map((word) => stringUtils.capitalize(word));
+    const capitalizedWords = words
+        .map((word) => stringUtils.capitalize(word))
+        .filter((word) => word.trim() !== '');
 
     return capitalizedWords.join(' ').toString();
 };
