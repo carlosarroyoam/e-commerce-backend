@@ -95,11 +95,11 @@ class AdminController {
     try {
       const { adminId } = request.params;
       const {
-        firstName, lastName, email, password, isSuper,
+        first_name, last_name, email, password, is_super,
       } = request.body;
 
       const updatedAdmin = await this.adminService.update(adminId, {
-        firstName, lastName, email, password, isSuper,
+        first_name, last_name, email, password, is_super,
       });
       const updatedAdminDto = this.adminMapper.toDto(updatedAdmin);
 

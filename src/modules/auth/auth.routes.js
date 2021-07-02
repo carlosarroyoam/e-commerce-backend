@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const validateMiddleware = require('../core/middlewares/validateRequest.middleware');
-const loginDto = require('./schemas/login.dto');
+const validateRequestMiddleware = require('../core/middlewares/validateRequest.middleware');
+const loginSchema = require('./schemas/login.schema');
 
 module.exports = ({ authController }) => {
   const router = Router();
 
-  router.post('/login', validateMiddleware(loginDto), authController.login.bind(authController));
+  router.post('/login', validateRequestMiddleware(loginSchema), authController.login.bind(authController));
 
   return router;
 };

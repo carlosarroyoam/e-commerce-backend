@@ -28,17 +28,17 @@ class AdminRepository {
    * @returns {Promise} The query result
    */
   async findById(adminId, connection) {
-    const [result] = await this.adminDao.getById({ adminId }, connection);
+    const [result] = await this.adminDao.getById(adminId, connection);
 
     return result[0];
   }
 
   /**
-   * @param {any} connection
    * @param {number} userId
+   * @param {any} connection
    */
   async findTrashedById(userId, connection) {
-    const [result] = await this.adminDao.getTrashedById({ userId }, connection);
+    const [result] = await this.adminDao.getTrashedById(userId, connection);
 
     return result[0];
   }
@@ -49,14 +49,14 @@ class AdminRepository {
    * @returns {Promise} The query result
    */
   async findByEmail(email, connection) {
-    const [result] = await this.adminDao.getByEmail({ email }, connection);
+    const [result] = await this.adminDao.getByEmail(email, connection);
 
     return result[0];
   }
 
   /**
-   * @param {any} connection
    * @param {object} user
+   * @param {any} connection
    */
   async store(user, connection) {
     const userDbEntity = this.adminMapper.toDatabaseEntity(user);
@@ -67,12 +67,12 @@ class AdminRepository {
   }
 
   /**
-   * @param {number} userId
    * @param {object} user
+   * @param {number} userId
    * @param {any} connection
    * @returns {Promise} The query result
    */
-  async update(userId, user, connection) {
+  async update(user, userId, connection) {
     const userDbEntity = this.adminMapper.toDatabaseEntity(user);
 
     const [result] = await this.adminDao.update(userDbEntity, userId, connection);

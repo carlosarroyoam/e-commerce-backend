@@ -75,11 +75,11 @@ async function getAllWithTrashed(connection) {
 /**
  * Performs the SQL query to get a non-deleted/active admin user by its id.
  *
- * @param {object} data
+ * @param {number} adminId
  * @param {any} connection
  * @returns {Promise}
  */
-async function getById({ adminId }, connection) {
+async function getById(adminId, connection) {
   const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -100,11 +100,11 @@ async function getById({ adminId }, connection) {
 /**
  * Performs the SQL query to get a deleted/inactive admin user by its id.
  *
- * @param {object} data
+ * @param {number} adminId
  * @param {any} connection
  * @returns {Promise}
  */
-async function getTrashedById({ adminId }, connection) {
+async function getTrashedById(adminId, connection) {
   const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -125,11 +125,11 @@ async function getTrashedById({ adminId }, connection) {
 /**
  * Performs the SQL query to get a non-deleted/active admin user by its email address.
  *
- * @param {object} data
+ * @param {string} email
  * @param {any} connection
  * @returns {Promise}
  */
-async function getByEmail({ email }, connection) {
+async function getByEmail(email, connection) {
   const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -149,11 +149,12 @@ async function getByEmail({ email }, connection) {
 
 /**
  * Performs the SQL query to get a admin user by its email address.
- * @param {object} data
+ *
+ * @param {string} email
  * @param {any} connection
  * @returns {Promise}
  */
-async function getByEmailWithTrashed({ email }, connection) {
+async function getByEmailWithTrashed(email, connection) {
   const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -173,6 +174,7 @@ async function getByEmailWithTrashed({ email }, connection) {
 
 /**
  * Performs the SQL query to insert a admin user.
+ *
  * @param {object} admin
  * @param {any} connection
  * @returns {Promise}
@@ -185,6 +187,7 @@ async function create(admin, connection) {
 
 /**
  * Performs the SQL query to update a admin user.
+ *
  * @param {object} admin
  * @param {number} adminId
  * @param {any} connection

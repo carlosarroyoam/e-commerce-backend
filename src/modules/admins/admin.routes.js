@@ -1,15 +1,16 @@
 const { Router } = require('express');
-const validateMiddleware = require('../core/middlewares/validateRequest.middleware');
-const createAdminDto = require('./schemas/create.dto');
-const updateAdminDto = require('./schemas/update.dto');
+const validateRequestMiddleware = require('../core/middlewares/validateRequest.middleware');
+const showAdminSchema = require('./schemas/show.schema');
+const storeAdminSchema = require('./schemas/store.schema');
+const updateAdminSchema = require('./schemas/update.schema');
 
 module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware }) => {
   const router = Router();
 
   router.get('/', verifyTokenMiddleware, adminGuardMiddleware, adminController.index.bind(adminController));
-  router.get('/:adminId', verifyTokenMiddleware, adminController.show.bind(adminController));
-  router.post('/', verifyTokenMiddleware, validateMiddleware(createAdminDto), adminController.store.bind(adminController));
-  router.put('/:adminId', verifyTokenMiddleware, validateMiddleware(updateAdminDto), adminController.update.bind(adminController));
+  router.get('/:adminId', verifyTokenMiddleware, validateRequestMiddleware(showAdminSchema), adminController.show.bind(adminController));
+  router.post('/', verifyTokenMiddleware, validateRequestMiddleware(storeAdminSchema), adminController.store.bind(adminController));
+  router.put('/:adminId', verifyTokenMiddleware, validateRequestMiddleware(updateAdminSchema), adminController.update.bind(adminController));
 
   return router;
 };

@@ -96,7 +96,7 @@ class AdminService {
         ...admin, password: passwordHash, userable_type: 'App/Admin', userable_id: createdAdminId,
       }, connection);
 
-      const createdAdmin = await this.adminRepository.findById(createdAdminId);
+      const createdAdmin = await this.adminRepository.findById(createdAdminId, connection);
 
       connection.commit();
       connection.release();
@@ -135,14 +135,16 @@ class AdminService {
 
       const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      const adminAffectedRows = await this.adminRepository.update(adminId, {
-        isSuper: admin.isSuper,
+      const adminAffectedRows = await this.adminRepository.update({
+        is_super: admin.is_super,
       },
+      adminId,
       connection);
 
-      const userAffectedRows = await this.userRepository.update(adminById.id, {
+      const userAffectedRows = await this.userRepository.update({
         ...admin, password: passwordHash,
       },
+      adminById.id,
       connection);
 
       if (adminAffectedRows < 1 || userAffectedRows < 1) {

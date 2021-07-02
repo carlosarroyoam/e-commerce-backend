@@ -13,10 +13,10 @@ class UserRepository {
   }
 
   /**
-   *  Retrieves all non-deleted/active users.
-   *
-   * @returns {Promise} The result of the query
-   */
+     * Retrieves all non-deleted/active users.
+     * @returns {Promise} The result of the query
+     * @param {any} connection
+     */
   async findAll({ skip }, connection) {
     const [result] = await this.userDao.getAll({ skip }, connection);
 
@@ -24,11 +24,12 @@ class UserRepository {
   }
 
   /**
-   *  Retrieves a non-deleted/active user by its id.
-   *
-   * @param {number} id
-   * @returns {Promise} The result of the query
-   */
+     * Retrieves a non-deleted/active user by its id.
+     *
+     * @param {number} id
+     * @param {any} connection
+     * @returns {Promise} The result of the query
+     */
   async findById(id, connection) {
     const [result] = await this.userDao.getById({ id }, connection);
 
@@ -36,11 +37,12 @@ class UserRepository {
   }
 
   /**
-   *  Retrieves a deleted/non-active user by its id.
-   *
-   * @param {number} id
-   * @returns {Promise} The result of the query
-   */
+     * Retrieves a deleted/non-active user by its id.
+     *
+     * @param {number} id
+     * @returns {Promise} The result of the query
+     * @param {any} connection
+     */
   async findTrashedById(id, connection) {
     const [result] = await this.userDao.getTrashedById(id, connection);
 
@@ -48,35 +50,37 @@ class UserRepository {
   }
 
   /**
-   *  Retrieves a non-deleted/active user by its email address.
-   *
-   * @param {string} email
-   * @returns {Promise} The result of the query
-   */
+     * Retrieves a non-deleted/active user by its email address.
+     *
+     * @param {string} email
+     * @param {any} connection
+     * @returns {Promise} The result of the query
+     */
   async findByEmail(email, connection) {
-    const [result] = await this.userDao.getByEmail({ email }, connection);
+    const [result] = await this.userDao.getByEmail(email, connection);
 
     return result[0];
   }
 
   /**
-   *  Retrieves a deleted/non-active user by its email address.
-   *
-   * @param {string} email
-   * @returns {Promise} The result of the query
-   */
+     * Retrieves a deleted/non-active user by its email address.
+     * @param {string} email
+     * @returns {Promise} The result of the query
+     * @param {any} connection
+     */
   async findByEmailWithTrashed(email, connection) {
-    const [result] = await this.userDao.getByEmailWithTrashed({ email }, connection);
+    const [result] = await this.userDao.getByEmailWithTrashed(email, connection);
 
     return result[0];
   }
 
   /**
-   *  Stores a user.
-   *
-   * @param {object} user
-   * @returns {Promise} The result of the query
-   */
+     * Stores a user.
+     *
+     * @param {object} user
+     * @param {any} connection
+     * @returns {Promise} The result of the query
+     */
   async store(user, connection) {
     const userDbEntity = this.userMapper.toDatabaseEntity(user);
 
@@ -86,40 +90,43 @@ class UserRepository {
   }
 
   /**
-   *  Updates a user.
-   *
-   * @param {number} id
-   * @param {object} user
-   * @returns {Promise} The result of the query
-   */
-  async update(id, user, connection) {
-    const userDbEntity = this.userMapper.toDatabaseEntity(user, connection);
+     * Updates a user.
+     *
+     * @param {object} user
+     * @param {number} id
+     * @param {any} connection
+     * @returns {Promise} The result of the query
+     */
+  async update(user, id, connection) {
+    const userDbEntity = this.userMapper.toDatabaseEntity(user);
 
-    const [result] = await this.userDao.update(id, userDbEntity, connection);
+    const [result] = await this.userDao.update(userDbEntity, id, connection);
 
     return result.affectedRows;
   }
 
   /**
-   *  Deletes a user.
-   *
-   * @param {number} id
-   * @returns {Promise} The result of the query
-   */
+     * Deletes a user.
+     *
+     * @param {number} id
+     * @param {any} connection
+     * @returns {Promise} The result of the query
+     */
   async delete(id, connection) {
-    const [result] = await this.userDao.inactivate({ id }, connection);
+    const [result] = await this.userDao.inactivate(id, connection);
 
     return result.affectedRows;
   }
 
   /**
-   *  Restores a user.
-   *
-   * @param {number} id
-   * @returns {Promise} The result of the query
-   */
+     * Restores a user.
+     *
+     * @param {number} id
+     * @param {any} connection
+     * @returns {Promise} The result of the query
+     */
   async restore(id, connection) {
-    const [result] = await this.userDao.restore({ id }, connection);
+    const [result] = await this.userDao.restore(id, connection);
 
     return result.affectedRows;
   }

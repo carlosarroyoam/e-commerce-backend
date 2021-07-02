@@ -484,12 +484,8 @@
                                 "message": "The request data is not valid",
                                 "error": "Bad request",
                                 "data": {
-                                    "email": [
-                                        "The email format is invalid."
-                                    ],
-                                    "password": [
-                                        "The password must be at least 8 characters."
-                                    ]
+                                    "password": "The password must be between 8 and 16 characters",
+                                    "email": "The email format is invalid"
                                 }
                             }
                         }
