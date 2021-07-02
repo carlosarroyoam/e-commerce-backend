@@ -38,12 +38,17 @@ CREATE TABLE `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_idx` (`email`),
-  INDEX user_role_id_fk (user_role_id),
   FOREIGN KEY (user_role_id)
         REFERENCES user_roles(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`) VALUES ('1', 'Carlos Alberto', 'Arroyo Martínez', 'carlosarroyo@gmail.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', '1', '2021-07-02 14:39:11', '2021-07-02 14:51:56', NULL);
 
 --
 -- Table structure for table `customers`
@@ -77,3 +82,9 @@ CREATE TABLE `admins` (
 			ON DELETE CASCADE
 			ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `is_super`, `user_id`) VALUES ('1', '0', '1');
