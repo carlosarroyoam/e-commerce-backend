@@ -3,44 +3,42 @@
  *
  * @param {object} pagination
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
-async function getAll({
-  skip = 0, limit = 20,
-}, connection) {
-  const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+async function getAll({ skip = 0, limit = 20 }, connection) {
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users
       WHERE deleted_at IS NULL
       LIMIT ?, ?`;
 
-  return connection.query(query, [skip, limit]);
+    return connection.query(query, [skip, limit]);
 }
 
 /**
  * Performs the SQL query to get all deleted/inactive users.
  *
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getTrashed(connection) {
-  const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users
       WHERE deleted_at IS NOT NULL`;
 
-  return connection.query(query);
+    return connection.query(query);
 }
 
 /**
  * Performs the SQL query to get all users.
  *
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getAllWithTrashed(connection) {
-  const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users`;
 
-  return connection.query(query);
+    return connection.query(query);
 }
 
 /**
@@ -48,14 +46,14 @@ async function getAllWithTrashed(connection) {
  *
  * @param {number} id
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getById(id, connection) {
-  const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users
       WHERE id = ? AND deleted_at IS NULL`;
 
-  return connection.query(query, [id]);
+    return connection.query(query, [id]);
 }
 
 /**
@@ -63,14 +61,14 @@ async function getById(id, connection) {
  *
  * @param {any} id
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getTrashedById(id, connection) {
-  const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
+    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
       FROM users
       WHERE id = ? AND deleted_at IS NOT NULL`;
 
-  return connection.query(query, [id]);
+    return connection.query(query, [id]);
 }
 
 /**
@@ -78,12 +76,13 @@ async function getTrashedById(id, connection) {
  *
  * @param {string} email
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getByEmail(email, connection) {
-  const query = 'SELECT id, email, password FROM users WHERE email = ? AND deleted_at IS NULL';
+    const query =
+        'SELECT id, email, password FROM users WHERE email = ? AND deleted_at IS NULL';
 
-  return connection.query(query, [email]);
+    return connection.query(query, [email]);
 }
 
 /**
@@ -91,12 +90,12 @@ async function getByEmail(email, connection) {
  *
  * @param {string} email
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getByEmailWithTrashed(email, connection) {
-  const query = 'SELECT id FROM users WHERE email = ?';
+    const query = 'SELECT id FROM users WHERE email = ?';
 
-  return connection.query(query, [email]);
+    return connection.query(query, [email]);
 }
 
 /**
@@ -104,12 +103,12 @@ async function getByEmailWithTrashed(email, connection) {
  *
  * @param {object} user
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function create(user, connection) {
-  const query = 'INSERT INTO users SET ?';
+    const query = 'INSERT INTO users SET ?';
 
-  return connection.query(query, [user]);
+    return connection.query(query, [user]);
 }
 
 /**
@@ -118,12 +117,12 @@ async function create(user, connection) {
  * @param {object} user
  * @param {number} id
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function update(user, id, connection) {
-  const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
+    const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [user, id]);
+    return connection.query(query, [user, id]);
 }
 
 /**
@@ -131,12 +130,13 @@ async function update(user, id, connection) {
  *
  * @param {number} id
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function inactivate(id, connection) {
-  const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
+    const query =
+        'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [id]);
+    return connection.query(query, [id]);
 }
 
 /**
@@ -144,24 +144,24 @@ async function inactivate(id, connection) {
  *
  * @param {number} id
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function restore(id, connection) {
-  const query = 'UPDATE users SET deleted_at = NULL WHERE id = ? LIMIT 1';
+    const query = 'UPDATE users SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [id]);
+    return connection.query(query, [id]);
 }
 
 module.exports = {
-  getAll,
-  getTrashed,
-  getAllWithTrashed,
-  getById,
-  getTrashedById,
-  getByEmail,
-  getByEmailWithTrashed,
-  create,
-  update,
-  inactivate,
-  restore,
+    getAll,
+    getTrashed,
+    getAllWithTrashed,
+    getById,
+    getTrashedById,
+    getByEmail,
+    getByEmailWithTrashed,
+    create,
+    update,
+    inactivate,
+    restore,
 };

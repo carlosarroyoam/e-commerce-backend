@@ -1,13 +1,13 @@
 const USERABLE_TYPE = 'App/Admin';
 
 /**
-* Performs the SQL query to get all non-deleted/active admin users.
-*
-* @param {any} connection
-* @returns {Promise}
-*/
+ * Performs the SQL query to get all non-deleted/active admin users.
+ *
+ * @param {any} connection
+ * @return {Promise}
+ */
 async function getAll(connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -21,17 +21,17 @@ async function getAll(connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.deleted_at IS NULL`;
 
-  return connection.query(query);
+    return connection.query(query);
 }
 
 /**
-* Performs the SQL query to get all deleted/inactive admin users.
-*
-* @param {any} connection
-* @returns {Promise}
-*/
+ * Performs the SQL query to get all deleted/inactive admin users.
+ *
+ * @param {any} connection
+ * @return {Promise}
+ */
 async function getTrashed(connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -45,17 +45,17 @@ async function getTrashed(connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.deleted_at IS NOT NULL`;
 
-  return connection.query(query);
+    return connection.query(query);
 }
 
 /**
  * Performs the SQL query to get all users.
  *
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getAllWithTrashed(connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -69,7 +69,7 @@ async function getAllWithTrashed(connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}'`;
 
-  return connection.query(query);
+    return connection.query(query);
 }
 
 /**
@@ -77,10 +77,10 @@ async function getAllWithTrashed(connection) {
  *
  * @param {number} adminId
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getById(adminId, connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -94,7 +94,7 @@ async function getById(adminId, connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NULL`;
 
-  return connection.query(query, [adminId]);
+    return connection.query(query, [adminId]);
 }
 
 /**
@@ -102,10 +102,10 @@ async function getById(adminId, connection) {
  *
  * @param {number} adminId
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getTrashedById(adminId, connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -119,7 +119,7 @@ async function getTrashedById(adminId, connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NOT NULL`;
 
-  return connection.query(query, [adminId]);
+    return connection.query(query, [adminId]);
 }
 
 /**
@@ -127,10 +127,10 @@ async function getTrashedById(adminId, connection) {
  *
  * @param {string} email
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getByEmail(email, connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -144,7 +144,7 @@ async function getByEmail(email, connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.email = ? AND usr.deleted_at IS NULL`;
 
-  return connection.query(query, [email]);
+    return connection.query(query, [email]);
 }
 
 /**
@@ -152,10 +152,10 @@ async function getByEmail(email, connection) {
  *
  * @param {string} email
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function getByEmailWithTrashed(email, connection) {
-  const query = `SELECT 
+    const query = `SELECT 
       adm.id,
       usr.id AS user_id,
       usr.first_name,
@@ -169,7 +169,7 @@ async function getByEmailWithTrashed(email, connection) {
     LEFT JOIN admins adm ON usr.userable_id = adm.id
     WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.email = ?`;
 
-  return connection.query(query, [email]);
+    return connection.query(query, [email]);
 }
 
 /**
@@ -177,12 +177,12 @@ async function getByEmailWithTrashed(email, connection) {
  *
  * @param {object} admin
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function create(admin, connection) {
-  const query = 'INSERT INTO admins SET ?';
+    const query = 'INSERT INTO admins SET ?';
 
-  return connection.query(query, [admin]);
+    return connection.query(query, [admin]);
 }
 
 /**
@@ -191,22 +191,22 @@ async function create(admin, connection) {
  * @param {object} admin
  * @param {number} adminId
  * @param {any} connection
- * @returns {Promise}
+ * @return {Promise}
  */
 async function update(admin, adminId, connection) {
-  const query = 'UPDATE admins SET ? WHERE id = ? LIMIT 1';
+    const query = 'UPDATE admins SET ? WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [admin, adminId]);
+    return connection.query(query, [admin, adminId]);
 }
 
 module.exports = {
-  getAll,
-  getTrashed,
-  getAllWithTrashed,
-  getById,
-  getTrashedById,
-  getByEmail,
-  getByEmailWithTrashed,
-  create,
-  update,
+    getAll,
+    getTrashed,
+    getAllWithTrashed,
+    getById,
+    getTrashedById,
+    getByEmail,
+    getByEmailWithTrashed,
+    create,
+    update,
 };

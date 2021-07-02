@@ -1,6 +1,4 @@
-const {
-  asClass, asFunction, asValue,
-} = require('awilix');
+const { asClass, asFunction, asValue } = require('awilix');
 
 const AdminRoutes = require('./admin.routes');
 const AdminController = require('./admin.controller');
@@ -12,14 +10,14 @@ const UserNotFoundError = require('./errors/userNotFound.error');
 const EmailAlreadyTakenError = require('./errors/emailAlreadyTakenError.error');
 
 module.exports = {
-  adminRoutes: asFunction(AdminRoutes).singleton(),
-  adminController: asClass(AdminController).singleton(),
-  adminService: asClass(AdminService).singleton(),
-  adminRepository: asClass(AdminRepository).singleton(),
-  adminDao: asValue(AdminDao),
-  adminMapper: asClass(AdminMapper).singleton(),
-  adminErrors: asValue({
-    UserNotFoundError,
-    EmailAlreadyTakenError,
-  }),
+    adminRoutes: asFunction(AdminRoutes).singleton(),
+    adminController: asClass(AdminController).singleton(),
+    adminService: asClass(AdminService).singleton(),
+    adminRepository: asClass(AdminRepository).singleton(),
+    adminDao: asValue(AdminDao),
+    adminMapper: asClass(AdminMapper).singleton(),
+    adminErrors: asValue({
+        UserNotFoundError,
+        EmailAlreadyTakenError,
+    }),
 };

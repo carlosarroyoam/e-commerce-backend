@@ -1,6 +1,5 @@
 # node-express-architecture-example
 
-
 ## Description
 
 Repository contains nodejs-api source code.
