@@ -4,7 +4,7 @@ module.exports = [
   query('skip')
     .trim()
     .default(0)
-    .toInt()
     .isInt()
+    .toInt()
     .withMessage('The skip parameter must be an integer value'),
 ];

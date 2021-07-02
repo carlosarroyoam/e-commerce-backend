@@ -40,7 +40,7 @@ module.exports = [
   body('is_super')
     .trim()
     .default(false)
-    .toBoolean()
     .isBoolean()
+    .toBoolean()
     .withMessage('The is_super must be a boolean value'),
 ];

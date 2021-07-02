@@ -7,8 +7,8 @@ module.exports = [
   param('adminId')
     .trim()
     .exists({ checkNull: true, checkFalsy: true })
-    .toInt()
     .isInt()
+    .toInt()
     .withMessage('The adminId must be an integer'),
 
   body('first_name')
