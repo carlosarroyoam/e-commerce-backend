@@ -6,10 +6,18 @@
  * @return {Promise}
  */
 async function getAll({ skip = 0, limit = 20 }, connection) {
-    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users
-      WHERE deleted_at IS NULL
-      LIMIT ?, ?`;
+    const query = `SELECT
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE deleted_at IS NULL`;
 
     return connection.query(query, [skip, limit]);
 }
@@ -21,9 +29,19 @@ async function getAll({ skip = 0, limit = 20 }, connection) {
  * @return {Promise}
  */
 async function getTrashed(connection) {
-    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users
-      WHERE deleted_at IS NOT NULL`;
+    const query = `SELECT
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at,
+            usr.deleted_at,
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE deleted_at IS NULL`;
 
     return connection.query(query);
 }
@@ -35,8 +53,18 @@ async function getTrashed(connection) {
  * @return {Promise}
  */
 async function getAllWithTrashed(connection) {
-    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users`;
+    const query = `SELECT
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at,
+            usr.deleted_at,
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id`;
 
     return connection.query(query);
 }
@@ -49,9 +77,18 @@ async function getAllWithTrashed(connection) {
  * @return {Promise}
  */
 async function getById(id, connection) {
-    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users
-      WHERE id = ? AND deleted_at IS NULL`;
+    const query = `SELECT
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE usr.id = ? AND usr.deleted_at IS NULL`;
 
     return connection.query(query, [id]);
 }
@@ -64,9 +101,18 @@ async function getById(id, connection) {
  * @return {Promise}
  */
 async function getTrashedById(id, connection) {
-    const query = `SELECT id, first_name, last_name, email, userable_type, userable_id, created_at, updated_at
-      FROM users
-      WHERE id = ? AND deleted_at IS NOT NULL`;
+    const query = `SELECT
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE usr.id = ? AND usr.deleted_at IS NOT NULL`;
 
     return connection.query(query, [id]);
 }
@@ -79,8 +125,18 @@ async function getTrashedById(id, connection) {
  * @return {Promise}
  */
 async function getByEmail(email, connection) {
-    const query =
-        'SELECT id, email, password FROM users WHERE email = ? AND deleted_at IS NULL';
+    const query = `SELECT
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE usr.email = ? AND usr.deleted_at IS NULL`;
 
     return connection.query(query, [email]);
 }
@@ -93,7 +149,7 @@ async function getByEmail(email, connection) {
  * @return {Promise}
  */
 async function getByEmailWithTrashed(email, connection) {
-    const query = 'SELECT id FROM users WHERE email = ?';
+    const query = `SELECT usr.id FROM users WHERE usr.email = ?`;
 
     return connection.query(query, [email]);
 }

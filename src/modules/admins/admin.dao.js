@@ -8,18 +8,18 @@ const USERABLE_TYPE = 'App/Admin';
  */
 async function getAll(connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.deleted_at IS NULL`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.id = usr.id
+    WHERE usr.deleted_at IS NULL`;
 
     return connection.query(query);
 }
@@ -32,18 +32,18 @@ async function getAll(connection) {
  */
 async function getTrashed(connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.deleted_at IS NOT NULL`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.id = usr.id
+    WHERE usr.deleted_at IS NOT NULL`;
 
     return connection.query(query);
 }
@@ -56,18 +56,17 @@ async function getTrashed(connection) {
  */
 async function getAllWithTrashed(connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}'`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.id = usr.id`;
 
     return connection.query(query);
 }
@@ -81,18 +80,18 @@ async function getAllWithTrashed(connection) {
  */
 async function getById(adminId, connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NULL`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.user_id = usr.id
+    WHERE adm.user_id = ? AND usr.deleted_at IS NULL`;
 
     return connection.query(query, [adminId]);
 }
@@ -106,18 +105,18 @@ async function getById(adminId, connection) {
  */
 async function getTrashedById(adminId, connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NOT NULL`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.user_id = usr.id
+    WHERE adm.user_id = ? AND usr.deleted_at IS NOT NULL`;
 
     return connection.query(query, [adminId]);
 }
@@ -131,18 +130,18 @@ async function getTrashedById(adminId, connection) {
  */
 async function getByEmail(email, connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.email = ? AND usr.deleted_at IS NULL`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.user_id = usr.id
+    WHERE usr.email = ? AND usr.deleted_at IS NULL`;
 
     return connection.query(query, [email]);
 }
@@ -156,18 +155,18 @@ async function getByEmail(email, connection) {
  */
 async function getByEmailWithTrashed(email, connection) {
     const query = `SELECT 
-      adm.id,
-      usr.id AS user_id,
-      usr.first_name,
-      usr.last_name,
-      usr.email,
-      adm.is_super,
-      usr.created_at,
-      usr.updated_at,
-      usr.deleted_at       
-    FROM users usr
-    LEFT JOIN admins adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.email = ?`;
+        adm.id,
+        usr.id AS user_id,
+        usr.first_name,
+        usr.last_name,
+        usr.email,
+        adm.is_super,
+        usr.created_at,
+        usr.updated_at,
+        usr.deleted_at
+    FROM admins adm
+    LEFT JOIN users usr ON adm.user_id = usr.id
+    WHERE usr.email = ?`;
 
     return connection.query(query, [email]);
 }

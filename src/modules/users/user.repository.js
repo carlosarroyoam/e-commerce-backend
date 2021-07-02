@@ -31,7 +31,7 @@ class UserRepository {
      * @return {Promise} The result of the query
      */
     async findById(id, connection) {
-        const [result] = await this.userDao.getById({ id }, connection);
+        const [result] = await this.userDao.getById(id, connection);
 
         return result[0];
     }

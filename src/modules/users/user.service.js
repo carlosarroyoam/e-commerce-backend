@@ -73,7 +73,7 @@ class UserService {
             return user;
         } catch (err) {
             if (connection) connection.release();
-
+            console.log(err);
             if (err.sqlMessage) {
                 this.logger.log({
                     level: 'error',

@@ -55,13 +55,13 @@ class AuthService {
 
             const jwt = await this.jsonwebtoken.sign({
                 subject: userByEmail.id,
-                userRole: userByEmail.userable_type,
+                userRole: userByEmail.user_role,
             });
 
             return {
                 user_id: userByEmail.id,
-                userable_type: userByEmail.userable_type,
-                userable_id: userByEmail.userable_id,
+                user_role_id: userByEmail.user_role_id,
+                user_role: userByEmail.user_role,
                 access_token: jwt,
             };
         } catch (err) {

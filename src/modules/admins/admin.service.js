@@ -93,6 +93,7 @@ class AdminService {
                     admin.email,
                     connection
                 );
+
             if (userByEmail) {
                 throw new this.adminErrors.EmailAlreadyTakenError({
                     email: admin.email,
@@ -101,29 +102,30 @@ class AdminService {
 
             const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-            const createdAdminId = await this.adminRepository.store(
+            const createdUserId = await this.userRepository.store(
                 {
-                    is_super: admin.is_super,
+                    ...admin,
+                    password: passwordHash,
+                    user_role_id: 1,
                 },
                 connection
             );
 
-            await this.userRepository.store(
+            const createdAdminId = await this.adminRepository.store(
                 {
-                    ...admin,
-                    password: passwordHash,
-                    userable_type: 'App/Admin',
-                    userable_id: createdAdminId,
+                    is_super: admin.is_super,
+                    user_id: createdUserId,
                 },
                 connection
             );
+
+            connection.commit();
 
             const createdAdmin = await this.adminRepository.findById(
                 createdAdminId,
                 connection
             );
 
-            connection.commit();
             connection.release();
 
             return createdAdmin;

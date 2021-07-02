@@ -6,8 +6,10 @@
  * @param {any} connection
  */
 async function getByEmail(email, connection) {
-    const query =
-        'SELECT id, email, password, userable_type, userable_id FROM users WHERE email = ? AND deleted_at IS NULL';
+    const query = `SELECT usr.id, email, password, usrrl.id AS user_role_id, usrrl.type AS user_role
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE email = 'carlosarroyo@gmail.com' AND deleted_at IS NULL`;
 
     return connection.query(query, [email]);
 }
