@@ -1,5 +1,11 @@
 const stringUtils = require('./string.utils');
 
+/**
+ * Capitalizes every word in a string.
+ *
+ * @param {string} string
+ * @return {string}
+ */
 const capitalizeWords = (string) => {
     if (typeof string !== 'string') return '';
 
