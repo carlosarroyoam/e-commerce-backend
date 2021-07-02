@@ -6,7 +6,6 @@ const sanitizers = require('../../../utils/sanitizers.utils');
 module.exports = [
   param('adminId')
     .trim()
-    .exists({ checkNull: true, checkFalsy: true })
     .isInt()
     .toInt()
     .withMessage('The adminId must be an integer'),

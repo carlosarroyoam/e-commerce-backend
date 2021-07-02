@@ -7,6 +7,7 @@ module.exports = [
     .trim()
     .toLowerCase()
     .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('The email is required')
     .isEmail()
     .withMessage('The email format is invalid')
     .isLength({ min: 5, max: 128 })
@@ -15,6 +16,7 @@ module.exports = [
   body('password')
     .trim()
     .exists({ checkNull: true, checkFalsy: true })
+    .withMessage('The password is required')
     .isLength({ min: 8, max: 16 })
     .withMessage('The password must be between 8 and 16 characters'),
 ];
