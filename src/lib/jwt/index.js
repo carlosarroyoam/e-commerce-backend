@@ -1,28 +1,46 @@
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
-function sign({ subject }) {
-  const payload = {
-    sub: subject,
-  };
+/**
+ *
+ * @param {object} payload
+ * @return {Promise} The signed token
+ */
+function sign({ subject, userRole }) {
+    return new Promise((resolve, reject) => {
+        const payload = {
+            sub: subject,
+            userRole,
+        };
 
-  const token = jwt.sign(
-    payload,
-    config.JWT.SECRET,
-    {
-      expiresIn: config.JWT.EXPIRATION,
-      issuer: config.APP_NAME,
-    },
-  );
+        const options = {
+            expiresIn: config.JWT.EXPIRATION,
+            issuer: config.APP_NAME,
+        };
 
-  return token;
+        jwt.sign(payload, config.JWT.SECRET, options, (err, token) => {
+            if (err) return reject(err);
+
+            return resolve(token);
+        });
+    });
 }
 
+/**
+ * @param {string} accessToken
+ * @return {object | string} The decoded token
+ */
 function verify(accessToken) {
-  return jwt.verify(accessToken, config.JWT.SECRET);
+    return new Promise((resolve, reject) => {
+        jwt.verify(accessToken, config.JWT.SECRET, (err, decoded) => {
+            if (err) return reject(err);
+
+            return resolve(decoded);
+        });
+    });
 }
 
 module.exports = {
-  sign,
-  verify,
+    sign,
+    verify,
 };

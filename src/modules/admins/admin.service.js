@@ -1,211 +1,204 @@
-const AdminRepository = require('./admin.repository');
-const UserRepository = require('../users/user.repository');
-
+/**
+ * Admin service class.
+ */
 class AdminService {
-  constructor({
-    dbConnection, adminErrors, bcrypt,
-  }) {
-    this._dbConnection = dbConnection;
-    this._adminErrors = adminErrors;
-    this._bcrypt = bcrypt;
-  }
-
-  async findAll() {
-    let connection;
-
-    try {
-      connection = await this._dbConnection.getConnection();
-      const adminRepository = new AdminRepository(connection);
-
-      const admins = await adminRepository.findAll();
-
-      connection.release();
-
-      return admins;
-    } catch (err) {
-      connection.release();
-
-      if (err.sqlMessage) {
-        throw new Error('Error while retrieving admins');
-      }
-
-      throw err;
+    /**
+     * Constructor for AdminService.
+     *
+     * @param {*} dependencies The dependencies payload
+     */
+    constructor({
+        dbConnectionPool,
+        adminRepository,
+        userRepository,
+        adminErrors,
+        bcrypt,
+    }) {
+        this.dbConnectionPool = dbConnectionPool;
+        this.adminRepository = adminRepository;
+        this.userRepository = userRepository;
+        this.adminErrors = adminErrors;
+        this.bcrypt = bcrypt;
     }
-  }
 
-  async find(adminId) {
-    let connection;
+    /**
+     *
+     */
+    async findAll() {
+        let connection;
 
-    try {
-      connection = await this._dbConnection.getConnection();
-      const adminRepository = new AdminRepository(connection);
+        try {
+            connection = await this.dbConnectionPool.getConnection();
 
-      const admin = await adminRepository.findById(adminId);
-      if (!admin) {
-        throw new this._adminErrors.UserNotFoundError();
-      }
+            const admins = await this.adminRepository.findAll(connection);
 
-      connection.release();
+            connection.release();
 
-      return admin;
-    } catch (err) {
-      connection.release();
+            return admins;
+        } catch (err) {
+            if (connection) connection.release();
 
-      if (err.sqlMessage) {
-        throw new Error('Error while retrieving admin');
-      }
+            if (err.sqlMessage) {
+                throw new Error('Error while retrieving admins');
+            }
 
-      throw err;
+            throw err;
+        }
     }
-  }
 
-  async store(admin) {
-    let connection;
+    /**
+     * @param {number} adminId
+     */
+    async find(adminId) {
+        let connection;
 
-    try {
-      connection = await this._dbConnection.getConnection();
-      const userRepository = new UserRepository(connection);
-      const adminRepository = new AdminRepository(connection);
+        try {
+            connection = await this.dbConnectionPool.getConnection();
 
-      connection.beginTransaction();
+            const admin = await this.adminRepository.findById(
+                adminId,
+                connection
+            );
+            if (!admin) {
+                throw new this.adminErrors.UserNotFoundError();
+            }
 
-      const userByEmail = await userRepository.findByEmailWithTrashed(admin.email);
-      if (userByEmail) {
-        throw new this._adminErrors.EmailAlreadyTakenError({ email: admin.email });
-      }
+            connection.release();
 
-      const passwordHash = await this._bcrypt.hashPassword(admin.password);
+            return admin;
+        } catch (err) {
+            if (connection) connection.release();
 
-      const createdAdminId = await adminRepository.store({ isSuper: admin.isSuper });
+            if (err.sqlMessage) {
+                throw new Error('Error while retrieving admin');
+            }
 
-      await userRepository.store({
-        ...admin, password: passwordHash, userableType: 'App/Admin', userableId: createdAdminId,
-      });
-
-      const createdAdmin = await adminRepository.findById(createdAdminId);
-
-      connection.commit();
-      connection.release();
-
-      return createdAdmin;
-    } catch (err) {
-      connection.rollback();
-      connection.release();
-
-      if (err.sqlMessage) {
-        throw new Error('Error while storing admin');
-      }
-
-      throw err;
+            throw err;
+        }
     }
-  }
 
-  async update(adminId, admin) {
-    let connection;
+    /**
+     * @param {object} admin
+     */
+    async store(admin) {
+        let connection;
 
-    try {
-      connection = await this._dbConnection.getConnection();
-      const userRepository = new UserRepository(connection);
-      const adminRepository = new AdminRepository(connection);
+        try {
+            connection = await this.dbConnectionPool.getConnection();
 
-      connection.beginTransaction();
+            connection.beginTransaction();
 
-      const adminById = await adminRepository.findById(adminId);
-      if (!adminById) {
-        throw new this._adminErrors.UserNotFoundError();
-      }
+            const userByEmail =
+                await this.userRepository.findByEmailWithTrashed(
+                    admin.email,
+                    connection
+                );
+            if (userByEmail) {
+                throw new this.adminErrors.EmailAlreadyTakenError({
+                    email: admin.email,
+                });
+            }
 
-      let password;
-      if (admin.password) {
-        password = await this._bcrypt.hashPassword(admin.password);
-      }
+            const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      const adminAffectedRows = await adminRepository.update(adminId, { isSuper: admin.isSuper });
+            const createdAdminId = await this.adminRepository.store(
+                {
+                    is_super: admin.is_super,
+                },
+                connection
+            );
 
-      const userAffectedRows = await userRepository.update(adminById.id, { ...admin, password });
+            await this.userRepository.store(
+                {
+                    ...admin,
+                    password: passwordHash,
+                    userable_type: 'App/Admin',
+                    userable_id: createdAdminId,
+                },
+                connection
+            );
 
-      if (adminAffectedRows < 1 || userAffectedRows < 1) {
-        throw new Error('Admin was not updated');
-      }
+            const createdAdmin = await this.adminRepository.findById(
+                createdAdminId,
+                connection
+            );
 
-      const updatedAdmin = await adminRepository.findById(adminId);
+            connection.commit();
+            connection.release();
 
-      connection.commit();
-      connection.release();
+            return createdAdmin;
+        } catch (err) {
+            if (connection) {
+                connection.rollback();
+                connection.release();
+            }
 
-      return updatedAdmin;
-    } catch (err) {
-      connection.release();
+            if (err.sqlMessage) {
+                throw new Error('Error while storing admin');
+            }
 
-      if (err.sqlMessage) {
-        throw new Error('Error while updating admin');
-      }
-
-      throw err;
+            throw err;
+        }
     }
-  }
 
-  async delete(adminId) {
-    let connection;
+    /**
+     * @param {number} adminId
+     * @param {object} admin
+     */
+    async update(adminId, admin) {
+        let connection;
 
-    try {
-      connection = await this._dbConnection.getConnection();
-      const adminRepository = new AdminRepository(connection);
+        try {
+            connection = await this.dbConnectionPool.getConnection();
 
-      const adminById = await adminRepository.findById(adminId);
-      if (!adminById) {
-        throw new this._adminErrors.UserNotFoundError();
-      }
+            connection.beginTransaction();
 
-      const affectedRows = await adminRepository.delete(adminId);
-      if (affectedRows < 1) {
-        throw new Error('User was not deleted');
-      }
+            const adminById = await this.adminRepository.findById(
+                adminId,
+                connection
+            );
+            if (!adminById) {
+                throw new this.adminErrors.UserNotFoundError();
+            }
 
-      connection.release();
+            const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-      return adminId;
-    } catch (err) {
-      connection.release();
+            const userAffectedRows = await this.userRepository.update(
+                {
+                    ...admin,
+                    password: passwordHash,
+                },
+                adminById.id,
+                connection
+            );
 
-      if (err.sqlMessage) {
-        throw new Error('Error while deleting admin');
-      }
+            if (userAffectedRows < 1) {
+                throw new Error('Admin was not updated');
+            }
 
-      throw err;
+            const updatedAdmin = await this.adminRepository.findById(
+                adminId,
+                connection
+            );
+
+            connection.commit();
+            connection.release();
+
+            return updatedAdmin;
+        } catch (err) {
+            console.log(err);
+            if (connection) {
+                connection.rollback();
+                connection.release();
+            }
+
+            if (err.sqlMessage) {
+                throw new Error('Error while updating admin');
+            }
+
+            throw err;
+        }
     }
-  }
-
-  async restore(adminId) {
-    let connection;
-
-    try {
-      connection = await this._dbConnection.getConnection();
-      const adminRepository = new AdminRepository(connection);
-
-      const adminById = await adminRepository.findTrashedById(adminId);
-      if (!adminById) {
-        throw new this._adminErrors.UserNotFoundError();
-      }
-
-      const affectedRows = await adminRepository.restore(adminId);
-      if (affectedRows < 1) {
-        throw new Error('Admin was not restored');
-      }
-
-      connection.release();
-
-      return adminId;
-    } catch (err) {
-      connection.release();
-
-      if (err.sqlMessage) {
-        throw new Error('Error while restoring admin');
-      }
-
-      throw err;
-    }
-  }
 }
 
 module.exports = AdminService;

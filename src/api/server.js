@@ -2,46 +2,40 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
+const helmet = require('helmet');
 
-class Server {
-  constructor({
-    config, router, logger,
-  }) {
-    this._config = config;
-    this._logger = logger;
-    this._express = express();
-    this._express
-      .use(cors())
-      .use(express.json())
-      .use(compression())
-      .use(morgan('dev'))
-      .use(router)
-      .use((err, req, res, next) => {
-        this._logger.log({
-          level: err.status ? 'info' : 'error',
-          message: err.message,
+module.exports = ({ config, router, logger }) => {
+    const app = express();
+
+    app.use(cors())
+        .use(express.json())
+        .use(compression())
+        .use(morgan('dev'))
+        .use(helmet())
+        .use(router)
+        .use((err, req, res, next) => {
+            logger.log({
+                level: err.status ? 'info' : 'error',
+                message: err.message,
+            });
+
+            res.status(err.status || 500).send({
+                message: err.message,
+                error:
+                    err.name !== 'Error' ? err.name : 'Internal server error',
+                data: err.errors,
+            });
+
+            next();
         });
 
-        res.status(err.status || 500).send({
-          message: err.message,
-          error: err.name || 'Internal server error',
-        });
-      });
-  }
-
-  /**
-   * Starts the express server and listens for  incoming connections
-   *
-   * @returns {Promise}
-   */
-  start() {
     return new Promise((resolve) => {
-      this._express.listen(this._config.PORT, () => {
-        console.info(`Application running on: http://localhost:${this._config.PORT}`);
-        resolve();
-      });
+        app.listen(config.PORT, () => {
+            // eslint-disable-next-line no-console
+            console.info(
+                `Application running on: ${config.APP_URL}:${config.PORT}`
+            );
+            resolve();
+        });
     });
-  }
-}
-
-module.exports = Server;
+};

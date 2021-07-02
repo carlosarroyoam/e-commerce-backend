@@ -1,24 +1,12 @@
+const USERABLE_TYPE = 'App/Admin';
+
 /**
- * This class contains methods for admin users management in
- * the database.
+ * Performs the SQL query to get all non-deleted/active admin users.
+ *
+ * @param {any} connection
+ * @return {Promise}
  */
-class AdminDao {
-  /**
-   * Constructor for AdminDao.
-   *
-   * @param {*} connection The actual connection
-   */
-  constructor(connection) {
-    this.connection = connection;
-    this.USERABLE_TYPE = 'App/admin';
-  }
-
-  /**
-  * Performs the SQL query to get all non-deleted/active admin users.
-  *
-  * @returns {Promise}
-  */
-  async getAll() {
+async function getAll(connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -29,19 +17,20 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.deleted_at IS NULL`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.deleted_at IS NULL`;
 
-    return this.connection.query(query);
-  }
+    return connection.query(query);
+}
 
-  /**
-  * Performs the SQL query to get all deleted/inactive admin users.
-  *
-  * @returns {Promise}
-  */
-  async getTrashed() {
+/**
+ * Performs the SQL query to get all deleted/inactive admin users.
+ *
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function getTrashed(connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -52,19 +41,20 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.deleted_at IS NOT NULL`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.deleted_at IS NOT NULL`;
 
-    return this.connection.query(query);
-  }
+    return connection.query(query);
+}
 
-  /**
-  * Performs the SQL query to get all users.
-  *
-  * @returns {Promise}
-  */
-  async getAllWithTrashed() {
+/**
+ * Performs the SQL query to get all users.
+ *
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function getAllWithTrashed(connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -75,19 +65,21 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${this.USERABLE_TYPE}'`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}'`;
 
-    return this.connection.query(query);
-  }
+    return connection.query(query);
+}
 
-  /**
-  * Performs the SQL query to get a non-deleted/active admin user by its id.
-  *
-  * @returns {Promise}
-  */
-  async getById(id) {
+/**
+ * Performs the SQL query to get a non-deleted/active admin user by its id.
+ *
+ * @param {number} adminId
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function getById(adminId, connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -98,19 +90,21 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NULL`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NULL`;
 
-    return this.connection.query(query, [id]);
-  }
+    return connection.query(query, [adminId]);
+}
 
-  /**
-  * Performs the SQL query to get a deleted/inactive admin user by its id.
-  *
-  * @returns {Promise}
-  */
-  async getTrashedById(id) {
+/**
+ * Performs the SQL query to get a deleted/inactive admin user by its id.
+ *
+ * @param {number} adminId
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function getTrashedById(adminId, connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -121,19 +115,21 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NOT NULL`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.userable_id = ? AND usr.deleted_at IS NOT NULL`;
 
-    return this.connection.query(query, [id]);
-  }
+    return connection.query(query, [adminId]);
+}
 
-  /**
-  * Performs the SQL query to get a non-deleted/active admin user by its email address.
-  *
-  * @returns {Promise}
-  */
-  async getByEmail(email) {
+/**
+ * Performs the SQL query to get a non-deleted/active admin user by its email address.
+ *
+ * @param {string} email
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function getByEmail(email, connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -144,19 +140,21 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at
-  FROM user usr
-  LEFT JOIN admin adm ON usr.userable_id = adm.id
-  WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.email = ? AND usr.deleted_at IS NULL`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.email = ? AND usr.deleted_at IS NULL`;
 
-    return this.connection.query(query, [email]);
-  }
+    return connection.query(query, [email]);
+}
 
-  /**
-  * Performs the SQL query to get a admin user by its email address.
-  *
-  * @returns {Promise}
-  */
-  async getByEmailWithTrashed(email) {
+/**
+ * Performs the SQL query to get a admin user by its email address.
+ *
+ * @param {string} email
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function getByEmailWithTrashed(email, connection) {
     const query = `SELECT 
       adm.id,
       usr.id AS user_id,
@@ -167,56 +165,48 @@ class AdminDao {
       usr.created_at,
       usr.updated_at,
       usr.deleted_at       
-    FROM user usr
-    LEFT JOIN admin adm ON usr.userable_id = adm.id
-    WHERE usr.userable_type = '${this.USERABLE_TYPE}' AND usr.email = ?`;
+    FROM users usr
+    LEFT JOIN admins adm ON usr.userable_id = adm.id
+    WHERE usr.userable_type = '${USERABLE_TYPE}' AND usr.email = ?`;
 
-    return this.connection.query(query, [email]);
-  }
-
-  /**
-  * Performs the SQL query to insert a admin user.
-  *
-  * @returns {Promise}
-  */
-  async create(admin) {
-    const query = 'INSERT INTO admin SET ?';
-
-    return this.connection.query(query, [admin]);
-  }
-
-  /**
-  * Performs the SQL query to update a admin user.
-  *
-  * @returns {Promise}
-  */
-  async update(adminId, admin) {
-    const query = 'UPDATE admin SET ? WHERE id = ? LIMIT 1';
-
-    return this.connection.query(query, [admin, adminId]);
-  }
-
-  /**
-  * Performs the SQL query to set a deleted/inactive state to a admin user.
-  *
-  * @returns {Promise}
-  */
-  async delete(adminId) {
-    const query = `UPDATE user SET deleted_at = CURRENT_TIMESTAMP WHERE userable_type = '${this.USERABLE_TYPE}' AND userable_id = ? LIMIT 1`;
-
-    return this.connection.query(query, [adminId]);
-  }
-
-  /**
-  * Performs the SQL query to set a non-deleted/active state to a admin user.
-  *
-  * @returns {Promise}
-  */
-  async restore(adminId) {
-    const query = `UPDATE user SET deleted_at = NULL WHERE userable_type = '${this.USERABLE_TYPE}' AND userable_id = ? LIMIT 1`;
-
-    return this.connection.query(query, [adminId]);
-  }
+    return connection.query(query, [email]);
 }
 
-module.exports = AdminDao;
+/**
+ * Performs the SQL query to insert a admin user.
+ *
+ * @param {object} admin
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function create(admin, connection) {
+    const query = 'INSERT INTO admins SET ?';
+
+    return connection.query(query, [admin]);
+}
+
+/**
+ * Performs the SQL query to update a admin user.
+ *
+ * @param {object} admin
+ * @param {number} adminId
+ * @param {any} connection
+ * @return {Promise}
+ */
+async function update(admin, adminId, connection) {
+    const query = 'UPDATE admins SET ? WHERE id = ? LIMIT 1';
+
+    return connection.query(query, [admin, adminId]);
+}
+
+module.exports = {
+    getAll,
+    getTrashed,
+    getAllWithTrashed,
+    getById,
+    getTrashedById,
+    getByEmail,
+    getByEmailWithTrashed,
+    create,
+    update,
+};

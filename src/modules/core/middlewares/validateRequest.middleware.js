@@ -1,14 +1,21 @@
-const Validator = require('validatorjs');
+const { validationResult } = require('express-validator');
+const BadRequestError = require('../errors/badRequest.error');
 
-module.exports = (rules, customMessages) => (req, res, next) => {
-  const validation = new Validator(req.body, rules, customMessages);
+const errorFormatter = ({ msg }) => msg;
 
-  validation.passes(() => next());
+const validateRequest = (validations) => async (req, res, next) => {
+    await Promise.all(validations.map((validation) => validation.run(req)));
 
-  validation.fails(() => {
-    res.status(400).send({
-      message: 'Bad request',
-      errors: validation.errors.errors,
-    });
-  });
+    const errors = validationResult(req).formatWith(errorFormatter);
+    if (!errors.isEmpty()) {
+        const badRequestError = new BadRequestError({
+            errors: errors.mapped(),
+        });
+        next(badRequestError);
+        return;
+    }
+
+    next();
 };
+
+module.exports = validateRequest;
