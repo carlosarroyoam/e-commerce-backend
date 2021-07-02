@@ -1,13 +1,13 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
 const { body } = require('express-validator');
-const sanitizers = require('../../../utils/sanitizers.utils');
+const stringUtils = require('../../../utils/string.utils');
 
 module.exports = [
     body('first_name')
         .whitelist('A-zÀ-ú\\s\\.')
         .trim()
-        .customSanitizer((value) => sanitizers.capitalizeWords(value))
+        .customSanitizer((value) => stringUtils.capitalizeWords(value))
         .exists({ checkNull: true, checkFalsy: true })
         .withMessage('The first_name is required')
         .isLength({ min: 5, max: 50 })
@@ -16,7 +16,7 @@ module.exports = [
     body('last_name')
         .whitelist('A-zÀ-ú\\s\\.')
         .trim()
-        .customSanitizer((value) => sanitizers.capitalizeWords(value))
+        .customSanitizer((value) => stringUtils.capitalizeWords(value))
         .exists({ checkNull: true, checkFalsy: true })
         .withMessage('The last_name is required')
         .isLength({ min: 5, max: 50 })
