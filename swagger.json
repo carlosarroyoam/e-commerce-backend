@@ -39,9 +39,7 @@
     "paths": {
         "/auth/login": {
             "post": {
-                "tags": [
-                    "auth"
-                ],
+                "tags": ["auth"],
                 "summary": "Authenticates a user",
                 "operationId": "authLogin",
                 "requestBody": {
@@ -73,9 +71,7 @@
         },
         "/users": {
             "get": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "summary": "Gets all users",
                 "operationId": "getUsers",
                 "responses": {
@@ -105,9 +101,7 @@
                 ]
             },
             "post": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "summary": "Add a new user",
                 "operationId": "addUser",
                 "requestBody": {
@@ -147,9 +141,7 @@
         },
         "/users/{adminId}": {
             "get": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "summary": "Gets a user",
                 "operationId": "getUserById",
                 "parameters": [
@@ -191,9 +183,7 @@
                 ]
             },
             "delete": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "summary": "Deletes a user",
                 "operationId": "deleteUser",
                 "parameters": [
@@ -235,9 +225,7 @@
                 ]
             },
             "patch": {
-                "tags": [
-                    "user"
-                ],
+                "tags": ["user"],
                 "summary": "Updates a user",
                 "operationId": "updateUser",
                 "parameters": [
@@ -292,9 +280,7 @@
         },
         "/admins": {
             "get": {
-                "tags": [
-                    "admin"
-                ],
+                "tags": ["admin"],
                 "summary": "Gets all admins",
                 "operationId": "getAdmins",
                 "responses": {
@@ -324,9 +310,7 @@
                 ]
             },
             "post": {
-                "tags": [
-                    "admin"
-                ],
+                "tags": ["admin"],
                 "summary": "Add a new admin",
                 "operationId": "addAdmin",
                 "requestBody": {
@@ -364,9 +348,7 @@
                 ]
             },
             "put": {
-                "tags": [
-                    "admin"
-                ],
+                "tags": ["admin"],
                 "summary": "Updates a admin by its id",
                 "operationId": "updatesAdmin",
                 "requestBody": {
@@ -409,9 +391,7 @@
         },
         "/admins/{adminId}": {
             "get": {
-                "tags": [
-                    "admin"
-                ],
+                "tags": ["admin"],
                 "summary": "Gets a admin",
                 "operationId": "getAdminById",
                 "parameters": [
@@ -458,7 +438,8 @@
         "securitySchemes": {
             "BearerAuth": {
                 "type": "http",
-                "scheme": "bearer"
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         },
         "responses": {
@@ -468,7 +449,7 @@
                     "application/json": {
                         "schema": {
                             "example": {
-                                "message": "Ok",
+                                "message": "OK",
                                 "data": {}
                             }
                         }
@@ -556,10 +537,7 @@
                         "type": "string"
                     }
                 },
-                "required": [
-                    "email",
-                    "password"
-                ]
+                "required": ["email", "password"]
             },
             "User": {
                 "type": "object",
@@ -577,12 +555,7 @@
                         "type": "string"
                     }
                 },
-                "required": [
-                    "first_name",
-                    "last_name",
-                    "email",
-                    "password"
-                ]
+                "required": ["first_name", "last_name", "email", "password"]
             },
             "Admin": {
                 "type": "object",
@@ -604,12 +577,7 @@
                         "default": false
                     }
                 },
-                "required": [
-                    "first_name",
-                    "last_name",
-                    "email",
-                    "password"
-                ]
+                "required": ["first_name", "last_name", "email", "password"]
             }
         }
     }
