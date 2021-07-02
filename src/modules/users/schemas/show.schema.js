@@ -3,7 +3,7 @@ const { param } = require('express-validator');
 module.exports = [
   param('userId')
     .trim()
-    .toInt()
     .isInt()
+    .toInt()
     .withMessage('The userId must be an integer value'),
 ];
