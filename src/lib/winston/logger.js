@@ -49,7 +49,7 @@ if (config.APP_ENV !== 'production') {
         new winston.transports.Console({
             format: winston.format.combine(
                 winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss a' }),
-                winston.format.json()
+                winston.format.json({ space: 2 })
             ),
             level: 'info',
             handleExceptions: true,
