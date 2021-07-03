@@ -3,6 +3,7 @@ const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const { level } = require('../lib/winston/logger');
 
 module.exports = ({ config, router, logger }) => {
     const app = express();
@@ -31,10 +32,11 @@ module.exports = ({ config, router, logger }) => {
 
     return new Promise((resolve) => {
         app.listen(config.PORT, () => {
-            // eslint-disable-next-line no-console
-            console.info(
-                `Application running on: ${config.APP_URL}:${config.PORT}`
-            );
+            logger.log({
+                level: 'info',
+                message: `Application running on: ${config.APP_URL}:${config.PORT}`,
+            });
+
             resolve();
         });
     });
