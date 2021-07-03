@@ -3,6 +3,7 @@ const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const { level } = require('../lib/winston/logger');
 
 module.exports = ({ config, router, logger }) => {
     const app = express();
