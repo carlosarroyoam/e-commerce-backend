@@ -13,12 +13,14 @@ class AdminService {
         userRepository,
         adminErrors,
         bcrypt,
+        logger,
     }) {
         this.dbConnectionPool = dbConnectionPool;
         this.adminRepository = adminRepository;
         this.userRepository = userRepository;
         this.adminErrors = adminErrors;
         this.bcrypt = bcrypt;
+        this.logger = logger;
     }
 
     /**
@@ -39,6 +41,11 @@ class AdminService {
             if (connection) connection.release();
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while retrieving admins');
             }
 
@@ -70,6 +77,11 @@ class AdminService {
             if (connection) connection.release();
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while retrieving admin');
             }
 
@@ -136,6 +148,11 @@ class AdminService {
             }
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while storing admin');
             }
 
@@ -195,6 +212,11 @@ class AdminService {
             }
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while updating admin');
             }
 
