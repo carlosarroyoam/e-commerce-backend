@@ -1,5 +1,3 @@
-const USERABLE_TYPE = 'App/Admin';
-
 /**
  * Performs the SQL query to get all non-deleted/active admin users.
  *

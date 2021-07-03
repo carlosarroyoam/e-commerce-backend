@@ -27,7 +27,7 @@ module.exports = ({
 
     router.post(
         '/',
-        // verifyTokenMiddleware,
+        verifyTokenMiddleware,
         validateRequestMiddleware(storeAdminSchema),
         adminController.store.bind(adminController)
     );
