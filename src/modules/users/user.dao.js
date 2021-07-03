@@ -149,7 +149,7 @@ async function getByEmail(email, connection) {
  * @return {Promise}
  */
 async function getByEmailWithTrashed(email, connection) {
-    const query = `SELECT usr.id FROM users WHERE usr.email = ?`;
+    const query = `SELECT id FROM users WHERE email = ?`;
 
     return connection.query(query, [email]);
 }
