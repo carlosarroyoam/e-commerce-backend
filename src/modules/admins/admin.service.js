@@ -12,6 +12,7 @@ class AdminService {
         adminRepository,
         userRepository,
         adminErrors,
+        userRoles,
         bcrypt,
         logger,
     }) {
@@ -19,6 +20,7 @@ class AdminService {
         this.adminRepository = adminRepository;
         this.userRepository = userRepository;
         this.adminErrors = adminErrors;
+        this.userRoles = userRoles;
         this.bcrypt = bcrypt;
         this.logger = logger;
     }
@@ -118,7 +120,7 @@ class AdminService {
                 {
                     ...admin,
                     password: passwordHash,
-                    user_role_id: 1,
+                    user_role_id: this.userRoles.admin.id,
                 },
                 connection
             );

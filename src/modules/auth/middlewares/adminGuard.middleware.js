@@ -3,7 +3,7 @@ module.exports =
     async (req, res, next) => {
         const { user } = req.app;
 
-        if (user.role !== userRoles.admin) {
+        if (user.role !== userRoles.admin.type) {
             const forbiddenError = new authErrors.ForbiddenError({
                 message: 'The user has not permission to perform this action',
             });
