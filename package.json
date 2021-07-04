@@ -24,7 +24,9 @@
     },
     "homepage": "https://github.com/carlosarroyoam/nodejs-api#readme",
     "devDependencies": {
+        "@babel/eslint-parser": "^7.14.7",
         "@types/jest": "^26.0.23",
+        "babel": "^6.23.0",
         "eslint": "^7.30.0",
         "eslint-config-google": "^0.14.0",
         "eslint-config-prettier": "^8.3.0",
