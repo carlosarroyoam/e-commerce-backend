@@ -4,6 +4,7 @@ module.exports = {
         es2021: true,
         node: true,
     },
+    parser: 'babel-eslint',
     plugins: ['security'],
     extends: ['google', 'prettier', 'plugin:security/recommended'],
     parserOptions: {
