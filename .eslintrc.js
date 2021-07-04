@@ -1,14 +1,13 @@
 module.exports = {
     env: {
         commonjs: true,
-        es2021: true,
+        es6: true,
         node: true,
     },
-    parser: 'babel-eslint',
     plugins: ['security'],
     extends: ['google', 'prettier', 'plugin:security/recommended'],
     parserOptions: {
-        ecmaVersion: 12,
+        ecmaVersion: 6,
     },
     rules: {
         camelcase: 0,
