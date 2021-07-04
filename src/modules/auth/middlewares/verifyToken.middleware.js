@@ -9,6 +9,7 @@ module.exports =
                 const unauthorizedError = new authErrors.UnauthorizedError({
                     message: 'No token authorization provided',
                 });
+
                 return next(unauthorizedError);
             }
 
@@ -30,6 +31,7 @@ module.exports =
                 message:
                     'The provided token is not valid or the user has not access',
             });
+
             next(forbiddenError);
         }
     };

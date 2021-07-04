@@ -7,6 +7,7 @@ module.exports =
             const forbiddenError = new authErrors.ForbiddenError({
                 message: 'The user has not permission to perform this action',
             });
+
             return next(forbiddenError);
         }
 
