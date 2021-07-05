@@ -49,6 +49,7 @@ class AuthService {
                 password,
                 userByEmail.password
             );
+
             if (!passwordMatches) {
                 throw new this.authErrors.UnauthorizedError({ email });
             }
