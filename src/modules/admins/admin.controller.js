@@ -78,6 +78,7 @@ class AdminController {
                 password,
                 is_super,
             });
+
             const createdAdminDto = this.adminMapper.toDto(createdAdmin);
 
             response.status(201).send({
@@ -107,6 +108,7 @@ class AdminController {
                 email,
                 password,
             });
+
             const updatedAdminDto = this.adminMapper.toDto(updatedAdmin);
 
             response.send({

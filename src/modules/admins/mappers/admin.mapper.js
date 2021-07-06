@@ -34,6 +34,7 @@ class AdminMapper {
     toDatabaseEntity(adminDto) {
         const adminDbEntity = {
             is_super: adminDto.is_super,
+            user_id: adminDto.user_id,
         };
 
         Object.keys(adminDbEntity).forEach(

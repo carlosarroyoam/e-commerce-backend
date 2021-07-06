@@ -12,13 +12,17 @@ class AdminService {
         adminRepository,
         userRepository,
         adminErrors,
+        userRoles,
         bcrypt,
+        logger,
     }) {
         this.dbConnectionPool = dbConnectionPool;
         this.adminRepository = adminRepository;
         this.userRepository = userRepository;
         this.adminErrors = adminErrors;
+        this.userRoles = userRoles;
         this.bcrypt = bcrypt;
+        this.logger = logger;
     }
 
     /**
@@ -39,6 +43,11 @@ class AdminService {
             if (connection) connection.release();
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while retrieving admins');
             }
 
@@ -70,6 +79,11 @@ class AdminService {
             if (connection) connection.release();
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while retrieving admin');
             }
 
@@ -93,6 +107,7 @@ class AdminService {
                     admin.email,
                     connection
                 );
+
             if (userByEmail) {
                 throw new this.adminErrors.EmailAlreadyTakenError({
                     email: admin.email,
@@ -101,29 +116,30 @@ class AdminService {
 
             const passwordHash = await this.bcrypt.hashPassword(admin.password);
 
-            const createdAdminId = await this.adminRepository.store(
+            const createdUserId = await this.userRepository.store(
                 {
-                    is_super: admin.is_super,
+                    ...admin,
+                    password: passwordHash,
+                    user_role_id: this.userRoles.admin.id,
                 },
                 connection
             );
 
-            await this.userRepository.store(
+            const createdAdminId = await this.adminRepository.store(
                 {
-                    ...admin,
-                    password: passwordHash,
-                    userable_type: 'App/Admin',
-                    userable_id: createdAdminId,
+                    is_super: admin.is_super,
+                    user_id: createdUserId,
                 },
                 connection
             );
+
+            connection.commit();
 
             const createdAdmin = await this.adminRepository.findById(
                 createdAdminId,
                 connection
             );
 
-            connection.commit();
             connection.release();
 
             return createdAdmin;
@@ -134,6 +150,11 @@ class AdminService {
             }
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while storing admin');
             }
 
@@ -193,6 +214,11 @@ class AdminService {
             }
 
             if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
                 throw new Error('Error while updating admin');
             }
 

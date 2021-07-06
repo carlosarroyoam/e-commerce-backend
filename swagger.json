@@ -15,7 +15,8 @@
     },
     "servers": [
         {
-            "url": "http://localhost:3000/api/v1"
+            "url": "http://localhost:3000/api/v1",
+            "description": "Dev server"
         }
     ],
     "tags": [
@@ -102,7 +103,7 @@
             },
             "post": {
                 "tags": ["user"],
-                "summary": "Add a new user",
+                "summary": "Adds a new user",
                 "operationId": "addUser",
                 "requestBody": {
                     "description": "User object that needs to be added",
@@ -311,7 +312,7 @@
             },
             "post": {
                 "tags": ["admin"],
-                "summary": "Add a new admin",
+                "summary": "Adds a new admin",
                 "operationId": "addAdmin",
                 "requestBody": {
                     "description": "Admin object that needs to be added",

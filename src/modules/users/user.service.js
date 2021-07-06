@@ -64,6 +64,7 @@ class UserService {
             connection = await this.dbConnectionPool.getConnection();
 
             const user = await this.userRepository.findById(userId, connection);
+
             if (!user) {
                 throw new this.userErrors.UserNotFoundError();
             }
@@ -73,7 +74,7 @@ class UserService {
             return user;
         } catch (err) {
             if (connection) connection.release();
-
+            console.log(err);
             if (err.sqlMessage) {
                 this.logger.log({
                     level: 'error',
@@ -100,6 +101,7 @@ class UserService {
                 user.email,
                 connection
             );
+
             if (userByEmail) {
                 throw new this.userErrors.EmailAlreadyTakenError({
                     email: user.email,
@@ -154,6 +156,7 @@ class UserService {
                 userId,
                 connection
             );
+
             if (!userById) {
                 throw new this.userErrors.UserNotFoundError();
             }
@@ -171,6 +174,7 @@ class UserService {
                 },
                 connection
             );
+
             if (affectedRows < 1) {
                 throw new Error('User was not updated');
             }
@@ -212,6 +216,7 @@ class UserService {
                 userId,
                 connection
             );
+
             if (!userById) {
                 throw new this.userErrors.UserNotFoundError();
             }
@@ -220,6 +225,7 @@ class UserService {
                 userId,
                 connection
             );
+
             if (affectedRows < 1) {
                 throw new Error('User was not deleted');
             }
@@ -256,6 +262,7 @@ class UserService {
                 userId,
                 connection
             );
+
             if (!userById) {
                 throw new this.userErrors.UserNotFoundError();
             }
@@ -264,6 +271,7 @@ class UserService {
                 userId,
                 connection
             );
+
             if (affectedRows < 1) {
                 throw new Error('User was not restored');
             }

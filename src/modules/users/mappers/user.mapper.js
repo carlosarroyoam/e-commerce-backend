@@ -17,8 +17,8 @@ class UserMapper {
             last_name: user.last_name,
             email: user.email,
             password: user.password,
-            userable_type: user.userable_type,
-            userable_id: user.userable_id,
+            user_role_id: user.user_role_id,
+            user_role: user.user_role,
             created_at: user.created_at,
             updated_at: user.updated_at,
             deleted_at: user.deleted_at,
@@ -38,8 +38,7 @@ class UserMapper {
             last_name: userDto.last_name,
             email: userDto.email,
             password: userDto.password,
-            userable_type: userDto.userable_type,
-            userable_id: userDto.userable_id,
+            user_role_id: userDto.user_role_id,
         };
 
         Object.keys(userDbEntity).forEach(

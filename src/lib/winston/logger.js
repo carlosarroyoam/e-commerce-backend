@@ -8,7 +8,6 @@ const logger = winston.createLogger({
         winston.format.timestamp(),
         winston.format.json()
     ),
-    defaultMeta: { service: config.APP_NAME },
     transports: [
         //
         // - Write all logs with level `error` and below to `error-%DATE%.log`
@@ -49,7 +48,7 @@ if (config.APP_ENV !== 'production') {
         new winston.transports.Console({
             format: winston.format.combine(
                 winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss a' }),
-                winston.format.json()
+                winston.format.json({ space: 2 })
             ),
             level: 'info',
             handleExceptions: true,
