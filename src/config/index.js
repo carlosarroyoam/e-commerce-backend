@@ -13,8 +13,8 @@ module.exports = {
         HOST: process.env.DB_HOST,
     },
     JWT: {
-        SECRET: process.env.JWT_SECRET,
-        EXPIRATION: process.env.JWT_EXPIRATION,
+        SECRET_KEY: process.env.JWT_SECRET_KEY,
+        EXPIRES_IN: process.env.JWT_EXPIRES_IN,
     },
     BCRYPT: {
         SALT_ROUNDS: Number(process.env.SALT_ROUNDS) || 10,

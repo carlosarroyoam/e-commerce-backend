@@ -14,11 +14,11 @@ function sign({ subject, userRole }) {
         };
 
         const options = {
-            expiresIn: config.JWT.EXPIRATION,
+            expiresIn: config.JWT.EXPIRES_IN,
             issuer: config.APP_NAME,
         };
 
-        jwt.sign(payload, config.JWT.SECRET, options, (err, token) => {
+        jwt.sign(payload, config.JWT.SECRET_KEY, options, (err, token) => {
             if (err) return reject(err);
 
             return resolve(token);
@@ -32,7 +32,7 @@ function sign({ subject, userRole }) {
  */
 function verify(accessToken) {
     return new Promise((resolve, reject) => {
-        jwt.verify(accessToken, config.JWT.SECRET, (err, decoded) => {
+        jwt.verify(accessToken, config.JWT.SECRET_KEY, (err, decoded) => {
             if (err) return reject(err);
 
             return resolve(decoded);
