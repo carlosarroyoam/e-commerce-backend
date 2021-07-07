@@ -11,8 +11,7 @@
             "cwd": "${workspaceRoot}",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run-script", "dev:start"],
-            "outputCapture": "std",
-            "port": 5858
+            "outputCapture": "std"
         }
     ]
 }
