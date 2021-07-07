@@ -6,7 +6,7 @@ Repository contains nodejs-api source code.
 
 ## Developing
 
-Navigate to `http://localhost:3000/`.
+Navigate to `http://localhost:3000/api/v1/docs`.
 
 ```
 $ run nodejs-api.sql script into your database management system
