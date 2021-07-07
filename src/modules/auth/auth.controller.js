@@ -32,6 +32,28 @@ class AuthController {
             next(error);
         }
     }
+
+    /**
+     * Handles incoming request from the /auth/refresh_token endpoint
+     *
+     * @param {*} request
+     * @param {*} response
+     * @param {*} next
+     */
+    async refreshToken(request, response, next) {
+        try {
+            const { refresh_token } = request.body;
+
+            const refreshToken = await this.authService.refreshToken({ refresh_token });
+
+            response.send({
+                message: 'Ok',
+                data: refreshToken,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = AuthController;

@@ -54,16 +54,79 @@ class AuthService {
                 throw new this.authErrors.UnauthorizedError({ email });
             }
 
-            const jwt = await this.jsonwebtoken.sign({
+            const token = await this.jsonwebtoken.sign({
                 subject: userByEmail.id,
                 userRole: userByEmail.user_role,
+            });
+
+            const refreshToken = await this.jsonwebtoken.signRefresh({
+                subject: userByEmail.id,
             });
 
             return {
                 user_id: userByEmail.id,
                 user_role_id: userByEmail.user_role_id,
                 user_role: userByEmail.user_role,
-                access_token: jwt,
+                access_token: token,
+                refresh_token: refreshToken
+            };
+        } catch (err) {
+            if (connection) connection.release();
+
+            if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
+                throw new Error('Error while authenticating');
+            }
+
+            throw err;
+        }
+    }
+
+
+    /**
+     *
+     * @param {*} credentials The refresh token
+     * @return {Promise} The user access token
+     */
+    async refreshToken({ refresh_token }) {
+        let connection;
+
+        try {
+            connection = await this.dbConnectionPool.getConnection();
+
+            // const userByEmail = await this.authRepository.findById(
+            //     id,
+            //     connection
+            // );
+
+            connection.release();
+
+            // if (!userByEmail) {
+            //     throw new this.authErrors.UserNotFoundError({ email });
+            // }
+
+            // const token = await this.jsonwebtoken.sign({
+            //     subject: userByEmail.id,
+            //     userRole: userByEmail.user_role,
+            // });
+
+            // const refreshToken = await this.jsonwebtoken.signRefresh({
+            //     subject: userByEmail.id,
+            // });
+
+            return {
+                // user_id: userByEmail.id,
+                // user_role_id: userByEmail.user_role_id,
+                // user_role: userByEmail.user_role,
+                // access_token: token,
+                // refresh_token: refreshToken
+
+                access_token: 'token',
+                refresh_token: 'refreshToken'
             };
         } catch (err) {
             if (connection) connection.release();
