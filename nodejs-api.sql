@@ -99,7 +99,6 @@ CREATE TABLE `personal_access_tokens` (
     `user_id` bigint UNSIGNED NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `deleted_at` timestamp NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
     FOREIGN KEY (user_id)
         REFERENCES users(id)
