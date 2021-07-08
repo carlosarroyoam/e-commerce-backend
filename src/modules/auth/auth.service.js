@@ -105,20 +105,6 @@ class AuthService {
 
             const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
 
-            const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(decoded.sub, refresh_token, connection);
-
-            if (!currentPersonalAccessToken) {
-                throw new this.authErrors.UnauthorizedError({ message: 'The provided token is not valid' });
-            }
-
-            const updatePersonalAccessTokenAffectedRows = await this.authRepository.updatePersonalAccessToken({
-                last_used_at: new Date(),
-            }, currentPersonalAccessToken.id, connection);
-
-            if (updatePersonalAccessTokenAffectedRows < 1) {
-                throw new Error('Error while refreshing token');
-            }
-
             const userById = await this.authRepository.findById(
                 decoded.sub,
                 connection
