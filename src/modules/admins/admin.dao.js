@@ -89,7 +89,7 @@ async function getById(adminId, connection) {
         usr.deleted_at
     FROM admins adm
     LEFT JOIN users usr ON adm.user_id = usr.id
-    WHERE adm.user_id = ? AND usr.deleted_at IS NULL`;
+    WHERE adm.id = ? AND usr.deleted_at IS NULL`;
 
     return connection.query(query, [adminId]);
 }
@@ -114,7 +114,7 @@ async function getTrashedById(adminId, connection) {
         usr.deleted_at
     FROM admins adm
     LEFT JOIN users usr ON adm.user_id = usr.id
-    WHERE adm.user_id = ? AND usr.deleted_at IS NOT NULL`;
+    WHERE adm.id = ? AND usr.deleted_at IS NOT NULL`;
 
     return connection.query(query, [adminId]);
 }

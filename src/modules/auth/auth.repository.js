@@ -39,16 +39,17 @@ class AuthRepository {
 
 
     /**
-     * Get a personal access token by its id.
+     * Get a personal access token.
      * 
-     * @param {string} personalAccessTokenId The personal access token id
+     * @param {number} userId The user id
+     * @param {string} personalAccessToken The personal access token
      * @param {any} connection The database connection
      * @return {Promise} The query result
      */
-    async getpersonalAccessTokenById(personalAccessTokenId, connection) {
-        const [result] = await this.authDao.getpersonalAccessTokenById(personalAccessTokenId, connection);
+    async getPersonalAccessToken(userId, personalAccessToken, connection) {
+        const [result] = await this.authDao.getPersonalAccessToken(userId, personalAccessToken, connection);
 
-        return result.insertId;
+        return result[0];
     }
 
     /**
@@ -62,6 +63,20 @@ class AuthRepository {
         const [result] = await this.authDao.storePersonalAccessToken(personalAccessToken, connection);
 
         return result.insertId;
+    }
+
+    /**
+     * Stores a personal access token.
+     * 
+     * @param {string} personalAccessToken The personal access token data
+     * @param {number} personalAccessTokenId The personal access token id
+     * @param {any} connection The database connection
+     * @return {Promise} The query result
+     */
+    async updatePersonalAccessToken(personalAccessToken, personalAccessTokenId, connection) {
+        const [result] = await this.authDao.updatePersonalAccessToken(personalAccessToken, personalAccessTokenId, connection);
+
+        return result.affectedRows;
     }
 }
 
