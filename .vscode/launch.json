@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug via NPM",
+            "name": "Debug via Inspector",
             "type": "node",
             "request": "launch",
-            "cwd": "${workspaceRoot}",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run-script", "dev:start"],
-            "outputCapture": "std"
+            "port": 9229,
+            "protocol": "inspector",
+            "console": "integratedTerminal"
         }
     ]
 }
