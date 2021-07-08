@@ -31,20 +31,51 @@ async function getByEmail(email, connection) {
 }
 
 /**
- * Performs the SQL query to store a personal_access_token.
+ * Performs the SQL query to get a personal access token.
  *
- * @param {any} personal_access_token The personal_access_token data
+ * @param {number} userId The user id
+ * @param {string} personalAccessToken The token
  * @param {any} connection The database connection
  * @return {Promise} The query result
  */
-async function storePersonalAccessToken(personal_access_token, connection) {
+async function getPersonalAccessToken(userId, personalAccessToken, connection) {
+    const query = `SELECT id FROM personal_access_tokens
+        WHERE user_id = ? AND token = ?`;
+
+    return connection.query(query, [userId, personalAccessToken]);
+}
+
+/**
+ * Performs the SQL query to store a personal access token.
+ *
+ * @param {any} personalAccessToken The personal access token data
+ * @param {any} connection The database connection
+ * @return {Promise} The query result
+ */
+async function storePersonalAccessToken(personalAccessToken, connection) {
     const query = `INSERT INTO personal_access_tokens SET ?`;
 
-    return connection.query(query, [personal_access_token]);
+    return connection.query(query, [personalAccessToken]);
+}
+
+/**
+ * Performs the SQL query to update a personal access token.
+ *
+ * @param {any} personalAccessToken The personal access token data
+ * @param {number} personalAccessTokenId The personal access token id
+ * @param {any} connection The database connection
+ * @return {Promise} The query result
+ */
+async function updatePersonalAccessToken(personalAccessToken, personalAccessTokenId, connection) {
+    const query = `UPDATE personal_access_tokens SET ? WHERE id = ?`;
+
+    return connection.query(query, [personalAccessToken, personalAccessTokenId]);
 }
 
 module.exports = {
     getById,
     getByEmail,
-    storePersonalAccessToken
+    getPersonalAccessToken,
+    storePersonalAccessToken,
+    updatePersonalAccessToken
 };
