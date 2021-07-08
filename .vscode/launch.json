@@ -13,7 +13,7 @@
                 "run-script",
                 "dev:start"
             ],
-            "port": 9210,
+            "port": 9229,
             "protocol": "inspector",
             "console": "integratedTerminal"
         }
