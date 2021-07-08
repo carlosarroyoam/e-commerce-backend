@@ -94,7 +94,7 @@ DROP TABLE IF EXISTS `personal_access_tokens`;
 
 CREATE TABLE `personal_access_tokens` (
 	`id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-	`token` varchar(64) NOT NULL,
+	`token` varchar(254) NOT NULL,
 	`last_used_at` timestamp NULL DEFAULT NULL,
     `user_id` bigint UNSIGNED NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -39,8 +39,6 @@ class AuthService {
                 connection
             );
 
-            connection.release();
-
             if (!userByEmail) {
                 throw new this.authErrors.UserNotFoundError({ email });
             }
@@ -62,6 +60,13 @@ class AuthService {
             const refreshToken = await this.jsonwebtoken.signRefresh({
                 subject: userByEmail.id,
             });
+
+            await this.authRepository.storePersonalAccessToken({
+                token: refreshToken,
+                user_id: userByEmail.id
+            }, connection);
+
+            connection.release();
 
             return {
                 user_id: userByEmail.id,
@@ -98,35 +103,36 @@ class AuthService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            // const userByEmail = await this.authRepository.findById(
-            //     id,
-            //     connection
-            // );
+            const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
+
+            const userById = await this.authRepository.findById(
+                decoded.sub,
+                connection
+            );
+
+            if (!userById) {
+                throw new this.authErrors.UnauthorizedError({ message: 'User is not active' });
+            }
+
+            const token = await this.jsonwebtoken.sign({
+                subject: userById.id,
+                userRole: userById.user_role,
+            });
+
+            const refreshToken = await this.jsonwebtoken.signRefresh({
+                subject: userById.id,
+            });
+
+            await this.authRepository.storePersonalAccessToken({
+                token: refreshToken,
+                user_id: userById.id
+            }, connection);
 
             connection.release();
 
-            // if (!userByEmail) {
-            //     throw new this.authErrors.UserNotFoundError({ email });
-            // }
-
-            // const token = await this.jsonwebtoken.sign({
-            //     subject: userByEmail.id,
-            //     userRole: userByEmail.user_role,
-            // });
-
-            // const refreshToken = await this.jsonwebtoken.signRefresh({
-            //     subject: userByEmail.id,
-            // });
-
             return {
-                // user_id: userByEmail.id,
-                // user_role_id: userByEmail.user_role_id,
-                // user_role: userByEmail.user_role,
-                // access_token: token,
-                // refresh_token: refreshToken
-
-                access_token: 'token',
-                refresh_token: 'refreshToken'
+                access_token: token,
+                refresh_token: refreshToken
             };
         } catch (err) {
             if (connection) connection.release();
@@ -137,7 +143,7 @@ class AuthService {
                     message: err.message,
                 });
 
-                throw new Error('Error while authenticating');
+                throw new Error('Error while refreshing token');
             }
 
             throw err;
