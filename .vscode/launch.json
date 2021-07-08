@@ -5,12 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug via Inspector",
+            "name": "Debug via inspector",
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "npm",
-            "runtimeArgs": ["run-script", "dev:start"],
-            "port": 9229,
+            "runtimeArgs": [
+                "run-script",
+                "dev:start"
+            ],
+            "port": 9210,
             "protocol": "inspector",
             "console": "integratedTerminal"
         }
