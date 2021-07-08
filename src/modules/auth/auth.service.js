@@ -119,15 +119,6 @@ class AuthService {
                 userRole: userById.user_role,
             });
 
-            const refreshToken = await this.jsonwebtoken.signRefresh({
-                subject: userById.id,
-            });
-
-            await this.authRepository.storePersonalAccessToken({
-                token: refreshToken,
-                user_id: userById.id
-            }, connection);
-
             const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(decoded.sub, refresh_token, connection);
 
             if (!currentPersonalAccessToken) {
@@ -146,7 +137,6 @@ class AuthService {
 
             return {
                 access_token: token,
-                refresh_token: refreshToken
             };
         } catch (err) {
             if (connection) connection.release();
