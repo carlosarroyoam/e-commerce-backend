@@ -39,10 +39,25 @@ async function getByEmail(email, connection) {
  * @return {Promise} The query result
  */
 async function getPersonalAccessToken(userId, personalAccessToken, connection) {
-    const query = `SELECT id FROM personal_access_tokens
+    const query = `SELECT id, finger_print FROM personal_access_tokens
         WHERE user_id = ? AND token = ?`;
 
     return connection.query(query, [userId, personalAccessToken]);
+}
+
+/**
+ * Performs the SQL query to get a personal access token by finger print.
+ *
+ * @param {number} userId The user id
+ * @param {string} fingerPrint The token finger print
+ * @param {any} connection The database connection
+ * @return {Promise} The query result
+ */
+async function getPersonalAccessTokenByFingerPrint(userId, fingerPrint, connection) {
+    const query = `SELECT id FROM personal_access_tokens
+        WHERE user_id = ? AND finger_print = ?`;
+
+    return connection.query(query, [userId, fingerPrint]);
 }
 
 /**
@@ -76,6 +91,7 @@ module.exports = {
     getById,
     getByEmail,
     getPersonalAccessToken,
+    getPersonalAccessTokenByFingerPrint,
     storePersonalAccessToken,
     updatePersonalAccessToken
 };

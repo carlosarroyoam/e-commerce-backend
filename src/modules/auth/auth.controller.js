@@ -21,8 +21,10 @@ class AuthController {
     async login(request, response, next) {
         try {
             const { email, password } = request.body;
+            const { hash } = request.fingerprint;
+            const user_agent = request.headers['user-agent'];
 
-            const auth = await this.authService.login({ email, password });
+            const auth = await this.authService.login({ email, password, finger_print: hash, user_agent });
 
             response.send({
                 message: 'Ok',
@@ -43,8 +45,9 @@ class AuthController {
     async refreshToken(request, response, next) {
         try {
             const { refresh_token } = request.body;
+            const { hash } = request.fingerprint;
 
-            const refreshToken = await this.authService.refreshToken({ refresh_token });
+            const refreshToken = await this.authService.refreshToken({ refresh_token, finger_print: hash });
 
             response.send({
                 message: 'Ok',

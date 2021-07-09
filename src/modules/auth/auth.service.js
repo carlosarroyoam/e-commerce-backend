@@ -28,7 +28,7 @@ class AuthService {
      * @param {*} credentials The user credentials for the login attempt
      * @return {Promise} The user access token
      */
-    async login({ email, password }) {
+    async login({ email, password, finger_print, user_agent }) {
         let connection;
 
         try {
@@ -61,10 +61,28 @@ class AuthService {
                 subject: userByEmail.id,
             });
 
-            await this.authRepository.storePersonalAccessToken({
-                token: refreshToken,
-                user_id: userByEmail.id
-            }, connection);
+            const personalAccessTokenByFingerPrint = await this.authRepository.getPersonalAccessTokenByFingerPrint(
+                userByEmail.id,
+                finger_print,
+                connection
+            );
+
+            if (personalAccessTokenByFingerPrint) {
+                const updatePersonalAccessTokenAffectedRows = await this.authRepository.updatePersonalAccessToken({
+                    token: refreshToken
+                }, userByEmail.id, connection);
+
+                if (updatePersonalAccessTokenAffectedRows < 1) {
+                    throw new Error('Error while refreshing token');
+                }
+            } else {
+                await this.authRepository.storePersonalAccessToken({
+                    token: refreshToken,
+                    user_id: userByEmail.id,
+                    finger_print,
+                    user_agent
+                }, connection);
+            }
 
             connection.release();
 
@@ -97,7 +115,7 @@ class AuthService {
      * @param {*} credentials The refresh token
      * @return {Promise} The user access token
      */
-    async refreshToken({ refresh_token }) {
+    async refreshToken({ refresh_token, finger_print }) {
         let connection;
 
         try {
@@ -125,6 +143,10 @@ class AuthService {
                 throw new this.authErrors.UnauthorizedError({ message: 'The provided token is not valid' });
             }
 
+            if (currentPersonalAccessToken.finger_print !== finger_print) {
+                throw new this.authErrors.UnauthorizedError({ message: 'The provided token is not valid' });
+            }
+
             const updatePersonalAccessTokenAffectedRows = await this.authRepository.updatePersonalAccessToken({
                 last_used_at: new Date(),
             }, currentPersonalAccessToken.id, connection);
@@ -141,13 +163,20 @@ class AuthService {
         } catch (err) {
             if (connection) connection.release();
 
+            if (err.name == 'TokenExpiredError' || err.name == 'JsonWebTokenError' || err.name == 'NotBeforeError') {
+                throw new this.authErrors.UnauthorizedError({
+                    message:
+                        'The provided token is not valid',
+                });
+            }
+
             if (err.sqlMessage) {
                 this.logger.log({
                     level: 'error',
                     message: err.message,
                 });
 
-                throw new Error('Error while refreshing token');
+                throw new Error('Error while authenticating');
             }
 
             throw err;

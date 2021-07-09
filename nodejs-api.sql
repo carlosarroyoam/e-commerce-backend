@@ -75,9 +75,9 @@ CREATE TABLE `admins` (
 	`is_super` tinyint NOT NULL DEFAULT 0,
 	`user_id` bigint UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
-    FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
+  FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -96,11 +96,13 @@ CREATE TABLE `personal_access_tokens` (
 	`id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
 	`token` varchar(254) NOT NULL,
 	`last_used_at` timestamp NULL DEFAULT NULL,
-    `user_id` bigint UNSIGNED NOT NULL,
-    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `finger_print` varchar(64) NOT NULL,
+  `user_agent` varchar(64) NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
-    FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
+  FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
