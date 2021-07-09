@@ -14,7 +14,9 @@ module.exports = {
     },
     JWT: {
         SECRET_KEY: process.env.JWT_SECRET_KEY,
+        REFRESH_SECRET_KEY: process.env.JWT_REFRESH_SECRET_KEY,
         EXPIRES_IN: process.env.JWT_EXPIRES_IN,
+        REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN,
     },
     BCRYPT: {
         SALT_ROUNDS: Number(process.env.SALT_ROUNDS) || 10,

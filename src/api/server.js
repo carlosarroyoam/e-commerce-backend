@@ -19,14 +19,17 @@ module.exports = ({ config, router, logger }) => {
                 message: err.message,
             });
 
-            res.status(err.status || 500).send({
-                message: err.message,
-                error:
-                    err.name !== 'Error' ? err.name : 'Internal server error',
-                data: err.errors,
-            });
+            if (!err.fatal) {
+                res.status(err.status || 500).send({
+                    message: err.message,
+                    error:
+                        err.name !== 'Error' ? err.name : 'Internal server error',
+                    data: err.errors,
+                });
+                return;
+            }
 
-            next();
+            process.exit(5);
         });
 
     return new Promise((resolve) => {
