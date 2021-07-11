@@ -9,10 +9,7 @@
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run-script",
-                "dev:start"
-            ],
+            "runtimeArgs": ["run-script", "dev:start"],
             "port": 9229,
             "protocol": "inspector",
             "console": "integratedTerminal"

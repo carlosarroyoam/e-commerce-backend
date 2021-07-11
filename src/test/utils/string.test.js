@@ -20,7 +20,9 @@ describe('capitalize', () => {
 
 describe('capitalizeWords', () => {
     it('sentence to be capitalized', () => {
-        expect(stringUtils.capitalizeWords('carlos alberto')).toBe('Carlos Alberto');
+        expect(stringUtils.capitalizeWords('carlos alberto')).toBe(
+            'Carlos Alberto'
+        );
     });
 
     it('empty to be empty', () => {

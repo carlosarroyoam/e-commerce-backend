@@ -8,5 +8,5 @@ module.exports = [
         .exists({ checkNull: true, checkFalsy: true })
         .withMessage('The refresh_token is required')
         .isJWT()
-        .withMessage('The refresh_token format is invalid')
+        .withMessage('The refresh_token format is invalid'),
 ];
