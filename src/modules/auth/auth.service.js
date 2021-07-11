@@ -61,27 +61,36 @@ class AuthService {
                 subject: userByEmail.id,
             });
 
-            const personalAccessTokenByFingerPrint = await this.authRepository.getPersonalAccessTokenByFingerPrint(
-                userByEmail.id,
-                finger_print,
-                connection
-            );
+            const personalAccessTokenByFingerPrint =
+                await this.authRepository.getPersonalAccessTokenByFingerPrint(
+                    userByEmail.id,
+                    finger_print,
+                    connection
+                );
 
             if (personalAccessTokenByFingerPrint) {
-                const updatePersonalAccessTokenAffectedRows = await this.authRepository.updatePersonalAccessToken({
-                    token: refreshToken
-                }, personalAccessTokenByFingerPrint.id, connection);
+                const updatePersonalAccessTokenAffectedRows =
+                    await this.authRepository.updatePersonalAccessToken(
+                        {
+                            token: refreshToken,
+                        },
+                        personalAccessTokenByFingerPrint.id,
+                        connection
+                    );
 
                 if (updatePersonalAccessTokenAffectedRows < 1) {
                     throw new Error('Error while updating refresh token');
                 }
             } else {
-                await this.authRepository.storePersonalAccessToken({
-                    token: refreshToken,
-                    user_id: userByEmail.id,
-                    finger_print,
-                    user_agent
-                }, connection);
+                await this.authRepository.storePersonalAccessToken(
+                    {
+                        token: refreshToken,
+                        user_id: userByEmail.id,
+                        finger_print,
+                        user_agent,
+                    },
+                    connection
+                );
             }
 
             connection.release();
@@ -91,7 +100,7 @@ class AuthService {
                 user_role_id: userByEmail.user_role_id,
                 user_role: userByEmail.user_role,
                 access_token: token,
-                refresh_token: refreshToken
+                refresh_token: refreshToken,
             };
         } catch (err) {
             if (connection) connection.release();
@@ -109,7 +118,6 @@ class AuthService {
         }
     }
 
-
     /**
      *
      * @param {*} credentials The refresh token
@@ -121,7 +129,9 @@ class AuthService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
+            const decoded = await this.jsonwebtoken.verifyRefresh(
+                refresh_token
+            );
 
             const userById = await this.authRepository.findById(
                 decoded.sub,
@@ -129,7 +139,9 @@ class AuthService {
             );
 
             if (!userById) {
-                throw new this.authErrors.UnauthorizedError({ message: 'User is not active' });
+                throw new this.authErrors.UnauthorizedError({
+                    message: 'User is not active',
+                });
             }
 
             const token = await this.jsonwebtoken.sign({
@@ -137,19 +149,33 @@ class AuthService {
                 userRole: userById.user_role,
             });
 
-            const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(decoded.sub, refresh_token, connection);
+            const currentPersonalAccessToken =
+                await this.authRepository.getPersonalAccessToken(
+                    decoded.sub,
+                    refresh_token,
+                    connection
+                );
 
             if (!currentPersonalAccessToken) {
-                throw new this.authErrors.UnauthorizedError({ message: 'The provided token is not valid' });
+                throw new this.authErrors.UnauthorizedError({
+                    message: 'The provided token is not valid',
+                });
             }
 
             if (currentPersonalAccessToken.finger_print !== finger_print) {
-                throw new this.authErrors.UnauthorizedError({ message: 'The provided token is not valid' });
+                throw new this.authErrors.UnauthorizedError({
+                    message: 'The provided token is not valid',
+                });
             }
 
-            const updatePersonalAccessTokenAffectedRows = await this.authRepository.updatePersonalAccessToken({
-                last_used_at: new Date(),
-            }, currentPersonalAccessToken.id, connection);
+            const updatePersonalAccessTokenAffectedRows =
+                await this.authRepository.updatePersonalAccessToken(
+                    {
+                        last_used_at: new Date(),
+                    },
+                    currentPersonalAccessToken.id,
+                    connection
+                );
 
             if (updatePersonalAccessTokenAffectedRows < 1) {
                 throw new Error('Error while refreshing token');
@@ -163,10 +189,13 @@ class AuthService {
         } catch (err) {
             if (connection) connection.release();
 
-            if (err.name == 'TokenExpiredError' || err.name == 'JsonWebTokenError' || err.name == 'NotBeforeError') {
+            if (
+                err.name == 'TokenExpiredError' ||
+                err.name == 'JsonWebTokenError' ||
+                err.name == 'NotBeforeError'
+            ) {
                 throw new this.authErrors.UnauthorizedError({
-                    message:
-                        'The provided token is not valid',
+                    message: 'The provided token is not valid',
                 });
             }
 

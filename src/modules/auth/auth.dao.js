@@ -66,7 +66,11 @@ async function getExpiredPersonalAccessTokens(connection) {
  * @param {any} connection The database connection
  * @return {Promise} The query result
  */
-async function getPersonalAccessTokenByFingerPrint(userId, fingerPrint, connection) {
+async function getPersonalAccessTokenByFingerPrint(
+    userId,
+    fingerPrint,
+    connection
+) {
     const query = `SELECT id FROM personal_access_tokens
         WHERE user_id = ? AND finger_print = ?`;
 
@@ -94,10 +98,17 @@ async function storePersonalAccessToken(personalAccessToken, connection) {
  * @param {any} connection The database connection
  * @return {Promise} The query result
  */
-async function updatePersonalAccessToken(personalAccessToken, personalAccessTokenId, connection) {
+async function updatePersonalAccessToken(
+    personalAccessToken,
+    personalAccessTokenId,
+    connection
+) {
     const query = `UPDATE personal_access_tokens SET ? WHERE id = ?`;
 
-    return connection.query(query, [personalAccessToken, personalAccessTokenId]);
+    return connection.query(query, [
+        personalAccessToken,
+        personalAccessTokenId,
+    ]);
 }
 
 module.exports = {
@@ -107,5 +118,5 @@ module.exports = {
     getExpiredPersonalAccessTokens,
     getPersonalAccessTokenByFingerPrint,
     storePersonalAccessToken,
-    updatePersonalAccessToken
+    updatePersonalAccessToken,
 };
