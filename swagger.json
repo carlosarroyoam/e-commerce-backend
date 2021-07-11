@@ -180,7 +180,7 @@
                 ]
             }
         },
-        "/users/{adminId}": {
+        "/users/{userId}": {
             "get": {
                 "tags": [
                     "user"
@@ -189,7 +189,7 @@
                 "operationId": "getUserById",
                 "parameters": [
                     {
-                        "name": "adminId",
+                        "name": "userId",
                         "in": "path",
                         "description": "ID of user to return",
                         "required": true,
@@ -229,13 +229,13 @@
                 "tags": [
                     "user"
                 ],
-                "summary": "Deletes a user",
-                "operationId": "deleteUser",
+                "summary": "Deactivates a user",
+                "operationId": "deactivateUser",
                 "parameters": [
                     {
-                        "name": "adminId",
+                        "name": "userId",
                         "in": "path",
-                        "description": "ID of user to return",
+                        "description": "ID of user to deactivate",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -269,17 +269,17 @@
                     }
                 ]
             },
-            "patch": {
+            "put": {
                 "tags": [
                     "user"
                 ],
-                "summary": "Updates a user",
-                "operationId": "updateUser",
+                "summary": "Restores a user",
+                "operationId": "restoreUser",
                 "parameters": [
                     {
-                        "name": "adminId",
+                        "name": "userId",
                         "in": "path",
-                        "description": "ID of user to return",
+                        "description": "ID of user to restore",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -287,17 +287,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "description": "User object that needs to be added",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Admin"
-                            }
-                        }
-                    },
-                    "required": true
-                },
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/OK"
@@ -442,7 +431,7 @@
                 ]
             }
         },
-        "/admins/{adminId}": {
+        "/admins/{userId}": {
             "get": {
                 "tags": [
                     "admin"
@@ -451,7 +440,7 @@
                 "operationId": "getAdminById",
                 "parameters": [
                     {
-                        "name": "adminId",
+                        "name": "userId",
                         "in": "path",
                         "description": "ID of admin to return",
                         "required": true,
