@@ -70,10 +70,10 @@ class AuthService {
             if (personalAccessTokenByFingerPrint) {
                 const updatePersonalAccessTokenAffectedRows = await this.authRepository.updatePersonalAccessToken({
                     token: refreshToken
-                }, userByEmail.id, connection);
+                }, personalAccessTokenByFingerPrint.id, connection);
 
                 if (updatePersonalAccessTokenAffectedRows < 1) {
-                    throw new Error('Error while refreshing token');
+                    throw new Error('Error while updating refresh token');
                 }
             } else {
                 await this.authRepository.storePersonalAccessToken({

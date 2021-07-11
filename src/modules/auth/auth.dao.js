@@ -52,7 +52,8 @@ async function getPersonalAccessToken(userId, personalAccessToken, connection) {
  * @return {Promise} The query result
  */
 async function getExpiredPersonalAccessTokens(connection) {
-    const query = `SELECT id FROM personal_access_tokens WHERE now() > created_at + INTERVAL 1 hour`;
+    const query = `SELECT id FROM personal_access_tokens
+        WHERE now() > created_at + INTERVAL 1 hour`;
 
     return connection.query(query);
 }
