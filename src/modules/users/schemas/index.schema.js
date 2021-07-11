@@ -5,6 +5,6 @@ module.exports = [
         .trim()
         .default(0)
         .isInt()
-        .toInt()
-        .withMessage('The skip parameter must be an integer value'),
+        .withMessage('The skip parameter must be an integer value')
+        .toInt(),
 ];

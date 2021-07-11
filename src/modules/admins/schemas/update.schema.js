@@ -7,8 +7,8 @@ module.exports = [
     param('adminId')
         .trim()
         .isInt()
-        .toInt()
-        .withMessage('The adminId must be an integer'),
+        .withMessage('The adminId must be an integer')
+        .toInt(),
 
     body('first_name')
         .whitelist('A-zÀ-ú\\s\\.')
@@ -33,10 +33,10 @@ module.exports = [
         .toLowerCase()
         .exists({ checkNull: true, checkFalsy: true })
         .withMessage('The email is required')
+        .isLength({ min: 5, max: 64 })
+        .withMessage('The email must be between 5 and 64 characters')
         .isEmail()
-        .withMessage('The email format is invalid')
-        .isLength({ min: 5, max: 128 })
-        .withMessage('The email must be between 5 and 128 characters'),
+        .withMessage('The email format is invalid'),
 
     body('password')
         .trim()

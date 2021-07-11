@@ -27,10 +27,10 @@ module.exports = [
         .toLowerCase()
         .exists({ checkNull: true, checkFalsy: true })
         .withMessage('The email is required')
+        .isLength({ min: 5, max: 64 })
+        .withMessage('The email must be between 5 and 64 characters')
         .isEmail()
-        .withMessage('The email format is invalid')
-        .isLength({ min: 5, max: 128 })
-        .withMessage('The email must be between 5 and 128 characters'),
+        .withMessage('The email format is invalid'),
 
     body('password')
         .trim()
@@ -38,4 +38,20 @@ module.exports = [
         .withMessage('The password is required')
         .isLength({ min: 8, max: 16 })
         .withMessage('The password must be between 8 and 16 characters'),
+
+    body('password_confirm')
+        .trim()
+        .exists({ checkNull: true, checkFalsy: true })
+        .withMessage('The password_confirm is required')
+        .isLength({ min: 8, max: 16 })
+        .withMessage('The password_confirm must be between 8 and 16 characters')
+        .custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error(
+                    'The password confirmation does not match password'
+                );
+            }
+
+            return true;
+        }),
 ];

@@ -30,7 +30,7 @@ CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `email` varchar(128) NOT NULL,
+  `email` varchar(64) NOT NULL,
   `password` varchar(75) NOT NULL,
   `user_role_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
