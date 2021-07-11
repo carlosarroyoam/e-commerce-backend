@@ -38,7 +38,7 @@ class AuthRepository {
     }
 
     /**
-     * Get a personal access token.
+     * Gets a personal access token.
      * 
      * @param {number} userId The user id
      * @param {string} personalAccessToken The personal access token
@@ -52,7 +52,19 @@ class AuthRepository {
     }
 
     /**
-     * Get a personal access token by finger print.
+     * Gets all the expired personal access tokens.
+     * 
+     * @param {any} connection The database connection
+     * @return {Promise} The query result
+     */
+    async getExpiredPersonalAccessTokens(connection) {
+        const [result] = await this.authDao.getExpiredPersonalAccessTokens(connection);
+
+        return result;
+    }
+
+    /**
+     * Gets a personal access token by finger print.
      * 
      * @param {number} userId The user id
      * @param {string} fingerPrint The token finger print
@@ -79,7 +91,7 @@ class AuthRepository {
     }
 
     /**
-     * Stores a personal access token.
+     * Updates a personal access token.
      * 
      * @param {string} personalAccessToken The personal access token data
      * @param {number} personalAccessTokenId The personal access token id

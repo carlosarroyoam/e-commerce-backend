@@ -46,6 +46,18 @@ async function getPersonalAccessToken(userId, personalAccessToken, connection) {
 }
 
 /**
+ * Performs the SQL query to get all expired personal access token.
+ *
+ * @param {any} connection The database connection
+ * @return {Promise} The query result
+ */
+async function getExpiredPersonalAccessTokens(connection) {
+    const query = `SELECT id FROM personal_access_tokens WHERE now() > created_at + INTERVAL 1 hour`;
+
+    return connection.query(query);
+}
+
+/**
  * Performs the SQL query to get a personal access token by finger print.
  *
  * @param {number} userId The user id
@@ -91,6 +103,7 @@ module.exports = {
     getById,
     getByEmail,
     getPersonalAccessToken,
+    getExpiredPersonalAccessTokens,
     getPersonalAccessTokenByFingerPrint,
     storePersonalAccessToken,
     updatePersonalAccessToken
