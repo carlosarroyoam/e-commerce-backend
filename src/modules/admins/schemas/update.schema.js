@@ -1,37 +1,20 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
-const { body, param } = require('express-validator');
-const stringUtils = require('../../../utils/string.utils');
+const { param } = require('express-validator');
+const validators = require('../../../utils/validators.util');
 
 module.exports = [
-    param('adminId')
-        .trim()
-        .isInt()
-        .withMessage('The adminId must be an integer')
-        .toInt(),
+    validators.resourceId('adminId'),
 
-    body('first_name')
-        .whitelist('A-zÀ-ú\\s\\.')
-        .trim()
-        .customSanitizer((value) => stringUtils.capitalizeWords(value))
+    validators.firstName
         .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The first_name is required')
-        .isLength({ min: 5, max: 50 })
-        .withMessage('The first_name must be between 5 and 50 characters'),
+        .withMessage('The first_name is required'),
 
-    body('last_name')
-        .whitelist('A-zÀ-ú\\s\\.')
-        .trim()
-        .customSanitizer((value) => stringUtils.capitalizeWords(value))
+    validators.lastName
         .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The last_name is required')
-        .isLength({ min: 5, max: 50 })
-        .withMessage('The last_name must be between 5 and 50 characters'),
+        .withMessage('The last_name is required'),
 
-    body('password')
-        .trim()
+    validators.password
         .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The password is required')
-        .isLength({ min: 8, max: 16 })
-        .withMessage('The password must be between 8 and 16 characters'),
+        .withMessage('The password is required'),
 ];
