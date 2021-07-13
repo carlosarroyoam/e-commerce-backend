@@ -5,7 +5,7 @@ const resourceId = (paramName) => param(paramName)
     .trim()
     .isInt()
     .withMessage(`The ${paramName} must be an integer value`)
-    .toInt()
+    .toInt();
 
 const firstName = body('first_name')
     .trim()
