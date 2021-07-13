@@ -28,16 +28,6 @@ module.exports = [
         .isLength({ min: 5, max: 50 })
         .withMessage('The last_name must be between 5 and 50 characters'),
 
-    body('email')
-        .trim()
-        .toLowerCase()
-        .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The email is required')
-        .isLength({ min: 5, max: 64 })
-        .withMessage('The email must be between 5 and 64 characters')
-        .isEmail()
-        .withMessage('The email format is invalid'),
-
     body('password')
         .trim()
         .exists({ checkNull: true, checkFalsy: true })
