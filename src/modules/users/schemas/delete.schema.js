@@ -1,9 +1,5 @@
-const { param } = require('express-validator');
+const validators = require('../../../utils/validators.util');
 
 module.exports = [
-    param('userId')
-        .trim()
-        .isInt()
-        .withMessage('The userId must be an integer value')
-        .toInt(),
+    validators.resourceId('userId'),
 ];

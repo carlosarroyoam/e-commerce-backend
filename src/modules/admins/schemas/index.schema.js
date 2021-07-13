@@ -1,9 +1,5 @@
-const { query } = require('express-validator');
+const validators = require('../../../utils/validators.util');
 
 module.exports = [
-    query('skip')
-        .trim()
-        .isInt()
-        .withMessage('The skip parameter must be an integer value')
-        .toInt(),
+    validators.skip,
 ];
