@@ -17,7 +17,8 @@ async function getAll({ skip = 0, limit = 20 }, connection) {
             usr.updated_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE deleted_at IS NULL`;
+        WHERE deleted_at IS NULL
+        LIMIT ?, ?`;
 
     return connection.query(query, [skip, limit]);
 }
