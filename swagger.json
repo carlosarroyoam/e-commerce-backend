@@ -340,7 +340,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Admin"
+                                "$ref": "#/components/schemas/AddAdmin"
                             }
                         }
                     },
@@ -372,13 +372,13 @@
             "put": {
                 "tags": ["admin"],
                 "summary": "Updates a admin by its id",
-                "operationId": "updatesAdmin",
+                "operationId": "updateAdmin",
                 "requestBody": {
                     "description": "Admin object that needs to be updated",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Admin"
+                                "$ref": "#/components/schemas/UpdateAdmin"
                             }
                         }
                     },
@@ -588,7 +588,7 @@
                 },
                 "required": ["first_name", "last_name", "email", "password"]
             },
-            "Admin": {
+            "AddAdmin": {
                 "type": "object",
                 "properties": {
                     "first_name": {
@@ -609,6 +609,25 @@
                     }
                 },
                 "required": ["first_name", "last_name", "email", "password"]
+            },
+            "UpdateAdmin": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "is_super": {
+                        "type": "boolean",
+                        "default": false
+                    }
+                },
+                "required": ["first_name", "last_name", "password"]
             }
         }
     }
