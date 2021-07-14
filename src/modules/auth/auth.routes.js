@@ -5,11 +5,7 @@ const refreshTokenSchema = require('./schemas/refreshtoken.schema');
 const Fingerprint = require('express-fingerprint');
 
 const fingerPrintMiddleware = Fingerprint({
-    parameters: [
-        Fingerprint.useragent,
-        Fingerprint.acceptHeaders,
-        Fingerprint.geoip,
-    ],
+    parameters: [Fingerprint.useragent, Fingerprint.acceptHeaders, Fingerprint.geoip],
 });
 
 module.exports = ({ authController }) => {

@@ -190,8 +190,7 @@ async function update(user, id, connection) {
  * @return {Promise}
  */
 async function inactivate(id, connection) {
-    const query =
-        'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
+    const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
     return connection.query(query, [id]);
 }

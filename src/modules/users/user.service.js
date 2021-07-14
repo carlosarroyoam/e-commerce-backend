@@ -7,13 +7,7 @@ class UserService {
      *
      * @param {*} dependencies The dependencies payload
      */
-    constructor({
-        dbConnectionPool,
-        userRepository,
-        userErrors,
-        bcrypt,
-        logger,
-    }) {
+    constructor({ dbConnectionPool, userRepository, userErrors, bcrypt, logger }) {
         this.dbConnectionPool = dbConnectionPool;
         this.userRepository = userRepository;
         this.userErrors = userErrors;
@@ -30,10 +24,7 @@ class UserService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const users = await this.userRepository.findAll(
-                { skip },
-                connection
-            );
+            const users = await this.userRepository.findAll({ skip }, connection);
 
             connection.release();
 
@@ -97,10 +88,7 @@ class UserService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const userByEmail = await this.userRepository.findByEmail(
-                user.email,
-                connection
-            );
+            const userByEmail = await this.userRepository.findByEmail(user.email, connection);
 
             if (userByEmail) {
                 throw new this.userErrors.EmailAlreadyTakenError({
@@ -118,10 +106,7 @@ class UserService {
                 connection
             );
 
-            const createdUser = await this.userRepository.findById(
-                createdUserId,
-                connection
-            );
+            const createdUser = await this.userRepository.findById(createdUserId, connection);
 
             connection.release();
 
@@ -152,10 +137,7 @@ class UserService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const userById = await this.userRepository.findById(
-                userId,
-                connection
-            );
+            const userById = await this.userRepository.findById(userId, connection);
 
             if (!userById) {
                 throw new this.userErrors.UserNotFoundError();
@@ -179,10 +161,7 @@ class UserService {
                 throw new Error('User was not updated');
             }
 
-            const updatedUser = await this.userRepository.findById(
-                userId,
-                connection
-            );
+            const updatedUser = await this.userRepository.findById(userId, connection);
 
             connection.release();
 
@@ -212,19 +191,13 @@ class UserService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const userById = await this.userRepository.findById(
-                userId,
-                connection
-            );
+            const userById = await this.userRepository.findById(userId, connection);
 
             if (!userById) {
                 throw new this.userErrors.UserNotFoundError();
             }
 
-            const affectedRows = await this.userRepository.delete(
-                userId,
-                connection
-            );
+            const affectedRows = await this.userRepository.delete(userId, connection);
 
             if (affectedRows < 1) {
                 throw new Error('User was not deleted');
@@ -258,19 +231,13 @@ class UserService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const userById = await this.userRepository.findTrashedById(
-                userId,
-                connection
-            );
+            const userById = await this.userRepository.findTrashedById(userId, connection);
 
             if (!userById) {
                 throw new this.userErrors.UserNotFoundError();
             }
 
-            const affectedRows = await this.userRepository.restore(
-                userId,
-                connection
-            );
+            const affectedRows = await this.userRepository.restore(userId, connection);
 
             if (affectedRows < 1) {
                 throw new Error('User was not restored');

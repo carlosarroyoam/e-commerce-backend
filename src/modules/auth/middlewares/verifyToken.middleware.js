@@ -28,8 +28,7 @@ module.exports =
             });
 
             const forbiddenError = new authErrors.ForbiddenError({
-                message:
-                    'The provided token is not valid or the user has not access',
+                message: 'The provided token is not valid or the user has not access',
             });
 
             next(forbiddenError);

@@ -62,9 +62,7 @@ class AuthRepository {
      * @return {Promise} The query result
      */
     async getExpiredPersonalAccessTokens(connection) {
-        const [result] = await this.authDao.getExpiredPersonalAccessTokens(
-            connection
-        );
+        const [result] = await this.authDao.getExpiredPersonalAccessTokens(connection);
 
         return result;
     }
@@ -111,11 +109,7 @@ class AuthRepository {
      * @param {any} connection The database connection
      * @return {Promise} The query result
      */
-    async updatePersonalAccessToken(
-        personalAccessToken,
-        personalAccessTokenId,
-        connection
-    ) {
+    async updatePersonalAccessToken(personalAccessToken, personalAccessTokenId, connection) {
         const [result] = await this.authDao.updatePersonalAccessToken(
             personalAccessToken,
             personalAccessTokenId,

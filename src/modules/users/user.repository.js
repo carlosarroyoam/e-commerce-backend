@@ -69,10 +69,7 @@ class UserRepository {
      * @param {any} connection
      */
     async findByEmailWithTrashed(email, connection) {
-        const [result] = await this.userDao.getByEmailWithTrashed(
-            email,
-            connection
-        );
+        const [result] = await this.userDao.getByEmailWithTrashed(email, connection);
 
         return result[0];
     }
@@ -103,11 +100,7 @@ class UserRepository {
     async update(user, id, connection) {
         const userDbEntity = this.userMapper.toDatabaseEntity(user);
 
-        const [result] = await this.userDao.update(
-            userDbEntity,
-            id,
-            connection
-        );
+        const [result] = await this.userDao.update(userDbEntity, id, connection);
 
         return result.affectedRows;
     }

@@ -38,8 +38,7 @@ class AdminMapper {
         };
 
         Object.keys(adminDbEntity).forEach(
-            (key) =>
-                adminDbEntity[key] === undefined && delete adminDbEntity[key]
+            (key) => adminDbEntity[key] === undefined && delete adminDbEntity[key]
         );
 
         return adminDbEntity;

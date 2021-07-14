@@ -1,11 +1,12 @@
 const { body, param, query } = require('express-validator');
 const stringUtils = require('./string.utils');
 
-const resourceId = (paramName) => param(paramName)
-    .trim()
-    .isInt()
-    .withMessage(`The ${paramName} must be an integer value`)
-    .toInt();
+const resourceId = (paramName) =>
+    param(paramName)
+        .trim()
+        .isInt()
+        .withMessage(`The ${paramName} must be an integer value`)
+        .toInt();
 
 const firstName = body('first_name')
     .trim()
@@ -42,9 +43,7 @@ const repeatPassword = body('password_confirm')
     .withMessage('The password_confirm must be between 8 and 16 characters')
     .custom((value, { req }) => {
         if (value !== req.body.password) {
-            throw new Error(
-                'The password confirmation does not match password'
-            );
+            throw new Error('The password confirmation does not match password');
         }
 
         return true;
@@ -64,4 +63,4 @@ module.exports = {
     password,
     repeatPassword,
     skip,
-}
+};

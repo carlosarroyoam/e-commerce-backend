@@ -10,7 +10,7 @@ module.exports = ({ config, router, logger }) => {
     app.use(cors())
         .use(express.json())
         .use(compression())
-        .use(morgan('dev'))
+        .use(morgan('dev', { stream: logger.stream.write }))
         .use(helmet())
         .use(router)
         .use((err, req, res, next) => {
@@ -22,12 +22,10 @@ module.exports = ({ config, router, logger }) => {
             if (!err.fatal) {
                 res.status(err.status || 500).send({
                     message: err.message,
-                    error:
-                        err.name !== 'Error'
-                            ? err.name
-                            : 'Internal server error',
+                    error: err.name !== 'Error' ? err.name : 'Internal server error',
                     data: err.errors,
                 });
+
                 return;
             }
 

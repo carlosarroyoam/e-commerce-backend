@@ -75,11 +75,7 @@ class AdminRepository {
     async update(user, userId, connection) {
         const userDbEntity = this.adminMapper.toDatabaseEntity(user);
 
-        const [result] = await this.adminDao.update(
-            userDbEntity,
-            userId,
-            connection
-        );
+        const [result] = await this.adminDao.update(userDbEntity, userId, connection);
 
         return result.affectedRows;
     }

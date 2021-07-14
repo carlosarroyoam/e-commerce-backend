@@ -4,10 +4,7 @@ const config = require('../../config');
 
 const logger = winston.createLogger({
     level: 'warn',
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json()
-    ),
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     transports: [
         //
         // - Write all logs with level `error` and below to `error-%DATE%.log`

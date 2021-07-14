@@ -42,16 +42,11 @@ function signRefresh({ subject }) {
             issuer: config.APP_NAME,
         };
 
-        jwt.sign(
-            payload,
-            config.JWT.REFRESH_SECRET_KEY,
-            options,
-            (err, token) => {
-                if (err) return reject(err);
+        jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options, (err, token) => {
+            if (err) return reject(err);
 
-                return resolve(token);
-            }
-        );
+            return resolve(token);
+        });
     });
 }
 
@@ -75,15 +70,11 @@ function verify(accessToken) {
  */
 function verifyRefresh(refreshToken) {
     return new Promise((resolve, reject) => {
-        jwt.verify(
-            refreshToken,
-            config.JWT.REFRESH_SECRET_KEY,
-            (err, decoded) => {
-                if (err) return reject(err);
+        jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY, (err, decoded) => {
+            if (err) return reject(err);
 
-                return resolve(decoded);
-            }
-        );
+            return resolve(decoded);
+        });
     });
 }
 

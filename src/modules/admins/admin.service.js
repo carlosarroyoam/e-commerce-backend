@@ -64,10 +64,7 @@ class AdminService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const admin = await this.adminRepository.findById(
-                adminId,
-                connection
-            );
+            const admin = await this.adminRepository.findById(adminId, connection);
             if (!admin) {
                 throw new this.adminErrors.UserNotFoundError();
             }
@@ -102,11 +99,10 @@ class AdminService {
 
             connection.beginTransaction();
 
-            const userByEmail =
-                await this.userRepository.findByEmailWithTrashed(
-                    admin.email,
-                    connection
-                );
+            const userByEmail = await this.userRepository.findByEmailWithTrashed(
+                admin.email,
+                connection
+            );
 
             if (userByEmail) {
                 throw new this.adminErrors.EmailAlreadyTakenError({
@@ -135,10 +131,7 @@ class AdminService {
 
             connection.commit();
 
-            const createdAdmin = await this.adminRepository.findById(
-                createdAdminId,
-                connection
-            );
+            const createdAdmin = await this.adminRepository.findById(createdAdminId, connection);
 
             connection.release();
 
@@ -174,10 +167,7 @@ class AdminService {
 
             connection.beginTransaction();
 
-            const adminById = await this.adminRepository.findById(
-                adminId,
-                connection
-            );
+            const adminById = await this.adminRepository.findById(adminId, connection);
             if (!adminById) {
                 throw new this.adminErrors.UserNotFoundError();
             }
@@ -197,10 +187,7 @@ class AdminService {
                 throw new Error('Admin was not updated');
             }
 
-            const updatedAdmin = await this.adminRepository.findById(
-                adminId,
-                connection
-            );
+            const updatedAdmin = await this.adminRepository.findById(adminId, connection);
 
             connection.commit();
             connection.release();

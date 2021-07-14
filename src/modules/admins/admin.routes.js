@@ -4,11 +4,7 @@ const showAdminSchema = require('./schemas/show.schema');
 const storeAdminSchema = require('./schemas/store.schema');
 const updateAdminSchema = require('./schemas/update.schema');
 
-module.exports = ({
-    adminController,
-    verifyTokenMiddleware,
-    adminGuardMiddleware,
-}) => {
+module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware }) => {
     const router = Router();
 
     router.get(

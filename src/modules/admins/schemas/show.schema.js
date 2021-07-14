@@ -1,5 +1,3 @@
 const validators = require('../../../utils/validators.util');
 
-module.exports = [
-    validators.resourceId('adminId'),
-];
+module.exports = [validators.resourceId('adminId')];

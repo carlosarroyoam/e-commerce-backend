@@ -23,9 +23,7 @@ class AdminController {
         try {
             const admins = await this.adminService.findAll();
 
-            const adminsDto = admins.map((admin) =>
-                this.adminMapper.toDto(admin)
-            );
+            const adminsDto = admins.map((admin) => this.adminMapper.toDto(admin));
 
             response.send({
                 message: 'Ok',
@@ -68,8 +66,7 @@ class AdminController {
      */
     async store(request, response, next) {
         try {
-            const { first_name, last_name, email, password, is_super } =
-                request.body;
+            const { first_name, last_name, email, password, is_super } = request.body;
 
             const createdAdmin = await this.adminService.store({
                 first_name,

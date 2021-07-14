@@ -7,14 +7,7 @@ class AuthService {
      *
      * @param {*} dependencies The dependencies payload
      */
-    constructor({
-        dbConnectionPool,
-        authRepository,
-        authErrors,
-        bcrypt,
-        jsonwebtoken,
-        logger,
-    }) {
+    constructor({ dbConnectionPool, authRepository, authErrors, bcrypt, jsonwebtoken, logger }) {
         this.dbConnectionPool = dbConnectionPool;
         this.authRepository = authRepository;
         this.authErrors = authErrors;
@@ -34,19 +27,13 @@ class AuthService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const userByEmail = await this.authRepository.findByEmail(
-                email,
-                connection
-            );
+            const userByEmail = await this.authRepository.findByEmail(email, connection);
 
             if (!userByEmail) {
                 throw new this.authErrors.UserNotFoundError({ email });
             }
 
-            const passwordMatches = await this.bcrypt.compare(
-                password,
-                userByEmail.password
-            );
+            const passwordMatches = await this.bcrypt.compare(password, userByEmail.password);
 
             if (!passwordMatches) {
                 throw new this.authErrors.UnauthorizedError({ email });
@@ -129,14 +116,9 @@ class AuthService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
-            const decoded = await this.jsonwebtoken.verifyRefresh(
-                refresh_token
-            );
+            const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
 
-            const userById = await this.authRepository.findById(
-                decoded.sub,
-                connection
-            );
+            const userById = await this.authRepository.findById(decoded.sub, connection);
 
             if (!userById) {
                 throw new this.authErrors.UnauthorizedError({
@@ -149,12 +131,11 @@ class AuthService {
                 userRole: userById.user_role,
             });
 
-            const currentPersonalAccessToken =
-                await this.authRepository.getPersonalAccessToken(
-                    decoded.sub,
-                    refresh_token,
-                    connection
-                );
+            const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(
+                decoded.sub,
+                refresh_token,
+                connection
+            );
 
             if (!currentPersonalAccessToken) {
                 throw new this.authErrors.UnauthorizedError({
