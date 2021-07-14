@@ -10,7 +10,7 @@ module.exports = ({ config, router, logger }) => {
     app.use(cors())
         .use(express.json())
         .use(compression())
-        .use(morgan('dev', { stream: logger.stream.write }))
+        .use(morgan('dev'))
         .use(helmet())
         .use(router)
         .use((err, req, res, next) => {
