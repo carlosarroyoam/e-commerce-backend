@@ -8,6 +8,11 @@ const resourceId = (paramName) =>
         .withMessage(`The ${paramName} must be an integer value`)
         .toInt();
 
+const refreshToken = body('refresh_token')
+    .trim()
+    .isJWT()
+    .withMessage('The refresh_token format is invalid');
+
 const firstName = body('first_name')
     .trim()
     .customSanitizer((value) => stringUtils.capitalizeWords(value))
@@ -57,6 +62,7 @@ const skip = query('skip')
 
 module.exports = {
     resourceId,
+    refreshToken,
     firstName,
     lastName,
     email,
