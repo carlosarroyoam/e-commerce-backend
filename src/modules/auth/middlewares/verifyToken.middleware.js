@@ -1,8 +1,8 @@
 module.exports =
     ({ jsonwebtoken, authErrors, logger }) =>
-    async (req, res, next) => {
+    async (request, response, next) => {
         try {
-            const { authorization } = req.headers;
+            const { authorization } = request.headers;
             const accessToken = authorization && authorization.split(' ')[1];
 
             if (!accessToken) {
@@ -15,7 +15,7 @@ module.exports =
 
             const decoded = await jsonwebtoken.verify(accessToken);
 
-            req.app.user = {
+            request.app.user = {
                 id: decoded.sub,
                 role: decoded.userRole,
             };
