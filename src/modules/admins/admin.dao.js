@@ -84,8 +84,7 @@ async function getById(adminId, connection) {
         usr.email,
         adm.is_super,
         usr.created_at,
-        usr.updated_at,
-        usr.deleted_at
+        usr.updated_at
     FROM admins adm
     LEFT JOIN users usr ON adm.user_id = usr.id
     WHERE adm.id = ? AND usr.deleted_at IS NULL`;
