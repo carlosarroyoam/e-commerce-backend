@@ -110,6 +110,47 @@ class AuthService {
      * @param {*} credentials The refresh token
      * @return {Promise} The user access token
      */
+    async logout({ refresh_token, user_id }) {
+        let connection;
+
+        try {
+            connection = await this.dbConnectionPool.getConnection();
+
+            const deleteRefreshTokenAffectedRows = await this.authRepository.deleteRefreshToken(
+                refresh_token,
+                user_id,
+                connection
+            );
+
+            if (deleteRefreshTokenAffectedRows < 1) {
+                throw new Error('Error while login out');
+            }
+
+            connection.release();
+
+            // TODO define another response
+            return 'Logout success';
+        } catch (err) {
+            if (connection) connection.release();
+
+            if (err.sqlMessage) {
+                this.logger.log({
+                    level: 'error',
+                    message: err.message,
+                });
+
+                throw new Error('Error while authenticating');
+            }
+
+            throw err;
+        }
+    }
+
+    /**
+     *
+     * @param {*} credentials The refresh token
+     * @return {Promise} The user access token
+     */
     async refreshToken({ refresh_token, finger_print }) {
         let connection;
 
@@ -137,13 +178,10 @@ class AuthService {
                 connection
             );
 
-            if (!currentPersonalAccessToken) {
-                throw new this.authErrors.UnauthorizedError({
-                    message: 'The provided token is not valid',
-                });
-            }
-
-            if (currentPersonalAccessToken.finger_print !== finger_print) {
+            if (
+                !currentPersonalAccessToken ||
+                currentPersonalAccessToken.finger_print !== finger_print
+            ) {
                 throw new this.authErrors.UnauthorizedError({
                     message: 'The provided token is not valid',
                 });

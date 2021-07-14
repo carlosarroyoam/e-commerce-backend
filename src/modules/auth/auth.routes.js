@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const validateRequestMiddleware = require('../core/middlewares/validateRequest.middleware');
 const loginSchema = require('./schemas/login.schema');
+const logoutSchema = require('./schemas/logout.schema');
 const refreshTokenSchema = require('./schemas/refreshtoken.schema');
 const Fingerprint = require('express-fingerprint');
 
@@ -8,7 +9,7 @@ const fingerPrintMiddleware = Fingerprint({
     parameters: [Fingerprint.useragent, Fingerprint.acceptHeaders, Fingerprint.geoip],
 });
 
-module.exports = ({ authController }) => {
+module.exports = ({ authController, verifyTokenMiddleware }) => {
     const router = Router();
 
     router.post(
@@ -16,6 +17,12 @@ module.exports = ({ authController }) => {
         validateRequestMiddleware(loginSchema),
         fingerPrintMiddleware,
         authController.login.bind(authController)
+    );
+
+    router.post(
+        '/logout',
+        validateRequestMiddleware(logoutSchema),
+        authController.logout.bind(authController)
     );
 
     router.post(

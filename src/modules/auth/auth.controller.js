@@ -41,6 +41,31 @@ class AuthController {
     }
 
     /**
+     * Handles incoming request from the /auth/logout endpoint
+     *
+     * @param {*} request
+     * @param {*} response
+     * @param {*} next
+     */
+    async logout(request, response, next) {
+        try {
+            const { refresh_token, user_id } = request.body;
+
+            const logout = await this.authService.logout({
+                refresh_token,
+                user_id,
+            });
+
+            response.send({
+                message: 'Ok',
+                data: logout,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    /**
      * Handles incoming request from the /auth/refresh_token endpoint
      *
      * @param {*} request

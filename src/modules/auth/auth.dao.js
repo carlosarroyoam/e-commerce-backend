@@ -100,6 +100,20 @@ async function updatePersonalAccessToken(personalAccessToken, personalAccessToke
     return connection.query(query, [personalAccessToken, personalAccessTokenId]);
 }
 
+/**
+ * Performs the SQL query to update a personal access token.
+ *
+ * @param {string} personalAccessToken The personal access token
+ * @param {number} userId The personal access token owner id
+ * @param {any} connection The database connection
+ * @return {Promise} The query result
+ */
+async function deleteRefreshToken(personalAccessToken, userId, connection) {
+    const query = `DELETE FROM personal_access_tokens WHERE token = ? AND user_id = ?`;
+
+    return connection.query(query, [personalAccessToken, userId]);
+}
+
 module.exports = {
     getById,
     getByEmail,
@@ -108,4 +122,5 @@ module.exports = {
     getPersonalAccessTokenByFingerPrint,
     storePersonalAccessToken,
     updatePersonalAccessToken,
+    deleteRefreshToken,
 };

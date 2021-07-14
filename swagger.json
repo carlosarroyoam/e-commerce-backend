@@ -40,7 +40,9 @@
     "paths": {
         "/auth/login": {
             "post": {
-                "tags": ["auth"],
+                "tags": [
+                    "auth"
+                ],
                 "summary": "Authenticates a user",
                 "operationId": "authLogin",
                 "requestBody": {
@@ -70,9 +72,42 @@
                 }
             }
         },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Revokes a refresh token",
+                "operationId": "authLogout",
+                "requestBody": {
+                    "description": "User credentials object that will be revoked",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRevokeRefreshToken"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BAD_REQUEST"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/INTERNAL_SERVER_ERROR"
+                    }
+                }
+            }
+        },
         "/auth/refresh-token": {
             "post": {
-                "tags": ["auth"],
+                "tags": [
+                    "auth"
+                ],
                 "summary": "Renews a user token",
                 "operationId": "refreshToken",
                 "requestBody": {
@@ -104,7 +139,9 @@
         },
         "/users": {
             "get": {
-                "tags": ["user"],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Gets all users",
                 "operationId": "getUsers",
                 "responses": {
@@ -134,7 +171,9 @@
                 ]
             },
             "post": {
-                "tags": ["user"],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Adds a new user",
                 "operationId": "addUser",
                 "requestBody": {
@@ -174,7 +213,9 @@
         },
         "/users/{userId}": {
             "get": {
-                "tags": ["user"],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Gets a user",
                 "operationId": "getUserById",
                 "parameters": [
@@ -216,7 +257,9 @@
                 ]
             },
             "delete": {
-                "tags": ["user"],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Deactivates a user",
                 "operationId": "deactivateUser",
                 "parameters": [
@@ -258,7 +301,9 @@
                 ]
             },
             "put": {
-                "tags": ["user"],
+                "tags": [
+                    "user"
+                ],
                 "summary": "Restores a user",
                 "operationId": "restoreUser",
                 "parameters": [
@@ -302,7 +347,9 @@
         },
         "/admins": {
             "get": {
-                "tags": ["admin"],
+                "tags": [
+                    "admin"
+                ],
                 "summary": "Gets all admins",
                 "operationId": "getAdmins",
                 "responses": {
@@ -332,7 +379,9 @@
                 ]
             },
             "post": {
-                "tags": ["admin"],
+                "tags": [
+                    "admin"
+                ],
                 "summary": "Adds a new admin",
                 "operationId": "addAdmin",
                 "requestBody": {
@@ -370,7 +419,9 @@
                 ]
             },
             "put": {
-                "tags": ["admin"],
+                "tags": [
+                    "admin"
+                ],
                 "summary": "Updates a admin by its id",
                 "operationId": "updateAdmin",
                 "requestBody": {
@@ -413,7 +464,9 @@
         },
         "/admins/{userId}": {
             "get": {
-                "tags": ["admin"],
+                "tags": [
+                    "admin"
+                ],
                 "summary": "Gets a admin",
                 "operationId": "getAdminById",
                 "parameters": [
@@ -559,7 +612,25 @@
                         "type": "string"
                     }
                 },
-                "required": ["email", "password"]
+                "required": [
+                    "email",
+                    "password"
+                ]
+            },
+            "UserRevokeRefreshToken": {
+                "type": "object",
+                "properties": {
+                    "refresh_token": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "refresh_token",
+                    "user_id"
+                ]
             },
             "UserRefreshToken": {
                 "type": "object",
@@ -568,7 +639,9 @@
                         "type": "string"
                     }
                 },
-                "required": ["refresh_token"]
+                "required": [
+                    "refresh_token"
+                ]
             },
             "User": {
                 "type": "object",
@@ -586,7 +659,12 @@
                         "type": "string"
                     }
                 },
-                "required": ["first_name", "last_name", "email", "password"]
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "password"
+                ]
             },
             "AddAdmin": {
                 "type": "object",
@@ -608,7 +686,12 @@
                         "default": false
                     }
                 },
-                "required": ["first_name", "last_name", "email", "password"]
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "password"
+                ]
             },
             "UpdateAdmin": {
                 "type": "object",
@@ -627,7 +710,11 @@
                         "default": false
                     }
                 },
-                "required": ["first_name", "last_name", "password"]
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "password"
+                ]
             }
         }
     }

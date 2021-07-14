@@ -118,6 +118,24 @@ class AuthRepository {
 
         return result.affectedRows;
     }
+
+    /**
+     * Updates a personal access token.
+     *
+     * @param {string} personalAccessToken The personal access token
+     * @param {number} userId The personal access token owner id
+     * @param {any} connection The database connection
+     * @return {Promise} The query result
+     */
+    async deleteRefreshToken(personalAccessToken, userId, connection) {
+        const [result] = await this.authDao.deleteRefreshToken(
+            personalAccessToken,
+            userId,
+            connection
+        );
+
+        return result.affectedRows;
+    }
 }
 
 module.exports = AuthRepository;
