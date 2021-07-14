@@ -7,18 +7,18 @@ const logger = winston.createLogger({
     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     transports: [
         //
-        // - Write all logs with level `error` and below to `error-%DATE%.log`
-        // - Write all logs with level `info` and below to `combined-%DATE%.log`
+        // - Write all logs with level `error` and below to `logs/%DATE%/error.log`
+        // - Write all logs with level `info` and below to `logs/%DATE%/combined.log`
         //
         new winston.transports.DailyRotateFile({
-            filename: 'logs/errors-%DATE%.log',
+            filename: 'logs/%DATE%/errors.log',
             datePattern: 'DD-MM-YYYY',
             zippedArchive: true,
             maxFiles: '14d',
             level: 'error',
         }),
         new winston.transports.DailyRotateFile({
-            filename: 'logs/combined-%DATE%.log',
+            filename: 'logs/%DATE%/combined.log',
             datePattern: 'DD-MM-YYYY',
             zippedArchive: true,
             maxFiles: '14d',
@@ -26,10 +26,10 @@ const logger = winston.createLogger({
     ],
     exceptionHandlers: [
         //
-        // - Write exceptions logs `exceptions-%DATE%.log`
+        // - Write exceptions logs `logs/%DATE%/exceptions.log`
         //
         new winston.transports.DailyRotateFile({
-            filename: 'logs/exceptions-%DATE%.log',
+            filename: 'logs/%DATE%/exceptions.log',
             datePattern: 'DD-MM-YYYY',
             zippedArchive: true,
             maxFiles: '14d',
