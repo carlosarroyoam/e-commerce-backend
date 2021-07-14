@@ -1,11 +1,12 @@
 const { body, param, query } = require('express-validator');
 const stringUtils = require('./string.utils');
 
-const resourceId = (paramName) => param(paramName)
-    .trim()
-    .isInt()
-    .withMessage(`The ${paramName} must be an integer value`)
-    .toInt();
+const resourceId = (paramName) =>
+    param(paramName)
+        .trim()
+        .isInt()
+        .withMessage(`The ${paramName} must be an integer value`)
+        .toInt();
 
 const firstName = body('first_name')
     .trim()
@@ -64,4 +65,4 @@ module.exports = {
     password,
     repeatPassword,
     skip,
-}
+};
