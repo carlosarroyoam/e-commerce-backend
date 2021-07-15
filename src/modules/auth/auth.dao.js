@@ -6,12 +6,12 @@
  * @return {Promise} The query result
  */
 async function getById(id, connection) {
-    const query = `SELECT usr.id, email, usrrl.type AS user_role
+  const query = `SELECT usr.id, email, usrrl.type AS user_role
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ? AND usr.deleted_at IS NULL`;
 
-    return connection.query(query, [id]);
+  return connection.query(query, [id]);
 }
 
 /**
@@ -22,12 +22,12 @@ async function getById(id, connection) {
  * @return {Promise} The query result
  */
 async function getByEmail(email, connection) {
-    const query = `SELECT usr.id, email, password, usrrl.id AS user_role_id, usrrl.type AS user_role
+  const query = `SELECT usr.id, email, password, usrrl.id AS user_role_id, usrrl.type AS user_role
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.email = ? AND usr.deleted_at IS NULL`;
 
-    return connection.query(query, [email]);
+  return connection.query(query, [email]);
 }
 
 /**
@@ -39,10 +39,10 @@ async function getByEmail(email, connection) {
  * @return {Promise} The query result
  */
 async function getPersonalAccessToken(personalAccessToken, userId, connection) {
-    const query = `SELECT id, fingerprint FROM personal_access_tokens
+  const query = `SELECT id, fingerprint FROM personal_access_tokens
         WHERE user_id = ? AND token = ?`;
 
-    return connection.query(query, [userId, personalAccessToken]);
+  return connection.query(query, [userId, personalAccessToken]);
 }
 
 /**
@@ -52,10 +52,10 @@ async function getPersonalAccessToken(personalAccessToken, userId, connection) {
  * @return {Promise} The query result
  */
 async function getExpiredPersonalAccessTokens(connection) {
-    const query = `SELECT id FROM personal_access_tokens
+  const query = `SELECT id FROM personal_access_tokens
         WHERE now() > created_at + INTERVAL 1 hour`;
 
-    return connection.query(query);
+  return connection.query(query);
 }
 
 /**
@@ -67,10 +67,10 @@ async function getExpiredPersonalAccessTokens(connection) {
  * @return {Promise} The query result
  */
 async function getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connection) {
-    const query = `SELECT id FROM personal_access_tokens
+  const query = `SELECT id FROM personal_access_tokens
         WHERE user_id = ? AND fingerprint = ?`;
 
-    return connection.query(query, [userId, fingerPrint]);
+  return connection.query(query, [userId, fingerPrint]);
 }
 
 /**
@@ -81,9 +81,9 @@ async function getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connecti
  * @return {Promise} The query result
  */
 async function storePersonalAccessToken(personalAccessToken, connection) {
-    const query = `INSERT INTO personal_access_tokens SET ?`;
+  const query = `INSERT INTO personal_access_tokens SET ?`;
 
-    return connection.query(query, [personalAccessToken]);
+  return connection.query(query, [personalAccessToken]);
 }
 
 /**
@@ -95,9 +95,9 @@ async function storePersonalAccessToken(personalAccessToken, connection) {
  * @return {Promise} The query result
  */
 async function updatePersonalAccessToken(personalAccessToken, personalAccessTokenId, connection) {
-    const query = `UPDATE personal_access_tokens SET ? WHERE id = ?`;
+  const query = `UPDATE personal_access_tokens SET ? WHERE id = ?`;
 
-    return connection.query(query, [personalAccessToken, personalAccessTokenId]);
+  return connection.query(query, [personalAccessToken, personalAccessTokenId]);
 }
 
 /**
@@ -109,18 +109,18 @@ async function updatePersonalAccessToken(personalAccessToken, personalAccessToke
  * @return {Promise} The query result
  */
 async function deleteRefreshToken(personalAccessToken, userId, connection) {
-    const query = `DELETE FROM personal_access_tokens WHERE token = ? AND user_id = ?`;
+  const query = `DELETE FROM personal_access_tokens WHERE token = ? AND user_id = ?`;
 
-    return connection.query(query, [personalAccessToken, userId]);
+  return connection.query(query, [personalAccessToken, userId]);
 }
 
 module.exports = {
-    getById,
-    getByEmail,
-    getPersonalAccessToken,
-    getExpiredPersonalAccessTokens,
-    getPersonalAccessTokenByFingerPrint,
-    storePersonalAccessToken,
-    updatePersonalAccessToken,
-    deleteRefreshToken,
+  getById,
+  getByEmail,
+  getPersonalAccessToken,
+  getExpiredPersonalAccessTokens,
+  getPersonalAccessTokenByFingerPrint,
+  storePersonalAccessToken,
+  updatePersonalAccessToken,
+  deleteRefreshToken,
 };

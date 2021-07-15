@@ -5,9 +5,9 @@
  * @return {string} The capitalized string
  */
 const capitalize = (string) => {
-    if (typeof string !== 'string') return '';
+  if (typeof string !== 'string') return '';
 
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 /**
@@ -17,18 +17,18 @@ const capitalize = (string) => {
  * @return {string}
  */
 const capitalizeWords = (string) => {
-    if (typeof string !== 'string') return '';
+  if (typeof string !== 'string') return '';
 
-    const words = string.toLowerCase().split(' ');
+  const words = string.toLowerCase().split(' ');
 
-    const capitalizedWords = words
-        .map((word) => capitalize(word))
-        .filter((word) => word.trim() !== '');
+  const capitalizedWords = words
+    .map((word) => capitalize(word))
+    .filter((word) => word.trim() !== '');
 
-    return capitalizedWords.join(' ').toString();
+  return capitalizedWords.join(' ').toString();
 };
 
 module.exports = {
-    capitalize,
-    capitalizeWords,
+  capitalize,
+  capitalizeWords,
 };

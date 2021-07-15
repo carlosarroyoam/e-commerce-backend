@@ -13,17 +13,17 @@ const AdminGuardMiddleware = require('./middlewares/adminGuard.middleware');
 const Roles = require('./roles');
 
 module.exports = {
-    authRoutes: asFunction(AuthRoutes).singleton(),
-    authController: asClass(AuthController).singleton(),
-    authService: asClass(AuthService).singleton(),
-    authRepository: asClass(AuthRepository).singleton(),
-    authDao: asValue(AuthDao),
-    authErrors: asValue({
-        UserNotFoundError,
-        UnauthorizedError,
-        ForbiddenError,
-    }),
-    verifyTokenMiddleware: asFunction(VerifyTokenMiddleware).singleton(),
-    adminGuardMiddleware: asFunction(AdminGuardMiddleware).singleton(),
-    userRoles: asValue(Roles),
+  authRoutes: asFunction(AuthRoutes).singleton(),
+  authController: asClass(AuthController).singleton(),
+  authService: asClass(AuthService).singleton(),
+  authRepository: asClass(AuthRepository).singleton(),
+  authDao: asValue(AuthDao),
+  authErrors: asValue({
+    UserNotFoundError,
+    UnauthorizedError,
+    ForbiddenError,
+  }),
+  verifyTokenMiddleware: asFunction(VerifyTokenMiddleware).singleton(),
+  adminGuardMiddleware: asFunction(AdminGuardMiddleware).singleton(),
+  userRoles: asValue(Roles),
 };

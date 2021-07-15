@@ -2,265 +2,265 @@
  * User service class.
  */
 class UserService {
-    /**
-     * Constructor for UserService.
-     *
-     * @param {*} dependencies The dependencies payload
-     */
-    constructor({ dbConnectionPool, userRepository, userErrors, bcrypt, logger }) {
-        this.dbConnectionPool = dbConnectionPool;
-        this.userRepository = userRepository;
-        this.userErrors = userErrors;
-        this.bcrypt = bcrypt;
-        this.logger = logger;
+  /**
+   * Constructor for UserService.
+   *
+   * @param {*} dependencies The dependencies payload
+   */
+  constructor({ dbConnectionPool, userRepository, userErrors, bcrypt, logger }) {
+    this.dbConnectionPool = dbConnectionPool;
+    this.userRepository = userRepository;
+    this.userErrors = userErrors;
+    this.bcrypt = bcrypt;
+    this.logger = logger;
+  }
+
+  /**
+   * @param {number} skip
+   */
+  async findAll(skip) {
+    let connection;
+
+    try {
+      connection = await this.dbConnectionPool.getConnection();
+
+      const users = await this.userRepository.findAll({ skip }, connection);
+
+      connection.release();
+
+      return users;
+    } catch (err) {
+      if (connection) connection.release();
+
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
+        throw new Error('Error while retrieving users');
+      }
+
+      throw err;
     }
+  }
 
-    /**
-     * @param {number} skip
-     */
-    async findAll(skip) {
-        let connection;
+  /**
+   * @param {number} userId
+   */
+  async find(userId) {
+    let connection;
 
-        try {
-            connection = await this.dbConnectionPool.getConnection();
+    try {
+      connection = await this.dbConnectionPool.getConnection();
 
-            const users = await this.userRepository.findAll({ skip }, connection);
+      const user = await this.userRepository.findById(userId, connection);
 
-            connection.release();
+      if (!user) {
+        throw new this.userErrors.UserNotFoundError();
+      }
 
-            return users;
-        } catch (err) {
-            if (connection) connection.release();
+      connection.release();
 
-            if (err.sqlMessage) {
-                this.logger.log({
-                    level: 'error',
-                    message: err.message,
-                });
+      return user;
+    } catch (err) {
+      if (connection) connection.release();
+      console.log(err);
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
 
-                throw new Error('Error while retrieving users');
-            }
+        throw new Error('Error while retrieving user');
+      }
 
-            throw err;
-        }
+      throw err;
     }
+  }
 
-    /**
-     * @param {number} userId
-     */
-    async find(userId) {
-        let connection;
+  /**
+   * @param {object} user
+   */
+  async store(user) {
+    let connection;
 
-        try {
-            connection = await this.dbConnectionPool.getConnection();
+    try {
+      connection = await this.dbConnectionPool.getConnection();
 
-            const user = await this.userRepository.findById(userId, connection);
+      const userByEmail = await this.userRepository.findByEmail(user.email, connection);
 
-            if (!user) {
-                throw new this.userErrors.UserNotFoundError();
-            }
+      if (userByEmail) {
+        throw new this.userErrors.EmailAlreadyTakenError({
+          email: user.email,
+        });
+      }
 
-            connection.release();
+      const passwordHash = await this.bcrypt.hashPassword(user.password);
 
-            return user;
-        } catch (err) {
-            if (connection) connection.release();
-            console.log(err);
-            if (err.sqlMessage) {
-                this.logger.log({
-                    level: 'error',
-                    message: err.message,
-                });
+      const createdUserId = await this.userRepository.store(
+        {
+          password: passwordHash,
+          ...user,
+        },
+        connection
+      );
 
-                throw new Error('Error while retrieving user');
-            }
+      const createdUser = await this.userRepository.findById(createdUserId, connection);
 
-            throw err;
-        }
+      connection.release();
+
+      return createdUser;
+    } catch (err) {
+      if (connection) connection.release();
+
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
+        throw new Error('Error while storing user');
+      }
+
+      throw err;
     }
+  }
 
-    /**
-     * @param {object} user
-     */
-    async store(user) {
-        let connection;
+  /**
+   * @param {number} userId
+   * @param {object} user
+   */
+  async update(userId, user) {
+    let connection;
 
-        try {
-            connection = await this.dbConnectionPool.getConnection();
+    try {
+      connection = await this.dbConnectionPool.getConnection();
 
-            const userByEmail = await this.userRepository.findByEmail(user.email, connection);
+      const userById = await this.userRepository.findById(userId, connection);
 
-            if (userByEmail) {
-                throw new this.userErrors.EmailAlreadyTakenError({
-                    email: user.email,
-                });
-            }
+      if (!userById) {
+        throw new this.userErrors.UserNotFoundError();
+      }
 
-            const passwordHash = await this.bcrypt.hashPassword(user.password);
+      let password;
+      if (user.password) {
+        password = await this.bcrypt.hashPassword(user.password);
+      }
 
-            const createdUserId = await this.userRepository.store(
-                {
-                    password: passwordHash,
-                    ...user,
-                },
-                connection
-            );
+      const affectedRows = await this.userRepository.update(
+        userId,
+        {
+          password,
+          ...user,
+        },
+        connection
+      );
 
-            const createdUser = await this.userRepository.findById(createdUserId, connection);
+      if (affectedRows < 1) {
+        throw new Error('User was not updated');
+      }
 
-            connection.release();
+      const updatedUser = await this.userRepository.findById(userId, connection);
 
-            return createdUser;
-        } catch (err) {
-            if (connection) connection.release();
+      connection.release();
 
-            if (err.sqlMessage) {
-                this.logger.log({
-                    level: 'error',
-                    message: err.message,
-                });
+      return updatedUser;
+    } catch (err) {
+      if (connection) connection.release();
 
-                throw new Error('Error while storing user');
-            }
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
 
-            throw err;
-        }
+        throw new Error('Error while updating user');
+      }
+
+      throw err;
     }
+  }
 
-    /**
-     * @param {number} userId
-     * @param {object} user
-     */
-    async update(userId, user) {
-        let connection;
+  /**
+   * @param {number} userId
+   */
+  async delete(userId) {
+    let connection;
 
-        try {
-            connection = await this.dbConnectionPool.getConnection();
+    try {
+      connection = await this.dbConnectionPool.getConnection();
 
-            const userById = await this.userRepository.findById(userId, connection);
+      const userById = await this.userRepository.findById(userId, connection);
 
-            if (!userById) {
-                throw new this.userErrors.UserNotFoundError();
-            }
+      if (!userById) {
+        throw new this.userErrors.UserNotFoundError();
+      }
 
-            let password;
-            if (user.password) {
-                password = await this.bcrypt.hashPassword(user.password);
-            }
+      const affectedRows = await this.userRepository.delete(userId, connection);
 
-            const affectedRows = await this.userRepository.update(
-                userId,
-                {
-                    password,
-                    ...user,
-                },
-                connection
-            );
+      if (affectedRows < 1) {
+        throw new Error('User was not deleted');
+      }
 
-            if (affectedRows < 1) {
-                throw new Error('User was not updated');
-            }
+      connection.release();
 
-            const updatedUser = await this.userRepository.findById(userId, connection);
+      return userId;
+    } catch (err) {
+      if (connection) connection.release();
 
-            connection.release();
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
 
-            return updatedUser;
-        } catch (err) {
-            if (connection) connection.release();
+        throw new Error('Error while deleting user');
+      }
 
-            if (err.sqlMessage) {
-                this.logger.log({
-                    level: 'error',
-                    message: err.message,
-                });
-
-                throw new Error('Error while updating user');
-            }
-
-            throw err;
-        }
+      throw err;
     }
+  }
 
-    /**
-     * @param {number} userId
-     */
-    async delete(userId) {
-        let connection;
+  /**
+   * @param {number} userId
+   */
+  async restore(userId) {
+    let connection;
 
-        try {
-            connection = await this.dbConnectionPool.getConnection();
+    try {
+      connection = await this.dbConnectionPool.getConnection();
 
-            const userById = await this.userRepository.findById(userId, connection);
+      const userById = await this.userRepository.findTrashedById(userId, connection);
 
-            if (!userById) {
-                throw new this.userErrors.UserNotFoundError();
-            }
+      if (!userById) {
+        throw new this.userErrors.UserNotFoundError();
+      }
 
-            const affectedRows = await this.userRepository.delete(userId, connection);
+      const affectedRows = await this.userRepository.restore(userId, connection);
 
-            if (affectedRows < 1) {
-                throw new Error('User was not deleted');
-            }
+      if (affectedRows < 1) {
+        throw new Error('User was not restored');
+      }
 
-            connection.release();
+      connection.release();
 
-            return userId;
-        } catch (err) {
-            if (connection) connection.release();
+      return userId;
+    } catch (err) {
+      if (connection) connection.release();
 
-            if (err.sqlMessage) {
-                this.logger.log({
-                    level: 'error',
-                    message: err.message,
-                });
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
 
-                throw new Error('Error while deleting user');
-            }
+        throw new Error('Error while restoring user');
+      }
 
-            throw err;
-        }
+      throw err;
     }
-
-    /**
-     * @param {number} userId
-     */
-    async restore(userId) {
-        let connection;
-
-        try {
-            connection = await this.dbConnectionPool.getConnection();
-
-            const userById = await this.userRepository.findTrashedById(userId, connection);
-
-            if (!userById) {
-                throw new this.userErrors.UserNotFoundError();
-            }
-
-            const affectedRows = await this.userRepository.restore(userId, connection);
-
-            if (affectedRows < 1) {
-                throw new Error('User was not restored');
-            }
-
-            connection.release();
-
-            return userId;
-        } catch (err) {
-            if (connection) connection.release();
-
-            if (err.sqlMessage) {
-                this.logger.log({
-                    level: 'error',
-                    message: err.message,
-                });
-
-                throw new Error('Error while restoring user');
-            }
-
-            throw err;
-        }
-    }
+  }
 }
 
 module.exports = UserService;
