@@ -39,7 +39,7 @@ async function getByEmail(email, connection) {
  * @return {Promise} The query result
  */
 async function getPersonalAccessToken(personalAccessToken, userId, connection) {
-    const query = `SELECT id, finger_print FROM personal_access_tokens
+    const query = `SELECT id, fingerprint FROM personal_access_tokens
         WHERE user_id = ? AND token = ?`;
 
     return connection.query(query, [userId, personalAccessToken]);
@@ -68,7 +68,7 @@ async function getExpiredPersonalAccessTokens(connection) {
  */
 async function getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connection) {
     const query = `SELECT id FROM personal_access_tokens
-        WHERE user_id = ? AND finger_print = ?`;
+        WHERE user_id = ? AND fingerprint = ?`;
 
     return connection.query(query, [userId, fingerPrint]);
 }

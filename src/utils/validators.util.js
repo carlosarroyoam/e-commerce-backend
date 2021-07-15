@@ -13,6 +13,12 @@ const refreshToken = body('refresh_token')
     .isJWT()
     .withMessage('The refresh_token format is invalid');
 
+const browserFingerprint = body('browser_fingerprint')
+    .trim()
+    .toLowerCase()
+    .isUUID(4)
+    .withMessage('The browser_fingerprint format is invalid');
+
 const firstName = body('first_name')
     .trim()
     .customSanitizer((value) => stringUtils.capitalizeWords(value))
@@ -63,6 +69,7 @@ const skip = query('skip')
 module.exports = {
     resourceId,
     refreshToken,
+    browserFingerprint,
     firstName,
     lastName,
     email,

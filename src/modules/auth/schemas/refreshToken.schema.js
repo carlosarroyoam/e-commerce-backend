@@ -6,4 +6,8 @@ module.exports = [
     validators.refreshToken
         .exists({ checkNull: true, checkFalsy: true })
         .withMessage('The refresh_token is required'),
+
+    validators.browserFingerprint
+        .exists({ checkNull: true, checkFalsy: true })
+        .withMessage('The browser_fingerprint is required'),
 ];

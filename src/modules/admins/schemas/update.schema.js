@@ -1,6 +1,5 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
-const { param } = require('express-validator');
 const validators = require('../../../utils/validators.util');
 
 module.exports = [
