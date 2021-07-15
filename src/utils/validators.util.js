@@ -1,8 +1,12 @@
 const { body, param, query } = require('express-validator');
 const stringUtils = require('./string.utils');
 
-const resourceId = (paramName) =>
-  param(paramName).trim().isInt().withMessage(`The ${paramName} must be an integer value`).toInt();
+const resourceId = (parameterName) =>
+  param(parameterName)
+    .trim()
+    .isInt()
+    .withMessage(`The ${parameterName} must be an integer value`)
+    .toInt();
 
 const refreshToken = body('refresh_token')
   .trim()
