@@ -50,8 +50,8 @@ class AuthService {
 
             const personalAccessTokenByFingerPrint =
                 await this.authRepository.getPersonalAccessTokenByFingerPrint(
-                    userByEmail.id,
                     finger_print,
+                    userByEmail.id,
                     connection
                 );
 
@@ -116,20 +116,28 @@ class AuthService {
         try {
             connection = await this.dbConnectionPool.getConnection();
 
+            const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(
+                refresh_token,
+                user_id,
+                connection
+            );
+
+            if (!currentPersonalAccessToken) {
+                connection.release();
+                return;
+            }
+
             const deleteRefreshTokenAffectedRows = await this.authRepository.deleteRefreshToken(
                 refresh_token,
                 user_id,
                 connection
             );
 
+            connection.release();
+
             if (deleteRefreshTokenAffectedRows < 1) {
                 throw new Error('Error while login out');
             }
-
-            connection.release();
-
-            // TODO define another response
-            return 'Logout success';
         } catch (err) {
             if (connection) connection.release();
 
@@ -173,8 +181,8 @@ class AuthService {
             });
 
             const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(
-                decoded.sub,
                 refresh_token,
+                decoded.sub,
                 connection
             );
 

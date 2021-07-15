@@ -51,15 +51,12 @@ class AuthController {
         try {
             const { refresh_token, user_id } = request.body;
 
-            const logout = await this.authService.logout({
+            await this.authService.logout({
                 refresh_token,
                 user_id,
             });
 
-            response.send({
-                message: 'Ok',
-                data: logout,
-            });
+            response.status(204).send();
         } catch (error) {
             next(error);
         }

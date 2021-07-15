@@ -40,15 +40,15 @@ class AuthRepository {
     /**
      * Gets a personal access token.
      *
-     * @param {number} userId The user id
      * @param {string} personalAccessToken The personal access token
+     * @param {number} userId The user id
      * @param {any} connection The database connection
      * @return {Promise} The query result
      */
-    async getPersonalAccessToken(userId, personalAccessToken, connection) {
+    async getPersonalAccessToken(personalAccessToken, userId, connection) {
         const [result] = await this.authDao.getPersonalAccessToken(
-            userId,
             personalAccessToken,
+            userId,
             connection
         );
 
@@ -70,15 +70,15 @@ class AuthRepository {
     /**
      * Gets a personal access token by finger print.
      *
-     * @param {number} userId The user id
      * @param {string} fingerPrint The token finger print
+     * @param {number} userId The user id
      * @param {any} connection The database connection
      * @return {Promise} The query result
      */
-    async getPersonalAccessTokenByFingerPrint(userId, fingerPrint, connection) {
+    async getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connection) {
         const [result] = await this.authDao.getPersonalAccessTokenByFingerPrint(
-            userId,
             fingerPrint,
+            userId,
             connection
         );
 

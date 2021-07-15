@@ -33,12 +33,12 @@ async function getByEmail(email, connection) {
 /**
  * Performs the SQL query to get a personal access token.
  *
- * @param {number} userId The user id
  * @param {string} personalAccessToken The token
+ * @param {number} userId The user id
  * @param {any} connection The database connection
  * @return {Promise} The query result
  */
-async function getPersonalAccessToken(userId, personalAccessToken, connection) {
+async function getPersonalAccessToken(personalAccessToken, userId, connection) {
     const query = `SELECT id, finger_print FROM personal_access_tokens
         WHERE user_id = ? AND token = ?`;
 
@@ -61,12 +61,12 @@ async function getExpiredPersonalAccessTokens(connection) {
 /**
  * Performs the SQL query to get a personal access token by finger print.
  *
- * @param {number} userId The user id
  * @param {string} fingerPrint The token finger print
+ * @param {number} userId The user id
  * @param {any} connection The database connection
  * @return {Promise} The query result
  */
-async function getPersonalAccessTokenByFingerPrint(userId, fingerPrint, connection) {
+async function getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connection) {
     const query = `SELECT id FROM personal_access_tokens
         WHERE user_id = ? AND finger_print = ?`;
 
