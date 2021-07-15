@@ -60,7 +60,8 @@ const skip = query('skip')
   .trim()
   .isInt()
   .withMessage('The skip parameter must be an integer value')
-  .toInt();
+  .toInt()
+  .optional();
 
 module.exports = {
   resourceId,
