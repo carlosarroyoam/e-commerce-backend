@@ -4,8 +4,8 @@
  * @param {any} connection
  * @return {Promise}
  */
-async function getAll(connection) {
-  const query = `SELECT 
+async function getAll({ search }, connection) {
+  let query = `SELECT 
         adm.id,
         usr.id AS user_id,
         usr.first_name,
@@ -17,6 +17,12 @@ async function getAll(connection) {
     FROM admins adm
     LEFT JOIN users usr ON adm.id = usr.id
     WHERE usr.deleted_at IS NULL`;
+
+  if (search) {
+    query += ` AND MATCH(first_name, last_name) AGAINST("${connection.escape(
+      search
+    )}*" IN BOOLEAN MODE)`;
+  }
 
   return connection.query(query);
 }

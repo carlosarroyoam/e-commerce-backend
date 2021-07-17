@@ -21,7 +21,9 @@ class AdminController {
    */
   async index(request, response, next) {
     try {
-      const admins = await this.adminService.findAll();
+      const { search } = request.query;
+
+      const admins = await this.adminService.findAll({ search });
 
       const adminsDto = admins.map((admin) => this.adminMapper.toDto(admin));
 
