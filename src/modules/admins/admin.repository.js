@@ -16,8 +16,8 @@ class AdminRepository {
    * @param {any} connection
    * @return {Promise} The query result
    */
-  async findAll(connection) {
-    const [result] = await this.adminDao.getAll(connection);
+  async findAll({ search }, connection) {
+    const [result] = await this.adminDao.getAll({ search }, connection);
 
     return result;
   }

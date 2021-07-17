@@ -67,6 +67,8 @@ const skip = query('skip')
   .toInt()
   .optional();
 
+const search = query('search').trim().isAlpha('es-ES', { ignore: '\\s\\.' }).optional();
+
 module.exports = {
   resourceId,
   refreshToken,
@@ -77,4 +79,5 @@ module.exports = {
   password,
   repeatPassword,
   skip,
+  search,
 };
