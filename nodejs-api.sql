@@ -38,8 +38,8 @@ CREATE TABLE `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_idx` (`email`),
-  CREATE FULLTEXT INDEX address
-    ON users(email, first_name, last_name)
+  CREATE FULLTEXT INDEX fullname
+    ON users(first_name, last_name)
   FOREIGN KEY (user_role_id)
     REFERENCES user_roles(id)
     ON DELETE CASCADE

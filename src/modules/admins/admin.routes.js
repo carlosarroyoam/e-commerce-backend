@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const validateRequestMiddleware = require('../core/middlewares/validateRequest.middleware');
+const indexAdminSchema = require('./schemas/index.schema');
 const showAdminSchema = require('./schemas/show.schema');
 const storeAdminSchema = require('./schemas/store.schema');
 const updateAdminSchema = require('./schemas/update.schema');
@@ -10,6 +11,7 @@ module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware
   router.get(
     '/',
     verifyTokenMiddleware,
+    validateRequestMiddleware(indexAdminSchema),
     adminGuardMiddleware,
     adminController.index.bind(adminController)
   );

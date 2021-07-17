@@ -67,7 +67,10 @@ const skip = query('skip')
   .toInt()
   .optional();
 
-const search = query('search').trim().isAlpha('es-ES', { ignore: '\\s\\.' }).optional();
+const search = query('search')
+  .trim()
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The search contains invalid characters');
 
 module.exports = {
   resourceId,
