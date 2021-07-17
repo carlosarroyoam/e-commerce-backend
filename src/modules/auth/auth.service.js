@@ -195,10 +195,13 @@ class AuthService {
         });
       }
 
+      const lastUsedAtDate = new Date();
+
       const updatePersonalAccessTokenAffectedRows =
         await this.authRepository.updatePersonalAccessToken(
           {
-            last_used_at: new Date(),
+            last_used_at: lastUsedAtDate,
+            updated_at: lastUsedAtDate,
           },
           currentPersonalAccessToken.id,
           connection
