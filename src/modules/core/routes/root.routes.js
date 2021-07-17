@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const packageJson = require('../../../../package.json');
 
 module.exports = ({ config }) => {
   const router = Router();
@@ -7,9 +8,12 @@ module.exports = ({ config }) => {
     const APP_URL = `${config.APP_URL}:${config.PORT}`;
 
     response.send({
-      version: '0.1.0-snapshot',
+      name: packageJson.name,
+      description: packageJson.description,
+      author: packageJson.author,
+      version: packageJson.version,
+      licence: packageJson.license,
       documentation: `${APP_URL}/api/v1/docs`,
-      author: 'carlosarroyoam',
       resources: {
         users: {
           paths: [
