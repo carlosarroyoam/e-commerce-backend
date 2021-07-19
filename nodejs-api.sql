@@ -9,10 +9,10 @@ USE `nodejs_api`;
 DROP TABLE IF EXISTS `user_roles`;
 
 CREATE TABLE user_roles (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `type` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `type` VARCHAR(50) NOT NULL,
+    PRIMARY KEY (`id`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
 
 --
 -- Dumping data for table `user_roles`
@@ -27,23 +27,22 @@ INSERT INTO `user_roles` VALUES (1, 'App/Admin'), (2, 'App/Customer');
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `email` varchar(64) NOT NULL,
-  `password` varchar(75) NOT NULL,
-  `user_role_id` bigint UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_idx` (`email`),
-  CREATE FULLTEXT INDEX fullname
-    ON users(first_name, last_name)
-  FOREIGN KEY (user_role_id)
-    REFERENCES user_roles(id)
-    ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `first_name` VARCHAR(50) NOT NULL,
+    `last_name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(64) NOT NULL,
+    `password` VARCHAR(75) NOT NULL,
+    `user_role_id` BIGINT UNSIGNED NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `users_email_idx` (`email`),
+    FULLTEXT `users_full_name_idx` ( first_name , last_name ),
+    CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (user_role_id)
+        REFERENCES user_roles (id)
+        ON DELETE CASCADE
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
 
 --
 -- Dumping data for table `users`
@@ -58,13 +57,13 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user
 DROP TABLE IF EXISTS `customers`;
 
 CREATE TABLE `customers` (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (user_id)
-    REFERENCES users(id)
-    ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `customers_user_id_fk` FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE CASCADE
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
 
 --
 -- Table structure for table `admins`
@@ -73,14 +72,14 @@ CREATE TABLE `customers` (
 DROP TABLE IF EXISTS `admins`;
 
 CREATE TABLE `admins` (
-	`id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-	`is_super` tinyint NOT NULL DEFAULT 0,
-	`user_id` bigint UNSIGNED NOT NULL,
-	PRIMARY KEY (`id`),
-  FOREIGN KEY (user_id)
-    REFERENCES users(id)
-    ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `is_super` TINYINT NOT NULL DEFAULT 0,
+    `user_id` BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `admins_user_id_fk` FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE CASCADE
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
 
 --
 -- Dumping data for table `admins`
@@ -95,16 +94,16 @@ INSERT INTO `admins` (`id`, `is_super`, `user_id`) VALUES (1, 1, 1);
 DROP TABLE IF EXISTS `personal_access_tokens`;
 
 CREATE TABLE `personal_access_tokens` (
-	`id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-	`token` varchar(254) NOT NULL,
-	`last_used_at` timestamp NULL DEFAULT NULL,
-  `fingerprint` varchar(36) NOT NULL,
-  `user_agent` varchar(128) NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`),
-  FOREIGN KEY (user_id)
-    REFERENCES users(id)
-    ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `token` VARCHAR(254) NOT NULL,
+    `last_used_at` TIMESTAMP NULL DEFAULT NULL,
+    `fingerprint` VARCHAR(36) NOT NULL,
+    `user_agent` VARCHAR(128) NOT NULL,
+    `user_id` BIGINT UNSIGNED NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE CASCADE
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
