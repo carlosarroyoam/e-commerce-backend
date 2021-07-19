@@ -169,12 +169,9 @@ class AdminService {
         throw new this.adminErrors.UserNotFoundError();
       }
 
-      const passwordHash = await this.bcrypt.hashPassword(admin.password);
-
       const userAffectedRows = await this.userRepository.update(
         {
           ...admin,
-          password: passwordHash,
         },
         adminById.id,
         connection

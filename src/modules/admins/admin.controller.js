@@ -99,12 +99,11 @@ class AdminController {
   async update(request, response, next) {
     try {
       const { adminId } = request.params;
-      const { first_name, last_name, password } = request.body;
+      const { first_name, last_name } = request.body;
 
       const updatedAdmin = await this.adminService.update(adminId, {
         first_name,
         last_name,
-        password,
       });
 
       const updatedAdminDto = this.adminMapper.toDto(updatedAdmin);

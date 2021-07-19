@@ -12,8 +12,4 @@ module.exports = [
   validators.lastName
     .exists({ checkNull: true, checkFalsy: true })
     .withMessage('The last_name is required'),
-
-  validators.password
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('The password is required'),
 ];
