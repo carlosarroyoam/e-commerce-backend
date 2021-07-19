@@ -1,5 +1,5 @@
 module.exports =
-  ({ jsonwebtoken, authErrors, logger }) =>
+  ({ authService, jsonwebtoken, authErrors, logger }) =>
   async (request, response, next) => {
     try {
       const { authorization } = request.headers;
@@ -13,7 +13,15 @@ module.exports =
         return next(unauthorizedError);
       }
 
-      const decoded = await jsonwebtoken.verify(accessToken);
+      const decoded = await jsonwebtoken.decode(accessToken);
+
+      const userById = await authService.getUserForTokenVerify({ user_id: decoded.payload.sub });
+
+      if (!decoded.payload.sub || !userById) {
+        throw new Error('Error while decoding token or user_id not valid');
+      }
+
+      await jsonwebtoken.verify(accessToken, userById.password);
 
       request.app.user = {
         id: decoded.sub,

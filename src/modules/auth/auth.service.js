@@ -39,10 +39,13 @@ class AuthService {
         throw new this.authErrors.UnauthorizedError({ email });
       }
 
-      const token = await this.jsonwebtoken.sign({
-        subject: userByEmail.id,
-        userRole: userByEmail.user_role,
-      });
+      const token = await this.jsonwebtoken.sign(
+        {
+          subject: userByEmail.id,
+          userRole: userByEmail.user_role,
+        },
+        userByEmail.password
+      );
 
       const refreshToken = await this.jsonwebtoken.signRefresh({
         subject: userByEmail.id,
@@ -175,10 +178,13 @@ class AuthService {
         });
       }
 
-      const token = await this.jsonwebtoken.sign({
-        subject: userById.id,
-        userRole: userById.user_role,
-      });
+      const token = await this.jsonwebtoken.sign(
+        {
+          subject: userById.id,
+          userRole: userById.user_role,
+        },
+        userById.password
+      );
 
       const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(
         refresh_token,
@@ -228,6 +234,44 @@ class AuthService {
           message: 'The provided token is not valid',
         });
       }
+
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
+        throw new Error('Error while authenticating');
+      }
+
+      throw err;
+    }
+  }
+
+  /**
+   *
+   * @param {*} credentials The user credentials for the login attempt
+   * @return {Promise} The user access token
+   */
+  async getUserForTokenVerify({ user_id }) {
+    let connection;
+
+    try {
+      connection = await this.dbConnectionPool.getConnection();
+
+      const userById = await this.authRepository.findById(user_id, connection);
+
+      if (!userById) {
+        throw new this.authErrors.UserNotFoundError({ email: userById.email });
+      }
+
+      connection.release();
+
+      return {
+        password: userById.password,
+      };
+    } catch (err) {
+      if (connection) connection.release();
 
       if (err.sqlMessage) {
         this.logger.log({

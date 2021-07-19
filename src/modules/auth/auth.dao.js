@@ -6,7 +6,7 @@
  * @return {Promise} The query result
  */
 async function getById(id, connection) {
-  const query = `SELECT usr.id, email, usrrl.type AS user_role
+  const query = `SELECT usr.id, email, usr.password, usrrl.type AS user_role
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ? AND usr.deleted_at IS NULL`;

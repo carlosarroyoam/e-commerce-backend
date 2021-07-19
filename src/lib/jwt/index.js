@@ -2,11 +2,11 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
 /**
- *
  * @param {object} payload
+ * @param {string} password
  * @return {Promise} The signed token
  */
-function sign({ subject, userRole }) {
+function sign({ subject, userRole }, password) {
   return new Promise((resolve, reject) => {
     const payload = {
       sub: subject,
@@ -18,7 +18,7 @@ function sign({ subject, userRole }) {
       issuer: config.APP_NAME,
     };
 
-    jwt.sign(payload, config.JWT.SECRET_KEY, options, (err, token) => {
+    jwt.sign(payload, config.JWT.SECRET_KEY + password, options, (err, token) => {
       if (err) return reject(err);
 
       return resolve(token);
@@ -52,11 +52,12 @@ function signRefresh({ subject }) {
 
 /**
  * @param {string} accessToken
+ * @param {string} password
  * @return {object | string} The decoded token
  */
-function verify(accessToken) {
+function verify(accessToken, password) {
   return new Promise((resolve, reject) => {
-    jwt.verify(accessToken, config.JWT.SECRET_KEY, (err, decoded) => {
+    jwt.verify(accessToken, config.JWT.SECRET_KEY + password, (err, decoded) => {
       if (err) return reject(err);
 
       return resolve(decoded);
@@ -78,9 +79,22 @@ function verifyRefresh(refreshToken) {
   });
 }
 
+/**
+ * @param {string} accessToken
+ * @return {null | object} The decoded token
+ */
+function decode(accessToken) {
+  return new Promise((resolve, reject) => {
+    const decoded = jwt.decode(accessToken, { complete: true });
+
+    resolve(decoded);
+  });
+}
+
 module.exports = {
   sign,
   signRefresh,
   verify,
   verifyRefresh,
+  decode,
 };
