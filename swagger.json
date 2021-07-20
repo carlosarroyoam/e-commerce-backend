@@ -650,12 +650,15 @@
           "password": {
             "type": "string"
           },
+          "password_confirm": {
+            "type": "string"
+          },
           "is_super": {
             "type": "boolean",
             "default": false
           }
         },
-        "required": ["first_name", "last_name", "email", "password"]
+        "required": ["first_name", "last_name", "email", "password", "password_confirm"]
       },
       "UpdateAdmin": {
         "type": "object",
@@ -664,9 +667,6 @@
             "type": "string"
           },
           "last_name": {
-            "type": "string"
-          },
-          "password": {
             "type": "string"
           },
           "is_super": {

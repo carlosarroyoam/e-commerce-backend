@@ -33,9 +33,9 @@ class AuthService {
         throw new this.authErrors.UserNotFoundError({ email });
       }
 
-      const passwordMatches = await this.bcrypt.compare(password, userByEmail.password);
+      const passwordMatchResult = await this.bcrypt.compare(password, userByEmail.password);
 
-      if (!passwordMatches) {
+      if (!passwordMatchResult) {
         throw new this.authErrors.UnauthorizedError({ email });
       }
 

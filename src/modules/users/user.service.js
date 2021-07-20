@@ -261,6 +261,58 @@ class UserService {
       throw err;
     }
   }
+
+  /**
+   * @param {object} userCredentials
+   */
+  async changePassword({ userId, current_password, new_password }) {
+    let connection;
+
+    try {
+      connection = await this.dbConnectionPool.getConnection();
+
+      const userById = await this.userRepository.findById(userId, connection);
+
+      if (!userById) {
+        throw new this.userErrors.UserNotFoundError();
+      }
+
+      const passwordMatchResult = await this.bcrypt.compare(current_password, userById.password);
+
+      if (!passwordMatchResult) {
+        throw new Error('Wrong password user');
+      }
+
+      const hashPassword = await this.bcrypt.hashPassword(new_password);
+
+      const affectedRows = await this.userRepository.update(
+        { password: hashPassword },
+        userId,
+        connection
+      );
+
+      if (affectedRows < 1) {
+        throw new Error('User password was not changed');
+      }
+
+      connection.release();
+
+      return;
+    } catch (err) {
+      if (connection) connection.release();
+
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
+        throw new Error('Error while changing user password');
+      }
+
+      throw err;
+    }
+  }
 }
 
 module.exports = UserService;

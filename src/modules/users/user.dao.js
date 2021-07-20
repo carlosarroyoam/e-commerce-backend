@@ -83,6 +83,7 @@ async function getById(id, connection) {
             usr.first_name,
             usr.last_name,
             usr.email,
+            usr.password,
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,

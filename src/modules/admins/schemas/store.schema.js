@@ -19,7 +19,8 @@ module.exports = [
     .exists({ checkNull: true, checkFalsy: true })
     .withMessage('The password is required'),
 
-  validators.repeatPassword
+  validators
+    .confirmPassword('password')
     .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('The password_confirm is required'),
+    .withMessage('The confirm_password is required'),
 ];

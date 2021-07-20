@@ -107,6 +107,32 @@ class UserController {
       next(error);
     }
   }
+
+  /**
+   * Handles incoming request from the /users/:userId/change-password endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
+  async changePassword(request, response, next) {
+    try {
+      const { userId } = request.params;
+      const { current_password, new_password } = request.body;
+
+      await this.userService.changePassword({
+        userId,
+        current_password,
+        new_password,
+      });
+
+      response.send({
+        message: 'Ok',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = UserController;
