@@ -16,7 +16,6 @@ class UserMapper {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
-      password: user.password,
       user_role_id: user.user_role_id,
       user_role: user.user_role,
       created_at: user.created_at,
