@@ -4,6 +4,7 @@ const indexUserSchema = require('./schemas/index.schema');
 const showUserSchema = require('./schemas/show.schema');
 const deleteUserSchema = require('./schemas/delete.schema');
 const restoreUserSchema = require('./schemas/restore.schema');
+const changePasswordSchema = require('./schemas/changePassword.schema');
 
 module.exports = ({ userController, verifyTokenMiddleware }) => {
   const router = Router();
@@ -20,6 +21,13 @@ module.exports = ({ userController, verifyTokenMiddleware }) => {
     verifyTokenMiddleware,
     validateRequestMiddleware(showUserSchema),
     userController.show.bind(userController)
+  );
+
+  router.put(
+    '/:userId/change-password',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(changePasswordSchema),
+    userController.changePassword.bind(userController)
   );
 
   router.put(

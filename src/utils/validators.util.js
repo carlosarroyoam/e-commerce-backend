@@ -1,6 +1,12 @@
 const { body, param, query } = require('express-validator');
 const stringUtils = require('./string.utils');
 
+const passwordSchema = (parameterName) =>
+  body(parameterName)
+    .trim()
+    .isLength({ min: 8, max: 16 })
+    .withMessage(`The ${parameterName} must be between 8 and 16 characters`);
+
 const resourceId = (parameterName) =>
   param(parameterName)
     .trim()
@@ -43,22 +49,25 @@ const email = body('email')
   .isEmail()
   .withMessage('The email format is invalid');
 
-const password = body('password')
-  .trim()
-  .isLength({ min: 8, max: 16 })
-  .withMessage('The password must be between 8 and 16 characters');
+const password = passwordSchema('password');
 
-const repeatPassword = body('password_confirm')
-  .trim()
-  .isLength({ min: 8, max: 16 })
-  .withMessage('The password_confirm must be between 8 and 16 characters')
-  .custom((value, { req }) => {
-    if (value !== req.body.password) {
-      throw new Error('The password confirmation does not match password');
-    }
+const currentPassword = passwordSchema('current_password');
 
-    return true;
-  });
+const newPassword = passwordSchema('new_password');
+
+const confirmPassword = (passwordParameterName) =>
+  body('confirm_password')
+    .trim()
+    .isLength({ min: 8, max: 16 })
+    .withMessage('The confirm_password must be between 8 and 16 characters')
+    .custom((value, { req }) => {
+      // eslint-disable-next-line security/detect-object-injection
+      if (value !== req.body[passwordParameterName]) {
+        throw new Error(`The confirm_password does not match ${passwordParameterName}`);
+      }
+
+      return true;
+    });
 
 const skip = query('skip')
   .trim()
@@ -80,7 +89,9 @@ module.exports = {
   lastName,
   email,
   password,
-  repeatPassword,
+  currentPassword,
+  newPassword,
+  confirmPassword,
   skip,
   search,
 };
