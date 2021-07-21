@@ -134,11 +134,7 @@
     "/auth/forgot-password": {
       "post": {
         "tags": ["auth"],
-<<<<<<< HEAD
         "summary": "Requests a user password reset",
-=======
-        "summary": "Request a user password reset",
->>>>>>> fa26ca56ead17eb8536369bd1f93a754aeffed32
         "operationId": "forgotPassword",
         "requestBody": {
           "description": "User credentials object that will be reseted",
