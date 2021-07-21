@@ -51,6 +51,30 @@ function signRefresh({ subject }) {
 }
 
 /**
+ * @param {object} payload
+ * @param {string} password
+ * @return {Promise} The signed token
+ */
+function signPasswordRecoveryToken({ subject }, password) {
+  return new Promise((resolve, reject) => {
+    const payload = {
+      sub: subject,
+    };
+
+    const options = {
+      expiresIn: config.JWT.PASSWORD_RECOVERY_EXPIRES_IN,
+      issuer: config.APP_NAME,
+    };
+
+    jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options, (err, token) => {
+      if (err) return reject(err);
+
+      return resolve(token);
+    });
+  });
+}
+
+/**
  * @param {string} accessToken
  * @param {string} password
  * @return {object | string} The decoded token
@@ -58,6 +82,21 @@ function signRefresh({ subject }) {
 function verify(accessToken, password) {
   return new Promise((resolve, reject) => {
     jwt.verify(accessToken, config.JWT.SECRET_KEY + password, (err, decoded) => {
+      if (err) return reject(err);
+
+      return resolve(decoded);
+    });
+  });
+}
+
+/**
+ * @param {string} accessToken
+ * @param {string} password
+ * @return {object | string} The decoded token
+ */
+function verifyPasswordRecoveryToken(accessToken, password) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, (err, decoded) => {
       if (err) return reject(err);
 
       return resolve(decoded);
@@ -94,7 +133,9 @@ function decode(accessToken) {
 module.exports = {
   sign,
   signRefresh,
+  signPasswordRecoveryToken,
   verify,
   verifyRefresh,
+  verifyPasswordRecoveryToken,
   decode,
 };

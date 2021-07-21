@@ -85,6 +85,54 @@ class AuthController {
       next(error);
     }
   }
+
+  /**
+   * Handles incoming request from the /auth/forgot-password endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
+  async forgotPassword(request, response, next) {
+    try {
+      const { email } = request.body;
+
+      await this.authService.forgotPassword({
+        email,
+      });
+
+      response.send({
+        message: 'Ok',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Handles incoming request from the /auth/forgot-password endpoint
+   *
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   */
+  async resetPassword(request, response, next) {
+    try {
+      const { token } = request.query;
+      const { password } = request.body;
+
+      await this.authService.resetPassword({
+        token,
+        password,
+      });
+
+      response.send({
+        message: 'Ok',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = AuthController;
