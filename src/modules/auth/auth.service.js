@@ -7,9 +7,18 @@ class AuthService {
    *
    * @param {*} dependencies The dependencies payload
    */
-  constructor({ dbConnectionPool, authRepository, authErrors, bcrypt, jsonwebtoken, logger }) {
+  constructor({
+    dbConnectionPool,
+    authRepository,
+    userRepository,
+    authErrors,
+    bcrypt,
+    jsonwebtoken,
+    logger,
+  }) {
     this.dbConnectionPool = dbConnectionPool;
     this.authRepository = authRepository;
+    this.userRepository = userRepository;
     this.authErrors = authErrors;
     this.bcrypt = bcrypt;
     this.jsonwebtoken = jsonwebtoken;
@@ -280,6 +289,123 @@ class AuthService {
         });
 
         throw new Error('Error while authenticating');
+      }
+
+      throw err;
+    }
+  }
+
+  /**
+   *
+   * @param {*} credentials The user credentials for the login attempt
+   * @return {Promise} The user access token
+   */
+  async forgotPassword({ email }) {
+    let connection;
+
+    try {
+      connection = await this.dbConnectionPool.getConnection();
+
+      const userByEmail = await this.authRepository.findByEmail(email, connection);
+
+      connection.release();
+
+      if (!userByEmail) {
+        throw new this.authErrors.UserNotFoundError({ email: userByEmail.email });
+      }
+
+      const token = await this.jsonwebtoken.signPasswordRecoveryToken(
+        {
+          subject: userByEmail.id,
+        },
+        userByEmail.password
+      );
+
+      // TODO send mail recovery link
+      const passwordRecoveryURL = `http://localhost:3000/auth/recover-password/${token}`;
+
+      console.log(passwordRecoveryURL);
+
+      return;
+    } catch (err) {
+      if (connection) connection.release();
+
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
+        throw new Error('Error while authenticating');
+      }
+
+      throw err;
+    }
+  }
+
+  /**
+   *
+   * @param {*} credentials The user credentials for the login attempt
+   * @return {Promise} The user access token
+   */
+  async resetPassword({ token, password }) {
+    let connection;
+
+    try {
+      connection = await this.dbConnectionPool.getConnection();
+
+      const decoded = await this.jsonwebtoken.decode(token);
+
+      if (decoded == null) {
+        throw new this.authErrors.UnauthorizedError({
+          message: 'The provided token is not valid',
+        });
+      }
+
+      const userById = await this.authRepository.findById(decoded.payload.sub, connection);
+
+      if (!userById) {
+        throw new this.authErrors.UserNotFoundError({ email: userById.email });
+      }
+
+      const decodedVerified = await this.jsonwebtoken.verifyPasswordRecoveryToken(
+        token,
+        userById.password
+      );
+
+      const hashPassword = await this.bcrypt.hashPassword(password);
+
+      const affectedRows = await this.userRepository.update(
+        { password: hashPassword },
+        decodedVerified.sub,
+        connection
+      );
+
+      if (affectedRows < 1) {
+        throw new Error('User password was not changed');
+      }
+
+      return;
+    } catch (err) {
+      if (connection) connection.release();
+
+      if (
+        err.name == 'TokenExpiredError' ||
+        err.name == 'JsonWebTokenError' ||
+        err.name == 'NotBeforeError'
+      ) {
+        throw new this.authErrors.UnauthorizedError({
+          message: 'The provided token is not valid',
+        });
+      }
+
+      if (err.sqlMessage) {
+        this.logger.log({
+          level: 'error',
+          message: err.message,
+        });
+
+        throw new Error('Error while resetting password');
       }
 
       throw err;
