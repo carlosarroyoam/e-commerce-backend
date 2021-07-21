@@ -1,3 +1,3 @@
-const validators = require('../../../utils/validators.util');
+const validators = require('../../../shared/utils/validators.util');
 
 module.exports = [validators.resourceId('userId')];

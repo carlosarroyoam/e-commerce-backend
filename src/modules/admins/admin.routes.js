@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const validateRequestMiddleware = require('../core/middlewares/validateRequest.middleware');
+const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
 const indexAdminSchema = require('./schemas/index.schema');
 const showAdminSchema = require('./schemas/show.schema');
 const storeAdminSchema = require('./schemas/store.schema');

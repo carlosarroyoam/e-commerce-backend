@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const packageJson = require('../../../../package.json');
+const packageJson = require('../../../package.json');
 
 module.exports = ({ config }) => {
   const router = Router();

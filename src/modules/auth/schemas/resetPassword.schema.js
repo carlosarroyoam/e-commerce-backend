@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
-const validators = require('../../../utils/validators.util');
+const validators = require('../../../shared/utils/validators.util');
 
 module.exports = [
   validators.password
