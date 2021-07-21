@@ -12,6 +12,7 @@ class AuthService {
     authRepository,
     userRepository,
     authErrors,
+    config,
     bcrypt,
     jsonwebtoken,
     logger,
@@ -20,6 +21,7 @@ class AuthService {
     this.authRepository = authRepository;
     this.userRepository = userRepository;
     this.authErrors = authErrors;
+    this.config = config;
     this.bcrypt = bcrypt;
     this.jsonwebtoken = jsonwebtoken;
     this.logger = logger;
@@ -322,7 +324,7 @@ class AuthService {
       );
 
       // TODO send mail recovery link
-      const passwordRecoveryURL = `http://localhost:3000/auth/recover-password/${token}`;
+      const passwordRecoveryURL = `${this.config.APP_URL}:${this.config.PORT}/auth/recover-password/${token}`;
 
       console.log(passwordRecoveryURL);
 
