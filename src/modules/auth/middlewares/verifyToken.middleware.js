@@ -36,10 +36,10 @@ module.exports =
         message: err.message,
       });
 
-      const forbiddenError = new authErrors.ForbiddenError({
+      const unauthorizedError = new authErrors.UnauthorizedError({
         message: 'The provided token is not valid or the user has not access',
       });
 
-      next(forbiddenError);
+      next(unauthorizedError);
     }
   };
