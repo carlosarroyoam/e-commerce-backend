@@ -165,7 +165,11 @@
         "tags": ["auth"],
         "summary": "Resets a user password",
         "operationId": "resetPassword",
+<<<<<<< HEAD
         "parameters": [{ "$ref": "#/components/parameters/resetPasswordTokenParam" }],
+=======
+        "parameters": [{ "$ref": "#/components/parameters/resetPasswordToken" }],
+>>>>>>> 5876d11567f9305b1fa5641b861bde4a9e268d6a
         "requestBody": {
           "description": "User password object that will be changed",
           "content": {
