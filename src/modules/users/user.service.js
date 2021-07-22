@@ -7,10 +7,11 @@ class UserService {
    *
    * @param {*} dependencies The dependencies payload
    */
-  constructor({ dbConnectionPool, userRepository, userErrors, bcrypt, logger }) {
+  constructor({ dbConnectionPool, userRepository, userErrors, sharedErrors, bcrypt, logger }) {
     this.dbConnectionPool = dbConnectionPool;
     this.userRepository = userRepository;
     this.userErrors = userErrors;
+    this.sharedErrors = sharedErrors;
     this.bcrypt = bcrypt;
     this.logger = logger;
   }
@@ -184,8 +185,9 @@ class UserService {
 
   /**
    * @param {number} userId
+   * @param {number} authUserId
    */
-  async delete(userId) {
+  async delete(userId, authUserId) {
     let connection;
 
     try {
@@ -195,6 +197,12 @@ class UserService {
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
+      }
+
+      if (authUserId === userById.id) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'A user cannot deactivate to itself',
+        });
       }
 
       const affectedRows = await this.userRepository.delete(userId, connection);

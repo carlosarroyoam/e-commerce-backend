@@ -273,7 +273,7 @@ class AuthService {
       const userById = await this.authRepository.findById(user_id, connection);
 
       if (!userById) {
-        throw new this.authErrors.UserNotFoundError({ email: userById.email });
+        throw new this.authErrors.UserNotFoundError({ email: undefined });
       }
 
       connection.release();
@@ -313,7 +313,7 @@ class AuthService {
       connection.release();
 
       if (!userByEmail) {
-        throw new this.authErrors.UserNotFoundError({ email: userByEmail.email });
+        throw new this.authErrors.UserNotFoundError({ email });
       }
 
       const token = await this.jsonwebtoken.signPasswordRecoveryToken(
@@ -367,7 +367,7 @@ class AuthService {
       const userById = await this.authRepository.findById(decoded.payload.sub, connection);
 
       if (!userById) {
-        throw new this.authErrors.UserNotFoundError({ email: userById.email });
+        throw new this.authErrors.UserNotFoundError({ email: undefined });
       }
 
       const decodedVerified = await this.jsonwebtoken.verifyPasswordRecoveryToken(

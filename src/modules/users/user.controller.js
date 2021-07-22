@@ -70,8 +70,9 @@ class UserController {
   async destroy(request, response, next) {
     try {
       const { userId } = request.params;
+      const { id: authUserId } = request.app.user;
 
-      const userDeletedId = await this.userService.delete(userId);
+      const userDeletedId = await this.userService.delete(userId, authUserId);
 
       response.send({
         message: 'Deleted',
@@ -94,8 +95,9 @@ class UserController {
   async restore(request, response, next) {
     try {
       const { userId } = request.params;
+      const { id: authUserId } = request.app.user;
 
-      const userRestoredId = await this.userService.restore(userId);
+      const userRestoredId = await this.userService.restore(userId, authUserId);
 
       response.send({
         message: 'Restored',

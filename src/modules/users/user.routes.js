@@ -6,7 +6,7 @@ const deleteUserSchema = require('./schemas/delete.schema');
 const restoreUserSchema = require('./schemas/restore.schema');
 const changePasswordSchema = require('./schemas/changePassword.schema');
 
-module.exports = ({ userController, verifyTokenMiddleware }) => {
+module.exports = ({ userController, verifyTokenMiddleware, adminGuardMiddleware }) => {
   const router = Router();
 
   router.get(
@@ -34,6 +34,7 @@ module.exports = ({ userController, verifyTokenMiddleware }) => {
     '/:userId/restore',
     verifyTokenMiddleware,
     validateRequestMiddleware(restoreUserSchema),
+    adminGuardMiddleware,
     userController.restore.bind(userController)
   );
 
@@ -41,6 +42,7 @@ module.exports = ({ userController, verifyTokenMiddleware }) => {
     '/:userId',
     verifyTokenMiddleware,
     validateRequestMiddleware(deleteUserSchema),
+    adminGuardMiddleware,
     userController.destroy.bind(userController)
   );
 
