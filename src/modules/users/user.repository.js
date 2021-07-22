@@ -17,8 +17,8 @@ class UserRepository {
    * @return {Promise} The result of the query
    * @param {any} connection
    */
-  async findAll({ skip }, connection) {
-    const [result] = await this.userDao.getAll({ skip }, connection);
+  async findAll({ skip, search }, connection) {
+    const [result] = await this.userDao.getAll({ skip, search }, connection);
 
     return result;
   }

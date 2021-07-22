@@ -90,13 +90,12 @@ function verify(accessToken, password) {
 }
 
 /**
- * @param {string} accessToken
- * @param {string} password
+ * @param {string} refreshToken
  * @return {object | string} The decoded token
  */
-function verifyPasswordRecoveryToken(accessToken, password) {
+function verifyRefresh(refreshToken) {
   return new Promise((resolve, reject) => {
-    jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, (err, decoded) => {
+    jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY, (err, decoded) => {
       if (err) return reject(err);
 
       return resolve(decoded);
@@ -105,12 +104,13 @@ function verifyPasswordRecoveryToken(accessToken, password) {
 }
 
 /**
- * @param {string} refreshToken
+ * @param {string} accessToken
+ * @param {string} password
  * @return {object | string} The decoded token
  */
-function verifyRefresh(refreshToken) {
+function verifyPasswordRecoveryToken(accessToken, password) {
   return new Promise((resolve, reject) => {
-    jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY, (err, decoded) => {
+    jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, (err, decoded) => {
       if (err) return reject(err);
 
       return resolve(decoded);

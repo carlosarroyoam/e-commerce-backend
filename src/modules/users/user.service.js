@@ -16,15 +16,15 @@ class UserService {
   }
 
   /**
-   * @param {number} skip
+   * @param {object} data
    */
-  async findAll(skip) {
+  async findAll({ skip, search }) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const users = await this.userRepository.findAll({ skip }, connection);
+      const users = await this.userRepository.findAll({ skip, search }, connection);
 
       connection.release();
 

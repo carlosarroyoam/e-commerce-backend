@@ -5,8 +5,8 @@
  * @param {any} connection
  * @return {Promise}
  */
-async function getAll({ skip = 0, limit = 20 }, connection) {
-  const query = `SELECT
+async function getAll({ skip = 0, limit = 20, search }, connection) {
+  let query = `SELECT
             usr.id,
             usr.first_name,
             usr.last_name,
@@ -17,8 +17,15 @@ async function getAll({ skip = 0, limit = 20 }, connection) {
             usr.updated_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE deleted_at IS NULL
-        LIMIT ?, ?`;
+        WHERE deleted_at IS NULL`;
+
+  if (search) {
+    query += ` AND MATCH(first_name, last_name) AGAINST("${connection.escape(
+      search
+    )}*" IN BOOLEAN MODE)`;
+  }
+
+  query += ' LIMIT ?, ?';
 
   return connection.query(query, [skip, limit]);
 }
