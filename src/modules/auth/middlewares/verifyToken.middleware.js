@@ -3,7 +3,8 @@ module.exports =
   async (request, response, next) => {
     try {
       const { authorization } = request.headers;
-      const accessToken = authorization && authorization.split(' ')[1];
+      const accessToken =
+        authorization && authorization.startsWith('Bearer') && authorization.split(' ')[1];
 
       if (!accessToken) {
         const unauthorizedError = new authErrors.UnauthorizedError({
