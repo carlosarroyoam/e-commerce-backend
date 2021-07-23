@@ -1,37 +1,45 @@
 module.exports =
-    ({ jsonwebtoken, authErrors, logger }) =>
-    async (req, res, next) => {
-        try {
-            const { authorization } = req.headers;
-            const accessToken = authorization && authorization.split(' ')[1];
+  ({ authService, jsonwebtoken, authErrors, logger }) =>
+  async (request, response, next) => {
+    try {
+      const { authorization } = request.headers;
+      const accessToken =
+        authorization && authorization.startsWith('Bearer') && authorization.split(' ')[1];
 
-            if (!accessToken) {
-                const unauthorizedError = new authErrors.UnauthorizedError({
-                    message: 'No token authorization provided',
-                });
+      if (!accessToken) {
+        const unauthorizedError = new authErrors.UnauthorizedError({
+          message: 'No token authorization provided',
+        });
 
-                return next(unauthorizedError);
-            }
+        return next(unauthorizedError);
+      }
 
-            const decoded = await jsonwebtoken.verify(accessToken);
+      const decoded = await jsonwebtoken.decode(accessToken);
 
-            req.app.user = {
-                id: decoded.sub,
-                role: decoded.userRole,
-            };
+      const userById = await authService.getUserForTokenVerify({ user_id: decoded.payload.sub });
 
-            next();
-        } catch (err) {
-            logger.log({
-                level: 'info',
-                message: err.message,
-            });
+      if (!decoded.payload.sub || !userById) {
+        throw new Error('Error while decoding token or user_id not valid');
+      }
 
-            const forbiddenError = new authErrors.ForbiddenError({
-                message:
-                    'The provided token is not valid or the user has not access',
-            });
+      const decodedVerified = await jsonwebtoken.verify(accessToken, userById.password);
 
-            next(forbiddenError);
-        }
-    };
+      request.app.user = {
+        id: decodedVerified.sub,
+        role: decodedVerified.userRole,
+      };
+
+      next();
+    } catch (err) {
+      logger.log({
+        level: 'info',
+        message: err.message,
+      });
+
+      const unauthorizedError = new authErrors.UnauthorizedError({
+        message: 'The provided token is not valid or the user has not access',
+      });
+
+      next(unauthorizedError);
+    }
+  };

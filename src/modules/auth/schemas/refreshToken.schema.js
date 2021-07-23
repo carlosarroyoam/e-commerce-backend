@@ -1,12 +1,3 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
+const validators = require('../../../shared/utils/validators.util');
 
-const { body } = require('express-validator');
-
-module.exports = [
-    body('refresh_token')
-        .trim()
-        .exists({ checkNull: true, checkFalsy: true })
-        .withMessage('The refresh_token is required')
-        .isJWT()
-        .withMessage('The refresh_token format is invalid')
-];
+module.exports = [validators.refreshToken, validators.browserFingerprint];
