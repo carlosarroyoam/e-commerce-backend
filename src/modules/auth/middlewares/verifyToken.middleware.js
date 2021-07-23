@@ -22,11 +22,11 @@ module.exports =
         throw new Error('Error while decoding token or user_id not valid');
       }
 
-      const decodedVerified = await jsonwebtoken.verify(accessToken, userById.password);
+      await jsonwebtoken.verify(accessToken, userById.password);
 
       request.app.user = {
-        id: decodedVerified.sub,
-        role: decodedVerified.userRole,
+        id: userById.id,
+        role: userById.user_role,
       };
 
       next();
