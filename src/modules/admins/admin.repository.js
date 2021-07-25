@@ -16,31 +16,10 @@ class AdminRepository {
    * @param {any} connection
    * @return {Promise} The query result
    */
-  async findAll({ search }, connection) {
-    const [result] = await this.adminDao.getAll({ search }, connection);
+  async findAll({ orderBy, userStatus, search }, connection) {
+    const [result] = await this.adminDao.getAll({ orderBy, userStatus, search }, connection);
 
     return result;
-  }
-
-  /**
-   * @param {number} adminId
-   * @param {any} connection
-   * @return {Promise} The query result
-   */
-  async findById(adminId, connection) {
-    const [result] = await this.adminDao.getById(adminId, connection);
-
-    return result[0];
-  }
-
-  /**
-   * @param {number} userId
-   * @param {any} connection
-   */
-  async findTrashedById(userId, connection) {
-    const [result] = await this.adminDao.getTrashedById(userId, connection);
-
-    return result[0];
   }
 
   /**

@@ -5,7 +5,7 @@
  * @param {any} connection
  * @return {Promise}
  */
-async function getAll({ skip = 0, limit = 20, search }, connection) {
+async function getAll({ skip = 0, limit = 20, orderBy = 'id', userStatus, search }, connection) {
   let query = `SELECT
             usr.id,
             usr.first_name,
@@ -14,10 +14,19 @@ async function getAll({ skip = 0, limit = 20, search }, connection) {
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,
-            usr.updated_at
+            usr.updated_at,
+            usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE deleted_at IS NULL`;
+        WHERE 1`;
+
+  if (userStatus) {
+    if (userStatus === 'active') {
+      query += ' AND usr.deleted_at IS NULL';
+    } else {
+      query += ' AND usr.deleted_at IS NOT NULL';
+    }
+  }
 
   if (search) {
     query += ` AND MATCH(first_name, last_name) AGAINST("${connection.escape(
@@ -25,56 +34,20 @@ async function getAll({ skip = 0, limit = 20, search }, connection) {
     )}*" IN BOOLEAN MODE)`;
   }
 
-  query += ' LIMIT ?, ?';
+  if (orderBy) {
+    let order = 'ASC';
+
+    if (orderBy.charAt(0) === '-') {
+      order = 'DESC';
+      orderBy = orderBy.substring(1);
+    }
+
+    query += ` ORDER BY ${connection.escapeId(orderBy)} ${order}`;
+  }
+
+  query += ` LIMIT ${connection.escape(skip)}, ${connection.escape(limit)}`;
 
   return connection.query(query, [skip, limit]);
-}
-
-/**
- * Performs the SQL query to get all deleted/inactive users.
- *
- * @param {any} connection
- * @return {Promise}
- */
-async function getTrashed(connection) {
-  const query = `SELECT
-            usr.id,
-            usr.first_name,
-            usr.last_name,
-            usr.email,
-            usrrl.id AS user_role_id,
-            usrrl.type AS user_role,
-            usr.created_at,
-            usr.updated_at,
-            usr.deleted_at,
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE deleted_at IS NULL`;
-
-  return connection.query(query);
-}
-
-/**
- * Performs the SQL query to get all users.
- *
- * @param {any} connection
- * @return {Promise}
- */
-async function getAllWithTrashed(connection) {
-  const query = `SELECT
-            usr.id,
-            usr.first_name,
-            usr.last_name,
-            usr.email,
-            usrrl.id AS user_role_id,
-            usrrl.type AS user_role,
-            usr.created_at,
-            usr.updated_at,
-            usr.deleted_at,
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id`;
-
-  return connection.query(query);
 }
 
 /**
@@ -218,8 +191,6 @@ async function restore(id, connection) {
 
 module.exports = {
   getAll,
-  getTrashed,
-  getAllWithTrashed,
   getById,
   getTrashedById,
   getByEmail,

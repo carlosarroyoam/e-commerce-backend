@@ -28,13 +28,16 @@ class AdminService {
   /**
    *
    */
-  async findAll({ search }) {
+  async findAll({ sort, status, search }) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const admins = await this.adminRepository.findAll({ search }, connection);
+      const admins = await this.adminRepository.findAll(
+        { orderBy: sort, userStatus: status, search },
+        connection
+      );
 
       connection.release();
 

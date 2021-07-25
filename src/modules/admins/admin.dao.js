@@ -1,10 +1,10 @@
 /**
- * Performs the SQL query to get all non-deleted/active admin users.
+ * Performs the SQL query to get all admin users.
  *
  * @param {any} connection
  * @return {Promise}
  */
-async function getAll({ search }, connection) {
+async function getAll({ skip = 0, limit = 10, orderBy = 'id', userStatus, search }, connection) {
   let query = `SELECT 
         adm.id,
         usr.id AS user_id,
@@ -13,10 +13,19 @@ async function getAll({ search }, connection) {
         usr.email,
         adm.is_super,
         usr.created_at,
-        usr.updated_at
+        usr.updated_at,
+        usr.deleted_at
     FROM admins adm
     LEFT JOIN users usr ON adm.id = usr.id
-    WHERE usr.deleted_at IS NULL`;
+    WHERE 1`;
+
+  if (userStatus) {
+    if (userStatus === 'active') {
+      query += ' AND usr.deleted_at IS NULL';
+    } else {
+      query += ' AND usr.deleted_at IS NOT NULL';
+    }
+  }
 
   if (search) {
     query += ` AND MATCH(first_name, last_name) AGAINST("${connection.escape(
@@ -24,52 +33,18 @@ async function getAll({ search }, connection) {
     )}*" IN BOOLEAN MODE)`;
   }
 
-  return connection.query(query);
-}
+  if (orderBy) {
+    let order = 'ASC';
 
-/**
- * Performs the SQL query to get all deleted/inactive admin users.
- *
- * @param {any} connection
- * @return {Promise}
- */
-async function getTrashed(connection) {
-  const query = `SELECT 
-        adm.id,
-        usr.id AS user_id,
-        usr.first_name,
-        usr.last_name,
-        usr.email,
-        adm.is_super,
-        usr.created_at,
-        usr.updated_at,
-        usr.deleted_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.id = usr.id
-    WHERE usr.deleted_at IS NOT NULL`;
+    if (orderBy.charAt(0) === '-') {
+      order = 'DESC';
+      orderBy = orderBy.substring(1);
+    }
 
-  return connection.query(query);
-}
+    query += ` ORDER BY ${connection.escapeId(orderBy)} ${order}`;
+  }
 
-/**
- * Performs the SQL query to get all users.
- *
- * @param {any} connection
- * @return {Promise}
- */
-async function getAllWithTrashed(connection) {
-  const query = `SELECT 
-        adm.id,
-        usr.id AS user_id,
-        usr.first_name,
-        usr.last_name,
-        usr.email,
-        adm.is_super,
-        usr.created_at,
-        usr.updated_at,
-        usr.deleted_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.id = usr.id`;
+  query += ` LIMIT ${connection.escape(skip)}, ${connection.escape(limit)}`;
 
   return connection.query(query);
 }
@@ -202,8 +177,6 @@ async function update(admin, adminId, connection) {
 
 module.exports = {
   getAll,
-  getTrashed,
-  getAllWithTrashed,
   getById,
   getTrashedById,
   getByEmail,
