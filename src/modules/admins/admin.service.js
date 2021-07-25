@@ -59,15 +59,15 @@ class AdminService {
   }
 
   /**
-   * @param {number} adminId
+   * @param {number} admin_id
    */
-  async find(adminId) {
+  async find(admin_id) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const admin = await this.adminRepository.findById(adminId, connection);
+      const admin = await this.adminRepository.findById(admin_id, connection);
       if (!admin) {
         throw new this.adminErrors.UserNotFoundError();
       }
@@ -121,7 +121,7 @@ class AdminService {
         connection
       );
 
-      const createdAdminId = await this.adminRepository.store(
+      const createdAdmin_id = await this.adminRepository.store(
         {
           is_super: admin.is_super,
           user_id: createdUserId,
@@ -129,7 +129,7 @@ class AdminService {
         connection
       );
 
-      const createdAdmin = await this.adminRepository.findById(createdAdminId, connection);
+      const createdAdmin = await this.adminRepository.findById(createdAdmin_id, connection);
 
       connection.commit();
       connection.release();
@@ -155,10 +155,10 @@ class AdminService {
   }
 
   /**
-   * @param {number} adminId
+   * @param {number} admin_id
    * @param {object} admin
    */
-  async update(adminId, admin) {
+  async update(admin_id, admin) {
     let connection;
 
     try {
@@ -166,7 +166,7 @@ class AdminService {
 
       connection.beginTransaction();
 
-      const adminById = await this.adminRepository.findById(adminId, connection);
+      const adminById = await this.adminRepository.findById(admin_id, connection);
       if (!adminById) {
         throw new this.adminErrors.UserNotFoundError();
       }
@@ -183,7 +183,7 @@ class AdminService {
         throw new Error('Admin was not updated');
       }
 
-      const updatedAdmin = await this.adminRepository.findById(adminId, connection);
+      const updatedAdmin = await this.adminRepository.findById(admin_id, connection);
 
       connection.commit();
       connection.release();

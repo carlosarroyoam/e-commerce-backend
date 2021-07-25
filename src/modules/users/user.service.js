@@ -50,15 +50,15 @@ class UserService {
   }
 
   /**
-   * @param {number} userId
+   * @param {number} user_id
    */
-  async find(userId) {
+  async find(user_id) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const user = await this.userRepository.findById(userId, connection);
+      const user = await this.userRepository.findById(user_id, connection);
 
       if (!user) {
         throw new this.userErrors.UserNotFoundError();
@@ -102,7 +102,7 @@ class UserService {
 
       const passwordHash = await this.bcrypt.hashPassword(user.password);
 
-      const createdUserId = await this.userRepository.store(
+      const createdUser_id = await this.userRepository.store(
         {
           password: passwordHash,
           ...user,
@@ -110,7 +110,7 @@ class UserService {
         connection
       );
 
-      const createdUser = await this.userRepository.findById(createdUserId, connection);
+      const createdUser = await this.userRepository.findById(createdUser_id, connection);
 
       connection.release();
 
@@ -132,16 +132,16 @@ class UserService {
   }
 
   /**
-   * @param {number} userId
+   * @param {number} user_id
    * @param {object} user
    */
-  async update(userId, user) {
+  async update(user_id, user) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findById(userId, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
@@ -153,7 +153,7 @@ class UserService {
       }
 
       const affectedRows = await this.userRepository.update(
-        userId,
+        user_id,
         {
           password,
           ...user,
@@ -165,7 +165,7 @@ class UserService {
         throw new Error('User was not updated');
       }
 
-      const updatedUser = await this.userRepository.findById(userId, connection);
+      const updatedUser = await this.userRepository.findById(user_id, connection);
 
       connection.release();
 
@@ -187,28 +187,28 @@ class UserService {
   }
 
   /**
-   * @param {number} userId
-   * @param {number} authUserId
+   * @param {number} user_id
+   * @param {number} authUser_id
    */
-  async delete(userId, authUserId) {
+  async delete(user_id, authUser_id) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findById(userId, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
 
-      if (authUserId === userById.id) {
+      if (authUser_id === userById.id) {
         throw new this.sharedErrors.BadRequest({
           message: 'A user cannot deactivate to itself',
         });
       }
 
-      const affectedRows = await this.userRepository.delete(userId, connection);
+      const affectedRows = await this.userRepository.delete(user_id, connection);
 
       if (affectedRows < 1) {
         throw new Error('User was not deleted');
@@ -216,7 +216,7 @@ class UserService {
 
       connection.release();
 
-      return userId;
+      return user_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -234,21 +234,21 @@ class UserService {
   }
 
   /**
-   * @param {number} userId
+   * @param {number} user_id
    */
-  async restore(userId) {
+  async restore(user_id) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findTrashedById(userId, connection);
+      const userById = await this.userRepository.findTrashedById(user_id, connection);
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
 
-      const affectedRows = await this.userRepository.restore(userId, connection);
+      const affectedRows = await this.userRepository.restore(user_id, connection);
 
       if (affectedRows < 1) {
         throw new Error('User was not restored');
@@ -256,7 +256,7 @@ class UserService {
 
       connection.release();
 
-      return userId;
+      return user_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -276,13 +276,13 @@ class UserService {
   /**
    * @param {object} userCredentials
    */
-  async changePassword({ userId, current_password, new_password }) {
+  async changePassword({ user_id, current_password, new_password }) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findById(userId, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
@@ -298,7 +298,7 @@ class UserService {
 
       const affectedRows = await this.userRepository.update(
         { password: hashPassword },
-        userId,
+        user_id,
         connection
       );
 
