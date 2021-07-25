@@ -21,9 +21,9 @@ class AdminController {
    */
   async index(request, response, next) {
     try {
-      const { search } = request.query;
+      const { sort, status, search } = request.query;
 
-      const admins = await this.adminService.findAll({ search });
+      const admins = await this.adminService.findAll({ sort, status, search });
 
       const adminsDto = admins.map((admin) => this.adminMapper.toDto(admin));
 
@@ -45,9 +45,9 @@ class AdminController {
    */
   async show(request, response, next) {
     try {
-      const { adminId } = request.params;
+      const { admin_id } = request.params;
 
-      const admin = await this.adminService.find(Number(adminId));
+      const admin = await this.adminService.find(Number(admin_id));
       const adminDto = this.adminMapper.toDto(admin);
 
       response.send({
@@ -98,10 +98,10 @@ class AdminController {
    */
   async update(request, response, next) {
     try {
-      const { adminId } = request.params;
+      const { admin_id } = request.params;
       const { first_name, last_name } = request.body;
 
-      const updatedAdmin = await this.adminService.update(adminId, {
+      const updatedAdmin = await this.adminService.update(admin_id, {
         first_name,
         last_name,
       });

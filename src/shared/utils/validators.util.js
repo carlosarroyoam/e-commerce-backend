@@ -1,5 +1,6 @@
 /* eslint-disable security/detect-object-injection */
 /* eslint-disable security/detect-non-literal-fs-filename */
+
 const { body, param, query } = require('express-validator');
 const stringUtils = require('./string.utils');
 
@@ -20,15 +21,35 @@ const resourceId = (parameterName) =>
 
 const skip = query('skip')
   .trim()
-  .isInt()
-  .withMessage('The skip parameter must be an integer value')
+  .isInt({ gt: -1 })
+  .withMessage('The skip parameter must be an integer value and greater or equals than 0')
   .toInt()
+  .optional();
+
+const sort = (validValues) =>
+  query('sort')
+    .trim()
+    .isAlpha('es-ES', { ignore: '-_' })
+    .withMessage('The sort contains invalid characters')
+    .isLength({ min: 2, max: 25 })
+    .withMessage('The sort must be between 2 and 25 characters')
+    .isIn(validValues)
+    .withMessage(`The sort must be one of [${validValues.join(', ')}]`)
+    .optional();
+
+const userStatus = query('status')
+  .trim()
+  .isIn(['active', 'inactive'])
+  .withMessage(`The status must be one of ['active', 'inactive']`)
   .optional();
 
 const search = query('search')
   .trim()
   .isAlpha('es-ES', { ignore: '\\s\\.' })
-  .withMessage('The search contains invalid characters');
+  .withMessage('The search contains invalid characters')
+  .isLength({ min: 1, max: 50 })
+  .withMessage('The search must be between 1 and 50 characters')
+  .optional();
 
 const refreshToken = body('refresh_token')
   .trim()
@@ -98,8 +119,10 @@ const confirmPassword = (passwordParameterName) =>
 
 module.exports = {
   resourceId,
+  sort,
   skip,
   search,
+  userStatus,
   refreshToken,
   browserFingerprint,
   firstName,

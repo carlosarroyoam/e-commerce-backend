@@ -197,9 +197,9 @@
         "operationId": "getUsers",
         "parameters": [
           { "$ref": "#/components/parameters/SkipParam" },
-          {
-            "$ref": "#/components/parameters/SearchParam"
-          }
+          { "$ref": "#/components/parameters/UserSortParam" },
+          { "$ref": "#/components/parameters/UserStatusParam" },
+          { "$ref": "#/components/parameters/SearchParam" }
         ],
         "responses": {
           "200": {
@@ -456,9 +456,9 @@
         "operationId": "getAdmins",
         "parameters": [
           { "$ref": "#/components/parameters/SkipParam" },
-          {
-            "$ref": "#/components/parameters/SearchParam"
-          }
+          { "$ref": "#/components/parameters/UserSortParam" },
+          { "$ref": "#/components/parameters/UserStatusParam" },
+          { "$ref": "#/components/parameters/SearchParam" }
         ],
         "responses": {
           "200": {
@@ -731,6 +731,33 @@
         "description": "Search criteria",
         "schema": {
           "type": "string"
+        }
+      },
+      "UserSortParam": {
+        "name": "sort",
+        "in": "query",
+        "description": "Sort by",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "id",
+            "-id",
+            "first_name",
+            "-first_name",
+            "last_name",
+            "-last_name",
+            "email",
+            "-email"
+          ]
+        }
+      },
+      "UserStatusParam": {
+        "name": "status",
+        "in": "query",
+        "description": "User status",
+        "schema": {
+          "type": "string",
+          "enum": ["active", "inactive"]
         }
       },
       "resetPasswordTokenParam": {

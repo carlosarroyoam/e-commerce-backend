@@ -21,9 +21,9 @@ class UserController {
    */
   async index(request, response, next) {
     try {
-      const { skip, search } = request.query;
+      const { skip, sort, status, search } = request.query;
 
-      const users = await this.userService.findAll({ skip, search });
+      const users = await this.userService.findAll({ skip, sort, status, search });
 
       const usersDto = users.map((user) => this.userMapper.toDto(user));
 
@@ -45,9 +45,9 @@ class UserController {
    */
   async show(request, response, next) {
     try {
-      const { userId } = request.params;
+      const { user_id } = request.params;
 
-      const user = await this.userService.find(userId);
+      const user = await this.userService.find(user_id);
 
       const userDto = this.userMapper.toDto(user);
 
@@ -61,7 +61,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /users/:userId endpoint
+   * Handles incoming request from the /users/:user_id endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -69,10 +69,10 @@ class UserController {
    */
   async destroy(request, response, next) {
     try {
-      const { userId } = request.params;
-      const { id: authUserId } = request.app.user;
+      const { user_id } = request.params;
+      const { id: authUser_id } = request.app.user;
 
-      const userDeletedId = await this.userService.delete(userId, authUserId);
+      const userDeletedId = await this.userService.delete(user_id, authUser_id);
 
       response.send({
         message: 'Deleted',
@@ -86,7 +86,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /users/:userId/restore endpoint
+   * Handles incoming request from the /users/:user_id/restore endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -94,10 +94,10 @@ class UserController {
    */
   async restore(request, response, next) {
     try {
-      const { userId } = request.params;
-      const { id: authUserId } = request.app.user;
+      const { user_id } = request.params;
+      const { id: authUser_id } = request.app.user;
 
-      const userRestoredId = await this.userService.restore(userId, authUserId);
+      const userRestoredId = await this.userService.restore(user_id, authUser_id);
 
       response.send({
         message: 'Restored',
@@ -111,7 +111,7 @@ class UserController {
   }
 
   /**
-   * Handles incoming request from the /users/:userId/change-password endpoint
+   * Handles incoming request from the /users/:user_id/change-password endpoint
    *
    * @param {*} request
    * @param {*} response
@@ -119,11 +119,11 @@ class UserController {
    */
   async changePassword(request, response, next) {
     try {
-      const { userId } = request.params;
+      const { user_id } = request.params;
       const { current_password, new_password } = request.body;
 
       await this.userService.changePassword({
-        userId,
+        user_id,
         current_password,
         new_password,
       });

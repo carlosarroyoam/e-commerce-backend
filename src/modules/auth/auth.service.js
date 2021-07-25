@@ -279,7 +279,9 @@ class AuthService {
       connection.release();
 
       return {
+        id: userById.id,
         password: userById.password,
+        user_role: userById.user_role,
       };
     } catch (err) {
       if (connection) connection.release();
