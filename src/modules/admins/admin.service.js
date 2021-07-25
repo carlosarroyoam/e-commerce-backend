@@ -129,10 +129,9 @@ class AdminService {
         connection
       );
 
-      connection.commit();
-
       const createdAdmin = await this.adminRepository.findById(createdAdminId, connection);
 
+      connection.commit();
       connection.release();
 
       return createdAdmin;

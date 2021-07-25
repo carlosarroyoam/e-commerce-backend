@@ -23,6 +23,17 @@ class AdminRepository {
   }
 
   /**
+   * @param {number} adminId
+   * @param {any} connection
+   * @return {Promise} The query result
+   */
+  async findById(adminId, connection) {
+    const [result] = await this.adminDao.getById(adminId, connection);
+
+    return result[0];
+  }
+
+  /**
    * @param {string} email
    * @param {any} connection
    * @return {Promise} The query result
