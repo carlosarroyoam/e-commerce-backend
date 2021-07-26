@@ -41,14 +41,14 @@ class AuthRepository {
    * Gets a personal access token.
    *
    * @param {string} personalAccessToken The personal access token
-   * @param {number} userId The user id
+   * @param {number} user_id The user id
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async getPersonalAccessToken(personalAccessToken, userId, connection) {
+  async getPersonalAccessToken(personalAccessToken, user_id, connection) {
     const [result] = await this.authDao.getPersonalAccessToken(
       personalAccessToken,
-      userId,
+      user_id,
       connection
     );
 
@@ -71,14 +71,14 @@ class AuthRepository {
    * Gets a personal access token by finger print.
    *
    * @param {string} fingerPrint The token finger print
-   * @param {number} userId The user id
+   * @param {number} user_id The user id
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connection) {
+  async getPersonalAccessTokenByFingerPrint(fingerPrint, user_id, connection) {
     const [result] = await this.authDao.getPersonalAccessTokenByFingerPrint(
       fingerPrint,
-      userId,
+      user_id,
       connection
     );
 
@@ -120,12 +120,16 @@ class AuthRepository {
    * Updates a personal access token.
    *
    * @param {string} personalAccessToken The personal access token
-   * @param {number} userId The personal access token owner id
+   * @param {number} user_id The personal access token owner id
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async deleteRefreshToken(personalAccessToken, userId, connection) {
-    const [result] = await this.authDao.deleteRefreshToken(personalAccessToken, userId, connection);
+  async deleteRefreshToken(personalAccessToken, user_id, connection) {
+    const [result] = await this.authDao.deleteRefreshToken(
+      personalAccessToken,
+      user_id,
+      connection
+    );
 
     return result.affectedRows;
   }

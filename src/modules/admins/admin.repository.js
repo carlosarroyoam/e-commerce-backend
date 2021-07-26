@@ -58,14 +58,14 @@ class AdminRepository {
 
   /**
    * @param {object} user
-   * @param {number} userId
+   * @param {number} user_id
    * @param {any} connection
    * @return {Promise} The query result
    */
-  async update(user, userId, connection) {
+  async update(user, user_id, connection) {
     const userDbEntity = this.adminMapper.toDatabaseEntity(user);
 
-    const [result] = await this.adminDao.update(userDbEntity, userId, connection);
+    const [result] = await this.adminDao.update(userDbEntity, user_id, connection);
 
     return result.affectedRows;
   }

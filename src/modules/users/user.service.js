@@ -102,7 +102,7 @@ class UserService {
 
       const passwordHash = await this.bcrypt.hashPassword(user.password);
 
-      const createdUser_id = await this.userRepository.store(
+      const createdUserId = await this.userRepository.store(
         {
           password: passwordHash,
           ...user,
@@ -110,7 +110,7 @@ class UserService {
         connection
       );
 
-      const createdUser = await this.userRepository.findById(createdUser_id, connection);
+      const createdUser = await this.userRepository.findById(createdUserId, connection);
 
       connection.release();
 
@@ -188,9 +188,9 @@ class UserService {
 
   /**
    * @param {number} user_id
-   * @param {number} authUser_id
+   * @param {number} auth_user_id
    */
-  async delete(user_id, authUser_id) {
+  async delete(user_id, auth_user_id) {
     let connection;
 
     try {
@@ -202,7 +202,7 @@ class UserService {
         throw new this.userErrors.UserNotFoundError();
       }
 
-      if (authUser_id === userById.id) {
+      if (auth_user_id === userById.id) {
         throw new this.sharedErrors.BadRequest({
           message: 'A user cannot deactivate to itself',
         });

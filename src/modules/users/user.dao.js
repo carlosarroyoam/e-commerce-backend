@@ -53,11 +53,11 @@ async function getAll({ skip = 0, limit = 20, orderBy = 'id', userStatus, search
 /**
  * Performs the SQL query to get a non-deleted/active user by its id.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function getById(id, connection) {
+async function getById(user_id, connection) {
   const query = `SELECT
             usr.id,
             usr.first_name,
@@ -72,17 +72,17 @@ async function getById(id, connection) {
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ? AND usr.deleted_at IS NULL`;
 
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 /**
  * Performs the SQL query to get a deleted/inactive user by its id.
  *
- * @param {any} id
+ * @param {any} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function getTrashedById(id, connection) {
+async function getTrashedById(user_id, connection) {
   const query = `SELECT
             usr.id,
             usr.first_name,
@@ -96,7 +96,7 @@ async function getTrashedById(id, connection) {
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ? AND usr.deleted_at IS NOT NULL`;
 
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 /**
@@ -153,40 +153,40 @@ async function create(user, connection) {
  * Performs the SQL query to update a user.
  *
  * @param {object} user
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function update(user, id, connection) {
+async function update(user, user_id, connection) {
   const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [user, id]);
+  return connection.query(query, [user, user_id]);
 }
 
 /**
  * Performs the SQL query to set a deleted/inactive state to a user.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function inactivate(id, connection) {
+async function inactivate(user_id, connection) {
   const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 /**
  * Performs the SQL query to set a non-deleted/active state to a user.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function restore(id, connection) {
+async function restore(user_id, connection) {
   const query = 'UPDATE users SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 module.exports = {

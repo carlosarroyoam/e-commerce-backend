@@ -26,12 +26,12 @@ class UserRepository {
   /**
    * Retrieves a non-deleted/active user by its id.
    *
-   * @param {number} id
+   * @param {number} user_id
    * @param {any} connection
    * @return {Promise} The result of the query
    */
-  async findById(id, connection) {
-    const [result] = await this.userDao.getById(id, connection);
+  async findById(user_id, connection) {
+    const [result] = await this.userDao.getById(user_id, connection);
 
     return result[0];
   }
@@ -39,12 +39,12 @@ class UserRepository {
   /**
    * Retrieves a deleted/non-active user by its id.
    *
-   * @param {number} id
+   * @param {number} user_id
    * @return {Promise} The result of the query
    * @param {any} connection
    */
-  async findTrashedById(id, connection) {
-    const [result] = await this.userDao.getTrashedById(id, connection);
+  async findTrashedById(user_id, connection) {
+    const [result] = await this.userDao.getTrashedById(user_id, connection);
 
     return result[0];
   }

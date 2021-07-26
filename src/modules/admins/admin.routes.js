@@ -17,7 +17,7 @@ module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware
   );
 
   router.get(
-    '/:adminId',
+    '/:admin_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(showAdminSchema),
     adminController.show.bind(adminController)
@@ -31,7 +31,7 @@ module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware
   );
 
   router.put(
-    '/:adminId',
+    '/:admin_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(updateAdminSchema),
     adminController.update.bind(adminController)
