@@ -291,7 +291,9 @@ class UserService {
       const passwordMatchResult = await this.bcrypt.compare(current_password, userById.password);
 
       if (!passwordMatchResult) {
-        throw new Error('Wrong password user');
+        throw new this.sharedErrors.BadRequest({
+          message: 'Invalid credentials. Please try again',
+        });
       }
 
       const hashPassword = await this.bcrypt.hashPassword(new_password);
