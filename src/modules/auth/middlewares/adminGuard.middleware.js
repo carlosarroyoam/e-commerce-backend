@@ -1,7 +1,7 @@
 module.exports =
   ({ authErrors, userRoles }) =>
   async (request, response, next) => {
-    const { user } = request.app;
+    const { user } = request;
 
     if (user.role !== userRoles.admin.type) {
       const forbiddenError = new authErrors.ForbiddenError({

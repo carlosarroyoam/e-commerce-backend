@@ -24,7 +24,7 @@ module.exports =
 
       await jsonwebtoken.verify(accessToken, userById.password);
 
-      request.app.user = {
+      request.user = {
         id: userById.id,
         role: userById.user_role,
       };
