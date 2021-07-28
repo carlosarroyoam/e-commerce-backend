@@ -16,10 +16,22 @@ module.exports =
 
       const decoded = await jsonwebtoken.decode(accessToken);
 
-      const userById = await authService.getUserForTokenVerify({ user_id: decoded.payload.sub });
+      if (!decoded.sub) {
+        const unauthorizedError = new authErrors.UnauthorizedError({
+          message: 'Error while decoding token',
+        });
 
-      if (!decoded.payload.sub || !userById) {
-        throw new Error('Error while decoding token or user_id not valid');
+        next(unauthorizedError);
+      }
+
+      const userById = await authService.getUserForTokenVerify({ user_id: decoded.sub });
+
+      if (userById.deleted_at !== null) {
+        const unauthorizedError = new authErrors.UnauthorizedError({
+          message: 'The user account is disabled',
+        });
+
+        next(unauthorizedError);
       }
 
       await jsonwebtoken.verify(accessToken, userById.password);

@@ -270,7 +270,7 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.authRepository.findById(user_id, connection);
+      const userById = await this.authRepository.findByIdWithTrashed(user_id, connection);
 
       if (!userById) {
         throw new this.authErrors.UserNotFoundError({ email: undefined });
@@ -282,6 +282,7 @@ class AuthService {
         id: userById.id,
         password: userById.password,
         user_role: userById.user_role,
+        deleted_at: userById.deleted_at,
       };
     } catch (err) {
       if (connection) connection.release();

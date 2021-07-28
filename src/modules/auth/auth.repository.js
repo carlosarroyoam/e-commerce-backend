@@ -38,6 +38,19 @@ class AuthRepository {
   }
 
   /**
+   * Retrieves a user by its id.
+   *
+   * @param {number} id The user id to query
+   * @param {any} connection The database connection
+   * @return {Promise} The result of the query
+   */
+  async findByIdWithTrashed(id, connection) {
+    const [result] = await this.authDao.getByIdWithTrashed(id, connection);
+
+    return result[0];
+  }
+
+  /**
    * Gets a personal access token.
    *
    * @param {string} personalAccessToken The personal access token

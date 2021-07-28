@@ -15,6 +15,22 @@ async function getById(id, connection) {
 }
 
 /**
+ * Performs the SQL query to get a user by its id address.
+ *
+ * @param {any} id The user id to query
+ * @param {any} connection The database connection
+ * @return {Promise} The query result
+ */
+async function getByIdWithTrashed(id, connection) {
+  const query = `SELECT usr.id, email, usr.password, usrrl.type AS user_role, usr.deleted_at
+        FROM users usr
+        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+        WHERE usr.id = ?`;
+
+  return connection.query(query, [id]);
+}
+
+/**
  * Performs the SQL query to get a non-deleted/active user by its email address.
  *
  * @param {any} email The user email to query
@@ -116,6 +132,7 @@ async function deleteRefreshToken(personalAccessToken, user_id, connection) {
 
 module.exports = {
   getById,
+  getByIdWithTrashed,
   getByEmail,
   getPersonalAccessToken,
   getExpiredPersonalAccessTokens,
