@@ -38,10 +38,10 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userByEmail = await this.authRepository.findByEmail(email, connection);
+      const userByEmail = await this.authRepository.findByEmailWithTrashed(email, connection);
 
-      if (!userByEmail) {
-        throw new this.authErrors.UserNotFoundError({ email });
+      if (userByEmail.deleted_at !== null) {
+        throw new this.authErrors.UnauthorizedError({ message: 'The user account is disabled' });
       }
 
       const passwordMatchResult = await this.bcrypt.compare(password, userByEmail.password);
@@ -261,7 +261,7 @@ class AuthService {
 
   /**
    *
-   * @param {*} credentials The user credentials for the login attempt
+   * @param {*} credentials The user id for token verification
    * @return {Promise} The user access token
    */
   async getUserForTokenVerify({ user_id }) {

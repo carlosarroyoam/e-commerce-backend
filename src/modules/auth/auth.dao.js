@@ -37,11 +37,11 @@ async function getByIdWithTrashed(id, connection) {
  * @param {any} connection The database connection
  * @return {Promise} The query result
  */
-async function getByEmail(email, connection) {
-  const query = `SELECT usr.id, email, password, usrrl.id AS user_role_id, usrrl.type AS user_role
+async function getByEmailWithTrashed(email, connection) {
+  const query = `SELECT usr.id, email, password, usrrl.id AS user_role_id, usrrl.type AS user_role, usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.email = ? AND usr.deleted_at IS NULL`;
+        WHERE usr.email = ?`;
 
   return connection.query(query, [email]);
 }
@@ -133,7 +133,7 @@ async function deleteRefreshToken(personalAccessToken, user_id, connection) {
 module.exports = {
   getById,
   getByIdWithTrashed,
-  getByEmail,
+  getByEmailWithTrashed,
   getPersonalAccessToken,
   getExpiredPersonalAccessTokens,
   getPersonalAccessTokenByFingerPrint,

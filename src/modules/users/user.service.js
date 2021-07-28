@@ -17,7 +17,7 @@ class UserService {
   }
 
   /**
-   * @param {object} data
+   * @param {object} data The query options
    */
   async findAll({ skip, sort, status, search }) {
     let connection;
@@ -50,7 +50,7 @@ class UserService {
   }
 
   /**
-   * @param {number} user_id
+   * @param {number} user_id The user_id to find
    */
   async find(user_id) {
     let connection;
@@ -84,8 +84,8 @@ class UserService {
   }
 
   /**
-   * @param {number} user_id
-   * @param {number} auth_user_id
+   * @param {number} user_id The user_id to delete
+   * @param {number} auth_user_id The user_id who make the request
    */
   async delete(user_id, auth_user_id) {
     let connection;
@@ -131,7 +131,7 @@ class UserService {
   }
 
   /**
-   * @param {number} user_id
+   * @param {number} user_id The user_id to restore
    */
   async restore(user_id) {
     let connection;
@@ -171,7 +171,7 @@ class UserService {
   }
 
   /**
-   * @param {object} userCredentials
+   * @param {object} userCredentials The user credentials to change
    */
   async changePassword({ user_id, current_password, new_password }) {
     let connection;

@@ -12,14 +12,14 @@ class AuthRepository {
   }
 
   /**
-   * Retrieves a non-deleted/active user by its email address.
+   * Retrieves a user by its email address.
    *
    * @param {string} email The user email to query
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async findByEmail(email, connection) {
-    const [result] = await this.authDao.getByEmail(email, connection);
+  async findByEmailWithTrashed(email, connection) {
+    const [result] = await this.authDao.getByEmailWithTrashed(email, connection);
 
     return result[0];
   }
