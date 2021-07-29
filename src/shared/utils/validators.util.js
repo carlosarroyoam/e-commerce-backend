@@ -19,6 +19,13 @@ const resourceId = (parameterName) =>
     .withMessage(`The ${parameterName} must be an integer value`)
     .toInt();
 
+const resourceIdInBody = (parameterName) =>
+  body(parameterName)
+    .trim()
+    .isInt()
+    .withMessage(`The ${parameterName} must be an integer value`)
+    .toInt();
+
 const skip = query('skip')
   .trim()
   .isInt({ gt: -1 })
@@ -119,6 +126,7 @@ const confirmPassword = (passwordParameterName) =>
 
 module.exports = {
   resourceId,
+  resourceIdInBody,
   sort,
   skip,
   search,
