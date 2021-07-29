@@ -38,7 +38,7 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userByEmail = await this.authRepository.findByEmailWithTrashed(email, connection);
+      const userByEmail = await this.userRepository.findByEmailWithTrashed(email, connection);
 
       if (userByEmail.deleted_at !== null) {
         throw new this.authErrors.UnauthorizedError({ message: 'The user account is disabled' });
@@ -181,7 +181,7 @@ class AuthService {
 
       const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
 
-      const userById = await this.authRepository.findById(decoded.sub, connection);
+      const userById = await this.userRepository.findById(decoded.sub, connection);
 
       if (!userById) {
         throw new this.authErrors.UnauthorizedError({
@@ -270,7 +270,7 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.authRepository.findByIdWithTrashed(user_id, connection);
+      const userById = await this.userRepository.findByIdWithTrashed(user_id, connection);
 
       if (!userById) {
         throw new this.authErrors.UserNotFoundError({ email: undefined });
@@ -311,7 +311,7 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userByEmail = await this.authRepository.findByEmail(email, connection);
+      const userByEmail = await this.userRepository.findByEmail(email, connection);
 
       connection.release();
 
@@ -367,7 +367,7 @@ class AuthService {
         });
       }
 
-      const userById = await this.authRepository.findById(decoded.payload.sub, connection);
+      const userById = await this.userRepository.findById(decoded.payload.sub, connection);
 
       if (!userById) {
         throw new this.authErrors.UserNotFoundError({ email: undefined });

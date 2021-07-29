@@ -1,52 +1,4 @@
 /**
- * Performs the SQL query to get a non-deleted/active user by its id address.
- *
- * @param {any} id The user id to query
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-async function getById(id, connection) {
-  const query = `SELECT usr.id, email, usr.password, usrrl.type AS user_role
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.id = ? AND usr.deleted_at IS NULL`;
-
-  return connection.query(query, [id]);
-}
-
-/**
- * Performs the SQL query to get a user by its id address.
- *
- * @param {any} id The user id to query
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-async function getByIdWithTrashed(id, connection) {
-  const query = `SELECT usr.id, email, usr.password, usrrl.type AS user_role, usr.deleted_at
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.id = ?`;
-
-  return connection.query(query, [id]);
-}
-
-/**
- * Performs the SQL query to get a non-deleted/active user by its email address.
- *
- * @param {any} email The user email to query
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-async function getByEmailWithTrashed(email, connection) {
-  const query = `SELECT usr.id, email, password, usrrl.id AS user_role_id, usrrl.type AS user_role, usr.deleted_at
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.email = ?`;
-
-  return connection.query(query, [email]);
-}
-
-/**
  * Performs the SQL query to get a personal access token.
  *
  * @param {string} personalAccessToken The token
@@ -131,9 +83,6 @@ async function deleteRefreshToken(personalAccessToken, user_id, connection) {
 }
 
 module.exports = {
-  getById,
-  getByIdWithTrashed,
-  getByEmailWithTrashed,
   getPersonalAccessToken,
   getExpiredPersonalAccessTokens,
   getPersonalAccessTokenByFingerPrint,

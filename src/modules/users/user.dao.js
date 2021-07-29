@@ -67,7 +67,8 @@ async function getById(user_id, connection) {
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,
-            usr.updated_at
+            usr.updated_at,
+            usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ? AND usr.deleted_at IS NULL`;
@@ -88,10 +89,12 @@ async function getTrashedById(user_id, connection) {
             usr.first_name,
             usr.last_name,
             usr.email,
+            usr.password,
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,
-            usr.updated_at
+            usr.updated_at,
+            usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ? AND usr.deleted_at IS NOT NULL`;
@@ -112,10 +115,12 @@ async function getByEmail(email, connection) {
             usr.first_name,
             usr.last_name,
             usr.email,
+            usr.password,
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,
-            usr.updated_at
+            usr.updated_at,
+            usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.email = ? AND usr.deleted_at IS NULL`;
@@ -131,7 +136,21 @@ async function getByEmail(email, connection) {
  * @return {Promise}
  */
 async function getByEmailWithTrashed(email, connection) {
-  const query = `SELECT id FROM users WHERE email = ?`;
+  const query = `SELECT 
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usr.password,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at,
+            usr.updated_at,
+            usr.deleted_at
+          FROM users usr
+          LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+          WHERE usr.email = ?`;
 
   return connection.query(query, [email]);
 }
