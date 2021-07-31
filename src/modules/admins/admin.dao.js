@@ -130,7 +130,7 @@ async function getByEmail(email, connection) {
  * @param {any} connection
  * @return {Promise}
  */
-async function getByEmailWithTrashed(email, connection) {
+async function getTrashedByEmail(email, connection) {
   const query = `SELECT 
         adm.id,
         usr.id AS user_id,
@@ -180,7 +180,7 @@ module.exports = {
   getById,
   getTrashedById,
   getByEmail,
-  getByEmailWithTrashed,
+  getTrashedByEmail,
   create,
   update,
 };
