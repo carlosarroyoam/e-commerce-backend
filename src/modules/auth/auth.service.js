@@ -32,7 +32,7 @@ class AuthService {
    * @param {*} credentials The user credentials for the login attempt
    * @return {Promise} The user access token
    */
-  async login({ email, password, browser_fingerprint, user_agent }) {
+  async login({ email, password, device_fingerprint, user_agent }) {
     let connection;
 
     try {
@@ -64,7 +64,7 @@ class AuthService {
 
       const personalAccessTokenByFingerPrint =
         await this.authRepository.getPersonalAccessTokenByFingerPrint(
-          browser_fingerprint,
+          device_fingerprint,
           userByEmail.id,
           connection
         );
@@ -87,7 +87,7 @@ class AuthService {
           {
             token: refreshToken,
             user_id: userByEmail.id,
-            fingerprint: browser_fingerprint,
+            fingerprint: device_fingerprint,
             user_agent,
           },
           connection
@@ -173,7 +173,7 @@ class AuthService {
    * @param {*} credentials The refresh token
    * @return {Promise} The user access token
    */
-  async refreshToken({ refresh_token, browser_fingerprint }) {
+  async refreshToken({ refresh_token, device_fingerprint }) {
     let connection;
 
     try {
@@ -205,7 +205,7 @@ class AuthService {
 
       if (
         !currentPersonalAccessToken ||
-        currentPersonalAccessToken.fingerprint !== browser_fingerprint
+        currentPersonalAccessToken.fingerprint !== device_fingerprint
       ) {
         throw new this.authErrors.UnauthorizedError({
           message: 'The provided token is not valid',
