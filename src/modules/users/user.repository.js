@@ -50,6 +50,19 @@ class UserRepository {
   }
 
   /**
+   * Retrieves a user by its id.
+   *
+   * @param {number} user_id
+   * @return {Promise} The result of the query
+   * @param {any} connection
+   */
+  async findByIdwithTrashed(user_id, connection) {
+    const [result] = await this.userDao.getByIdWithTrashed(user_id, connection);
+
+    return result[0];
+  }
+
+  /**
    * Retrieves a non-deleted/active user by its email address.
    *
    * @param {string} email

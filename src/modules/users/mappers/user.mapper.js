@@ -44,6 +44,8 @@ class UserMapper {
       (key) => userDbEntity[key] === undefined && delete userDbEntity[key]
     );
 
+    Object.freeze(userDbEntity);
+
     return userDbEntity;
   }
 }

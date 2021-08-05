@@ -41,6 +41,8 @@ class AdminMapper {
       (key) => adminDbEntity[key] === undefined && delete adminDbEntity[key]
     );
 
+    Object.freeze(adminDbEntity);
+
     return adminDbEntity;
   }
 }

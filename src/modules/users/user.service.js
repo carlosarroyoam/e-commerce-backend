@@ -96,7 +96,9 @@ class UserService {
       const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
-        throw new this.userErrors.UserNotFoundError();
+        throw new this.sharedErrors.BadRequest({
+          message: 'The user is already inactive',
+        });
       }
 
       if (auth_user_id === userById.id) {
@@ -142,7 +144,9 @@ class UserService {
       const userById = await this.userRepository.findTrashedById(user_id, connection);
 
       if (!userById) {
-        throw new this.userErrors.UserNotFoundError();
+        throw new this.sharedErrors.BadRequest({
+          message: 'The user is already active',
+        });
       }
 
       const affectedRows = await this.userRepository.restore(user_id, connection);

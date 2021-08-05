@@ -70,7 +70,7 @@ class UserController {
   async destroy(request, response, next) {
     try {
       const { user_id } = request.params;
-      const { id: auth_user_id } = request.app.user;
+      const { id: auth_user_id } = request.user;
 
       const userDeletedId = await this.userService.delete(user_id, auth_user_id);
 
@@ -95,7 +95,7 @@ class UserController {
   async restore(request, response, next) {
     try {
       const { user_id } = request.params;
-      const { id: auth_user_id } = request.app.user;
+      const { id: auth_user_id } = request.user;
 
       const userRestoredId = await this.userService.restore(user_id, auth_user_id);
 
