@@ -134,8 +134,9 @@ class UserService {
 
   /**
    * @param {number} user_id The user_id to restore
+   * @param {number} auth_user_id The user_id who make the request
    */
-  async restore(user_id) {
+  async restore(user_id, auth_user_id) {
     let connection;
 
     try {
@@ -146,6 +147,12 @@ class UserService {
       if (!userById) {
         throw new this.sharedErrors.BadRequest({
           message: 'The user is already active',
+        });
+      }
+
+      if (auth_user_id === userById.id) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'A user cannot activate to itself',
         });
       }
 
@@ -177,7 +184,7 @@ class UserService {
   /**
    * @param {object} userCredentials The user credentials to change
    */
-  async changePassword({ user_id, current_password, new_password }) {
+  async changePassword({ user_id, auth_user_id, current_password, new_password }) {
     let connection;
 
     try {
@@ -187,6 +194,12 @@ class UserService {
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
+      }
+
+      if (auth_user_id !== userById.id) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'Cannot update someone else password account',
+        });
       }
 
       const passwordMatchResult = await this.bcrypt.compare(current_password, userById.password);

@@ -12,6 +12,7 @@ class AdminService {
     adminRepository,
     userRepository,
     adminErrors,
+    sharedErrors,
     userRoles,
     bcrypt,
     logger,
@@ -20,6 +21,7 @@ class AdminService {
     this.adminRepository = adminRepository;
     this.userRepository = userRepository;
     this.adminErrors = adminErrors;
+    this.sharedErrors = sharedErrors;
     this.userRoles = userRoles;
     this.bcrypt = bcrypt;
     this.logger = logger;
@@ -68,6 +70,7 @@ class AdminService {
       connection = await this.dbConnectionPool.getConnection();
 
       const admin = await this.adminRepository.findById(admin_id, connection);
+
       if (!admin) {
         throw new this.adminErrors.UserNotFoundError();
       }
@@ -167,8 +170,15 @@ class AdminService {
       connection.beginTransaction();
 
       const adminById = await this.adminRepository.findById(admin_id, connection);
+
       if (!adminById) {
         throw new this.adminErrors.UserNotFoundError();
+      }
+
+      if (adminById.deleted_at !== null) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'The user account is disabled',
+        });
       }
 
       const userAffectedRows = await this.userRepository.update(

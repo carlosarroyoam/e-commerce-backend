@@ -121,9 +121,11 @@ class UserController {
     try {
       const { user_id } = request.params;
       const { current_password, new_password } = request.body;
+      const { id: auth_user_id } = request.user;
 
       await this.userService.changePassword({
         user_id,
+        auth_user_id,
         current_password,
         new_password,
       });

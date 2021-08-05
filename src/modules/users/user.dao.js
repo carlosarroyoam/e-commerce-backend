@@ -71,58 +71,6 @@ async function getById(user_id, connection) {
             usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.id = ? AND usr.deleted_at IS NULL`;
-
-  return connection.query(query, [user_id]);
-}
-
-/**
- * Performs the SQL query to get a deleted/inactive user by its id.
- *
- * @param {any} user_id
- * @param {any} connection
- * @return {Promise}
- */
-async function getTrashedById(user_id, connection) {
-  const query = `SELECT
-            usr.id,
-            usr.first_name,
-            usr.last_name,
-            usr.email,
-            usr.password,
-            usrrl.id AS user_role_id,
-            usrrl.type AS user_role,
-            usr.created_at,
-            usr.updated_at,
-            usr.deleted_at
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.id = ? AND usr.deleted_at IS NOT NULL`;
-
-  return connection.query(query, [user_id]);
-}
-
-/**
- * Performs the SQL query to get a user by its id.
- *
- * @param {any} user_id
- * @param {any} connection
- * @return {Promise}
- */
-async function getByIdWithTrashed(user_id, connection) {
-  const query = `SELECT
-            usr.id,
-            usr.first_name,
-            usr.last_name,
-            usr.email,
-            usr.password,
-            usrrl.id AS user_role_id,
-            usrrl.type AS user_role,
-            usr.created_at,
-            usr.updated_at,
-            usr.deleted_at
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.id = ?`;
 
   return connection.query(query, [user_id]);
@@ -237,8 +185,6 @@ async function restore(user_id, connection) {
 module.exports = {
   getAll,
   getById,
-  getTrashedById,
-  getByIdWithTrashed,
   getByEmail,
   getByEmailWithTrashed,
   create,
