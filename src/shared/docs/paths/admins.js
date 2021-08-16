@@ -116,14 +116,14 @@ module.exports = {
       ],
     },
   },
-  '/admins/{adminId}': {
+  '/admins/{admin_id}': {
     get: {
       tags: ['admin'],
       summary: 'Gets a admin',
       operationId: 'getAdminById',
       parameters: [
         {
-          name: 'adminId',
+          name: 'admin_id',
           in: 'path',
           description: 'ID of admin to return',
           required: true,
