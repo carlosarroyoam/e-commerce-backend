@@ -40,6 +40,10 @@ class AuthService {
 
       const userByEmail = await this.userRepository.findByEmailWithTrashed(email, connection);
 
+      if (!userByEmail) {
+        throw new this.authErrors.UserNotFoundError({ email });
+      }
+
       if (userByEmail.deleted_at !== null) {
         throw new this.authErrors.UnauthorizedError({ message: 'The user account is disabled' });
       }
@@ -49,6 +53,13 @@ class AuthService {
       if (!passwordMatchResult) {
         throw new this.authErrors.UnauthorizedError({ email });
       }
+
+      const personalAccessTokenByFingerPrint =
+        await this.authRepository.getPersonalAccessTokenByFingerPrint(
+          device_fingerprint,
+          userByEmail.id,
+          connection
+        );
 
       const token = await this.jsonwebtoken.sign(
         {
@@ -61,13 +72,6 @@ class AuthService {
       const refreshToken = await this.jsonwebtoken.signRefresh({
         subject: userByEmail.id,
       });
-
-      const personalAccessTokenByFingerPrint =
-        await this.authRepository.getPersonalAccessTokenByFingerPrint(
-          device_fingerprint,
-          userByEmail.id,
-          connection
-        );
 
       if (personalAccessTokenByFingerPrint) {
         const updatePersonalAccessTokenAffectedRows =
@@ -147,11 +151,11 @@ class AuthService {
         connection
       );
 
-      connection.release();
-
       if (deleteRefreshTokenAffectedRows < 1) {
         throw new Error('Error while login out');
       }
+
+      connection.release();
     } catch (err) {
       if (connection) connection.release();
 
@@ -278,12 +282,7 @@ class AuthService {
 
       connection.release();
 
-      return {
-        id: userById.id,
-        password: userById.password,
-        user_role: userById.user_role,
-        deleted_at: userById.deleted_at,
-      };
+      return userById;
     } catch (err) {
       if (connection) connection.release();
 
@@ -341,7 +340,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new Error('Error while authenticating');
+        throw new Error('Error while processing password request');
       }
 
       throw err;

@@ -58,18 +58,18 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const user = await this.userRepository.findById(user_id, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
-      if (!user) {
+      if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
 
       connection.release();
 
-      return user;
+      return userById;
     } catch (err) {
       if (connection) connection.release();
-      console.log(err);
+
       if (err.sqlMessage) {
         this.logger.log({
           level: 'error',
@@ -96,6 +96,10 @@ class UserService {
       const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
+        throw new this.userErrors.UserNotFoundError();
+      }
+
+      if (userById.deleted_at !== null) {
         throw new this.sharedErrors.BadRequest({
           message: 'The user is already inactive',
         });
@@ -142,9 +146,13 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findTrashedById(user_id, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
+        throw new this.userErrors.UserNotFoundError();
+      }
+
+      if (userById.deleted_at === null) {
         throw new this.sharedErrors.BadRequest({
           message: 'The user is already active',
         });
