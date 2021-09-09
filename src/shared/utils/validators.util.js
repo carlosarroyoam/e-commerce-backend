@@ -19,6 +19,13 @@ const resourceId = (parameterName) =>
     .withMessage(`The ${parameterName} must be an integer value`)
     .toInt();
 
+const resourceIdInBody = (parameterName) =>
+  body(parameterName)
+    .trim()
+    .isInt()
+    .withMessage(`The ${parameterName} must be an integer value`)
+    .toInt();
+
 const skip = query('skip')
   .trim()
   .isInt({ gt: -1 })
@@ -58,13 +65,13 @@ const refreshToken = body('refresh_token')
   .isJWT()
   .withMessage('The refresh_token format is invalid');
 
-const browserFingerprint = body('browser_fingerprint')
+const browserFingerprint = body('device_fingerprint')
   .trim()
   .exists({ checkNull: true, checkFalsy: true })
-  .withMessage('The browser_fingerprint is required')
+  .withMessage('The device_fingerprint is required')
   .toLowerCase()
   .isUUID(4)
-  .withMessage('The browser_fingerprint format is invalid');
+  .withMessage('The device_fingerprint format is invalid');
 
 const firstName = body('first_name')
   .trim()
@@ -119,6 +126,7 @@ const confirmPassword = (passwordParameterName) =>
 
 module.exports = {
   resourceId,
+  resourceIdInBody,
   sort,
   skip,
   search,

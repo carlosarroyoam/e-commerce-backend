@@ -28,9 +28,9 @@ class AdminRepository {
    * @return {Promise} The query result
    */
   async findById(adminId, connection) {
-    const [result] = await this.adminDao.getById(adminId, connection);
+    const [[result]] = await this.adminDao.getById(adminId, connection);
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -39,9 +39,9 @@ class AdminRepository {
    * @return {Promise} The query result
    */
   async findByEmail(email, connection) {
-    const [result] = await this.adminDao.getByEmail(email, connection);
+    const [[result]] = await this.adminDao.getByEmail(email, connection);
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -58,14 +58,14 @@ class AdminRepository {
 
   /**
    * @param {object} user
-   * @param {number} userId
+   * @param {number} user_id
    * @param {any} connection
    * @return {Promise} The query result
    */
-  async update(user, userId, connection) {
+  async update(user, user_id, connection) {
     const userDbEntity = this.adminMapper.toDatabaseEntity(user);
 
-    const [result] = await this.adminDao.update(userDbEntity, userId, connection);
+    const [result] = await this.adminDao.update(userDbEntity, user_id, connection);
 
     return result.affectedRows;
   }

@@ -11,8 +11,8 @@ const validateRequest = (validations) => async (request, response, next) => {
     const UnprocessableEntityError = new UnprocessableEntity({
       errors: errors.mapped(),
     });
-    next(UnprocessableEntityError);
-    return;
+
+    return next(UnprocessableEntityError);
   }
 
   next();

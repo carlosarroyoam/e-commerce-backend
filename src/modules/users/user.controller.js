@@ -70,14 +70,14 @@ class UserController {
   async destroy(request, response, next) {
     try {
       const { user_id } = request.params;
-      const { id: authUser_id } = request.app.user;
+      const { id: auth_user_id } = request.user;
 
-      const userDeletedId = await this.userService.delete(user_id, authUser_id);
+      const userDeletedId = await this.userService.delete(user_id, auth_user_id);
 
       response.send({
-        message: 'Deleted',
+        message: 'The user was successfully deleted',
         data: {
-          userDeletedId,
+          user_deleted_id: userDeletedId,
         },
       });
     } catch (error) {
@@ -95,14 +95,14 @@ class UserController {
   async restore(request, response, next) {
     try {
       const { user_id } = request.params;
-      const { id: authUser_id } = request.app.user;
+      const { id: auth_user_id } = request.user;
 
-      const userRestoredId = await this.userService.restore(user_id, authUser_id);
+      const userRestoredId = await this.userService.restore(user_id, auth_user_id);
 
       response.send({
-        message: 'Restored',
+        message: 'The user was successfully restored',
         data: {
-          userRestoredId,
+          user_restored_id: userRestoredId,
         },
       });
     } catch (error) {
@@ -121,9 +121,11 @@ class UserController {
     try {
       const { user_id } = request.params;
       const { current_password, new_password } = request.body;
+      const { id: auth_user_id } = request.user;
 
       await this.userService.changePassword({
         user_id,
+        auth_user_id,
         current_password,
         new_password,
       });

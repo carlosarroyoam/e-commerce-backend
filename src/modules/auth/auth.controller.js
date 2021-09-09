@@ -20,13 +20,13 @@ class AuthController {
    */
   async login(request, response, next) {
     try {
-      const { email, password, browser_fingerprint } = request.body;
+      const { email, password, device_fingerprint } = request.body;
       const user_agent = request.headers['user-agent'];
 
       const auth = await this.authService.login({
         email,
         password,
-        browser_fingerprint,
+        device_fingerprint,
         user_agent,
       });
 
@@ -70,11 +70,11 @@ class AuthController {
    */
   async refreshToken(request, response, next) {
     try {
-      const { refresh_token, browser_fingerprint } = request.body;
+      const { refresh_token, device_fingerprint } = request.body;
 
       const refreshToken = await this.authService.refreshToken({
         refresh_token,
-        browser_fingerprint,
+        device_fingerprint,
       });
 
       response.send({

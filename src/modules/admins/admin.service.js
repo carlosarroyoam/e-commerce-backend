@@ -12,6 +12,7 @@ class AdminService {
     adminRepository,
     userRepository,
     adminErrors,
+    sharedErrors,
     userRoles,
     bcrypt,
     logger,
@@ -20,6 +21,7 @@ class AdminService {
     this.adminRepository = adminRepository;
     this.userRepository = userRepository;
     this.adminErrors = adminErrors;
+    this.sharedErrors = sharedErrors;
     this.userRoles = userRoles;
     this.bcrypt = bcrypt;
     this.logger = logger;
@@ -67,14 +69,15 @@ class AdminService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const admin = await this.adminRepository.findById(admin_id, connection);
-      if (!admin) {
+      const adminById = await this.adminRepository.findById(admin_id, connection);
+
+      if (!adminById) {
         throw new this.adminErrors.UserNotFoundError();
       }
 
       connection.release();
 
-      return admin;
+      return adminById;
     } catch (err) {
       if (connection) connection.release();
 
@@ -102,7 +105,7 @@ class AdminService {
 
       connection.beginTransaction();
 
-      const userByEmail = await this.userRepository.findByEmailWithTrashed(admin.email, connection);
+      const userByEmail = await this.userRepository.findByEmail(admin.email, connection);
 
       if (userByEmail) {
         throw new this.adminErrors.EmailAlreadyTakenError({
@@ -132,12 +135,14 @@ class AdminService {
       const createdAdmin = await this.adminRepository.findById(createdAdmin_id, connection);
 
       connection.commit();
+
       connection.release();
 
       return createdAdmin;
     } catch (err) {
       if (connection) {
         connection.rollback();
+
         connection.release();
       }
 
@@ -167,8 +172,15 @@ class AdminService {
       connection.beginTransaction();
 
       const adminById = await this.adminRepository.findById(admin_id, connection);
+
       if (!adminById) {
         throw new this.adminErrors.UserNotFoundError();
+      }
+
+      if (adminById.deleted_at !== null) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'The user account is disabled',
+        });
       }
 
       const userAffectedRows = await this.userRepository.update(
@@ -186,6 +198,7 @@ class AdminService {
       const updatedAdmin = await this.adminRepository.findById(admin_id, connection);
 
       connection.commit();
+
       connection.release();
 
       return updatedAdmin;
@@ -193,6 +206,7 @@ class AdminService {
       console.log(err);
       if (connection) {
         connection.rollback();
+
         connection.release();
       }
 

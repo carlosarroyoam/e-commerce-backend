@@ -124,7 +124,7 @@ function verifyPasswordRecoveryToken(accessToken, password) {
  */
 function decode(accessToken) {
   return new Promise((resolve, reject) => {
-    const decoded = jwt.decode(accessToken, { complete: true });
+    const decoded = jwt.decode(accessToken, { complete: false });
 
     resolve(decoded);
   });

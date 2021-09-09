@@ -12,47 +12,21 @@ class AuthRepository {
   }
 
   /**
-   * Retrieves a non-deleted/active user by its email address.
-   *
-   * @param {string} email The user email to query
-   * @param {any} connection The database connection
-   * @return {Promise} The query result
-   */
-  async findByEmail(email, connection) {
-    const [result] = await this.authDao.getByEmail(email, connection);
-
-    return result[0];
-  }
-
-  /**
-   * Retrieves a non-deleted/active user by its id.
-   *
-   * @param {number} id The user id to query
-   * @param {any} connection The database connection
-   * @return {Promise} The result of the query
-   */
-  async findById(id, connection) {
-    const [result] = await this.authDao.getById(id, connection);
-
-    return result[0];
-  }
-
-  /**
    * Gets a personal access token.
    *
    * @param {string} personalAccessToken The personal access token
-   * @param {number} userId The user id
+   * @param {number} user_id The user id
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async getPersonalAccessToken(personalAccessToken, userId, connection) {
-    const [result] = await this.authDao.getPersonalAccessToken(
+  async getPersonalAccessToken(personalAccessToken, user_id, connection) {
+    const [[result]] = await this.authDao.getPersonalAccessToken(
       personalAccessToken,
-      userId,
+      user_id,
       connection
     );
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -71,18 +45,18 @@ class AuthRepository {
    * Gets a personal access token by finger print.
    *
    * @param {string} fingerPrint The token finger print
-   * @param {number} userId The user id
+   * @param {number} user_id The user id
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async getPersonalAccessTokenByFingerPrint(fingerPrint, userId, connection) {
-    const [result] = await this.authDao.getPersonalAccessTokenByFingerPrint(
+  async getPersonalAccessTokenByFingerPrint(fingerPrint, user_id, connection) {
+    const [[result]] = await this.authDao.getPersonalAccessTokenByFingerPrint(
       fingerPrint,
-      userId,
+      user_id,
       connection
     );
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -120,12 +94,16 @@ class AuthRepository {
    * Updates a personal access token.
    *
    * @param {string} personalAccessToken The personal access token
-   * @param {number} userId The personal access token owner id
+   * @param {number} user_id The personal access token owner id
    * @param {any} connection The database connection
    * @return {Promise} The query result
    */
-  async deleteRefreshToken(personalAccessToken, userId, connection) {
-    const [result] = await this.authDao.deleteRefreshToken(personalAccessToken, userId, connection);
+  async deleteRefreshToken(personalAccessToken, user_id, connection) {
+    const [result] = await this.authDao.deleteRefreshToken(
+      personalAccessToken,
+      user_id,
+      connection
+    );
 
     return result.affectedRows;
   }

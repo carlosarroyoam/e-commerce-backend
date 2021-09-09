@@ -32,16 +32,20 @@ class AuthService {
    * @param {*} credentials The user credentials for the login attempt
    * @return {Promise} The user access token
    */
-  async login({ email, password, browser_fingerprint, user_agent }) {
+  async login({ email, password, device_fingerprint, user_agent }) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userByEmail = await this.authRepository.findByEmail(email, connection);
+      const userByEmail = await this.userRepository.findByEmailWithTrashed(email, connection);
 
       if (!userByEmail) {
         throw new this.authErrors.UserNotFoundError({ email });
+      }
+
+      if (userByEmail.deleted_at !== null) {
+        throw new this.authErrors.UnauthorizedError({ message: 'The user account is disabled' });
       }
 
       const passwordMatchResult = await this.bcrypt.compare(password, userByEmail.password);
@@ -49,6 +53,13 @@ class AuthService {
       if (!passwordMatchResult) {
         throw new this.authErrors.UnauthorizedError({ email });
       }
+
+      const personalAccessTokenByFingerPrint =
+        await this.authRepository.getPersonalAccessTokenByFingerPrint(
+          device_fingerprint,
+          userByEmail.id,
+          connection
+        );
 
       const token = await this.jsonwebtoken.sign(
         {
@@ -61,13 +72,6 @@ class AuthService {
       const refreshToken = await this.jsonwebtoken.signRefresh({
         subject: userByEmail.id,
       });
-
-      const personalAccessTokenByFingerPrint =
-        await this.authRepository.getPersonalAccessTokenByFingerPrint(
-          browser_fingerprint,
-          userByEmail.id,
-          connection
-        );
 
       if (personalAccessTokenByFingerPrint) {
         const updatePersonalAccessTokenAffectedRows =
@@ -87,7 +91,7 @@ class AuthService {
           {
             token: refreshToken,
             user_id: userByEmail.id,
-            fingerprint: browser_fingerprint,
+            fingerprint: device_fingerprint,
             user_agent,
           },
           connection
@@ -147,11 +151,11 @@ class AuthService {
         connection
       );
 
-      connection.release();
-
       if (deleteRefreshTokenAffectedRows < 1) {
         throw new Error('Error while login out');
       }
+
+      connection.release();
     } catch (err) {
       if (connection) connection.release();
 
@@ -173,7 +177,7 @@ class AuthService {
    * @param {*} credentials The refresh token
    * @return {Promise} The user access token
    */
-  async refreshToken({ refresh_token, browser_fingerprint }) {
+  async refreshToken({ refresh_token, device_fingerprint }) {
     let connection;
 
     try {
@@ -181,7 +185,7 @@ class AuthService {
 
       const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
 
-      const userById = await this.authRepository.findById(decoded.sub, connection);
+      const userById = await this.userRepository.findById(decoded.sub, connection);
 
       if (!userById) {
         throw new this.authErrors.UnauthorizedError({
@@ -205,7 +209,7 @@ class AuthService {
 
       if (
         !currentPersonalAccessToken ||
-        currentPersonalAccessToken.fingerprint !== browser_fingerprint
+        currentPersonalAccessToken.fingerprint !== device_fingerprint
       ) {
         throw new this.authErrors.UnauthorizedError({
           message: 'The provided token is not valid',
@@ -261,7 +265,7 @@ class AuthService {
 
   /**
    *
-   * @param {*} credentials The user credentials for the login attempt
+   * @param {*} credentials The user id for token verification
    * @return {Promise} The user access token
    */
   async getUserForTokenVerify({ user_id }) {
@@ -270,7 +274,7 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.authRepository.findById(user_id, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
         throw new this.authErrors.UserNotFoundError({ email: undefined });
@@ -278,11 +282,7 @@ class AuthService {
 
       connection.release();
 
-      return {
-        id: userById.id,
-        password: userById.password,
-        user_role: userById.user_role,
-      };
+      return userById;
     } catch (err) {
       if (connection) connection.release();
 
@@ -310,7 +310,7 @@ class AuthService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userByEmail = await this.authRepository.findByEmail(email, connection);
+      const userByEmail = await this.userRepository.findByEmail(email, connection);
 
       connection.release();
 
@@ -340,7 +340,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new Error('Error while authenticating');
+        throw new Error('Error while processing password request');
       }
 
       throw err;
@@ -366,7 +366,7 @@ class AuthService {
         });
       }
 
-      const userById = await this.authRepository.findById(decoded.payload.sub, connection);
+      const userById = await this.userRepository.findById(decoded.sub, connection);
 
       if (!userById) {
         throw new this.authErrors.UserNotFoundError({ email: undefined });
@@ -399,7 +399,7 @@ class AuthService {
         err.name == 'NotBeforeError'
       ) {
         throw new this.authErrors.UnauthorizedError({
-          message: 'The provided token is not valid',
+          message: 'The provided token is not valid or is expired',
         });
       }
 

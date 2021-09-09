@@ -53,11 +53,11 @@ async function getAll({ skip = 0, limit = 20, orderBy = 'id', userStatus, search
 /**
  * Performs the SQL query to get a non-deleted/active user by its id.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function getById(id, connection) {
+async function getById(user_id, connection) {
   const query = `SELECT
             usr.id,
             usr.first_name,
@@ -67,36 +67,13 @@ async function getById(id, connection) {
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,
-            usr.updated_at
+            usr.updated_at,
+            usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.id = ? AND usr.deleted_at IS NULL`;
+        WHERE usr.id = ?`;
 
-  return connection.query(query, [id]);
-}
-
-/**
- * Performs the SQL query to get a deleted/inactive user by its id.
- *
- * @param {any} id
- * @param {any} connection
- * @return {Promise}
- */
-async function getTrashedById(id, connection) {
-  const query = `SELECT
-            usr.id,
-            usr.first_name,
-            usr.last_name,
-            usr.email,
-            usrrl.id AS user_role_id,
-            usrrl.type AS user_role,
-            usr.created_at,
-            usr.updated_at
-        FROM users usr
-        LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.id = ? AND usr.deleted_at IS NOT NULL`;
-
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 /**
@@ -112,10 +89,12 @@ async function getByEmail(email, connection) {
             usr.first_name,
             usr.last_name,
             usr.email,
+            usr.password,
             usrrl.id AS user_role_id,
             usrrl.type AS user_role,
             usr.created_at,
-            usr.updated_at
+            usr.updated_at,
+            usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
         WHERE usr.email = ? AND usr.deleted_at IS NULL`;
@@ -131,7 +110,21 @@ async function getByEmail(email, connection) {
  * @return {Promise}
  */
 async function getByEmailWithTrashed(email, connection) {
-  const query = `SELECT id FROM users WHERE email = ?`;
+  const query = `SELECT 
+            usr.id,
+            usr.first_name,
+            usr.last_name,
+            usr.email,
+            usr.password,
+            usrrl.id AS user_role_id,
+            usrrl.type AS user_role,
+            usr.created_at,
+            usr.updated_at,
+            usr.updated_at,
+            usr.deleted_at
+          FROM users usr
+          LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
+          WHERE usr.email = ?`;
 
   return connection.query(query, [email]);
 }
@@ -153,46 +146,45 @@ async function create(user, connection) {
  * Performs the SQL query to update a user.
  *
  * @param {object} user
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function update(user, id, connection) {
+async function update(user, user_id, connection) {
   const query = 'UPDATE users SET ? WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [user, id]);
+  return connection.query(query, [user, user_id]);
 }
 
 /**
  * Performs the SQL query to set a deleted/inactive state to a user.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function inactivate(id, connection) {
+async function inactivate(user_id, connection) {
   const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 /**
  * Performs the SQL query to set a non-deleted/active state to a user.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise}
  */
-async function restore(id, connection) {
+async function restore(user_id, connection) {
   const query = 'UPDATE users SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [id]);
+  return connection.query(query, [user_id]);
 }
 
 module.exports = {
   getAll,
   getById,
-  getTrashedById,
   getByEmail,
   getByEmailWithTrashed,
   create,

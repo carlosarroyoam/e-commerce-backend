@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../../swagger.json');
+const swaggerDocument = require('../shared/docs/swagger');
 
 module.exports = ({ authRoutes, userRoutes, adminRoutes, rootRoute, defaultRoute }) => {
   const router = Router();

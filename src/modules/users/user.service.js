@@ -17,7 +17,7 @@ class UserService {
   }
 
   /**
-   * @param {object} data
+   * @param {object} data The query options
    */
   async findAll({ skip, sort, status, search }) {
     let connection;
@@ -50,7 +50,7 @@ class UserService {
   }
 
   /**
-   * @param {number} user_id
+   * @param {number} user_id The user_id to find
    */
   async find(user_id) {
     let connection;
@@ -58,18 +58,18 @@ class UserService {
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const user = await this.userRepository.findById(user_id, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
-      if (!user) {
+      if (!userById) {
         throw new this.userErrors.UserNotFoundError();
       }
 
       connection.release();
 
-      return user;
+      return userById;
     } catch (err) {
       if (connection) connection.release();
-      console.log(err);
+
       if (err.sqlMessage) {
         this.logger.log({
           level: 'error',
@@ -84,58 +84,10 @@ class UserService {
   }
 
   /**
-   * @param {object} user
+   * @param {number} user_id The user_id to delete
+   * @param {number} auth_user_id The user_id who make the request
    */
-  async store(user) {
-    let connection;
-
-    try {
-      connection = await this.dbConnectionPool.getConnection();
-
-      const userByEmail = await this.userRepository.findByEmail(user.email, connection);
-
-      if (userByEmail) {
-        throw new this.userErrors.EmailAlreadyTakenError({
-          email: user.email,
-        });
-      }
-
-      const passwordHash = await this.bcrypt.hashPassword(user.password);
-
-      const createdUser_id = await this.userRepository.store(
-        {
-          password: passwordHash,
-          ...user,
-        },
-        connection
-      );
-
-      const createdUser = await this.userRepository.findById(createdUser_id, connection);
-
-      connection.release();
-
-      return createdUser;
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while storing user');
-      }
-
-      throw err;
-    }
-  }
-
-  /**
-   * @param {number} user_id
-   * @param {object} user
-   */
-  async update(user_id, user) {
+  async delete(user_id, auth_user_id) {
     let connection;
 
     try {
@@ -147,62 +99,13 @@ class UserService {
         throw new this.userErrors.UserNotFoundError();
       }
 
-      let password;
-      if (user.password) {
-        password = await this.bcrypt.hashPassword(user.password);
-      }
-
-      const affectedRows = await this.userRepository.update(
-        user_id,
-        {
-          password,
-          ...user,
-        },
-        connection
-      );
-
-      if (affectedRows < 1) {
-        throw new Error('User was not updated');
-      }
-
-      const updatedUser = await this.userRepository.findById(user_id, connection);
-
-      connection.release();
-
-      return updatedUser;
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
+      if (userById.deleted_at !== null) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'The user is already inactive',
         });
-
-        throw new Error('Error while updating user');
       }
 
-      throw err;
-    }
-  }
-
-  /**
-   * @param {number} user_id
-   * @param {number} authUser_id
-   */
-  async delete(user_id, authUser_id) {
-    let connection;
-
-    try {
-      connection = await this.dbConnectionPool.getConnection();
-
-      const userById = await this.userRepository.findById(user_id, connection);
-
-      if (!userById) {
-        throw new this.userErrors.UserNotFoundError();
-      }
-
-      if (authUser_id === userById.id) {
+      if (auth_user_id === userById.id) {
         throw new this.sharedErrors.BadRequest({
           message: 'A user cannot deactivate to itself',
         });
@@ -234,18 +137,31 @@ class UserService {
   }
 
   /**
-   * @param {number} user_id
+   * @param {number} user_id The user_id to restore
+   * @param {number} auth_user_id The user_id who make the request
    */
-  async restore(user_id) {
+  async restore(user_id, auth_user_id) {
     let connection;
 
     try {
       connection = await this.dbConnectionPool.getConnection();
 
-      const userById = await this.userRepository.findTrashedById(user_id, connection);
+      const userById = await this.userRepository.findById(user_id, connection);
 
       if (!userById) {
         throw new this.userErrors.UserNotFoundError();
+      }
+
+      if (userById.deleted_at === null) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'The user is already active',
+        });
+      }
+
+      if (auth_user_id === userById.id) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'A user cannot activate to itself',
+        });
       }
 
       const affectedRows = await this.userRepository.restore(user_id, connection);
@@ -274,9 +190,9 @@ class UserService {
   }
 
   /**
-   * @param {object} userCredentials
+   * @param {object} userCredentials The user credentials to change
    */
-  async changePassword({ user_id, current_password, new_password }) {
+  async changePassword({ user_id, auth_user_id, current_password, new_password }) {
     let connection;
 
     try {
@@ -288,10 +204,18 @@ class UserService {
         throw new this.userErrors.UserNotFoundError();
       }
 
+      if (auth_user_id !== userById.id) {
+        throw new this.sharedErrors.BadRequest({
+          message: 'Cannot update someone else password account',
+        });
+      }
+
       const passwordMatchResult = await this.bcrypt.compare(current_password, userById.password);
 
       if (!passwordMatchResult) {
-        throw new Error('Wrong password user');
+        throw new this.sharedErrors.BadRequest({
+          message: 'Invalid credentials. Please try again',
+        });
       }
 
       const hashPassword = await this.bcrypt.hashPassword(new_password);

@@ -65,35 +65,11 @@ async function getById(adminId, connection) {
         usr.email,
         adm.is_super,
         usr.created_at,
-        usr.updated_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.user_id = usr.id
-    WHERE adm.id = ? AND usr.deleted_at IS NULL`;
-
-  return connection.query(query, [adminId]);
-}
-
-/**
- * Performs the SQL query to get a deleted/inactive admin user by its id.
- *
- * @param {number} adminId
- * @param {any} connection
- * @return {Promise}
- */
-async function getTrashedById(adminId, connection) {
-  const query = `SELECT 
-        adm.id,
-        usr.id AS user_id,
-        usr.first_name,
-        usr.last_name,
-        usr.email,
-        adm.is_super,
-        usr.created_at,
         usr.updated_at,
         usr.deleted_at
     FROM admins adm
     LEFT JOIN users usr ON adm.user_id = usr.id
-    WHERE adm.id = ? AND usr.deleted_at IS NOT NULL`;
+    WHERE adm.id = ?`;
 
   return connection.query(query, [adminId]);
 }
@@ -106,31 +82,6 @@ async function getTrashedById(adminId, connection) {
  * @return {Promise}
  */
 async function getByEmail(email, connection) {
-  const query = `SELECT 
-        adm.id,
-        usr.id AS user_id,
-        usr.first_name,
-        usr.last_name,
-        usr.email,
-        adm.is_super,
-        usr.created_at,
-        usr.updated_at,
-        usr.deleted_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.user_id = usr.id
-    WHERE usr.email = ? AND usr.deleted_at IS NULL`;
-
-  return connection.query(query, [email]);
-}
-
-/**
- * Performs the SQL query to get a admin user by its email address.
- *
- * @param {string} email
- * @param {any} connection
- * @return {Promise}
- */
-async function getByEmailWithTrashed(email, connection) {
   const query = `SELECT 
         adm.id,
         usr.id AS user_id,
@@ -178,9 +129,7 @@ async function update(admin, adminId, connection) {
 module.exports = {
   getAll,
   getById,
-  getTrashedById,
   getByEmail,
-  getByEmailWithTrashed,
   create,
   update,
 };
