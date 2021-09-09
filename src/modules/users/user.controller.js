@@ -77,7 +77,7 @@ class UserController {
       response.send({
         message: 'Deleted',
         data: {
-          userDeletedId,
+          user_deleted_id: userDeletedId,
         },
       });
     } catch (error) {
@@ -102,7 +102,7 @@ class UserController {
       response.send({
         message: 'Restored',
         data: {
-          userRestoredId,
+          user_restored_id: userRestoredId,
         },
       });
     } catch (error) {
