@@ -75,7 +75,7 @@ class UserController {
       const userDeletedId = await this.userService.delete(user_id, auth_user_id);
 
       response.send({
-        message: 'Deleted',
+        message: 'The user was successfully deleted',
         data: {
           user_deleted_id: userDeletedId,
         },
@@ -100,7 +100,7 @@ class UserController {
       const userRestoredId = await this.userService.restore(user_id, auth_user_id);
 
       response.send({
-        message: 'Restored',
+        message: 'The user was successfully restored',
         data: {
           user_restored_id: userRestoredId,
         },

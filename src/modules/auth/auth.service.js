@@ -399,7 +399,7 @@ class AuthService {
         err.name == 'NotBeforeError'
       ) {
         throw new this.authErrors.UnauthorizedError({
-          message: 'The provided token is not valid',
+          message: 'The provided token is not valid or is expired',
         });
       }
 
