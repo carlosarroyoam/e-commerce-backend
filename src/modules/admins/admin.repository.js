@@ -28,9 +28,9 @@ class AdminRepository {
    * @return {Promise} The query result
    */
   async findById(adminId, connection) {
-    const [result] = await this.adminDao.getById(adminId, connection);
+    const [[result]] = await this.adminDao.getById(adminId, connection);
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -39,9 +39,9 @@ class AdminRepository {
    * @return {Promise} The query result
    */
   async findByEmail(email, connection) {
-    const [result] = await this.adminDao.getByEmail(email, connection);
+    const [[result]] = await this.adminDao.getByEmail(email, connection);
 
-    return result[0];
+    return result;
   }
 
   /**

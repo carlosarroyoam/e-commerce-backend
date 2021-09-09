@@ -14,6 +14,7 @@ class UserRepository {
 
   /**
    * Retrieves all non-deleted/active users.
+   *
    * @return {Promise} The result of the query
    * @param {any} connection
    */
@@ -31,9 +32,9 @@ class UserRepository {
    * @return {Promise} The result of the query
    */
   async findById(user_id, connection) {
-    const [result] = await this.userDao.getById(user_id, connection);
+    const [[result]] = await this.userDao.getById(user_id, connection);
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -44,21 +45,22 @@ class UserRepository {
    * @return {Promise} The result of the query
    */
   async findByEmail(email, connection) {
-    const [result] = await this.userDao.getByEmail(email, connection);
+    const [[result]] = await this.userDao.getByEmail(email, connection);
 
-    return result[0];
+    return result;
   }
 
   /**
    * Retrieves a deleted/non-active user by its email address.
+   *
    * @param {string} email
    * @return {Promise} The result of the query
    * @param {any} connection
    */
   async findByEmailWithTrashed(email, connection) {
-    const [result] = await this.userDao.getByEmailWithTrashed(email, connection);
+    const [[result]] = await this.userDao.getByEmailWithTrashed(email, connection);
 
-    return result[0];
+    return result;
   }
 
   /**

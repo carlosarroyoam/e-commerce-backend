@@ -20,13 +20,13 @@ class AuthRepository {
    * @return {Promise} The query result
    */
   async getPersonalAccessToken(personalAccessToken, user_id, connection) {
-    const [result] = await this.authDao.getPersonalAccessToken(
+    const [[result]] = await this.authDao.getPersonalAccessToken(
       personalAccessToken,
       user_id,
       connection
     );
 
-    return result[0];
+    return result;
   }
 
   /**
@@ -50,13 +50,13 @@ class AuthRepository {
    * @return {Promise} The query result
    */
   async getPersonalAccessTokenByFingerPrint(fingerPrint, user_id, connection) {
-    const [result] = await this.authDao.getPersonalAccessTokenByFingerPrint(
+    const [[result]] = await this.authDao.getPersonalAccessTokenByFingerPrint(
       fingerPrint,
       user_id,
       connection
     );
 
-    return result[0];
+    return result;
   }
 
   /**
