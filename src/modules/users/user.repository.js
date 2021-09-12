@@ -91,7 +91,7 @@ class UserRepository {
 
     const [result] = await this.userDao.update(userDbEntity, id, connection);
 
-    return result.affectedRows;
+    return result.changedRows;
   }
 
   /**
@@ -104,7 +104,7 @@ class UserRepository {
   async delete(id, connection) {
     const [result] = await this.userDao.inactivate(id, connection);
 
-    return result.affectedRows;
+    return result.changedRows;
   }
 
   /**
@@ -117,7 +117,7 @@ class UserRepository {
   async restore(id, connection) {
     const [result] = await this.userDao.restore(id, connection);
 
-    return result.affectedRows;
+    return result.changedRows;
   }
 }
 

@@ -74,18 +74,13 @@ class AuthService {
       });
 
       if (personalAccessTokenByFingerPrint) {
-        const updatePersonalAccessTokenAffectedRows =
-          await this.authRepository.updatePersonalAccessToken(
-            {
-              token: refreshToken,
-            },
-            personalAccessTokenByFingerPrint.id,
-            connection
-          );
-
-        if (updatePersonalAccessTokenAffectedRows < 1) {
-          throw new Error('Error while updating refresh token');
-        }
+        await this.authRepository.updatePersonalAccessToken(
+          {
+            token: refreshToken,
+          },
+          personalAccessTokenByFingerPrint.id,
+          connection
+        );
       } else {
         await this.authRepository.storePersonalAccessToken(
           {
@@ -145,15 +140,7 @@ class AuthService {
         return;
       }
 
-      const deleteRefreshTokenAffectedRows = await this.authRepository.deleteRefreshToken(
-        refresh_token,
-        user_id,
-        connection
-      );
-
-      if (deleteRefreshTokenAffectedRows < 1) {
-        throw new Error('Error while login out');
-      }
+      await this.authRepository.deleteRefreshToken(refresh_token, user_id, connection);
 
       connection.release();
     } catch (err) {
@@ -218,19 +205,14 @@ class AuthService {
 
       const lastUsedAtDate = new Date();
 
-      const updatePersonalAccessTokenAffectedRows =
-        await this.authRepository.updatePersonalAccessToken(
-          {
-            last_used_at: lastUsedAtDate,
-            updated_at: lastUsedAtDate,
-          },
-          currentPersonalAccessToken.id,
-          connection
-        );
-
-      if (updatePersonalAccessTokenAffectedRows < 1) {
-        throw new Error('Error while refreshing token');
-      }
+      await this.authRepository.updatePersonalAccessToken(
+        {
+          last_used_at: lastUsedAtDate,
+          updated_at: lastUsedAtDate,
+        },
+        currentPersonalAccessToken.id,
+        connection
+      );
 
       connection.release();
 
@@ -379,13 +361,13 @@ class AuthService {
 
       const hashPassword = await this.bcrypt.hashPassword(password);
 
-      const affectedRows = await this.userRepository.update(
+      const changedRows = await this.userRepository.update(
         { password: hashPassword },
         decodedVerified.sub,
         connection
       );
 
-      if (affectedRows < 1) {
+      if (changedRows < 1) {
         throw new Error('User password was not changed');
       }
 

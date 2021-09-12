@@ -87,7 +87,7 @@ class AuthRepository {
       connection
     );
 
-    return result.affectedRows;
+    return result.changedRows;
   }
 
   /**
@@ -105,7 +105,7 @@ class AuthRepository {
       connection
     );
 
-    return result.affectedRows;
+    return result.changedRows;
   }
 }
 

@@ -183,17 +183,13 @@ class AdminService {
         });
       }
 
-      const userAffectedRows = await this.userRepository.update(
+      await this.userRepository.update(
         {
           ...admin,
         },
         adminById.id,
         connection
       );
-
-      if (userAffectedRows < 1) {
-        throw new Error('Admin was not updated');
-      }
 
       const updatedAdmin = await this.adminRepository.findById(admin_id, connection);
 

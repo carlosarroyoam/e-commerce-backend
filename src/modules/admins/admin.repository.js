@@ -67,7 +67,7 @@ class AdminRepository {
 
     const [result] = await this.adminDao.update(userDbEntity, user_id, connection);
 
-    return result.affectedRows;
+    return result.changedRows;
   }
 }
 

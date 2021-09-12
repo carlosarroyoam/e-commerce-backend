@@ -111,9 +111,9 @@ class UserService {
         });
       }
 
-      const affectedRows = await this.userRepository.delete(user_id, connection);
+      const changedRows = await this.userRepository.delete(user_id, connection);
 
-      if (affectedRows < 1) {
+      if (changedRows < 1) {
         throw new Error('User was not deleted');
       }
 
@@ -164,9 +164,9 @@ class UserService {
         });
       }
 
-      const affectedRows = await this.userRepository.restore(user_id, connection);
+      const changedRows = await this.userRepository.restore(user_id, connection);
 
-      if (affectedRows < 1) {
+      if (changedRows < 1) {
         throw new Error('User was not restored');
       }
 
@@ -220,13 +220,13 @@ class UserService {
 
       const hashPassword = await this.bcrypt.hashPassword(new_password);
 
-      const affectedRows = await this.userRepository.update(
+      const changedRows = await this.userRepository.update(
         { password: hashPassword },
         user_id,
         connection
       );
 
-      if (affectedRows < 1) {
+      if (changedRows < 1) {
         throw new Error('User password was not changed');
       }
 
