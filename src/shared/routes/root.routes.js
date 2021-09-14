@@ -5,7 +5,7 @@ module.exports = ({ config }) => {
   const router = Router();
 
   router.get('/', (request, response) => {
-    const APP_URL = `${config.APP_URL}:${config.PORT}`;
+    const APP_URL = `${config.APP.URL}:${config.APP.PORT}`;
 
     response.send({
       name: packageJson.name,

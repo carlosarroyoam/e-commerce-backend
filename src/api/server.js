@@ -34,10 +34,10 @@ module.exports = ({ config, router, logger }) => {
     });
 
   return new Promise((resolve) => {
-    app.listen(config.PORT, () => {
+    app.listen(config.APP.PORT, () => {
       logger.log({
         level: 'info',
-        message: `Application running on: ${config.APP_URL}:${config.PORT}`,
+        message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
       });
 
       resolve();
