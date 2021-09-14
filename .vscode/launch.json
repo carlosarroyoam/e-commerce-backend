@@ -12,7 +12,8 @@
       "runtimeArgs": ["run-script", "dev:start"],
       "port": 9229,
       "protocol": "inspector",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**/*.js", "${workspaceFolder}/node_modules/ **"]
     }
   ]
 }

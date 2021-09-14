@@ -26,7 +26,7 @@ class UserService {
       connection = await this.dbConnectionPool.getConnection();
 
       const users = await this.userRepository.findAll(
-        { skip, orderBy: sort, userStatus: status, search },
+        { skip, order_by: sort, user_status: status, search },
         connection
       );
 
