@@ -13,6 +13,10 @@ module.exports = {
       description: 'Operations about admin users',
     },
     {
+      name: 'customer',
+      description: 'Operations about customer users',
+    },
+    {
       name: 'book',
       description: 'Operations about book',
     },

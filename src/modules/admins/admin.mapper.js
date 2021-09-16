@@ -1,5 +1,5 @@
 /**
- * Maps a admin object to a AdminDto object.
+ * Maps a admin object to a admin dto object.
  *
  * @param {object} admin
  * @return {object} The admin dto object
@@ -20,7 +20,7 @@ const toDto = (admin) => {
 };
 
 /**
- * Maps a adminDto object to a Admin database entity object.
+ * Maps a admin dto object to a admin database entity object.
  *
  * @param {object} adminDto
  * @return {object} The admin database entity object

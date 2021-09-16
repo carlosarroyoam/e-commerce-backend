@@ -1,8 +1,8 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
-const adminRepository = require('./admin.repository');
-const userRepository = require('../../modules/users/user.repository');
+const customerRepository = require('./customer.repository');
+const userRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
-const userRoles = require('../../modules/auth/roles');
+const userRoles = require('../auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
 
@@ -15,14 +15,14 @@ const findAll = async ({ sort, status, search }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const admins = await adminRepository.findAll(
+    const customers = await customerRepository.findAll(
       { order_by: sort, user_status: status, search },
       connection
     );
 
     connection.release();
 
-    return admins;
+    return customers;
   } catch (err) {
     if (connection) connection.release();
 
@@ -32,7 +32,7 @@ const findAll = async ({ sort, status, search }) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving admins');
+      throw new Error('Error while retrieving customers');
     }
 
     throw err;
@@ -40,23 +40,23 @@ const findAll = async ({ sort, status, search }) => {
 };
 
 /**
- * @param {number} admin_id
+ * @param {number} customer_id
  */
-const find = async (admin_id) => {
+const find = async (customer_id) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const adminById = await adminRepository.findById(admin_id, connection);
+    const customerById = await customerRepository.findById(customer_id, connection);
 
-    if (!adminById) {
+    if (!customerById) {
       throw new sharedErrors.UserNotFoundError();
     }
 
     connection.release();
 
-    return adminById;
+    return customerById;
   } catch (err) {
     if (connection) connection.release();
 
@@ -66,7 +66,7 @@ const find = async (admin_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving admin');
+      throw new Error('Error while retrieving customer');
     }
 
     throw err;
@@ -74,9 +74,9 @@ const find = async (admin_id) => {
 };
 
 /**
- * @param {object} admin
+ * @param {object} customer
  */
-const store = async (admin) => {
+const store = async (customer) => {
   let connection;
 
   try {
@@ -84,40 +84,39 @@ const store = async (admin) => {
 
     connection.beginTransaction();
 
-    const userByEmail = await userRepository.findByEmail(admin.email, connection);
+    const customerByEmail = await userRepository.findByEmail(customer.email, connection);
 
-    if (userByEmail) {
+    if (customerByEmail) {
       throw new sharedErrors.EmailAlreadyTakenError({
-        email: admin.email,
+        email: customer.email,
       });
     }
 
-    const passwordHash = await bcrypt.hashPassword(admin.password);
+    const passwordHash = await bcrypt.hashPassword(customer.password);
 
     const createdUserId = await userRepository.store(
       {
-        ...admin,
+        ...customer,
         password: passwordHash,
-        user_role_id: userRoles.admin.id,
+        user_role_id: userRoles.customer.id,
       },
       connection
     );
 
-    const createdAdmin_id = await adminRepository.store(
+    const createdCustomer_id = await customerRepository.store(
       {
-        is_super: admin.is_super,
         user_id: createdUserId,
       },
       connection
     );
 
-    const createdAdmin = await adminRepository.findById(createdAdmin_id, connection);
+    const createdCustomer = await customerRepository.findById(createdCustomer_id, connection);
 
     connection.commit();
 
     connection.release();
 
-    return createdAdmin;
+    return createdCustomer;
   } catch (err) {
     if (connection) {
       connection.rollback();
@@ -131,7 +130,7 @@ const store = async (admin) => {
         message: err.message,
       });
 
-      throw new Error('Error while storing admin');
+      throw new Error('Error while storing customer');
     }
 
     throw err;
@@ -139,10 +138,10 @@ const store = async (admin) => {
 };
 
 /**
- * @param {number} admin_id
- * @param {object} admin
+ * @param {number} customer_id
+ * @param {object} customer
  */
-const update = async (admin_id, admin) => {
+const update = async (customer_id, customer) => {
   let connection;
 
   try {
@@ -150,13 +149,13 @@ const update = async (admin_id, admin) => {
 
     connection.beginTransaction();
 
-    const adminById = await adminRepository.findById(admin_id, connection);
+    const customerById = await customerRepository.findById(customer_id, connection);
 
-    if (!adminById) {
+    if (!customerById) {
       throw new sharedErrors.UserNotFoundError();
     }
 
-    if (adminById.deleted_at !== null) {
+    if (customerById.deleted_at !== null) {
       throw new sharedErrors.BadRequest({
         message: 'The user account is disabled',
       });
@@ -164,19 +163,19 @@ const update = async (admin_id, admin) => {
 
     await userRepository.update(
       {
-        ...admin,
+        ...customer,
       },
-      adminById.user_id,
+      customerById.user_id,
       connection
     );
 
-    const updatedAdmin = await adminRepository.findById(admin_id, connection);
+    const updatedCustomer = await customerRepository.findById(customer_id, connection);
 
     connection.commit();
 
     connection.release();
 
-    return updatedAdmin;
+    return updatedCustomer;
   } catch (err) {
     console.log(err);
     if (connection) {
@@ -191,7 +190,7 @@ const update = async (admin_id, admin) => {
         message: err.message,
       });
 
-      throw new Error('Error while updating admin');
+      throw new Error('Error while updating customer');
     }
 
     throw err;
