@@ -4,7 +4,11 @@ const compression = require('compression');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-module.exports = ({ config, router, logger }) => {
+const config = require('../config');
+const router = require('./router');
+const logger = require('../shared/lib/winston/logger');
+
+module.exports = () => {
   const app = express();
 
   app
@@ -13,7 +17,7 @@ module.exports = ({ config, router, logger }) => {
     .use(compression())
     .use(morgan('dev'))
     .use(helmet())
-    .use(router)
+    .use(router())
     .use((err, req, res, next) => {
       logger.log({
         level: err.status ? 'info' : 'error',
@@ -34,10 +38,10 @@ module.exports = ({ config, router, logger }) => {
     });
 
   return new Promise((resolve) => {
-    app.listen(config.PORT, () => {
+    app.listen(config.APP.PORT, () => {
       logger.log({
         level: 'info',
-        message: `Application running on: ${config.APP_URL}:${config.PORT}`,
+        message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
       });
 
       resolve();

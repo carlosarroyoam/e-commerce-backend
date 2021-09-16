@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const packageJson = require('../../../package.json');
+const config = require('../../config');
 
-module.exports = ({ config }) => {
+module.exports = () => {
   const router = Router();
 
   router.get('/', (request, response) => {
-    const APP_URL = `${config.APP_URL}:${config.PORT}`;
+    const APP_URL = `${config.APP.URL}:${config.APP.PORT}`;
 
     response.send({
       name: packageJson.name,

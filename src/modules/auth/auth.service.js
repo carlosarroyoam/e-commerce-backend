@@ -1,420 +1,383 @@
+const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const authRepository = require('./auth.repository');
+const userRepository = require('../users/user.repository');
+const authErrors = require('./errors/');
+const config = require('../../config');
+const bcrypt = require('../../shared/lib/bcrypt');
+const jsonwebtoken = require('../../shared/lib/jwt');
+const logger = require('../../shared/lib/winston/logger');
+
 /**
- * Auth service class.
+ *
+ * @param {*} credentials The user credentials for the login attempt
+ * @return {Promise} The user access token
  */
-class AuthService {
-  /**
-   * Constructor for AuthService.
-   *
-   * @param {*} dependencies The dependencies payload
-   */
-  constructor({
-    dbConnectionPool,
-    authRepository,
-    userRepository,
-    authErrors,
-    config,
-    bcrypt,
-    jsonwebtoken,
-    logger,
-  }) {
-    this.dbConnectionPool = dbConnectionPool;
-    this.authRepository = authRepository;
-    this.userRepository = userRepository;
-    this.authErrors = authErrors;
-    this.config = config;
-    this.bcrypt = bcrypt;
-    this.jsonwebtoken = jsonwebtoken;
-    this.logger = logger;
-  }
+const login = async ({ email, password, device_fingerprint, user_agent }) => {
+  let connection;
 
-  /**
-   *
-   * @param {*} credentials The user credentials for the login attempt
-   * @return {Promise} The user access token
-   */
-  async login({ email, password, device_fingerprint, user_agent }) {
-    let connection;
+  try {
+    connection = await dbConnectionPool.getConnection();
 
-    try {
-      connection = await this.dbConnectionPool.getConnection();
+    const userByEmail = await userRepository.findByEmailWithTrashed(email, connection);
 
-      const userByEmail = await this.userRepository.findByEmailWithTrashed(email, connection);
+    if (!userByEmail) {
+      throw new authErrors.UserNotFoundError({ email });
+    }
 
-      if (!userByEmail) {
-        throw new this.authErrors.UserNotFoundError({ email });
-      }
+    if (userByEmail.deleted_at !== null) {
+      throw new authErrors.UnauthorizedError({ message: 'The user account is disabled' });
+    }
 
-      if (userByEmail.deleted_at !== null) {
-        throw new this.authErrors.UnauthorizedError({ message: 'The user account is disabled' });
-      }
+    const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
 
-      const passwordMatchResult = await this.bcrypt.compare(password, userByEmail.password);
+    if (!passwordMatchResult) {
+      throw new authErrors.UnauthorizedError({ email });
+    }
 
-      if (!passwordMatchResult) {
-        throw new this.authErrors.UnauthorizedError({ email });
-      }
-
-      const personalAccessTokenByFingerPrint =
-        await this.authRepository.getPersonalAccessTokenByFingerPrint(
-          device_fingerprint,
-          userByEmail.id,
-          connection
-        );
-
-      const token = await this.jsonwebtoken.sign(
-        {
-          subject: userByEmail.id,
-          userRole: userByEmail.user_role,
-        },
-        userByEmail.password
+    const personalAccessTokenByFingerPrint =
+      await authRepository.getPersonalAccessTokenByFingerPrint(
+        device_fingerprint,
+        userByEmail.id,
+        connection
       );
 
-      const refreshToken = await this.jsonwebtoken.signRefresh({
+    const token = await jsonwebtoken.sign(
+      {
         subject: userByEmail.id,
+        userRole: userByEmail.user_role,
+      },
+      userByEmail.password
+    );
+
+    const refreshToken = await jsonwebtoken.signRefresh({
+      subject: userByEmail.id,
+    });
+
+    if (personalAccessTokenByFingerPrint) {
+      await authRepository.updatePersonalAccessToken(
+        {
+          token: refreshToken,
+        },
+        personalAccessTokenByFingerPrint.id,
+        connection
+      );
+    } else {
+      await authRepository.storePersonalAccessToken(
+        {
+          token: refreshToken,
+          user_id: userByEmail.id,
+          fingerprint: device_fingerprint,
+          user_agent,
+        },
+        connection
+      );
+    }
+
+    connection.release();
+
+    return {
+      user_id: userByEmail.id,
+      user_role_id: userByEmail.user_role_id,
+      user_role: userByEmail.user_role,
+      access_token: token,
+      refresh_token: refreshToken,
+    };
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (err.sqlMessage) {
+      logger.log({
+        level: 'error',
+        message: err.message,
       });
 
-      if (personalAccessTokenByFingerPrint) {
-        const updatePersonalAccessTokenAffectedRows =
-          await this.authRepository.updatePersonalAccessToken(
-            {
-              token: refreshToken,
-            },
-            personalAccessTokenByFingerPrint.id,
-            connection
-          );
-
-        if (updatePersonalAccessTokenAffectedRows < 1) {
-          throw new Error('Error while updating refresh token');
-        }
-      } else {
-        await this.authRepository.storePersonalAccessToken(
-          {
-            token: refreshToken,
-            user_id: userByEmail.id,
-            fingerprint: device_fingerprint,
-            user_agent,
-          },
-          connection
-        );
-      }
-
-      connection.release();
-
-      return {
-        user_id: userByEmail.id,
-        user_role_id: userByEmail.user_role_id,
-        user_role: userByEmail.user_role,
-        access_token: token,
-        refresh_token: refreshToken,
-      };
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while authenticating');
-      }
-
-      throw err;
+      throw new Error('Error while authenticating');
     }
+
+    throw err;
   }
+};
 
-  /**
-   *
-   * @param {*} credentials The refresh token
-   * @return {Promise} The user access token
-   */
-  async logout({ refresh_token, user_id }) {
-    let connection;
+const logout = async ({ refresh_token, user_id }) => {
+  let connection;
 
-    try {
-      connection = await this.dbConnectionPool.getConnection();
+  try {
+    connection = await dbConnectionPool.getConnection();
 
-      const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(
-        refresh_token,
-        user_id,
-        connection
-      );
+    const currentPersonalAccessToken = await authRepository.getPersonalAccessToken(
+      refresh_token,
+      user_id,
+      connection
+    );
 
-      if (!currentPersonalAccessToken) {
-        connection.release();
-        return;
-      }
-
-      const deleteRefreshTokenAffectedRows = await this.authRepository.deleteRefreshToken(
-        refresh_token,
-        user_id,
-        connection
-      );
-
-      if (deleteRefreshTokenAffectedRows < 1) {
-        throw new Error('Error while login out');
-      }
-
+    if (!currentPersonalAccessToken) {
       connection.release();
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while authenticating');
-      }
-
-      throw err;
-    }
-  }
-
-  /**
-   *
-   * @param {*} credentials The refresh token
-   * @return {Promise} The user access token
-   */
-  async refreshToken({ refresh_token, device_fingerprint }) {
-    let connection;
-
-    try {
-      connection = await this.dbConnectionPool.getConnection();
-
-      const decoded = await this.jsonwebtoken.verifyRefresh(refresh_token);
-
-      const userById = await this.userRepository.findById(decoded.sub, connection);
-
-      if (!userById) {
-        throw new this.authErrors.UnauthorizedError({
-          message: 'User is not active',
-        });
-      }
-
-      const token = await this.jsonwebtoken.sign(
-        {
-          subject: userById.id,
-          userRole: userById.user_role,
-        },
-        userById.password
-      );
-
-      const currentPersonalAccessToken = await this.authRepository.getPersonalAccessToken(
-        refresh_token,
-        decoded.sub,
-        connection
-      );
-
-      if (
-        !currentPersonalAccessToken ||
-        currentPersonalAccessToken.fingerprint !== device_fingerprint
-      ) {
-        throw new this.authErrors.UnauthorizedError({
-          message: 'The provided token is not valid',
-        });
-      }
-
-      const lastUsedAtDate = new Date();
-
-      const updatePersonalAccessTokenAffectedRows =
-        await this.authRepository.updatePersonalAccessToken(
-          {
-            last_used_at: lastUsedAtDate,
-            updated_at: lastUsedAtDate,
-          },
-          currentPersonalAccessToken.id,
-          connection
-        );
-
-      if (updatePersonalAccessTokenAffectedRows < 1) {
-        throw new Error('Error while refreshing token');
-      }
-
-      connection.release();
-
-      return {
-        access_token: token,
-      };
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (
-        err.name == 'TokenExpiredError' ||
-        err.name == 'JsonWebTokenError' ||
-        err.name == 'NotBeforeError'
-      ) {
-        throw new this.authErrors.UnauthorizedError({
-          message: 'The provided token is not valid',
-        });
-      }
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while authenticating');
-      }
-
-      throw err;
-    }
-  }
-
-  /**
-   *
-   * @param {*} credentials The user id for token verification
-   * @return {Promise} The user access token
-   */
-  async getUserForTokenVerify({ user_id }) {
-    let connection;
-
-    try {
-      connection = await this.dbConnectionPool.getConnection();
-
-      const userById = await this.userRepository.findById(user_id, connection);
-
-      if (!userById) {
-        throw new this.authErrors.UserNotFoundError({ email: undefined });
-      }
-
-      connection.release();
-
-      return userById;
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while authenticating');
-      }
-
-      throw err;
-    }
-  }
-
-  /**
-   *
-   * @param {*} credentials The user credentials for the login attempt
-   * @return {Promise} The user access token
-   */
-  async forgotPassword({ email }) {
-    let connection;
-
-    try {
-      connection = await this.dbConnectionPool.getConnection();
-
-      const userByEmail = await this.userRepository.findByEmail(email, connection);
-
-      connection.release();
-
-      if (!userByEmail) {
-        throw new this.authErrors.UserNotFoundError({ email });
-      }
-
-      const token = await this.jsonwebtoken.signPasswordRecoveryToken(
-        {
-          subject: userByEmail.id,
-        },
-        userByEmail.password
-      );
-
-      // TODO send mail recovery link
-      const passwordRecoveryURL = `${this.config.APP_URL}:${this.config.PORT}/auth/recover-password/${token}`;
-
-      console.log(passwordRecoveryURL);
-
       return;
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while processing password request');
-      }
-
-      throw err;
     }
-  }
 
-  /**
-   *
-   * @param {*} credentials The user credentials for the login attempt
-   * @return {Promise} The user access token
-   */
-  async resetPassword({ token, password }) {
-    let connection;
+    await authRepository.deleteRefreshToken(refresh_token, user_id, connection);
 
-    try {
-      connection = await this.dbConnectionPool.getConnection();
+    connection.release();
+  } catch (err) {
+    if (connection) connection.release();
 
-      const decoded = await this.jsonwebtoken.decode(token);
+    if (err.sqlMessage) {
+      logger.log({
+        level: 'error',
+        message: err.message,
+      });
 
-      if (decoded == null) {
-        throw new this.authErrors.UnauthorizedError({
-          message: 'The provided token is not valid',
-        });
-      }
-
-      const userById = await this.userRepository.findById(decoded.sub, connection);
-
-      if (!userById) {
-        throw new this.authErrors.UserNotFoundError({ email: undefined });
-      }
-
-      const decodedVerified = await this.jsonwebtoken.verifyPasswordRecoveryToken(
-        token,
-        userById.password
-      );
-
-      const hashPassword = await this.bcrypt.hashPassword(password);
-
-      const affectedRows = await this.userRepository.update(
-        { password: hashPassword },
-        decodedVerified.sub,
-        connection
-      );
-
-      if (affectedRows < 1) {
-        throw new Error('User password was not changed');
-      }
-
-      return;
-    } catch (err) {
-      if (connection) connection.release();
-
-      if (
-        err.name == 'TokenExpiredError' ||
-        err.name == 'JsonWebTokenError' ||
-        err.name == 'NotBeforeError'
-      ) {
-        throw new this.authErrors.UnauthorizedError({
-          message: 'The provided token is not valid or is expired',
-        });
-      }
-
-      if (err.sqlMessage) {
-        this.logger.log({
-          level: 'error',
-          message: err.message,
-        });
-
-        throw new Error('Error while resetting password');
-      }
-
-      throw err;
+      throw new Error('Error while authenticating');
     }
-  }
-}
 
-module.exports = AuthService;
+    throw err;
+  }
+};
+
+/**
+ *
+ * @param {*} credentials The refresh token
+ * @return {Promise} The user access token
+ */
+const refreshToken = async ({ refresh_token, device_fingerprint }) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const decoded = await jsonwebtoken.verifyRefresh(refresh_token);
+
+    const userById = await userRepository.findById(decoded.sub, connection);
+
+    if (!userById) {
+      throw new authErrors.UnauthorizedError({
+        message: 'User is not active',
+      });
+    }
+
+    const token = await jsonwebtoken.sign(
+      {
+        subject: userById.id,
+        userRole: userById.user_role,
+      },
+      userById.password
+    );
+
+    const currentPersonalAccessToken = await authRepository.getPersonalAccessToken(
+      refresh_token,
+      decoded.sub,
+      connection
+    );
+
+    if (
+      !currentPersonalAccessToken ||
+      currentPersonalAccessToken.fingerprint !== device_fingerprint
+    ) {
+      throw new authErrors.UnauthorizedError({
+        message: 'The provided token is not valid',
+      });
+    }
+
+    const lastUsedAtDate = new Date();
+
+    await authRepository.updatePersonalAccessToken(
+      {
+        last_used_at: lastUsedAtDate,
+        updated_at: lastUsedAtDate,
+      },
+      currentPersonalAccessToken.id,
+      connection
+    );
+
+    connection.release();
+
+    return {
+      access_token: token,
+    };
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (
+      err.name == 'TokenExpiredError' ||
+      err.name == 'JsonWebTokenError' ||
+      err.name == 'NotBeforeError'
+    ) {
+      throw new authErrors.UnauthorizedError({
+        message: 'The provided token is not valid',
+      });
+    }
+
+    if (err.sqlMessage) {
+      logger.log({
+        level: 'error',
+        message: err.message,
+      });
+
+      throw new Error('Error while authenticating');
+    }
+
+    throw err;
+  }
+};
+
+/**
+ *
+ * @param {*} credentials The user id for token verification
+ * @return {Promise} The user access token
+ */
+const getUserForTokenVerify = async ({ user_id }) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const userById = await userRepository.findById(user_id, connection);
+
+    if (!userById) {
+      throw new authErrors.UserNotFoundError({ email: undefined });
+    }
+
+    connection.release();
+
+    return userById;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (err.sqlMessage) {
+      logger.log({
+        level: 'error',
+        message: err.message,
+      });
+
+      throw new Error('Error while authenticating');
+    }
+
+    throw err;
+  }
+};
+
+/**
+ *
+ * @param {*} credentials The user credentials for the login attempt
+ * @return {Promise} The user access token
+ */
+const forgotPassword = async ({ email }) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const userByEmail = await userRepository.findByEmail(email, connection);
+
+    connection.release();
+
+    if (!userByEmail) {
+      throw new authErrors.UserNotFoundError({ email });
+    }
+
+    const token = await jsonwebtoken.signPasswordRecoveryToken(
+      {
+        subject: userByEmail.id,
+      },
+      userByEmail.password
+    );
+
+    // TODO send mail recovery link
+    const passwordRecoveryURL = `${config.APP_URL}:${config.PORT}/auth/recover-password/${token}`;
+
+    console.log(passwordRecoveryURL);
+
+    return;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (err.sqlMessage) {
+      logger.log({
+        level: 'error',
+        message: err.message,
+      });
+
+      throw new Error('Error while processing password request');
+    }
+
+    throw err;
+  }
+};
+
+/**
+ *
+ * @param {*} credentials The user credentials for the login attempt
+ * @return {Promise} The user access token
+ */
+const resetPassword = async ({ token, password }) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const decoded = await jsonwebtoken.decode(token);
+
+    if (decoded == null) {
+      throw new authErrors.UnauthorizedError({
+        message: 'The provided token is not valid',
+      });
+    }
+
+    const userById = await userRepository.findById(decoded.sub, connection);
+
+    if (!userById) {
+      throw new authErrors.UserNotFoundError({ email: undefined });
+    }
+
+    const decodedVerified = await jsonwebtoken.verifyPasswordRecoveryToken(
+      token,
+      userById.password
+    );
+
+    const hashPassword = await bcrypt.hashPassword(password);
+
+    const changedRows = await userRepository.update(
+      { password: hashPassword },
+      decodedVerified.sub,
+      connection
+    );
+
+    if (changedRows < 1) {
+      throw new Error('User password was not changed');
+    }
+
+    return;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (
+      err.name == 'TokenExpiredError' ||
+      err.name == 'JsonWebTokenError' ||
+      err.name == 'NotBeforeError'
+    ) {
+      throw new authErrors.UnauthorizedError({
+        message: 'The provided token is not valid or is expired',
+      });
+    }
+
+    if (err.sqlMessage) {
+      logger.log({
+        level: 'error',
+        message: err.message,
+      });
+
+      throw new Error('Error while resetting password');
+    }
+
+    throw err;
+  }
+};
+
+module.exports = {
+  login,
+  logout,
+  refreshToken,
+  getUserForTokenVerify,
+  forgotPassword,
+  resetPassword,
+};

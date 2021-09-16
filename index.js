@@ -1,9 +1,7 @@
-const container = require('./src/api/container');
+const server = require('./src/api/server');
+const logger = require('./src/shared/lib/winston/logger');
 
-const server = container.resolve('server');
-const logger = container.resolve('logger');
-
-server.catch((err) => {
+server().catch((err) => {
   logger.log({
     level: 'error',
     message: err.message,

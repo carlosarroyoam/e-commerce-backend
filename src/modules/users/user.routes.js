@@ -1,33 +1,39 @@
 const { Router } = require('express');
+
+const userController = require('./user.controller');
+
+const verifyTokenMiddleware = require('../../modules/auth/middlewares/verifyToken.middleware');
+const adminGuardMiddleware = require('../../modules/auth/middlewares/adminGuard.middleware');
 const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
+
 const indexUserSchema = require('./schemas/index.schema');
 const showUserSchema = require('./schemas/show.schema');
 const deleteUserSchema = require('./schemas/delete.schema');
 const restoreUserSchema = require('./schemas/restore.schema');
 const changePasswordSchema = require('./schemas/changePassword.schema');
 
-module.exports = ({ userController, verifyTokenMiddleware, adminGuardMiddleware }) => {
+module.exports = () => {
   const router = Router();
 
   router.get(
     '/',
     verifyTokenMiddleware,
     validateRequestMiddleware(indexUserSchema),
-    userController.index.bind(userController)
+    userController.index
   );
 
   router.get(
     '/:user_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(showUserSchema),
-    userController.show.bind(userController)
+    userController.show
   );
 
   router.put(
     '/:user_id/change-password',
     verifyTokenMiddleware,
     validateRequestMiddleware(changePasswordSchema),
-    userController.changePassword.bind(userController)
+    userController.changePassword
   );
 
   router.put(
@@ -35,7 +41,7 @@ module.exports = ({ userController, verifyTokenMiddleware, adminGuardMiddleware 
     verifyTokenMiddleware,
     validateRequestMiddleware(restoreUserSchema),
     adminGuardMiddleware,
-    userController.restore.bind(userController)
+    userController.restore
   );
 
   router.delete(
@@ -43,7 +49,7 @@ module.exports = ({ userController, verifyTokenMiddleware, adminGuardMiddleware 
     verifyTokenMiddleware,
     validateRequestMiddleware(deleteUserSchema),
     adminGuardMiddleware,
-    userController.destroy.bind(userController)
+    userController.destroy
   );
 
   return router;
