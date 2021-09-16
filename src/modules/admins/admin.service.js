@@ -1,7 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const adminRepository = require('./admin.repository');
 const userRepository = require('../../modules/users/user.repository');
-const adminErrors = require('./errors/');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../../modules/auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -52,7 +51,7 @@ const find = async (admin_id) => {
     const adminById = await adminRepository.findById(admin_id, connection);
 
     if (!adminById) {
-      throw new adminErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError();
     }
 
     connection.release();
@@ -88,7 +87,7 @@ const store = async (admin) => {
     const userByEmail = await userRepository.findByEmail(admin.email, connection);
 
     if (userByEmail) {
-      throw new adminErrors.EmailAlreadyTakenError({
+      throw new sharedErrors.EmailAlreadyTakenError({
         email: admin.email,
       });
     }
@@ -154,7 +153,7 @@ const update = async (admin_id, admin) => {
     const adminById = await adminRepository.findById(admin_id, connection);
 
     if (!adminById) {
-      throw new adminErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError();
     }
 
     if (adminById.deleted_at !== null) {
