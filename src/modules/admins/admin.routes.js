@@ -1,11 +1,17 @@
 const { Router } = require('express');
+
+const adminController = require('./admin.controller');
+
+const verifyTokenMiddleware = require('../../modules/auth/middlewares/verifyToken.middleware');
+const adminGuardMiddleware = require('../../modules/auth/middlewares/adminGuard.middleware');
 const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
+
 const indexAdminSchema = require('./schemas/index.schema');
 const showAdminSchema = require('./schemas/show.schema');
 const storeAdminSchema = require('./schemas/store.schema');
 const updateAdminSchema = require('./schemas/update.schema');
 
-module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware }) => {
+module.exports = () => {
   const router = Router();
 
   router.get(
@@ -13,28 +19,28 @@ module.exports = ({ adminController, verifyTokenMiddleware, adminGuardMiddleware
     verifyTokenMiddleware,
     validateRequestMiddleware(indexAdminSchema),
     adminGuardMiddleware,
-    adminController.index.bind(adminController)
+    adminController.index
   );
 
   router.get(
     '/:admin_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(showAdminSchema),
-    adminController.show.bind(adminController)
+    adminController.show
   );
 
   router.post(
     '/',
     verifyTokenMiddleware,
     validateRequestMiddleware(storeAdminSchema),
-    adminController.store.bind(adminController)
+    adminController.store
   );
 
   router.put(
     '/:admin_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(updateAdminSchema),
-    adminController.update.bind(adminController)
+    adminController.update
   );
 
   return router;

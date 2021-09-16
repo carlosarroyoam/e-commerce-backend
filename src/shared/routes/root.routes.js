@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const packageJson = require('../../../package.json');
+const config = require('../../config');
 
-module.exports = ({ config }) => {
+module.exports = () => {
   const router = Router();
 
   router.get('/', (request, response) => {

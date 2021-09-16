@@ -1,74 +1,56 @@
+const adminDao = require('./admin.dao');
+const adminMapper = require('./admin.mapper');
+
 /**
- * Admin repository class.
+ * @param {any} connection
+ * @return {Promise} The query result
  */
-class AdminRepository {
-  /**
-   * Constructor for UserRepository.
-   *
-   * @param {*} dependencies The dependencies payload
-   */
-  constructor({ adminDao, adminMapper }) {
-    this.adminDao = adminDao;
-    this.adminMapper = adminMapper;
-  }
+const findAll = async ({ order_by, user_status, search }, connection) => {
+  const [result] = await adminDao.getAll({ order_by, user_status, search }, connection);
 
-  /**
-   * @param {any} connection
-   * @return {Promise} The query result
-   */
-  async findAll({ orderBy, userStatus, search }, connection) {
-    const [result] = await this.adminDao.getAll({ orderBy, userStatus, search }, connection);
+  return result;
+};
 
-    return result;
-  }
+/**
+ * @param {string} email
+ * @param {any} connection
+ * @return {Promise} The query result
+ */
+const findByEmail = async (email, connection) => {
+  const [[result]] = await adminDao.getByEmail(email, connection);
 
-  /**
-   * @param {number} adminId
-   * @param {any} connection
-   * @return {Promise} The query result
-   */
-  async findById(adminId, connection) {
-    const [[result]] = await this.adminDao.getById(adminId, connection);
+  return result;
+};
 
-    return result;
-  }
+/**
+ * @param {object} user
+ * @param {any} connection
+ */
+const store = async (user, connection) => {
+  const userDbEntity = adminMapper.toDatabaseEntity(user);
 
-  /**
-   * @param {string} email
-   * @param {any} connection
-   * @return {Promise} The query result
-   */
-  async findByEmail(email, connection) {
-    const [[result]] = await this.adminDao.getByEmail(email, connection);
+  const [result] = await adminDao.create(userDbEntity, connection);
 
-    return result;
-  }
+  return result.insertId;
+};
 
-  /**
-   * @param {object} user
-   * @param {any} connection
-   */
-  async store(user, connection) {
-    const userDbEntity = this.adminMapper.toDatabaseEntity(user);
+/**
+ * @param {object} user
+ * @param {number} user_id
+ * @param {any} connection
+ * @return {Promise} The query result
+ */
+const update = async (user, user_id, connection) => {
+  const userDbEntity = adminMapper.toDatabaseEntity(user);
 
-    const [result] = await this.adminDao.create(userDbEntity, connection);
+  const [result] = await adminDao.update(userDbEntity, user_id, connection);
 
-    return result.insertId;
-  }
+  return result.changedRows;
+};
 
-  /**
-   * @param {object} user
-   * @param {number} user_id
-   * @param {any} connection
-   * @return {Promise} The query result
-   */
-  async update(user, user_id, connection) {
-    const userDbEntity = this.adminMapper.toDatabaseEntity(user);
-
-    const [result] = await this.adminDao.update(userDbEntity, user_id, connection);
-
-    return result.changedRows;
-  }
-}
-
-module.exports = AdminRepository;
+module.exports = {
+  findAll,
+  findByEmail,
+  store,
+  update,
+};

@@ -4,7 +4,7 @@
  * @param {any} connection
  * @return {Promise}
  */
-async function getAll({ skip = 0, limit = 10, orderBy = 'id', userStatus, search }, connection) {
+async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, search }, connection) {
   let query = `SELECT 
         adm.id,
         usr.id AS user_id,
@@ -19,8 +19,8 @@ async function getAll({ skip = 0, limit = 10, orderBy = 'id', userStatus, search
     LEFT JOIN users usr ON adm.id = usr.id
     WHERE 1`;
 
-  if (userStatus) {
-    if (userStatus === 'active') {
+  if (user_status) {
+    if (user_status === 'active') {
       query += ' AND usr.deleted_at IS NULL';
     } else {
       query += ' AND usr.deleted_at IS NOT NULL';
@@ -33,15 +33,15 @@ async function getAll({ skip = 0, limit = 10, orderBy = 'id', userStatus, search
     )}*" IN BOOLEAN MODE)`;
   }
 
-  if (orderBy) {
+  if (order_by) {
     let order = 'ASC';
 
-    if (orderBy.charAt(0) === '-') {
+    if (order_by.charAt(0) === '-') {
       order = 'DESC';
-      orderBy = orderBy.substring(1);
+      order_by = order_by.substring(1);
     }
 
-    query += ` ORDER BY ${connection.escapeId(orderBy)} ${order}`;
+    query += ` ORDER BY ${connection.escapeId(order_by)} ${order}`;
   }
 
   query += ` LIMIT ${connection.escape(skip)}, ${connection.escape(limit)}`;
