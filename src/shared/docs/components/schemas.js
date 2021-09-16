@@ -134,5 +134,38 @@ module.exports = {
       },
       required: ['first_name', 'last_name', 'password'],
     },
+    AddCustomer: {
+      type: 'object',
+      properties: {
+        first_name: {
+          type: 'string',
+        },
+        last_name: {
+          type: 'string',
+        },
+        email: {
+          type: 'string',
+        },
+        password: {
+          type: 'string',
+        },
+        password_confirm: {
+          type: 'string',
+        },
+      },
+      required: ['first_name', 'last_name', 'email', 'password', 'password_confirm'],
+    },
+    UpdateCustomer: {
+      type: 'object',
+      properties: {
+        first_name: {
+          type: 'string',
+        },
+        last_name: {
+          type: 'string',
+        },
+      },
+      required: ['first_name', 'last_name', 'password'],
+    },
   },
 };

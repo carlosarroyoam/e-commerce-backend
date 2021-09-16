@@ -1,22 +1,21 @@
 /**
- * Performs the SQL query to get all admin users.
+ * Performs the SQL query to get all customer users.
  *
  * @param {any} connection
  * @return {Promise}
  */
 async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, search }, connection) {
   let query = `SELECT 
-        adm.id,
+        cus.id,
         usr.id AS user_id,
         usr.first_name,
         usr.last_name,
         usr.email,
-        adm.is_super,
         usr.created_at,
         usr.updated_at,
         usr.deleted_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.id = usr.id
+    FROM customers cus
+    LEFT JOIN users usr ON cus.id = usr.id
     WHERE 1`;
 
   if (user_status) {
@@ -50,32 +49,31 @@ async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, sear
 }
 
 /**
- * Performs the SQL query to get a non-deleted/active admin user by its id.
+ * Performs the SQL query to get a non-deleted/active customer user by its id.
  *
- * @param {number} admin_id
+ * @param {number} customer_id
  * @param {any} connection
  * @return {Promise}
  */
-async function getById(admin_id, connection) {
+async function getById(customer_id, connection) {
   const query = `SELECT 
-        adm.id,
+        cus.id,
         usr.id AS user_id,
         usr.first_name,
         usr.last_name,
         usr.email,
-        adm.is_super,
         usr.created_at,
         usr.updated_at,
         usr.deleted_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.user_id = usr.id
-    WHERE adm.id = ?`;
+    FROM customers cus
+    LEFT JOIN users usr ON cus.user_id = usr.id
+    WHERE cus.id = ?`;
 
-  return connection.query(query, [admin_id]);
+  return connection.query(query, [customer_id]);
 }
 
 /**
- * Performs the SQL query to get a non-deleted/active admin user by its email address.
+ * Performs the SQL query to get a non-deleted/active customer user by its email address.
  *
  * @param {string} email
  * @param {any} connection
@@ -83,47 +81,46 @@ async function getById(admin_id, connection) {
  */
 async function getByEmail(email, connection) {
   const query = `SELECT 
-        adm.id,
+        cus.id,
         usr.id AS user_id,
         usr.first_name,
         usr.last_name,
         usr.email,
-        adm.is_super,
         usr.created_at,
         usr.updated_at,
         usr.deleted_at
-    FROM admins adm
-    LEFT JOIN users usr ON adm.user_id = usr.id
+    FROM customers cus
+    LEFT JOIN users usr ON cus.user_id = usr.id
     WHERE usr.email = ?`;
 
   return connection.query(query, [email]);
 }
 
 /**
- * Performs the SQL query to insert a admin user.
+ * Performs the SQL query to insert a customer user.
  *
- * @param {object} admin
+ * @param {object} customer
  * @param {any} connection
  * @return {Promise}
  */
-async function create(admin, connection) {
-  const query = 'INSERT INTO admins SET ?';
+async function create(customer, connection) {
+  const query = 'INSERT INTO customers SET ?';
 
-  return connection.query(query, [admin]);
+  return connection.query(query, [customer]);
 }
 
 /**
- * Performs the SQL query to update a admin user.
+ * Performs the SQL query to update a customer user.
  *
- * @param {object} admin
- * @param {number} admin_id
+ * @param {object} customer
+ * @param {number} customer_id
  * @param {any} connection
  * @return {Promise}
  */
-async function update(admin, admin_id, connection) {
-  const query = 'UPDATE admins SET ? WHERE id = ? LIMIT 1';
+async function update(customer, customer_id, connection) {
+  const query = 'UPDATE customers SET ? WHERE id = ? LIMIT 1';
 
-  return connection.query(query, [admin, admin_id]);
+  return connection.query(query, [customer, customer_id]);
 }
 
 module.exports = {

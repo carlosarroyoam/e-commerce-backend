@@ -1,7 +1,7 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const authRepository = require('./auth.repository');
 const userRepository = require('../users/user.repository');
-const authErrors = require('./errors/');
+const sharedErrors = require('../../shared/errors');
 const config = require('../../config');
 const bcrypt = require('../../shared/lib/bcrypt');
 const jsonwebtoken = require('../../shared/lib/jwt');
@@ -21,17 +21,17 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
     const userByEmail = await userRepository.findByEmailWithTrashed(email, connection);
 
     if (!userByEmail) {
-      throw new authErrors.UserNotFoundError({ email });
+      throw new sharedErrors.UserNotFoundError(email);
     }
 
     if (userByEmail.deleted_at !== null) {
-      throw new authErrors.UnauthorizedError({ message: 'The user account is disabled' });
+      throw new sharedErrors.UnauthorizedError({ message: 'The user account is disabled' });
     }
 
     const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
 
     if (!passwordMatchResult) {
-      throw new authErrors.UnauthorizedError({ email });
+      throw new sharedErrors.UnauthorizedError({ email });
     }
 
     const personalAccessTokenByFingerPrint =
@@ -150,7 +150,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
     const userById = await userRepository.findById(decoded.sub, connection);
 
     if (!userById) {
-      throw new authErrors.UnauthorizedError({
+      throw new sharedErrors.UnauthorizedError({
         message: 'User is not active',
       });
     }
@@ -173,7 +173,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
       !currentPersonalAccessToken ||
       currentPersonalAccessToken.fingerprint !== device_fingerprint
     ) {
-      throw new authErrors.UnauthorizedError({
+      throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid',
       });
     }
@@ -202,7 +202,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
       err.name == 'JsonWebTokenError' ||
       err.name == 'NotBeforeError'
     ) {
-      throw new authErrors.UnauthorizedError({
+      throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid',
       });
     }
@@ -234,7 +234,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new authErrors.UserNotFoundError({ email: undefined });
+      throw new sharedErrors.UserNotFoundError();
     }
 
     connection.release();
@@ -272,7 +272,7 @@ const forgotPassword = async ({ email }) => {
     connection.release();
 
     if (!userByEmail) {
-      throw new authErrors.UserNotFoundError({ email });
+      throw new sharedErrors.UserNotFoundError(email);
     }
 
     const token = await jsonwebtoken.signPasswordRecoveryToken(
@@ -318,7 +318,7 @@ const resetPassword = async ({ token, password }) => {
     const decoded = await jsonwebtoken.decode(token);
 
     if (decoded == null) {
-      throw new authErrors.UnauthorizedError({
+      throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid',
       });
     }
@@ -326,7 +326,7 @@ const resetPassword = async ({ token, password }) => {
     const userById = await userRepository.findById(decoded.sub, connection);
 
     if (!userById) {
-      throw new authErrors.UserNotFoundError({ email: undefined });
+      throw new sharedErrors.UserNotFoundError();
     }
 
     const decodedVerified = await jsonwebtoken.verifyPasswordRecoveryToken(
@@ -355,7 +355,7 @@ const resetPassword = async ({ token, password }) => {
       err.name == 'JsonWebTokenError' ||
       err.name == 'NotBeforeError'
     ) {
-      throw new authErrors.UnauthorizedError({
+      throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid or is expired',
       });
     }

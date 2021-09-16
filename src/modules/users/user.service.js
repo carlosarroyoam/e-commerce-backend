@@ -1,6 +1,5 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const userRepository = require('./user.repository');
-const userErrors = require('./errors/');
 const sharedErrors = require('../../shared/errors');
 const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
@@ -50,7 +49,7 @@ const find = async (user_id) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new userErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError();
     }
 
     connection.release();
@@ -85,7 +84,7 @@ const remove = async (user_id, auth_user_id) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new userErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError();
     }
 
     if (userById.deleted_at !== null) {
@@ -138,7 +137,7 @@ const restore = async (user_id, auth_user_id) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new userErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError();
     }
 
     if (userById.deleted_at === null) {
@@ -190,7 +189,7 @@ const changePassword = async ({ user_id, auth_user_id, current_password, new_pas
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new userErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError();
     }
 
     if (auth_user_id !== userById.id) {
