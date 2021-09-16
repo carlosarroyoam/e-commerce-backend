@@ -12,6 +12,19 @@ const findAll = async ({ order_by, user_status, search }, connection) => {
 };
 
 /**
+ * Retrieves a non-deleted/active user by its id.
+ *
+ * @param {number} admin_id
+ * @param {any} connection
+ * @return {Promise} The result of the query
+ */
+const findById = async (admin_id, connection) => {
+  const [[result]] = await adminDao.getById(admin_id, connection);
+
+  return result;
+};
+
+/**
  * @param {string} email
  * @param {any} connection
  * @return {Promise} The query result
@@ -50,6 +63,7 @@ const update = async (user, user_id, connection) => {
 
 module.exports = {
   findAll,
+  findById,
   findByEmail,
   store,
   update,

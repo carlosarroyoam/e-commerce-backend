@@ -1,5 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const adminRepository = require('./admin.repository');
+const userRepository = require('../../modules/users/user.repository');
 const adminErrors = require('./errors/');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../../modules/auth/roles');
