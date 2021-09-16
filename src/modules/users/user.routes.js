@@ -2,8 +2,8 @@ const { Router } = require('express');
 
 const userController = require('./user.controller');
 
-const verifyTokenMiddleware = require('../../modules/auth/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../modules/auth/middlewares/adminGuard.middleware');
+const verifyTokenMiddleware = require('../../shared/middlewares/verifyToken.middleware');
+const adminGuardMiddleware = require('../../shared/middlewares/adminGuard.middleware');
 const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
 
 const indexUserSchema = require('./schemas/index.schema');

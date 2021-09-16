@@ -1,5 +1,5 @@
-const authErrors = require('../errors/');
-const userRoles = require('../roles');
+const authErrors = require('../../modules/auth/errors');
+const userRoles = require('../../modules/auth/roles');
 
 module.exports = async (request, response, next) => {
   const { user } = request;
