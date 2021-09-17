@@ -177,7 +177,6 @@ const update = async (customer_id, customer) => {
 
     return updatedCustomer;
   } catch (err) {
-    console.log(err);
     if (connection) {
       connection.rollback();
 
