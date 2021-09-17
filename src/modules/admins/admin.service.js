@@ -178,7 +178,6 @@ const update = async (admin_id, admin) => {
 
     return updatedAdmin;
   } catch (err) {
-    console.log(err);
     if (connection) {
       connection.rollback();
 
