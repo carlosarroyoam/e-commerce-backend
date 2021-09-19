@@ -1,3 +1,5 @@
+const objectUtils = require('../../shared/utils/object.utils');
+
 /**
  * Maps a admin object to a customer dto object.
  *
@@ -29,13 +31,9 @@ const toDatabaseEntity = (customerDto) => {
     user_id: customerDto.user_id,
   };
 
-  Object.keys(customerDbEntity).forEach(
-    (key) => customerDbEntity[key] === undefined && delete customerDbEntity[key]
-  );
+  const cleanedCustomerDbEntity = objectUtils.removeUndefined(customerDbEntity);
 
-  Object.freeze(customerDbEntity);
-
-  return customerDbEntity;
+  return cleanedCustomerDbEntity;
 };
 
 module.exports = {
