@@ -15,7 +15,7 @@ async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, sear
         usr.updated_at,
         usr.deleted_at
     FROM customers cus
-    LEFT JOIN users usr ON cus.id = usr.id
+    LEFT JOIN users usr ON cus.user_id = usr.id
     WHERE 1`;
 
   if (user_status) {
