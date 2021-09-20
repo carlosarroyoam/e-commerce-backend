@@ -5,8 +5,11 @@ const adminMapper = require('./admin.mapper');
  * @param {any} connection
  * @return {Promise} The query result
  */
-const findAll = async ({ order_by, user_status, search }, connection) => {
-  const [result] = await adminDao.getAll({ order_by, user_status, search }, connection);
+const findAll = async ({ skip, limit, order_by, user_status, search }, connection) => {
+  const [result] = await adminDao.getAll(
+    { skip, limit, order_by, user_status, search },
+    connection
+  );
 
   return result;
 };

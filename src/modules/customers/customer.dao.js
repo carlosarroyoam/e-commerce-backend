@@ -4,7 +4,7 @@
  * @param {any} connection
  * @return {Promise}
  */
-async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, search }, connection) {
+async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, search }, connection) {
   let query = `SELECT 
         cus.id,
         usr.id AS user_id,

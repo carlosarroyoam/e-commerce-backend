@@ -1,5 +1,14 @@
 module.exports = {
   parameters: {
+    LimitParam: {
+      name: 'limit',
+      in: 'query',
+      description: 'Pagination limit items',
+      schema: {
+        type: 'integer',
+        default: 50,
+      },
+    },
     SkipParam: {
       name: 'skip',
       in: 'query',

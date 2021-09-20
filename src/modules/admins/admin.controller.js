@@ -10,9 +10,9 @@ const adminMapper = require('./admin.mapper');
  */
 const index = async (request, response, next) => {
   try {
-    const { sort, status, search } = request.query;
+    const { skip, limit, sort, status, search } = request.query;
 
-    const admins = await adminService.findAll({ sort, status, search });
+    const admins = await adminService.findAll({ skip, limit, sort, status, search });
 
     const adminsDto = admins.map((admin) => adminMapper.toDto(admin));
 

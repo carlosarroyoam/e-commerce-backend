@@ -10,9 +10,9 @@ const customerMapper = require('./customer.mapper');
  */
 const index = async (request, response, next) => {
   try {
-    const { sort, status, search } = request.query;
+    const { skip, limit, sort, status, search } = request.query;
 
-    const customers = await customerService.findAll({ sort, status, search });
+    const customers = await customerService.findAll({ skip, limit, sort, status, search });
 
     const customersDto = customers.map((customer) => customerMapper.toDto(customer));
 

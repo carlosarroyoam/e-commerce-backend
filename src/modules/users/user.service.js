@@ -7,14 +7,14 @@ const logger = require('../../shared/lib/winston/logger');
 /**
  * @param {object} data The query options
  */
-const findAll = async ({ skip, sort, status, search }) => {
+const findAll = async ({ skip, limit, sort, status, search }) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
     const users = await userRepository.findAll(
-      { skip, order_by: sort, user_status: status, search },
+      { skip, limit, order_by: sort, user_status: status, search },
       connection
     );
 

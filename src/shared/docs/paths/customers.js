@@ -6,6 +6,7 @@ module.exports = {
       operationId: 'getCustomers',
       parameters: [
         { $ref: '#/components/parameters/SkipParam' },
+        { $ref: '#/components/parameters/LimitParam' },
         { $ref: '#/components/parameters/UserSortParam' },
         { $ref: '#/components/parameters/UserStatusParam' },
         { $ref: '#/components/parameters/SearchParam' },

@@ -28,8 +28,15 @@ const resourceIdInBody = (parameterName) =>
 
 const skip = query('skip')
   .trim()
-  .isInt({ gt: -1 })
+  .isInt({ min: 0 })
   .withMessage('The skip parameter must be an integer value and greater or equals than 0')
+  .toInt()
+  .optional();
+
+const limit = query('limit')
+  .trim()
+  .isInt({ min: 1, max: 100 })
+  .withMessage('The limit parameter must be an integer value and between 1 and 100')
   .toInt()
   .optional();
 
@@ -129,6 +136,7 @@ module.exports = {
   resourceIdInBody,
   sort,
   skip,
+  limit,
   search,
   userStatus,
   refreshToken,

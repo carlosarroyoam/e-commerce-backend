@@ -9,14 +9,14 @@ const logger = require('../../shared/lib/winston/logger');
 /**
  *
  */
-const findAll = async ({ sort, status, search }) => {
+const findAll = async ({ skip, limit, sort, status, search }) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
     const customers = await customerRepository.findAll(
-      { order_by: sort, user_status: status, search },
+      { skip, limit, order_by: skip, user_status: status, search },
       connection
     );
 

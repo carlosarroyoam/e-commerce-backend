@@ -7,8 +7,8 @@ const userMapper = require('./user.mapper');
  * @return {Promise} The result of the query
  * @param {any} connection
  */
-const findAll = async ({ skip, order_by, user_status, search }, connection) => {
-  const [result] = await userDao.getAll({ skip, order_by, user_status, search }, connection);
+const findAll = async ({ skip, limit, order_by, user_status, search }, connection) => {
+  const [result] = await userDao.getAll({ skip, limit, order_by, user_status, search }, connection);
 
   return result;
 };

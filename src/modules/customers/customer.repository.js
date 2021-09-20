@@ -5,8 +5,11 @@ const customerMapper = require('./customer.mapper');
  * @param {any} connection
  * @return {Promise} The query result
  */
-const findAll = async ({ order_by, user_status, search }, connection) => {
-  const [result] = await customerDao.getAll({ order_by, user_status, search }, connection);
+const findAll = async ({ skip, limit, order_by, user_status, search }, connection) => {
+  const [result] = await customerDao.getAll(
+    { skip, limit, order_by, user_status, search },
+    connection
+  );
 
   return result;
 };

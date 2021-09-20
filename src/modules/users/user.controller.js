@@ -10,9 +10,9 @@ const userMapper = require('./user.mapper');
  */
 const index = async (request, response, next) => {
   try {
-    const { skip, sort, status, search } = request.query;
+    const { skip, limit, sort, status, search } = request.query;
 
-    const users = await userService.findAll({ skip, sort, status, search });
+    const users = await userService.findAll({ skip, limit, sort, status, search });
 
     const usersDto = users.map((user) => userMapper.toDto(user));
 

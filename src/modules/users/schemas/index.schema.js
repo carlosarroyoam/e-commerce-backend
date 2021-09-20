@@ -13,5 +13,6 @@ module.exports = [
   ]),
   validators.userStatus,
   validators.skip,
+  validators.limit,
   validators.search,
 ];
