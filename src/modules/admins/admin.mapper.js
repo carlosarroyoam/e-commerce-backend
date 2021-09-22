@@ -1,8 +1,10 @@
+const objectUtils = require('../../shared/utils/object.utils');
+
 /**
  * Maps a admin object to a admin dto object.
  *
- * @param {object} admin
- * @return {object} The admin dto object
+ * @param {object} admin The admin object to map.
+ * @return {object} The admin dto object.
  */
 const toDto = (admin) => {
   return {
@@ -22,8 +24,8 @@ const toDto = (admin) => {
 /**
  * Maps a admin dto object to a admin database entity object.
  *
- * @param {object} adminDto
- * @return {object} The admin database entity object
+ * @param {object} adminDto The admin dto object to map.
+ * @return {object} The admin database entity object.
  */
 const toDatabaseEntity = (adminDto) => {
   const adminDbEntity = {
@@ -31,13 +33,9 @@ const toDatabaseEntity = (adminDto) => {
     user_id: adminDto.user_id,
   };
 
-  Object.keys(adminDbEntity).forEach(
-    (key) => adminDbEntity[key] === undefined && delete adminDbEntity[key]
-  );
+  const cleanedAdminDbEntity = objectUtils.removeUndefined(adminDbEntity);
 
-  Object.freeze(adminDbEntity);
-
-  return adminDbEntity;
+  return cleanedAdminDbEntity;
 };
 
 module.exports = {

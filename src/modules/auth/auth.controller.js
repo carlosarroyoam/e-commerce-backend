@@ -1,11 +1,11 @@
 const authService = require('./auth.service');
 
 /**
- * Handles incoming request from the /auth/login endpoint
+ * Handles incoming request from the /auth/login endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const login = async (request, response, next) => {
   try {
@@ -29,11 +29,11 @@ const login = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/logout endpoint
+ * Handles incoming request from the /auth/logout endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const logout = async (request, response, next) => {
   try {
@@ -51,11 +51,11 @@ const logout = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/refresh_token endpoint
+ * Handles incoming request from the /auth/refresh_token endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const refreshToken = async (request, response, next) => {
   try {
@@ -76,11 +76,11 @@ const refreshToken = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/forgot-password endpoint
+ * Handles incoming request from the /auth/forgot-password endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const forgotPassword = async (request, response, next) => {
   try {
@@ -99,11 +99,11 @@ const forgotPassword = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/forgot-password endpoint
+ * Handles incoming request from the /auth/forgot-password endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const resetPassword = async (request, response, next) => {
   try {

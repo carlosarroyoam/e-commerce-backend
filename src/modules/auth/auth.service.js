@@ -18,7 +18,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const userByEmail = await userRepository.findByEmailWithTrashed(email, connection);
+    const userByEmail = await userRepository.findByEmail(email, connection);
 
     if (!userByEmail) {
       throw new sharedErrors.UserNotFoundError(email);

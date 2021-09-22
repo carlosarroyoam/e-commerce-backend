@@ -2,17 +2,17 @@ const customerService = require('./customer.service');
 const customerMapper = require('./customer.mapper');
 
 /**
- * Handles incoming request from the /customers endpoint
+ * Handles incoming request from the /customers endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const index = async (request, response, next) => {
   try {
-    const { sort, status, search } = request.query;
+    const { skip, limit, sort, status, search } = request.query;
 
-    const customers = await customerService.findAll({ sort, status, search });
+    const customers = await customerService.findAll({ skip, limit, sort, status, search });
 
     const customersDto = customers.map((customer) => customerMapper.toDto(customer));
 
@@ -26,17 +26,17 @@ const index = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /customers/:id endpoint
+ * Handles incoming request from the /customers/:id endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const show = async (request, response, next) => {
   try {
     const { customer_id } = request.params;
 
-    const customer = await customerService.find(Number(customer_id));
+    const customer = await customerService.findById(customer_id);
     const customerDto = customerMapper.toDto(customer);
 
     response.send({
@@ -49,11 +49,11 @@ const show = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /customers endpoint
+ * Handles incoming request from the /customers endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const store = async (request, response, next) => {
   try {
@@ -78,11 +78,11 @@ const store = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /customers/:id endpoint
+ * Handles incoming request from the /customers/:id endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const update = async (request, response, next) => {
   try {

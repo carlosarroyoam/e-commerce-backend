@@ -2,8 +2,7 @@ module.exports = {
   openapi: '3.0.1',
   info: {
     title: 'Book Store',
-    description: 'This is a backend system for a book store',
-    termsOfService: 'http://swagger.io/terms/',
+    description: 'This is a backend system for a book store.',
     contact: {
       email: 'carlosarroyoam@gmail.com',
     },

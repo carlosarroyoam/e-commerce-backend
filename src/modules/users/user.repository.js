@@ -4,11 +4,17 @@ const userMapper = require('./user.mapper');
 /**
  * Retrieves all non-deleted/active users.
  *
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.order_by The order for the results.
+ * @param {string} queryOptions.user_status The user status to query.
+ * @param {string} queryOptions.search The search criteria.
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
- * @param {any} connection
  */
-const findAll = async ({ skip, order_by, user_status, search }, connection) => {
-  const [result] = await userDao.getAll({ skip, order_by, user_status, search }, connection);
+const findAll = async ({ skip, limit, order_by, user_status, search }, connection) => {
+  const [result] = await userDao.getAll({ skip, limit, order_by, user_status, search }, connection);
 
   return result;
 };
@@ -35,19 +41,6 @@ const findById = async (user_id, connection) => {
  */
 const findByEmail = async (email, connection) => {
   const [[result]] = await userDao.getByEmail(email, connection);
-
-  return result;
-};
-
-/**
- * Retrieves a deleted/non-active user by its email address.
- *
- * @param {string} email
- * @return {Promise} The result of the query
- * @param {any} connection
- */
-const findByEmailWithTrashed = async (email, connection) => {
-  const [[result]] = await userDao.getByEmailWithTrashed(email, connection);
 
   return result;
 };
@@ -90,8 +83,8 @@ const update = async (user, id, connection) => {
  * @param {any} connection
  * @return {Promise} The result of the query
  */
-const remove = async (id, connection) => {
-  const [result] = await userDao.inactivate(id, connection);
+const deleteById = async (id, connection) => {
+  const [result] = await userDao.deleteById(id, connection);
 
   return result.changedRows;
 };
@@ -113,9 +106,8 @@ module.exports = {
   findAll,
   findById,
   findByEmail,
-  findByEmailWithTrashed,
   store,
   update,
-  remove,
+  deleteById,
   restore,
 };

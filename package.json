@@ -1,6 +1,6 @@
 {
   "name": "nodejs-api",
-  "version": "1.0.0-snapshot",
+  "version": "1.4.0-snapshot",
   "description": "Node.js and Express API",
   "main": "index.js",
   "scripts": {

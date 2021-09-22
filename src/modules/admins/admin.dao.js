@@ -1,11 +1,17 @@
 /**
  * Performs the SQL query to get all admin users.
  *
- * @param {any} connection
- * @return {Promise}
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.order_by The order for the results.
+ * @param {string} queryOptions.user_status The user status to query.
+ * @param {string} queryOptions.search The search criteria.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
-async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, search }, connection) {
-  let query = `SELECT 
+async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, search }, connection) {
+  let query = `SELECT
         adm.id,
         usr.id AS user_id,
         usr.first_name,
@@ -52,9 +58,9 @@ async function getAll({ skip = 0, limit = 10, order_by = 'id', user_status, sear
 /**
  * Performs the SQL query to get a non-deleted/active admin user by its id.
  *
- * @param {number} admin_id
- * @param {any} connection
- * @return {Promise}
+ * @param {number} admin_id The id of the admin user to query.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function getById(admin_id, connection) {
   const query = `SELECT 
@@ -77,9 +83,9 @@ async function getById(admin_id, connection) {
 /**
  * Performs the SQL query to get a non-deleted/active admin user by its email address.
  *
- * @param {string} email
- * @param {any} connection
- * @return {Promise}
+ * @param {string} email The email of the admin user to query.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function getByEmail(email, connection) {
   const query = `SELECT 
@@ -102,9 +108,9 @@ async function getByEmail(email, connection) {
 /**
  * Performs the SQL query to insert a admin user.
  *
- * @param {object} admin
- * @param {any} connection
- * @return {Promise}
+ * @param {object} admin The admin user to store.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function create(admin, connection) {
   const query = 'INSERT INTO admins SET ?';
@@ -115,10 +121,10 @@ async function create(admin, connection) {
 /**
  * Performs the SQL query to update a admin user.
  *
- * @param {object} admin
- * @param {number} admin_id
- * @param {any} connection
- * @return {Promise}
+ * @param {object} admin The admin user to update.
+ * @param {number} admin_id The id of the admin user to update.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function update(admin, admin_id, connection) {
   const query = 'UPDATE admins SET ? WHERE id = ? LIMIT 1';
