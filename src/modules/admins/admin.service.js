@@ -7,7 +7,15 @@ const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
 
 /**
+ * Retrieves all admin users.
  *
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.sort The order for the results.
+ * @param {string} queryOptions.status The user status to query.
+ * @param {string} queryOptions.search The search criteria.
+ * @return {Promise} The list of admins.
  */
 const findAll = async ({ skip, limit, sort, status, search }) => {
   let connection;
@@ -40,9 +48,12 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
 };
 
 /**
- * @param {number} admin_id
+ * Retrieves a admin user by its id.
+ *
+ * @param {number} admin_id The id of the admin user to retrieve.
+ * @return {Promise} The admin user.
  */
-const find = async (admin_id) => {
+const findById = async (admin_id) => {
   let connection;
 
   try {
@@ -74,7 +85,10 @@ const find = async (admin_id) => {
 };
 
 /**
- * @param {object} admin
+ * Stores a admin user.
+ *
+ * @param {object} admin The admin user to store.
+ * @return {Promise} The created admin user.
  */
 const store = async (admin) => {
   let connection;
@@ -139,8 +153,11 @@ const store = async (admin) => {
 };
 
 /**
- * @param {number} admin_id
- * @param {object} admin
+ * Updates a admin user by its id.
+ *
+ * @param {number} admin_id The id of the admin user to update.
+ * @param {object} admin The admin user to store.
+ * @return {Promise} The updated admin user.
  */
 const update = async (admin_id, admin) => {
   let connection;
@@ -199,7 +216,7 @@ const update = async (admin_id, admin) => {
 
 module.exports = {
   findAll,
-  find,
+  findById,
   store,
   update,
 };

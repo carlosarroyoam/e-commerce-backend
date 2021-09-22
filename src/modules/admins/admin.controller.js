@@ -2,11 +2,11 @@ const adminService = require('./admin.service');
 const adminMapper = require('./admin.mapper');
 
 /**
- * Handles incoming request from the /admins endpoint
+ * Handles incoming request from the /admins endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const index = async (request, response, next) => {
   try {
@@ -26,17 +26,17 @@ const index = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /admins/:id endpoint
+ * Handles incoming request from the /admins/:id endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const show = async (request, response, next) => {
   try {
     const { admin_id } = request.params;
 
-    const admin = await adminService.find(Number(admin_id));
+    const admin = await adminService.findById(admin_id);
     const adminDto = adminMapper.toDto(admin);
 
     response.send({
@@ -49,11 +49,11 @@ const show = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /admins endpoint
+ * Handles incoming request from the /admins endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const store = async (request, response, next) => {
   try {
@@ -79,11 +79,11 @@ const store = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /admins/:id endpoint
+ * Handles incoming request from the /admins/:id endpoint.
  *
- * @param {*} request
- * @param {*} response
- * @param {*} next
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
  */
 const update = async (request, response, next) => {
   try {
