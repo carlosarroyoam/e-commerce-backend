@@ -40,19 +40,6 @@ const findByEmail = async (email, connection) => {
 };
 
 /**
- * Retrieves a deleted/non-active user by its email address.
- *
- * @param {string} email
- * @return {Promise} The result of the query
- * @param {any} connection
- */
-const findByEmailWithTrashed = async (email, connection) => {
-  const [[result]] = await userDao.getByEmailWithTrashed(email, connection);
-
-  return result;
-};
-
-/**
  * Stores a user.
  *
  * @param {object} user
@@ -113,9 +100,8 @@ module.exports = {
   findAll,
   findById,
   findByEmail,
-  findByEmailWithTrashed,
   store,
   update,
-  remove: deleteById,
+  deleteById,
   restore,
 };

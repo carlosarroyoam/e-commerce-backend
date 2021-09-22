@@ -75,7 +75,7 @@ const find = async (user_id) => {
  * @param {number} user_id The user_id to delete
  * @param {number} auth_user_id The user_id who make the request
  */
-const remove = async (user_id, auth_user_id) => {
+const deleteById = async (user_id, auth_user_id) => {
   let connection;
 
   try {
@@ -240,7 +240,7 @@ const changePassword = async ({ user_id, auth_user_id, current_password, new_pas
 module.exports = {
   findAll,
   find,
-  remove,
+  deleteById,
   restore,
   changePassword,
 };

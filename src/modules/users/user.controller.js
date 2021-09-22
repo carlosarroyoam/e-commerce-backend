@@ -61,7 +61,7 @@ const destroy = async (request, response, next) => {
     const { user_id } = request.params;
     const { id: auth_user_id } = request.user;
 
-    const userDeletedId = await userService.remove(user_id, auth_user_id);
+    const userDeletedId = await userService.deleteById(user_id, auth_user_id);
 
     response.send({
       message: 'The user was successfully deleted',
