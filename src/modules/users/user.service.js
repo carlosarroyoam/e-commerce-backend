@@ -99,7 +99,7 @@ const remove = async (user_id, auth_user_id) => {
       });
     }
 
-    const changedRows = await userRepository.remove(user_id, connection);
+    const changedRows = await userRepository.deleteById(user_id, connection);
 
     if (changedRows < 1) {
       throw new Error('User was not deleted');

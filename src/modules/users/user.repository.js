@@ -90,8 +90,8 @@ const update = async (user, id, connection) => {
  * @param {any} connection
  * @return {Promise} The result of the query
  */
-const remove = async (id, connection) => {
-  const [result] = await userDao.inactivate(id, connection);
+const deleteById = async (id, connection) => {
+  const [result] = await userDao.deleteById(id, connection);
 
   return result.changedRows;
 };
@@ -116,6 +116,6 @@ module.exports = {
   findByEmailWithTrashed,
   store,
   update,
-  remove,
+  remove: deleteById,
   restore,
 };

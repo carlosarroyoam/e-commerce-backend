@@ -1,11 +1,17 @@
 /**
  * Performs the SQL query to get all admin users.
  *
- * @param {any} connection
+ * @param {object} data
+ * @param {number} data.skip The query skip.
+ * @param {number} data.limit The query limit.
+ * @param {string} data.order_by The order for the results.
+ * @param {string} data.user_status The user status to query.
+ * @param {string} data.search The search criteria.
+ * @param {any} connection The database connection object.
  * @return {Promise}
  */
 async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, search }, connection) {
-  let query = `SELECT 
+  let query = `SELECT
         adm.id,
         usr.id AS user_id,
         usr.first_name,

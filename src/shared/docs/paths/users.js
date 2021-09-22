@@ -79,7 +79,7 @@ module.exports = {
   '/users/{user_id}/change-password': {
     put: {
       tags: ['user'],
-      summary: 'Changes a user password',
+      summary: "Changes a user's password",
       operationId: 'changeUserPassword',
       parameters: [
         {

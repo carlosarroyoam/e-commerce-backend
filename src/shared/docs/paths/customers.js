@@ -39,7 +39,7 @@ module.exports = {
     },
     post: {
       tags: ['customer'],
-      summary: 'Adds a new customers',
+      summary: 'Adds a new customer',
       operationId: 'addCustomer',
       requestBody: {
         description: 'customer object that needs to be added',

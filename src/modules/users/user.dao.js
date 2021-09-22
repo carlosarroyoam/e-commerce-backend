@@ -163,7 +163,7 @@ async function update(user, user_id, connection) {
  * @param {any} connection
  * @return {Promise}
  */
-async function inactivate(user_id, connection) {
+async function deleteById(user_id, connection) {
   const query = 'UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
   return connection.query(query, [user_id]);
@@ -189,6 +189,6 @@ module.exports = {
   getByEmailWithTrashed,
   create,
   update,
-  inactivate,
+  inactivate: deleteById,
   restore,
 };
