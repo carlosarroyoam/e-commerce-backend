@@ -97,34 +97,7 @@ async function getByEmail(email, connection) {
             usr.deleted_at
         FROM users usr
         LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-        WHERE usr.email = ? AND usr.deleted_at IS NULL`;
-
-  return connection.query(query, [email]);
-}
-
-/**
- * Performs the SQL query to get a user by its email address.
- *
- * @param {string} email
- * @param {any} connection
- * @return {Promise}
- */
-async function getByEmailWithTrashed(email, connection) {
-  const query = `SELECT 
-            usr.id,
-            usr.first_name,
-            usr.last_name,
-            usr.email,
-            usr.password,
-            usrrl.id AS user_role_id,
-            usrrl.type AS user_role,
-            usr.created_at,
-            usr.updated_at,
-            usr.updated_at,
-            usr.deleted_at
-          FROM users usr
-          LEFT JOIN user_roles usrrl ON usr.user_role_id = usrrl.id
-          WHERE usr.email = ?`;
+        WHERE usr.email = ?`;
 
   return connection.query(query, [email]);
 }
@@ -186,9 +159,8 @@ module.exports = {
   getAll,
   getById,
   getByEmail,
-  getByEmailWithTrashed,
   create,
   update,
-  inactivate: deleteById,
+  deleteById,
   restore,
 };
