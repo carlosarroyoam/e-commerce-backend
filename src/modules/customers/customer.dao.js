@@ -1,8 +1,14 @@
 /**
  * Performs the SQL query to get all customer users.
  *
- * @param {any} connection
- * @return {Promise}
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.order_by The order for the results.
+ * @param {string} queryOptions.user_status The user status to query.
+ * @param {string} queryOptions.search The search criteria.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, search }, connection) {
   let query = `SELECT 
@@ -49,11 +55,11 @@ async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, sear
 }
 
 /**
- * Performs the SQL query to get a non-deleted/active customer user by its id.
+ * Performs the SQL query to get a customer user by its id.
  *
- * @param {number} customer_id
- * @param {any} connection
- * @return {Promise}
+ * @param {number} customer_id The id of the customer user to query.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function getById(customer_id, connection) {
   const query = `SELECT 
@@ -73,11 +79,11 @@ async function getById(customer_id, connection) {
 }
 
 /**
- * Performs the SQL query to get a non-deleted/active customer user by its email address.
+ * Performs the SQL query to get a customer user by its email address.
  *
- * @param {string} email
- * @param {any} connection
- * @return {Promise}
+ * @param {string} email The email of the customer user to query.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function getByEmail(email, connection) {
   const query = `SELECT 
@@ -99,9 +105,9 @@ async function getByEmail(email, connection) {
 /**
  * Performs the SQL query to insert a customer user.
  *
- * @param {object} customer
- * @param {any} connection
- * @return {Promise}
+ * @param {object} customer The customer user to store.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function create(customer, connection) {
   const query = 'INSERT INTO customers SET ?';
@@ -112,10 +118,10 @@ async function create(customer, connection) {
 /**
  * Performs the SQL query to update a customer user.
  *
- * @param {object} customer
- * @param {number} customer_id
- * @param {any} connection
- * @return {Promise}
+ * @param {object} customer The customer user to update.
+ * @param {number} customer_id The id of the customer user to update.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
  */
 async function update(customer, customer_id, connection) {
   const query = 'UPDATE customers SET ? WHERE id = ? LIMIT 1';

@@ -7,7 +7,15 @@ const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
 
 /**
+ * Retrieves all customer users.
  *
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.sort The order for the results.
+ * @param {string} queryOptions.status The user status to query.
+ * @param {string} queryOptions.search The search criteria.
+ * @return {Promise} The list of customers.
  */
 const findAll = async ({ skip, limit, sort, status, search }) => {
   let connection;
@@ -16,7 +24,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
     connection = await dbConnectionPool.getConnection();
 
     const customers = await customerRepository.findAll(
-      { skip, limit, order_by: skip, user_status: status, search },
+      { skip, limit, order_by: sort, user_status: status, search },
       connection
     );
 
@@ -40,9 +48,12 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
 };
 
 /**
- * @param {number} customer_id
+ * Retrieves a customer user by its id.
+ *
+ * @param {number} customer_id The id of the customer user to retrieve.
+ * @return {Promise} The customer user.
  */
-const find = async (customer_id) => {
+const findById = async (customer_id) => {
   let connection;
 
   try {
@@ -74,7 +85,10 @@ const find = async (customer_id) => {
 };
 
 /**
- * @param {object} customer
+ * Stores a customer user.
+ *
+ * @param {object} customer The customer user to store.
+ * @return {Promise} The created customer user.
  */
 const store = async (customer) => {
   let connection;
@@ -138,8 +152,11 @@ const store = async (customer) => {
 };
 
 /**
- * @param {number} customer_id
- * @param {object} customer
+ * Updates a customer user by its id.
+ *
+ * @param {number} customer_id The id of the customer user to update.
+ * @param {object} customer The customer user to store.
+ * @return {Promise} The updated customer user.
  */
 const update = async (customer_id, customer) => {
   let connection;
@@ -198,7 +215,7 @@ const update = async (customer_id, customer) => {
 
 module.exports = {
   findAll,
-  find,
+  findById,
   store,
   update,
 };
