@@ -5,7 +5,15 @@ const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
 
 /**
- * @param {object} data The query options
+ * Retrieves all users.
+ *
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.sort The order for the results.
+ * @param {string} queryOptions.status The user status to query.
+ * @param {string} queryOptions.search The search criteria.
+ * @return {Promise} The list of users.
  */
 const findAll = async ({ skip, limit, sort, status, search }) => {
   let connection;
@@ -38,9 +46,12 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
 };
 
 /**
- * @param {number} user_id The user_id to find
+ * Retrieves a user by its id.
+ *
+ * @param {number} user_id The id of the user to retrieve.
+ * @return {Promise} The user.
  */
-const find = async (user_id) => {
+const findById = async (user_id) => {
   let connection;
 
   try {
@@ -72,8 +83,11 @@ const find = async (user_id) => {
 };
 
 /**
- * @param {number} user_id The user_id to delete
- * @param {number} auth_user_id The user_id who make the request
+ * Deletes a user by its id.
+ *
+ * @param {number} user_id The id of the user to delete.
+ * @param {object} auth_user_id The id of the authenticated user.
+ * @return {Promise} The id of the deleted user.
  */
 const deleteById = async (user_id, auth_user_id) => {
   let connection;
@@ -125,8 +139,11 @@ const deleteById = async (user_id, auth_user_id) => {
 };
 
 /**
- * @param {number} user_id The user_id to restore
- * @param {number} auth_user_id The user_id who make the request
+ * Restores a user by its id.
+ *
+ * @param {number} user_id The id of the user to restore.
+ * @param {object} auth_user_id The id of the authenticated user.
+ * @return {Promise} The id of the restored user.
  */
 const restore = async (user_id, auth_user_id) => {
   let connection;
@@ -178,9 +195,16 @@ const restore = async (user_id, auth_user_id) => {
 };
 
 /**
- * @param {object} userCredentials The user credentials to change
+ * Changes a user's password.
+ *
+ * @param {object} user The id of the user to restore.
+ * @param {number} user.user_id The id of the user to restore.
+ * @param {string} user.current_password The current password of the user.
+ * @param {string} user.new_password The new password of the user.
+ * @param {object} auth_user_id The id of the authenticated user.
+ * @return {Promise} The id of the restored user.
  */
-const changePassword = async ({ user_id, auth_user_id, current_password, new_password }) => {
+const changePassword = async ({ user_id, current_password, new_password }, auth_user_id) => {
   let connection;
 
   try {
@@ -239,7 +263,7 @@ const changePassword = async ({ user_id, auth_user_id, current_password, new_pas
 
 module.exports = {
   findAll,
-  find,
+  findById,
   deleteById,
   restore,
   changePassword,
