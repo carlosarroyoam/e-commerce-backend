@@ -19,6 +19,7 @@ module.exports = () => {
     '/',
     verifyTokenMiddleware,
     validateRequestMiddleware(indexUserSchema),
+    adminGuardMiddleware,
     userController.index
   );
 
@@ -26,6 +27,7 @@ module.exports = () => {
     '/:user_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(showUserSchema),
+    adminGuardMiddleware,
     userController.show
   );
 
@@ -33,6 +35,7 @@ module.exports = () => {
     '/:user_id/change-password',
     verifyTokenMiddleware,
     validateRequestMiddleware(changePasswordSchema),
+    adminGuardMiddleware,
     userController.changePassword
   );
 
@@ -41,6 +44,7 @@ module.exports = () => {
     verifyTokenMiddleware,
     validateRequestMiddleware(restoreUserSchema),
     adminGuardMiddleware,
+    adminGuardMiddleware,
     userController.restore
   );
 
@@ -48,6 +52,7 @@ module.exports = () => {
     '/:user_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(deleteUserSchema),
+    adminGuardMiddleware,
     adminGuardMiddleware,
     userController.destroy
   );

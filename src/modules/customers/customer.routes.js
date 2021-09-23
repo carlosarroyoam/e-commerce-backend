@@ -33,6 +33,7 @@ module.exports = () => {
     '/',
     verifyTokenMiddleware,
     validateRequestMiddleware(storeCustomerSchema),
+    adminGuardMiddleware,
     customerController.store
   );
 
