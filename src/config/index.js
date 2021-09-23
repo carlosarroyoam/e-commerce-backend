@@ -13,7 +13,7 @@ module.exports = {
     PASSWORD: process.env.DB_PASSWORD,
     DATABASE_NAME: process.env.DB_NAME,
     HOST: process.env.DB_HOST,
-    PORT: process.env.PORT,
+    PORT: Number(process.env.PORT),
   },
   JWT: {
     SECRET_KEY: process.env.JWT_SECRET_KEY,
