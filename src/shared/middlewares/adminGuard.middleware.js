@@ -4,7 +4,7 @@ const userRoles = require('../../modules/auth/roles');
 module.exports = async (request, response, next) => {
   const { user } = request;
 
-  if (!user.role || user.role !== userRoles.admin.type) {
+  if (user?.role !== userRoles.admin.type) {
     const forbiddenError = new sharedErrors.ForbiddenError({
       message: 'The user has not permission to perform this action',
     });
