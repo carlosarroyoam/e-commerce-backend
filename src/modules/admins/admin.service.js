@@ -23,10 +23,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const admins = await adminRepository.findAll(
-      { skip, limit, order_by: sort, user_status: status, search },
-      connection
-    );
+    const admins = await adminRepository.findAll({ skip, limit, sort, status, search }, connection);
 
     connection.release();
 

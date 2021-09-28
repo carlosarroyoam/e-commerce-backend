@@ -24,7 +24,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
     connection = await dbConnectionPool.getConnection();
 
     const customers = await customerRepository.findAll(
-      { skip, limit, order_by: sort, user_status: status, search },
+      { skip, limit, sort, status, search },
       connection
     );
 
