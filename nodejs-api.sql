@@ -38,6 +38,7 @@ CREATE TABLE `users` (
     `deleted_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_idx` (`email`),
+    INDEX `users_deleted_at_idx` (`deleted_at`),
     FULLTEXT `users_full_name_idx` (first_name , last_name),
     CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (user_role_id)
         REFERENCES user_roles (id)
