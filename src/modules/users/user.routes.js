@@ -17,17 +17,17 @@ module.exports = () => {
 
   router.get(
     '/',
-    verifyTokenMiddleware,
+    // verifyTokenMiddleware,
     validateRequestMiddleware(indexUserSchema),
-    adminGuardMiddleware,
+    // adminGuardMiddleware,
     userController.index
   );
 
   router.get(
     '/:user_id',
-    verifyTokenMiddleware,
+    // verifyTokenMiddleware,
     validateRequestMiddleware(showUserSchema),
-    adminGuardMiddleware,
+    // adminGuardMiddleware,
     userController.show
   );
 
