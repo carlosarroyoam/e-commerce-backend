@@ -8,8 +8,13 @@ const jsonwebtoken = require('../../shared/lib/jwt');
 const logger = require('../../shared/lib/winston/logger');
 
 /**
+ * Authenticates a users.
  *
- * @param {*} credentials The user credentials for the login attempt
+ * @param {object} credentials The user credentials for the login attempt
+ * @param {string} credentials.email The user's email.
+ * @param {string} credentials.password The user's password.
+ * @param {string} credentials.device_fingerprint The device fingerprint.
+ * @param {string} credentials.user_agent The device user agent.
  * @return {Promise} The user access token
  */
 const login = async ({ email, password, device_fingerprint, user_agent }) => {
@@ -98,6 +103,13 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
   }
 };
 
+/**
+ * Logs out a user and deletes the refresh token.
+ *
+ * @param {object} sessionDetails The user session to delete.
+ * @param {string} sessionDetails.refresh_token The user's refresh token.
+ * @param {number} sessionDetails.user_id The user's id.
+ */
 const logout = async ({ refresh_token, user_id }) => {
   let connection;
 
@@ -135,9 +147,12 @@ const logout = async ({ refresh_token, user_id }) => {
 };
 
 /**
+ * Gets new access tokens.
  *
- * @param {*} credentials The refresh token
- * @return {Promise} The user access token
+ * @param {object} refreshToken The refresh token.
+ * @param {string} refreshToken.refresh_token The user's refresh token.
+ * @param {string} refreshToken.device_fingerprint The device's fingerprint.
+ * @return {Promise} The user access token.
  */
 const refreshToken = async ({ refresh_token, device_fingerprint }) => {
   let connection;
@@ -227,9 +242,11 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
 };
 
 /**
+ * Gets user information for token verification.
  *
- * @param {*} credentials The user id for token verification
- * @return {Promise} The user access token
+ * @param {object} user The user data to verify.
+ * @param {number} user.user_id The user's id.
+ * @return {Promise} The user information object.
  */
 const getUserForTokenVerify = async ({ user_id }) => {
   let connection;
@@ -263,9 +280,10 @@ const getUserForTokenVerify = async ({ user_id }) => {
 };
 
 /**
+ * Generates a password reset link.
  *
- * @param {*} credentials The user credentials for the login attempt
- * @return {Promise} The user access token
+ * @param {object} forgotPassword The user credentials to reset.
+ * @param {string} forgotPassword.email The user's email.
  */
 const forgotPassword = async ({ email }) => {
   let connection;
@@ -311,9 +329,11 @@ const forgotPassword = async ({ email }) => {
 };
 
 /**
+ * Resets a user's password.
  *
- * @param {*} credentials The user credentials for the login attempt
- * @return {Promise} The user access token
+ * @param {object} resetPassword The user credentials to reset.
+ * @param {string} resetPassword.token The reset password token.
+ * @param {string} resetPassword.password The new password.
  */
 const resetPassword = async ({ token, password }) => {
   let connection;
