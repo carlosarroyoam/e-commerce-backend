@@ -105,6 +105,7 @@ CREATE TABLE `personal_access_tokens` (
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE KEY `personal_access_tokens_token_idx` (`token`),
+    UNIQUE KEY `personal_access_tokens_fingerprint_idx` (`fingerprint`),
     CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (user_id)
         REFERENCES users (id)
         ON DELETE CASCADE
