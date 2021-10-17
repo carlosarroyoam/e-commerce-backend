@@ -4,13 +4,13 @@
  * @param {object} queryOptions The query options.
  * @param {number} queryOptions.skip The query skip.
  * @param {number} queryOptions.limit The query limit.
- * @param {string} queryOptions.order_by The order for the results.
- * @param {string} queryOptions.user_status The user status to query.
+ * @param {string} queryOptions.sort The order for the results.
+ * @param {string} queryOptions.status The user status to query.
  * @param {string} queryOptions.search The search criteria.
  * @param {*} connection The database connection object.
  * @return {Promise} The query result.
  */
-async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, search }, connection) {
+async function getAll({ skip = 0, limit = 50, sort = 'id', status, search }, connection) {
   let query = `SELECT
         adm.id,
         usr.id AS user_id,
@@ -25,8 +25,8 @@ async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, sear
     LEFT JOIN users usr ON adm.id = usr.id
     WHERE 1`;
 
-  if (user_status) {
-    if (user_status === 'active') {
+  if (status) {
+    if (status === 'active') {
       query += ' AND usr.deleted_at IS NULL';
     } else {
       query += ' AND usr.deleted_at IS NOT NULL';
@@ -39,15 +39,15 @@ async function getAll({ skip = 0, limit = 50, order_by = 'id', user_status, sear
     )}*" IN BOOLEAN MODE)`;
   }
 
-  if (order_by) {
+  if (sort) {
     let order = 'ASC';
 
-    if (order_by.charAt(0) === '-') {
+    if (sort.charAt(0) === '-') {
       order = 'DESC';
-      order_by = order_by.substring(1);
+      sort = sort.substring(1);
     }
 
-    query += ` ORDER BY ${connection.escapeId(order_by)} ${order}`;
+    query += ` ORDER BY ${connection.escapeId(sort)} ${order}`;
   }
 
   query += ` LIMIT ${connection.escape(skip)}, ${connection.escape(limit)}`;

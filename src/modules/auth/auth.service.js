@@ -178,10 +178,15 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
       });
     }
 
+    const refreshToken = await jsonwebtoken.signRefresh({
+      subject: userById.id,
+    });
+
     const lastUsedAtDate = new Date();
 
     await authRepository.updatePersonalAccessToken(
       {
+        token: refreshToken,
         last_used_at: lastUsedAtDate,
         updated_at: lastUsedAtDate,
       },
@@ -193,6 +198,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
 
     return {
       access_token: token,
+      refresh_token: refreshToken,
     };
   } catch (err) {
     if (connection) connection.release();

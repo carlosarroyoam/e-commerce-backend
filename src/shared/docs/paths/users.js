@@ -37,44 +37,6 @@ module.exports = {
         },
       ],
     },
-    post: {
-      tags: ['user'],
-      summary: 'Adds a new user',
-      operationId: 'addUser',
-      requestBody: {
-        description: 'User object that needs to be added',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/User',
-            },
-          },
-        },
-        required: true,
-      },
-      responses: {
-        200: {
-          $ref: '#/components/responses/OK',
-        },
-        422: {
-          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
-        },
-        401: {
-          $ref: '#/components/responses/UNAUTHORIZED',
-        },
-        403: {
-          $ref: '#/components/responses/FORBIDDEN',
-        },
-        500: {
-          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
-        },
-      },
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
-    },
   },
   '/users/{user_id}/change-password': {
     put: {

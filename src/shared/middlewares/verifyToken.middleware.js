@@ -19,7 +19,7 @@ module.exports = async (request, response, next) => {
 
     const decoded = await jsonwebtoken.decode(accessToken);
 
-    if (!decoded.sub) {
+    if (!decoded?.sub) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({
         message: 'Error while decoding token',
       });

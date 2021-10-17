@@ -2,7 +2,7 @@ module.exports = {
   openapi: '3.0.1',
   info: {
     title: 'Book Store',
-    description: 'This is a backend system for a book store.',
+    description: 'This is a backend for a book store system.',
     contact: {
       email: 'carlosarroyoam@gmail.com',
     },

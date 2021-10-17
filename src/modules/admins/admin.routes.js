@@ -26,6 +26,7 @@ module.exports = () => {
     '/:admin_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(showAdminSchema),
+    adminGuardMiddleware,
     adminController.show
   );
 
@@ -33,6 +34,7 @@ module.exports = () => {
     '/',
     verifyTokenMiddleware,
     validateRequestMiddleware(storeAdminSchema),
+    adminGuardMiddleware,
     adminController.store
   );
 
@@ -40,6 +42,7 @@ module.exports = () => {
     '/:admin_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(updateAdminSchema),
+    adminGuardMiddleware,
     adminController.update
   );
 

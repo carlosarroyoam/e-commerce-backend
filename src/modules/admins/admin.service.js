@@ -23,10 +23,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const admins = await adminRepository.findAll(
-      { skip, limit, order_by: sort, user_status: status, search },
-      connection
-    );
+    const admins = await adminRepository.findAll({ skip, limit, sort, status, search }, connection);
 
     connection.release();
 
@@ -117,7 +114,7 @@ const store = async (admin) => {
       connection
     );
 
-    const createdAdmin_id = await adminRepository.store(
+    const createdAdminId = await adminRepository.store(
       {
         is_super: admin.is_super,
         user_id: createdUserId,
@@ -125,7 +122,7 @@ const store = async (admin) => {
       connection
     );
 
-    const createdAdmin = await adminRepository.findById(createdAdmin_id, connection);
+    const createdAdmin = await adminRepository.findById(createdAdminId, connection);
 
     connection.commit();
 

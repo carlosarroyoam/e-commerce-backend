@@ -7,17 +7,14 @@ const adminMapper = require('./admin.mapper');
  * @param {object} queryOptions The query options.
  * @param {number} queryOptions.skip The query skip.
  * @param {number} queryOptions.limit The query limit.
- * @param {string} queryOptions.order_by The order for the results.
- * @param {string} queryOptions.user_status The user status to query.
+ * @param {string} queryOptions.sort The order for the results.
+ * @param {string} queryOptions.status The user status to query.
  * @param {string} queryOptions.search The search criteria.
  * @param {*} connection The database connection object. The database connection object.
  * @return {Promise} The result of the query.
  */
-const findAll = async ({ skip, limit, order_by, user_status, search }, connection) => {
-  const [result] = await adminDao.getAll(
-    { skip, limit, order_by, user_status, search },
-    connection
-  );
+const findAll = async ({ skip, limit, sort, status, search }, connection) => {
+  const [result] = await adminDao.getAll({ skip, limit, sort, status, search }, connection);
 
   return result;
 };
