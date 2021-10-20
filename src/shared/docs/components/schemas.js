@@ -39,24 +39,6 @@ module.exports = {
       },
       required: ['refresh_token', 'device_fingerprint'],
     },
-    User: {
-      type: 'object',
-      properties: {
-        first_name: {
-          type: 'string',
-        },
-        last_name: {
-          type: 'string',
-        },
-        email: {
-          type: 'string',
-        },
-        password: {
-          type: 'string',
-        },
-      },
-      required: ['first_name', 'last_name', 'email', 'password'],
-    },
     ForgotPassword: {
       type: 'object',
       properties: {

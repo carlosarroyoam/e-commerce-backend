@@ -4,7 +4,7 @@ const authController = require('./auth.controller');
 const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
 const loginSchema = require('./schemas/login.schema');
 const logoutSchema = require('./schemas/logout.schema');
-const refreshTokenSchema = require('./schemas/refreshtoken.schema');
+const refreshTokenSchema = require('./schemas/refreshToken.schema');
 const resetPasswordSchema = require('./schemas/resetPassword.schema');
 const forgotPasswordSchema = require('./schemas/forgotPassword.schema');
 

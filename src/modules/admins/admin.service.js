@@ -114,7 +114,7 @@ const store = async (admin) => {
       connection
     );
 
-    const createdAdmin_id = await adminRepository.store(
+    const createdAdminId = await adminRepository.store(
       {
         is_super: admin.is_super,
         user_id: createdUserId,
@@ -122,7 +122,7 @@ const store = async (admin) => {
       connection
     );
 
-    const createdAdmin = await adminRepository.findById(createdAdmin_id, connection);
+    const createdAdmin = await adminRepository.findById(createdAdminId, connection);
 
     connection.commit();
 

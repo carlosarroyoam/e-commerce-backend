@@ -117,14 +117,14 @@ const store = async (customer) => {
       connection
     );
 
-    const createdCustomer_id = await customerRepository.store(
+    const createdCustomerId = await customerRepository.store(
       {
         user_id: createdUserId,
       },
       connection
     );
 
-    const createdCustomer = await customerRepository.findById(createdCustomer_id, connection);
+    const createdCustomer = await customerRepository.findById(createdCustomerId, connection);
 
     connection.commit();
 
