@@ -12,7 +12,7 @@ module.exports = () => {
   const app = express();
 
   app
-    .use(cors())
+    .use(cors({ origin: 'http://localhost:3001', credentials: true }))
     .use(express.json())
     .use(compression())
     .use(morgan('dev'))
