@@ -110,11 +110,7 @@ const deleteById = async (user_id, auth_user_id) => {
       });
     }
 
-    const changedRows = await userRepository.deleteById(user_id, connection);
-
-    if (changedRows < 1) {
-      throw new Error('User was not deleted');
-    }
+    await userRepository.deleteById(user_id, connection);
 
     connection.release();
 
@@ -166,11 +162,7 @@ const restore = async (user_id, auth_user_id) => {
       });
     }
 
-    const changedRows = await userRepository.restore(user_id, connection);
-
-    if (changedRows < 1) {
-      throw new Error('User was not restored');
-    }
+    await userRepository.restore(user_id, connection);
 
     connection.release();
 
@@ -229,15 +221,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
 
     const hashPassword = await bcrypt.hashPassword(new_password);
 
-    const changedRows = await userRepository.update(
-      { password: hashPassword },
-      user_id,
-      connection
-    );
-
-    if (changedRows < 1) {
-      throw new Error('User password was not changed');
-    }
+    await userRepository.update({ password: hashPassword }, user_id, connection);
 
     connection.release();
 
