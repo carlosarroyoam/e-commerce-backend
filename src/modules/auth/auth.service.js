@@ -362,15 +362,7 @@ const resetPassword = async ({ token, password }) => {
 
     const hashPassword = await bcrypt.hashPassword(password);
 
-    const changedRows = await userRepository.update(
-      { password: hashPassword },
-      decodedVerified.sub,
-      connection
-    );
-
-    if (changedRows < 1) {
-      throw new Error('User password was not changed');
-    }
+    await userRepository.update({ password: hashPassword }, decodedVerified.sub, connection);
 
     return;
   } catch (err) {

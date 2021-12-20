@@ -13,7 +13,7 @@
       "port": 9229,
       "protocol": "inspector",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**/*.js", "${workspaceFolder}/node_modules/**"]
+			"skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
     }
   ]
 }
