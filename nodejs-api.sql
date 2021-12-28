@@ -12,7 +12,7 @@ CREATE TABLE user_roles (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `user_roles`
@@ -39,11 +39,11 @@ CREATE TABLE `users` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_idx` (`email`),
     INDEX `users_deleted_at_idx` (`deleted_at`),
-    FULLTEXT `users_full_name_idx` (first_name , last_name),
-    CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (user_role_id)
-        REFERENCES user_roles (id)
+    FULLTEXT `users_full_name_idx` (`first_name` , `last_name`),
+    CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (`user_role_id`)
+        REFERENCES `user_roles` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `users`
@@ -61,10 +61,10 @@ CREATE TABLE `customers` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `customers_user_id_fk` FOREIGN KEY (user_id)
-        REFERENCES users (id)
+    CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
+        REFERENCES `users` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Table structure for table `admins`
@@ -77,10 +77,10 @@ CREATE TABLE `admins` (
     `is_super` TINYINT NOT NULL DEFAULT 0,
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `admins_user_id_fk` FOREIGN KEY (user_id)
-        REFERENCES users (id)
+    CONSTRAINT `admins_user_id_fk` FOREIGN KEY (`user_id`)
+        REFERENCES `users` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `admins`
@@ -106,7 +106,7 @@ CREATE TABLE `personal_access_tokens` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `personal_access_tokens_token_idx` (`token`),
     UNIQUE KEY `personal_access_tokens_fingerprint_idx` (`fingerprint`),
-    CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (user_id)
-        REFERENCES users (id)
+    CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (`user_id`)
+        REFERENCES `users` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_SPANISH_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
