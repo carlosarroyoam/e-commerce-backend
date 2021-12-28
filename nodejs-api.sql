@@ -62,7 +62,11 @@ CREATE TABLE `customers` (
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
+<<<<<<< HEAD
         REFERENCES `users` (`id`)
+=======
+        REFERENCES users (`id`)
+>>>>>>> 91ad15b05e702c22fbd7e9db33ceeba1d5a74438
         ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
