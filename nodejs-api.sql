@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `user_roles`;
 
 CREATE TABLE user_roles (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `type` VARCHAR(50) NOT NULL,
+    `type` VARCHAR(64) NOT NULL,
     PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
@@ -28,10 +28,10 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `users` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `first_name` VARCHAR(50) NOT NULL,
-    `last_name` VARCHAR(50) NOT NULL,
+    `first_name` VARCHAR(64) NOT NULL,
+    `last_name` VARCHAR(64) NOT NULL,
     `email` VARCHAR(64) NOT NULL,
-    `password` VARCHAR(75) NOT NULL,
+    `password` VARCHAR(96) NOT NULL,
     `user_role_id` BIGINT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -62,11 +62,7 @@ CREATE TABLE `customers` (
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
-<<<<<<< HEAD
         REFERENCES `users` (`id`)
-=======
-        REFERENCES users (`id`)
->>>>>>> 91ad15b05e702c22fbd7e9db33ceeba1d5a74438
         ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
