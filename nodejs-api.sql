@@ -12,7 +12,7 @@ CREATE TABLE user_roles (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(32) NOT NULL,
     PRIMARY KEY (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `user_roles`
@@ -35,7 +35,7 @@ CREATE TABLE `users` (
     `user_role_id` BIGINT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+    `deleted_at` TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_idx` (`email`),
     INDEX `users_deleted_at_idx` (`deleted_at`),
@@ -43,7 +43,7 @@ CREATE TABLE `users` (
     CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (`user_role_id`)
         REFERENCES `user_roles` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `users`
@@ -64,7 +64,7 @@ CREATE TABLE `customers` (
     CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
 
 --
 -- Table structure for table `admins`
@@ -80,7 +80,7 @@ CREATE TABLE `admins` (
     CONSTRAINT `admins_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `admins`
@@ -109,4 +109,4 @@ CREATE TABLE `personal_access_tokens` (
     CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
         ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
