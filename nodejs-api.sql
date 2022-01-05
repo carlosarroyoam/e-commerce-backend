@@ -49,7 +49,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`) VALUES (1, 'Carlos Alberto', 'Arroyo Martínez', 'carlosarroyo@gmail.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 1, now(), now(), NULL);
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`) VALUES (1, 'Carlos Alberto', 'Arroyo Martínez', 'carlosarroyo@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 1, now(), now(), NULL);
 
 --
 -- Table structure for table `customers`
