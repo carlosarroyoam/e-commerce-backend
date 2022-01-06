@@ -5,25 +5,26 @@ USE `nodejs_api`;
 --
 -- Table structure for table `user_roles`
 --
-
 DROP TABLE IF EXISTS `user_roles`;
 
 CREATE TABLE user_roles (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(32) NOT NULL,
     PRIMARY KEY (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
+) ENGINE = INNODB DEFAULT CHARSET = UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `user_roles`
 --
-
-INSERT INTO `user_roles` VALUES (1, 'App/Admin'), (2, 'App/Customer');
+INSERT INTO
+    `user_roles`
+VALUES
+    (1, 'App/Admin'),
+    (2, 'App/Customer');
 
 --
 -- Table structure for table `users`
 --
-
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `users` (
@@ -39,37 +40,84 @@ CREATE TABLE `users` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_idx` (`email`),
     INDEX `users_deleted_at_idx` (`deleted_at`),
-    FULLTEXT `users_full_name_idx` (`first_name` , `last_name`),
-    CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (`user_role_id`)
-        REFERENCES `user_roles` (`id`)
-        ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
+    FULLTEXT `users_full_name_idx` (`first_name`, `last_name`),
+    CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (`user_role_id`) REFERENCES `user_roles` (`id`) ON DELETE CASCADE
+) ENGINE = INNODB DEFAULT CHARSET = UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `users`
 --
-
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`) VALUES (1, 'Carlos Alberto', 'Arroyo Martínez', 'carlos.arroyo@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 1, now(), now(), NULL);
+INSERT INTO
+    `users` (
+        `id`,
+        `first_name`,
+        `last_name`,
+        `email`,
+        `password`,
+        `user_role_id`,
+        `created_at`,
+        `updated_at`,
+        `deleted_at`
+    )
+VALUES
+    (
+        1,
+        'Carlos Alberto',
+        'Arroyo Martínez',
+        'carlos.arroyo@bookstore.com',
+        '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',
+        1,
+        NOW(),
+        NOW(),
+        NULL
+    ),
+    (
+        2,
+        'Cathy Stefania',
+        'Guido Rojas',
+        'cathy.guido@bookstore.com',
+        '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',
+        2,
+        NOW(),
+        NOW(),
+        NULL
+    ),
+    (
+        3,
+        'Erandi Guadalupe',
+        'Vazquez Martínez',
+        'erandi.vazquez@bookstore.com',
+        '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',
+        2,
+        NOW(),
+        NOW(),
+        NULL
+    );
 
 --
 -- Table structure for table `customers`
 --
-
 DROP TABLE IF EXISTS `customers`;
 
 CREATE TABLE `customers` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`)
-        ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
+    CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE = INNODB DEFAULT CHARSET = UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+--
+-- Dumping data for table `customers`
+--
+INSERT INTO
+    `customers` (`id`, `user_id`)
+VALUES
+    (1, 2),
+    (2, 3);
 
 --
 -- Table structure for table `admins`
 --
-
 DROP TABLE IF EXISTS `admins`;
 
 CREATE TABLE `admins` (
@@ -77,21 +125,20 @@ CREATE TABLE `admins` (
     `is_super` TINYINT NOT NULL DEFAULT 0,
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `admins_user_id_fk` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`)
-        ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
+    CONSTRAINT `admins_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE = INNODB DEFAULT CHARSET = UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `admins`
 --
-
-INSERT INTO `admins` (`id`, `is_super`, `user_id`) VALUES (1, 1, 1);
+INSERT INTO
+    `admins` (`id`, `is_super`, `user_id`)
+VALUES
+    (1, 1, 1);
 
 --
 -- Table structure for table `personal_access_tokens`
 --
-
 DROP TABLE IF EXISTS `personal_access_tokens`;
 
 CREATE TABLE `personal_access_tokens` (
@@ -106,7 +153,5 @@ CREATE TABLE `personal_access_tokens` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `personal_access_tokens_token_idx` (`token`),
     UNIQUE KEY `personal_access_tokens_fingerprint_idx` (`fingerprint`),
-    CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (`user_id`)
-        REFERENCES `users` (`id`)
-        ON DELETE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE=UTF8MB4_0900_AI_CI;
+    CONSTRAINT `personal_access_tokens_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE = INNODB DEFAULT CHARSET = UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
