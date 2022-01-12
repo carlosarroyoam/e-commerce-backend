@@ -1,7 +1,7 @@
 {
   "name": "nodejs-api",
   "version": "1.4.0-snapshot",
-  "description": "Node.js and Express API",
+  "description": "Back-end system for a e-commerce",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

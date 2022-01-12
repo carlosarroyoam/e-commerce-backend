@@ -2,7 +2,7 @@
 
 ## Description
 
-Repository contains nodejs-api source code.
+Repository contains nodejs-api for a e-commerce source code.
 
 ## Developing
 
