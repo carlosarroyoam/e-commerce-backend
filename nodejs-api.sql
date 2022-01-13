@@ -161,10 +161,11 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `products` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(96) NOT NULL,
+    `title` VARCHAR(96) NOT NULL,
     `slug` VARCHAR(96) NOT NULL,
     `description` TEXT,
-    `featured` TINYINT NOT NULL DEFAULT '0',
+    `featured` TINYINT UNSIGNED NOT NULL DEFAULT '0',
+    `status` TINYINT UNSIGNED NOT NULL DEFAULT '0',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at` TIMESTAMP DEFAULT NULL,
@@ -206,9 +207,9 @@ CREATE TABLE `product_properties` (
 
 CREATE TABLE `product_property_values` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `value` VARCHAR(45) DEFAULT NULL,
-    `product_id` BIGINT UNSIGNED DEFAULT NULL,
-    `product_property_id` BIGINT UNSIGNED DEFAULT NULL,
+    `value` VARCHAR(45) NOT NULL,
+    `product_id` BIGINT UNSIGNED NOT NULL,
+    `product_property_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `product_property_values_idx` (`product_id` , `product_property_id`),
     KEY `product_property_values_product_property_id_fk` (`product_property_id`),
@@ -236,8 +237,8 @@ CREATE TABLE `variant_options` (
 CREATE TABLE `variant_option_values` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `value` VARCHAR(45) NOT NULL,
-    `product_variant_id` BIGINT UNSIGNED DEFAULT NULL,
-    `variant_option_id` BIGINT UNSIGNED DEFAULT NULL,
+    `product_variant_id` BIGINT UNSIGNED NOT NULL,
+    `variant_option_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `variant_option_values_variant_option_value_idx` (`value` , `product_variant_id` , `variant_option_id`),
     KEY `variant_option_values_product_variant_id_idx` (`product_variant_id`),
