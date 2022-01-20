@@ -1,6 +1,7 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const customerRepository = require('./customer.repository');
-const customerAddressRepository = require('../customersAddreses/customerAddress.repository');
+const customerAddressRepository = require('../customerAddresses/customerAddress.repository');
+const customerContactDetailRepository = require('../customerContactDetails/customersContactDetail.repository');
 const userRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
@@ -71,9 +72,18 @@ const findById = async (customer_id) => {
       connection
     );
 
+    const contactDetailByCustomerId = await customerContactDetailRepository.findByCustomerId(
+      customer_id,
+      connection
+    );
+
     connection.release();
 
-    return { ...customerById, addresses: addressesByCustomerId };
+    return {
+      ...customerById,
+      contactInfo: contactDetailByCustomerId,
+      addresses: addressesByCustomerId,
+    };
   } catch (err) {
     if (connection) connection.release();
 

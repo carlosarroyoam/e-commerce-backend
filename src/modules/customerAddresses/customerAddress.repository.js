@@ -1,8 +1,7 @@
 const customerAddresesDao = require('./customerAddress.dao');
-// const customerMapper = require('./customer.mapper');
 
 /**
- * Retrieves customer addreses by customer id.
+ * Retrieves customer addresses by customer id.
  *
  * @param {number} customer_id The id of the customer user.
  * @param {any} connection The database connection object.

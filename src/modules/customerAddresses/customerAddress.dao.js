@@ -1,5 +1,5 @@
 /**
- * Performs the SQL query to get the addreses by the customer id.
+ * Performs the SQL query to customer addresses by the customer id.
  *
  * @param {number} customer_id The id of the customer user to query.
  * @param {*} connection The database connection object.
