@@ -7,6 +7,7 @@ const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
+const { customer } = require('../auth/roles');
 
 /**
  * Retrieves all customer users.
@@ -25,9 +26,29 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const customers = await customerRepository.findAll(
+    const rawCustomers = await customerRepository.findAll(
       { skip, limit, sort, status, search },
       connection
+    );
+
+    const customers = await Promise.all(
+      rawCustomers.map(async (customer) => {
+        const addressesByCustomerId = await customerAddressRepository.findByCustomerId(
+          customer.id,
+          connection
+        );
+
+        const contactDetailByCustomerId = await customerContactDetailRepository.findByCustomerId(
+          customer.id,
+          connection
+        );
+
+        return {
+          ...customer,
+          contactInfo: contactDetailByCustomerId,
+          addresses: addressesByCustomerId,
+        };
+      })
     );
 
     connection.release();
