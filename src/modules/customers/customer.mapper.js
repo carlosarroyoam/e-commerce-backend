@@ -14,6 +14,7 @@ const toDto = (customer) => {
     last_name: customer.last_name,
     email: customer.email,
     password: customer.password,
+    addresses: customer.addresses,
     created_at: customer.created_at,
     updated_at: customer.updated_at,
     deleted_at: customer.deleted_at,

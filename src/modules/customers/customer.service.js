@@ -1,5 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const customerRepository = require('./customer.repository');
+const customerAddressRepository = require('../customersAddreses/customerAddress.repository');
 const userRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
@@ -65,9 +66,14 @@ const findById = async (customer_id) => {
       throw new sharedErrors.UserNotFoundError();
     }
 
+    const addressesByCustomerId = await customerAddressRepository.findByCustomerId(
+      customer_id,
+      connection
+    );
+
     connection.release();
 
-    return customerById;
+    return { ...customerById, addresses: addressesByCustomerId };
   } catch (err) {
     if (connection) connection.release();
 
