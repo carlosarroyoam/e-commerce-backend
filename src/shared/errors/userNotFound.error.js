@@ -5,7 +5,7 @@ class UserNotFoundError extends Error {
   /**
    * Constructor for UserNotFoundError.
    *
-   * @param {object} args
+   * @param {object} args The error args.
    * @param {string} args.email The email of the user.
    */
   constructor({ email }) {
