@@ -171,7 +171,7 @@ const update = async (admin_id, admin) => {
     }
 
     if (adminById.deleted_at !== null) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'The user account is disabled',
       });
     }

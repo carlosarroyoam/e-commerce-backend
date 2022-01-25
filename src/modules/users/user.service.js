@@ -99,13 +99,13 @@ const deleteById = async (user_id, auth_user_id) => {
     }
 
     if (userById.deleted_at !== null) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'The user is already inactive',
       });
     }
 
     if (auth_user_id === userById.id) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'A user cannot deactivate to itself',
       });
     }
@@ -151,13 +151,13 @@ const restore = async (user_id, auth_user_id) => {
     }
 
     if (userById.deleted_at === null) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'The user is already active',
       });
     }
 
     if (auth_user_id === userById.id) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'A user cannot activate to itself',
       });
     }
@@ -206,7 +206,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
     }
 
     if (auth_user_id !== userById.id) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'Cannot update someone else password account',
       });
     }
@@ -214,7 +214,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
     const passwordMatchResult = await bcrypt.compare(current_password, userById.password);
 
     if (!passwordMatchResult) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'Invalid credentials. Please try again',
       });
     }

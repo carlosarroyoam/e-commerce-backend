@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const UnprocessableEntity = require('../errors/unprocessableEntity.error');
+const UnprocessableEntityError = require('../errors/unprocessableEntity.error');
 
 const errorFormatter = ({ msg }) => msg;
 
@@ -8,11 +8,11 @@ const validateRequest = (validations) => async (request, response, next) => {
 
   const errors = validationResult(request).formatWith(errorFormatter);
   if (!errors.isEmpty()) {
-    const UnprocessableEntityError = new UnprocessableEntity({
+    const unprocessableEntityError = new UnprocessableEntityError({
       errors: errors.mapped(),
     });
 
-    return next(UnprocessableEntityError);
+    return next(unprocessableEntityError);
   }
 
   next();

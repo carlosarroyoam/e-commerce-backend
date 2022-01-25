@@ -7,7 +7,6 @@ const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
-const { customer } = require('../auth/roles');
 
 /**
  * Retrieves all customer users.
@@ -210,7 +209,7 @@ const update = async (customer_id, customer) => {
     }
 
     if (customerById.deleted_at !== null) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'The user account is disabled',
       });
     }
