@@ -26,7 +26,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
     const userByEmail = await userRepository.findByEmail(email, connection);
 
     if (!userByEmail) {
-      throw new sharedErrors.UserNotFoundError(email);
+      throw new sharedErrors.UserNotFoundError({ email });
     }
 
     if (userByEmail.deleted_at !== null) {
@@ -296,7 +296,7 @@ const forgotPassword = async ({ email }) => {
     connection.release();
 
     if (!userByEmail) {
-      throw new sharedErrors.UserNotFoundError(email);
+      throw new sharedErrors.UserNotFoundError({ email });
     }
 
     const token = await jsonwebtoken.signPasswordRecoveryToken(

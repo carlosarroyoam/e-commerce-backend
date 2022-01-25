@@ -8,7 +8,7 @@ class BadRequest extends Error {
    * @param {object} data
    */
   constructor({ message }) {
-    super(message);
+    super(message || 'Bad Request');
     this.name = 'Bad Request';
     this.status = 400;
   }

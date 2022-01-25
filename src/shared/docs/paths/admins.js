@@ -120,13 +120,13 @@ module.exports = {
   '/admins/{admin_id}': {
     get: {
       tags: ['admin'],
-      summary: 'Gets a admin',
+      summary: 'Gets a admin by its id',
       operationId: 'getAdminById',
       parameters: [
         {
           name: 'admin_id',
           in: 'path',
-          description: 'ID of admin to return',
+          description: 'ID of admin to query',
           required: true,
           schema: {
             type: 'integer',

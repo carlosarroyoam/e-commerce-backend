@@ -17,6 +17,10 @@ module.exports = {
       description: 'Operations about customer users',
     },
     {
+      name: 'customer-addresses',
+      description: 'Operations about customer addresses',
+    },
+    {
       name: 'product',
       description: 'Operations about products',
     },

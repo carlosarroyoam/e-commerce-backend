@@ -8,6 +8,7 @@ const authRoutes = require('../modules/auth/auth.routes');
 const userRoutes = require('../modules/users/user.routes');
 const adminRoutes = require('../modules/admins/admin.routes');
 const customerRoutes = require('../modules/customers/customer.routes');
+const customerAddressesRoutes = require('../modules/customerAddresses/customerAddress.routes');
 
 module.exports = () => {
   const router = Router();
@@ -17,6 +18,7 @@ module.exports = () => {
   apiRouter.use('/users', userRoutes());
   apiRouter.use('/admins', adminRoutes());
   apiRouter.use('/customers', customerRoutes());
+  apiRouter.use('/', customerAddressesRoutes());
   apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.use('/', rootRoute());

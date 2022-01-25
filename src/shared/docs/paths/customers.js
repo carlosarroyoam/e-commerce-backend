@@ -42,7 +42,7 @@ module.exports = {
       summary: 'Adds a new customer',
       operationId: 'addCustomer',
       requestBody: {
-        description: 'customer object that needs to be added',
+        description: 'Customer object that needs to be added',
         content: {
           'application/json': {
             schema: {
@@ -120,13 +120,13 @@ module.exports = {
   '/customers/{customer_id}': {
     get: {
       tags: ['customer'],
-      summary: 'Gets a customer',
+      summary: 'Gets a customer by its id',
       operationId: 'getCustomerById',
       parameters: [
         {
           name: 'customer_id',
           in: 'path',
-          description: 'ID of customer to return',
+          description: 'ID of customer to query',
           required: true,
           schema: {
             type: 'integer',
