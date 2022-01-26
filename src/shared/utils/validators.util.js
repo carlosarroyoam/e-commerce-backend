@@ -131,6 +131,48 @@ const confirmPassword = (passwordParameterName) =>
       return true;
     });
 
+const street_name = body('street_name')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The street_name is required')
+  .isLength({ min: 5, max: 64 })
+  .withMessage('The street_name must be between 5 and 64 characters');
+
+const street_number = body('street_number')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The street_number is required')
+  .isLength({ min: 1, max: 5 })
+  .withMessage('The street_number must be between 1 and 5 characters');
+
+const sublocality = body('sublocality')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The sublocality is required')
+  .isLength({ min: 5, max: 45 })
+  .withMessage('The sublocality must be between 5 and 45 characters');
+
+const locality = body('locality')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The locality is required')
+  .isLength({ min: 5, max: 45 })
+  .withMessage('The locality must be between 5 and 45 characters');
+
+const state = body('state')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The state is required')
+  .isLength({ min: 5, max: 45 })
+  .withMessage('The state must be between 5 and 45 characters');
+
+const postal_code = body('postal_code')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The postal_code is required')
+  .isLength({ min: 5, max: 5 })
+  .withMessage('The postal_code must be 5 characters');
+
 module.exports = {
   resourceId,
   resourceIdInBody,
@@ -148,4 +190,10 @@ module.exports = {
   currentPassword,
   newPassword,
   confirmPassword,
+  street_name,
+  street_number,
+  sublocality,
+  locality,
+  state,
+  postal_code,
 };

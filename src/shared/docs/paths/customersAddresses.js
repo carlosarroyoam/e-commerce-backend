@@ -1,15 +1,18 @@
 module.exports = {
-  '/users': {
+  '/customers/{customer_id}/addresses': {
     get: {
-      tags: ['user'],
-      summary: 'Gets all users',
-      operationId: 'getUsers',
+      tags: ['customer-addresses'],
+      summary: 'Gets all customer addresses',
+      operationId: 'getCustomerAddresses',
       parameters: [
-        { $ref: '#/components/parameters/SkipParam' },
-        { $ref: '#/components/parameters/LimitParam' },
-        { $ref: '#/components/parameters/UserSortParam' },
-        { $ref: '#/components/parameters/UserStatusParam' },
-        { $ref: '#/components/parameters/SearchParam' },
+        {
+          name: 'customer_id',
+          in: 'path',
+          description: 'ID of the customer to retrieve its addresses',
+          schema: {
+            type: 'integer',
+          },
+        },
       ],
       responses: {
         200: {
@@ -37,17 +40,127 @@ module.exports = {
         },
       ],
     },
-  },
-  '/users/{user_id}/change-password': {
-    put: {
-      tags: ['user'],
-      summary: "Changes a user's password",
-      operationId: 'changeUserPassword',
+    post: {
+      tags: ['customer-addresses'],
+      summary: 'Adds a new customer address',
+      operationId: 'addCustomerAddress',
       parameters: [
         {
-          name: 'user_id',
+          name: 'customer_id',
           in: 'path',
-          description: 'ID of user to change its password',
+          description: 'ID of the customer to retrieve its addresses',
+          schema: {
+            type: 'integer',
+          },
+        },
+      ],
+      requestBody: {
+        description: 'Address object that needs to be added',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/AddCustomerAddress',
+            },
+          },
+        },
+        required: true,
+      },
+      responses: {
+        200: {
+          $ref: '#/components/responses/OK',
+        },
+        422: {
+          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
+        },
+        401: {
+          $ref: '#/components/responses/UNAUTHORIZED',
+        },
+        403: {
+          $ref: '#/components/responses/FORBIDDEN',
+        },
+        500: {
+          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+    },
+  },
+  '/customers/{customer_id}/addresses/{address_id}': {
+    get: {
+      tags: ['customer-addresses'],
+      summary: 'Gets a customer address by its id',
+      operationId: 'getCustomerAddressById',
+      parameters: [
+        {
+          name: 'customer_id',
+          in: 'path',
+          description: 'ID of the customer to query',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+        {
+          name: 'address_id',
+          in: 'path',
+          description: 'ID of the address to query',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+      ],
+      responses: {
+        200: {
+          $ref: '#/components/responses/OK',
+        },
+        422: {
+          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
+        },
+        401: {
+          $ref: '#/components/responses/UNAUTHORIZED',
+        },
+        403: {
+          $ref: '#/components/responses/FORBIDDEN',
+        },
+        404: {
+          $ref: '#/components/responses/NOT_FOUND',
+        },
+        500: {
+          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+    },
+    put: {
+      tags: ['customer-addresses'],
+      summary: 'Updates a customer address by its id',
+      operationId: 'updateCustomerAddressById',
+      parameters: [
+        {
+          name: 'customer_id',
+          in: 'path',
+          description: 'ID of the customer to query',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+        {
+          name: 'address_id',
+          in: 'path',
+          description: 'ID of the address to query',
           required: true,
           schema: {
             type: 'integer',
@@ -56,11 +169,11 @@ module.exports = {
         },
       ],
       requestBody: {
-        description: 'Admin object that needs to be updated',
+        description: 'Address object that needs to be updated',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/ChangeUserPassword',
+              $ref: '#/components/schemas/UpdateCustomerAddress',
             },
           },
         },
@@ -92,101 +205,25 @@ module.exports = {
         },
       ],
     },
-  },
-  '/users/{user_id}': {
-    get: {
-      tags: ['user'],
-      summary: 'Gets a user by its id',
-      operationId: 'getUserById',
-      parameters: [
-        {
-          name: 'user_id',
-          in: 'path',
-          description: 'ID of user to query',
-          required: true,
-          schema: {
-            type: 'integer',
-            format: 'int64',
-          },
-        },
-      ],
-      responses: {
-        200: {
-          $ref: '#/components/responses/OK',
-        },
-        422: {
-          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
-        },
-        401: {
-          $ref: '#/components/responses/UNAUTHORIZED',
-        },
-        403: {
-          $ref: '#/components/responses/FORBIDDEN',
-        },
-        404: {
-          $ref: '#/components/responses/NOT_FOUND',
-        },
-        500: {
-          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
-        },
-      },
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
-    },
     delete: {
-      tags: ['user'],
-      summary: 'Deactivates a user by its id',
-      operationId: 'deactivateUser',
+      tags: ['customer-addresses'],
+      summary: 'Deletes a customer address by its id',
+      operationId: 'getCustomerById',
       parameters: [
         {
-          name: 'user_id',
+          name: 'customer_id',
           in: 'path',
-          description: 'ID of user to deactivate',
+          description: 'ID of the customer to query',
           required: true,
           schema: {
             type: 'integer',
             format: 'int64',
           },
         },
-      ],
-      responses: {
-        200: {
-          $ref: '#/components/responses/OK',
-        },
-        422: {
-          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
-        },
-        401: {
-          $ref: '#/components/responses/UNAUTHORIZED',
-        },
-        403: {
-          $ref: '#/components/responses/FORBIDDEN',
-        },
-        404: {
-          $ref: '#/components/responses/NOT_FOUND',
-        },
-        500: {
-          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
-        },
-      },
-      security: [
         {
-          BearerAuth: [],
-        },
-      ],
-    },
-    put: {
-      tags: ['user'],
-      summary: 'Restores a user by its id',
-      operationId: 'restoreUser',
-      parameters: [
-        {
-          name: 'user_id',
+          name: 'address_id',
           in: 'path',
-          description: 'ID of user to restore',
+          description: 'ID of the address to query',
           required: true,
           schema: {
             type: 'integer',

@@ -6,6 +6,7 @@ const auth = require('./paths/auth');
 const users = require('./paths/users');
 const admins = require('./paths/admins');
 const customers = require('./paths/customers');
+const customersAddresses = require('./paths/customersAddresses');
 
 module.exports = {
   ...info,
@@ -16,6 +17,7 @@ module.exports = {
     ...users,
     ...admins,
     ...customers,
+    ...customersAddresses,
   },
   ...components,
 };

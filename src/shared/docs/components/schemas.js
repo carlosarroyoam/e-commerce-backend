@@ -149,5 +149,53 @@ module.exports = {
       },
       required: ['first_name', 'last_name', 'password'],
     },
+    AddCustomerAddress: {
+      type: 'object',
+      properties: {
+        street_name: {
+          type: 'string',
+        },
+        street_number: {
+          type: 'string',
+        },
+        sublocality: {
+          type: 'string',
+        },
+        locality: {
+          type: 'string',
+        },
+        state: {
+          type: 'string',
+        },
+        postal_code: {
+          type: 'string',
+        },
+      },
+      required: ['street_name', 'street_number', 'sublocality', 'locality', 'state', 'postal_code'],
+    },
+    UpdateCustomerAddress: {
+      type: 'object',
+      properties: {
+        street_name: {
+          type: 'string',
+        },
+        street_number: {
+          type: 'string',
+        },
+        sublocality: {
+          type: 'string',
+        },
+        locality: {
+          type: 'string',
+        },
+        state: {
+          type: 'string',
+        },
+        postal_code: {
+          type: 'string',
+        },
+      },
+      required: ['street_name', 'street_number', 'sublocality', 'locality', 'state', 'postal_code'],
+    },
   },
 };

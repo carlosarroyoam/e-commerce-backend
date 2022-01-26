@@ -26,7 +26,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
     const userByEmail = await userRepository.findByEmail(email, connection);
 
     if (!userByEmail) {
-      throw new sharedErrors.UserNotFoundError(email);
+      throw new sharedErrors.UserNotFoundError({ email });
     }
 
     if (userByEmail.deleted_at !== null) {
@@ -257,7 +257,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     connection.release();
@@ -296,7 +296,7 @@ const forgotPassword = async ({ email }) => {
     connection.release();
 
     if (!userByEmail) {
-      throw new sharedErrors.UserNotFoundError(email);
+      throw new sharedErrors.UserNotFoundError({ email });
     }
 
     const token = await jsonwebtoken.signPasswordRecoveryToken(
@@ -352,7 +352,7 @@ const resetPassword = async ({ token, password }) => {
     const userById = await userRepository.findById(decoded.sub, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     const decodedVerified = await jsonwebtoken.verifyPasswordRecoveryToken(

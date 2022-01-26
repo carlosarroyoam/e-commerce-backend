@@ -6,7 +6,7 @@ module.exports = {
     },
     {
       name: 'user',
-      description: 'Operations about user',
+      description: 'Operations about users',
     },
     {
       name: 'admin',
@@ -17,8 +17,12 @@ module.exports = {
       description: 'Operations about customer users',
     },
     {
-      name: 'book',
-      description: 'Operations about book',
+      name: 'customer-addresses',
+      description: 'Operations about customer addresses',
+    },
+    {
+      name: 'product',
+      description: 'Operations about products',
     },
   ],
 };

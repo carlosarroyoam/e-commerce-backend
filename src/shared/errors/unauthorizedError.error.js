@@ -5,7 +5,9 @@ class UnauthorizedError extends Error {
   /**
    * Constructor for UnauthorizedError.
    *
-   * @param {object} data
+   * @param {object} args The error args.
+   * @param {string} args.message The error message.
+   * @param {object} args.email The email of the user.
    */
   constructor({ message, email }) {
     super(message || `Failed to authorize user with the email: ${email}`);

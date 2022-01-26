@@ -64,14 +64,14 @@ const store = async (user, connection) => {
  * Updates a user.
  *
  * @param {object} user
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise} The result of the query
  */
-const update = async (user, id, connection) => {
+const update = async (user, user_id, connection) => {
   const userDbEntity = userMapper.toDatabaseEntity(user);
 
-  const [result] = await userDao.update(userDbEntity, id, connection);
+  const [result] = await userDao.update(userDbEntity, user_id, connection);
 
   return result.changedRows;
 };
@@ -79,12 +79,12 @@ const update = async (user, id, connection) => {
 /**
  * Deletes a user.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise} The result of the query
  */
-const deleteById = async (id, connection) => {
-  const [result] = await userDao.deleteById(id, connection);
+const deleteById = async (user_id, connection) => {
+  const [result] = await userDao.deleteById(user_id, connection);
 
   return result.changedRows;
 };
@@ -92,12 +92,12 @@ const deleteById = async (id, connection) => {
 /**
  * Restores a user.
  *
- * @param {number} id
+ * @param {number} user_id
  * @param {any} connection
  * @return {Promise} The result of the query
  */
-const restore = async (id, connection) => {
-  const [result] = await userDao.restore(id, connection);
+const restore = async (user_id, connection) => {
+  const [result] = await userDao.restore(user_id, connection);
 
   return result.changedRows;
 };

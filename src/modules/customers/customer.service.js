@@ -1,5 +1,7 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const customerRepository = require('./customer.repository');
+const customerAddressRepository = require('../customerAddresses/customerAddress.repository');
+const customerContactDetailRepository = require('../customerContactDetails/customersContactDetail.repository');
 const userRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
@@ -23,9 +25,29 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const customers = await customerRepository.findAll(
+    const rawCustomers = await customerRepository.findAll(
       { skip, limit, sort, status, search },
       connection
+    );
+
+    const customers = await Promise.all(
+      rawCustomers.map(async (customer) => {
+        const addressesByCustomerId = await customerAddressRepository.findByCustomerId(
+          customer.id,
+          connection
+        );
+
+        const contactDetailByCustomerId = await customerContactDetailRepository.findByCustomerId(
+          customer.id,
+          connection
+        );
+
+        return {
+          ...customer,
+          contactInfo: contactDetailByCustomerId,
+          addresses: addressesByCustomerId,
+        };
+      })
     );
 
     connection.release();
@@ -62,12 +84,26 @@ const findById = async (customer_id) => {
     const customerById = await customerRepository.findById(customer_id, connection);
 
     if (!customerById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
+
+    const addressesByCustomerId = await customerAddressRepository.findByCustomerId(
+      customer_id,
+      connection
+    );
+
+    const contactDetailByCustomerId = await customerContactDetailRepository.findByCustomerId(
+      customer_id,
+      connection
+    );
 
     connection.release();
 
-    return customerById;
+    return {
+      ...customerById,
+      contactInfo: contactDetailByCustomerId,
+      addresses: addressesByCustomerId,
+    };
   } catch (err) {
     if (connection) connection.release();
 
@@ -169,11 +205,11 @@ const update = async (customer_id, customer) => {
     const customerById = await customerRepository.findById(customer_id, connection);
 
     if (!customerById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     if (customerById.deleted_at !== null) {
-      throw new sharedErrors.BadRequest({
+      throw new sharedErrors.BadRequestError({
         message: 'The user account is disabled',
       });
     }

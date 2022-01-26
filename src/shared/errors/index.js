@@ -1,15 +1,17 @@
-const BadRequest = require('./badRequest.error');
+const BadRequestError = require('./badRequest.error');
 const EmailAlreadyTakenError = require('./emailAlreadyTakenError.error');
 const ForbiddenError = require('./forbiddenError.error');
 const UnauthorizedError = require('./unauthorizedError.error');
-const UnprocessableEntity = require('./unprocessableEntity.error');
+const UnprocessableEntityError = require('./unprocessableEntity.error');
 const UserNotFoundError = require('./userNotFound.error');
+const ResourceNotFoundError = require('./resourceNotFound.error');
 
 module.exports = {
-  BadRequest,
+  BadRequestError,
   EmailAlreadyTakenError,
   ForbiddenError,
   UnauthorizedError,
-  UnprocessableEntity,
+  UnprocessableEntityError,
   UserNotFoundError,
+  ResourceNotFoundError,
 };

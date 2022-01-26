@@ -63,7 +63,7 @@ async function getAll({ skip = 0, limit = 50, sort = 'id', status, search }, con
  * @return {Promise} The query result.
  */
 async function getById(admin_id, connection) {
-  const query = `SELECT 
+  const query = `SELECT
         adm.id,
         usr.id AS user_id,
         usr.first_name,
@@ -88,7 +88,7 @@ async function getById(admin_id, connection) {
  * @return {Promise} The query result.
  */
 async function getByEmail(email, connection) {
-  const query = `SELECT 
+  const query = `SELECT
         adm.id,
         usr.id AS user_id,
         usr.first_name,
