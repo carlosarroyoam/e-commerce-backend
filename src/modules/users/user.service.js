@@ -57,7 +57,7 @@ const findById = async (user_id) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     connection.release();
@@ -95,7 +95,7 @@ const deleteById = async (user_id, auth_user_id) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     if (userById.deleted_at !== null) {
@@ -147,7 +147,7 @@ const restore = async (user_id, auth_user_id) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     if (userById.deleted_at === null) {
@@ -202,7 +202,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     if (auth_user_id !== userById.id) {

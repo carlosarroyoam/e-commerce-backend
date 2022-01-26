@@ -98,34 +98,35 @@ const findById = async (customer_id, address_id) => {
  * Stores a customer address.
  *
  * @param {object} customerAddress The address to store.
- * @param {number} customerId The address to store.
+ * @param {number} customer_id The address to store.
  * @return {Promise} The created admin user.
  */
-const store = async (customerAddress, customerId) => {
+const store = async (customerAddress, customer_id) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const customerById = await customerAddressRepository.findById(customerId, connection);
+    const customerById = await customerRepository.findById(customer_id, connection);
 
-    // TODO add customer address properties
+    if (!customerById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
     const createdCustomerAddressId = await customerAddressRepository.store(
-      {
-        customerAddress,
-        customer_id: customerById.id,
-      },
+      { ...customerAddress, customer_id: customerById.id },
       connection
     );
 
-    const createdCustomerAddress = await customerAddressRepository.findById(
+    const customerAddressById = await customerAddressRepository.findById(
+      customerById.id,
       createdCustomerAddressId,
       connection
     );
 
     connection.release();
 
-    return createdCustomerAddress;
+    return customerAddressById;
   } catch (err) {
     if (connection) {
       connection.release();
@@ -162,7 +163,7 @@ const update = async (admin_id, admin) => {
     const adminById = await customerRepository.findById(admin_id, connection);
 
     if (!adminById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     if (adminById.deleted_at !== null) {
@@ -209,49 +210,40 @@ const update = async (admin_id, admin) => {
 /**
  * Deletes a customer address by its id.
  *
- * @param {number} admin_id The id of the admin user to update.
- * @param {object} admin The admin user to store.
- * @return {Promise} The updated admin user.
+ * @param {number} customer_id The id of the customer.
+ * @param {number} address_id The id of the address to delete.
+ * @param {number} auth_user_id The id of the user who makes the request.
+ * @return {Promise} The deleted address.
  */
-const deleteById = async (admin_id, admin) => {
+const deleteById = async (customer_id, address_id, auth_user_id) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
-    connection.beginTransaction();
+    const customerById = await customerRepository.findById(customer_id, connection);
 
-    const adminById = await customerRepository.findById(admin_id, connection);
-
-    if (!adminById) {
-      throw new sharedErrors.UserNotFoundError();
+    if (!customerById) {
+      throw new sharedErrors.ResourceNotFoundError();
     }
 
-    if (adminById.deleted_at !== null) {
-      throw new sharedErrors.BadRequestError({
-        message: 'The user account is disabled',
-      });
-    }
-
-    await customerAddressRepository.update(
-      {
-        ...admin,
-      },
-      adminById.user_id,
+    const addressById = await customerAddressRepository.findById(
+      customer_id,
+      address_id,
       connection
     );
 
-    const updatedAdmin = await customerRepository.findById(admin_id, connection);
+    if (!addressById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
 
-    connection.commit();
+    await customerAddressRepository.deleteById(addressById.id, connection);
 
     connection.release();
 
-    return updatedAdmin;
+    return addressById;
   } catch (err) {
     if (connection) {
-      connection.rollback();
-
       connection.release();
     }
 

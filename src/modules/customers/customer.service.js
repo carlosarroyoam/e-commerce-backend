@@ -84,7 +84,7 @@ const findById = async (customer_id) => {
     const customerById = await customerRepository.findById(customer_id, connection);
 
     if (!customerById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     const addressesByCustomerId = await customerAddressRepository.findByCustomerId(
@@ -205,7 +205,7 @@ const update = async (customer_id, customer) => {
     const customerById = await customerRepository.findById(customer_id, connection);
 
     if (!customerById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     if (customerById.deleted_at !== null) {

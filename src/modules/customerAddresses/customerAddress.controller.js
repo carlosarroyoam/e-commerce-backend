@@ -59,16 +59,17 @@ const show = async (request, response, next) => {
  */
 const store = async (request, response, next) => {
   try {
-    const { customer_id } = request.body;
-    const { first_name, last_name, email, password, is_super } = request.body;
+    const { customer_id } = request.params;
+    const { street_name, street_number, sublocality, locality, state, postal_code } = request.body;
 
     const createdAdmin = await customerAddressService.store(
       {
-        first_name,
-        last_name,
-        email,
-        password,
-        is_super,
+        street_name,
+        street_number,
+        sublocality,
+        locality,
+        state,
+        postal_code,
       },
       customer_id
     );
@@ -116,9 +117,39 @@ const update = async (request, response, next) => {
   }
 };
 
+/**
+ * Handles incoming request from the /users/:user_id endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const destroy = async (request, response, next) => {
+  try {
+    const { customer_id, address_id } = request.params;
+    const { id: auth_user_id } = request.user;
+
+    const addressDeletedId = await customerAddressService.deleteById(
+      customer_id,
+      address_id,
+      auth_user_id
+    );
+
+    response.send({
+      message: 'The address was successfully deleted',
+      data: {
+        user_deleted_id: addressDeletedId,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   show,
   store,
   update,
+  destroy,
 };

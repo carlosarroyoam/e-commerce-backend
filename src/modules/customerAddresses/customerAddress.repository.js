@@ -1,5 +1,5 @@
 const customerAddresesDao = require('./customerAddress.dao');
-
+const customerAddressMapper = require('./customerAddress.mapper');
 /**
  * Retrieves customer addresses by customer id.
  *
@@ -27,7 +27,36 @@ const findById = async (customer_id, address_id, connection) => {
   return result;
 };
 
+/**
+ * Stores a customer address.
+ *
+ * @param {object} customerAddress The customer address to store.
+ * @param {any} connection The database connection object.
+ */
+const store = async (customerAddress, connection) => {
+  const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customerAddress);
+
+  const [result] = await customerAddresesDao.create(customerAddressDbEntity, connection);
+
+  return result.insertId;
+};
+
+/**
+ * Deletes a customer address by its id.
+ *
+ * @param {number} address_id
+ * @param {any} connection
+ * @return {Promise} The result of the query
+ */
+const deleteById = async (address_id, connection) => {
+  const [result] = await customerAddresesDao.deleteById(address_id, connection);
+
+  return result.changedRows;
+};
+
 module.exports = {
   findByCustomerId,
   findById,
+  store,
+  deleteById,
 };

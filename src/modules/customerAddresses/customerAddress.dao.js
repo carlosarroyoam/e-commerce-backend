@@ -48,7 +48,35 @@ async function getById(customer_id, address_id, connection) {
   return connection.query(query, [customer_id, address_id]);
 }
 
+/**
+ * Performs the SQL query to insert a customer address.
+ *
+ * @param {object} customerAddress The customer address to store.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function create(customerAddress, connection) {
+  const query = 'INSERT INTO customer_shipping_addresses SET ?';
+
+  return connection.query(query, [customerAddress]);
+}
+
+/**
+ * Performs the SQL query to delete a customer address.
+ *
+ * @param {number} address_id The id of the address to delete.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function deleteById(address_id, connection) {
+  const query = 'DELETE FROM customer_shipping_addresses WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [address_id]);
+}
+
 module.exports = {
   getByCustomerId,
   getById,
+  create,
+  deleteById,
 };

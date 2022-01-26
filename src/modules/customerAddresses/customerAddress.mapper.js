@@ -1,10 +1,10 @@
 const objectUtils = require('../../shared/utils/object.utils');
 
 /**
- * Maps a admin object to a admin dto object.
+ * Maps a customer address object to a customer address dto object.
  *
- * @param {object} address The address object to map.
- * @return {object} The admin dto object.
+ * @param {object} address The customer address object to map.
+ * @return {object} The customer address dto object.
  */
 const toDto = (address) => {
   return {
@@ -19,18 +19,24 @@ const toDto = (address) => {
 };
 
 /**
- * Maps a admin dto object to a admin database entity object.
+ * Maps a customer address dto object to a customer address database entity object.
  *
- * @param {object} adminDto The admin dto object to map.
- * @return {object} The admin database entity object.
+ * @param {object} customerAddressDto The customer address dto object to map.
+ * @return {object} The customer address database entity object.
  */
-const toDatabaseEntity = (adminDto) => {
-  const adminDbEntity = {
-    is_super: adminDto.is_super,
-    user_id: adminDto.user_id,
+const toDatabaseEntity = (customerAddressDto) => {
+  const customerAddressDbEntity = {
+    id: customerAddressDto.id,
+    street_name: customerAddressDto.street_name,
+    street_number: customerAddressDto.street_number,
+    sublocality: customerAddressDto.sublocality,
+    locality: customerAddressDto.locality,
+    state: customerAddressDto.state,
+    postal_code: customerAddressDto.postal_code,
+    customer_id: customerAddressDto.customer_id,
   };
 
-  const cleanedAdminDbEntity = objectUtils.removeUndefined(adminDbEntity);
+  const cleanedAdminDbEntity = objectUtils.removeUndefined(customerAddressDbEntity);
 
   return cleanedAdminDbEntity;
 };

@@ -257,7 +257,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
     const userById = await userRepository.findById(user_id, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     connection.release();
@@ -352,7 +352,7 @@ const resetPassword = async ({ token, password }) => {
     const userById = await userRepository.findById(decoded.sub, connection);
 
     if (!userById) {
-      throw new sharedErrors.UserNotFoundError();
+      throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
     const decodedVerified = await jsonwebtoken.verifyPasswordRecoveryToken(

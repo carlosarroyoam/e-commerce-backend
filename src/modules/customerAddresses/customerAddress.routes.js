@@ -46,7 +46,7 @@ module.exports = () => {
     '/customers/:customer_id/addresses/:address_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(deleteCustomerAddressSchema),
-    customerAddressController.show
+    customerAddressController.destroy
   );
 
   return router;
