@@ -6,7 +6,7 @@
  * @return {Promise} The query result.
  */
 async function getByCustomerId(customer_id, connection) {
-  const query = `SELECT 
+  const query = `SELECT
       ccd.phone_number
     FROM customers cus
     LEFT JOIN customer_contact_details ccd ON cus.id = ccd.customer_id

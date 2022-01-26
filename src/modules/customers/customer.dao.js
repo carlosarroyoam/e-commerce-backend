@@ -11,7 +11,7 @@
  * @return {Promise} The query result.
  */
 async function getAll({ skip = 0, limit = 50, sort = 'id', status, search }, connection) {
-  let query = `SELECT 
+  let query = `SELECT
         cus.id,
         usr.id AS user_id,
         usr.first_name,
@@ -62,7 +62,7 @@ async function getAll({ skip = 0, limit = 50, sort = 'id', status, search }, con
  * @return {Promise} The query result.
  */
 async function getById(customer_id, connection) {
-  const query = `SELECT 
+  const query = `SELECT
         cus.id,
         usr.id AS user_id,
         usr.first_name,
@@ -86,7 +86,7 @@ async function getById(customer_id, connection) {
  * @return {Promise} The query result.
  */
 async function getByEmail(email, connection) {
-  const query = `SELECT 
+  const query = `SELECT
         cus.id,
         usr.id AS user_id,
         usr.first_name,

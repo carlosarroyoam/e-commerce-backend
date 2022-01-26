@@ -6,7 +6,7 @@
  * @return {Promise} The query result.
  */
 async function getByCustomerId(customer_id, connection) {
-  const query = `SELECT 
+  const query = `SELECT
       csa.id,
       csa.street_name,
       csa.street_number,
@@ -14,7 +14,7 @@ async function getByCustomerId(customer_id, connection) {
       csa.locality,
       csa.state,
       csa.postal_code
-    FROM customer_shipping_addresses csa 
+    FROM customer_shipping_addresses csa
     LEFT JOIN customers cus ON csa.customer_id = cus.id
     WHERE cus.id = ?`;
 
@@ -31,7 +31,7 @@ async function getByCustomerId(customer_id, connection) {
  * @return {Promise} The query result.
  */
 async function getById(customer_id, address_id, connection) {
-  const query = `SELECT 
+  const query = `SELECT
       csa.id,
       csa.street_name,
       csa.street_number,
@@ -40,7 +40,7 @@ async function getById(customer_id, address_id, connection) {
       csa.state,
       csa.postal_code,
       cus.id as customer_id
-    FROM customer_shipping_addresses csa 
+    FROM customer_shipping_addresses csa
     LEFT JOIN customers cus ON csa.customer_id = cus.id
     WHERE csa.id = ?
     AND cus.id = ?`;
