@@ -131,13 +131,8 @@ const update = async (request, response, next) => {
 const destroy = async (request, response, next) => {
   try {
     const { customer_id, address_id } = request.params;
-    const { id: auth_user_id } = request.user;
 
-    const addressDeletedId = await customerAddressService.deleteById(
-      customer_id,
-      address_id,
-      auth_user_id
-    );
+    const addressDeletedId = await customerAddressService.deleteById(customer_id, address_id);
 
     response.send({
       message: 'The address was successfully deleted',
