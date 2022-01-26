@@ -42,6 +42,26 @@ const store = async (customerAddress, connection) => {
 };
 
 /**
+ * Updates a customer address by its id.
+ *
+ * @param {object} customer The customer address to update.
+ * @param {number} address_id The id of the customer address.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query.
+ */
+const update = async (customer, address_id, connection) => {
+  const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customer);
+
+  const [result] = await customerAddresesDao.update(
+    customerAddressDbEntity,
+    address_id,
+    connection
+  );
+
+  return result.changedRows;
+};
+
+/**
  * Deletes a customer address by its id.
  *
  * @param {number} address_id
@@ -58,5 +78,6 @@ module.exports = {
   findByCustomerId,
   findById,
   store,
+  update,
   deleteById,
 };

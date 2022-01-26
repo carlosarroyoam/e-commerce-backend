@@ -62,6 +62,20 @@ async function create(customerAddress, connection) {
 }
 
 /**
+ * Performs the SQL query to update a customer address.
+ *
+ * @param {object} customer_address The customer address to update.
+ * @param {number} address_id The id of the customer address to update.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function update(customer_address, address_id, connection) {
+  const query = 'UPDATE customer_shipping_addresses SET ? WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [customer_address, address_id]);
+}
+
+/**
  * Performs the SQL query to delete a customer address.
  *
  * @param {number} address_id The id of the address to delete.
@@ -78,5 +92,6 @@ module.exports = {
   getByCustomerId,
   getById,
   create,
+  update,
   deleteById,
 };

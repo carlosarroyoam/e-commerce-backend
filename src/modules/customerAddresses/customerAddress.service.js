@@ -146,51 +146,48 @@ const store = async (customerAddress, customer_id) => {
 };
 
 /**
- * Updates a admin user by its id.
+ * Updates a customer address by its id.
  *
- * @param {number} admin_id The id of the admin user to update.
- * @param {object} admin The admin user to store.
+ * @param {object} customer_address The customer address to update.
+ * @param {number} customer_id The id of the customer.
+ * @param {number} address_id The id of the customer address to update.
  * @return {Promise} The updated admin user.
  */
-const update = async (admin_id, admin) => {
+const update = async (customer_address, customer_id, address_id) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
-    connection.beginTransaction();
+    const customerById = await customerRepository.findById(customer_id, connection);
 
-    const adminById = await customerRepository.findById(admin_id, connection);
-
-    if (!adminById) {
-      throw new sharedErrors.UserNotFoundError({ email: undefined });
+    if (!customerById) {
+      throw new sharedErrors.ResourceNotFoundError();
     }
 
-    if (adminById.deleted_at !== null) {
-      throw new sharedErrors.BadRequestError({
-        message: 'The user account is disabled',
-      });
-    }
-
-    await customerAddressRepository.update(
-      {
-        ...admin,
-      },
-      adminById.user_id,
+    const customerAddressById = await customerAddressRepository.findById(
+      customer_id,
+      address_id,
       connection
     );
 
-    const updatedAdmin = await customerRepository.findById(admin_id, connection);
+    if (!customerAddressById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
 
-    connection.commit();
+    await customerAddressRepository.update(customer_address, address_id, connection);
+
+    const updatedCustomerAddress = await customerAddressRepository.findById(
+      customer_id,
+      address_id,
+      connection
+    );
 
     connection.release();
 
-    return updatedAdmin;
+    return updatedCustomerAddress;
   } catch (err) {
     if (connection) {
-      connection.rollback();
-
       connection.release();
     }
 

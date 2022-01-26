@@ -3,18 +3,19 @@ const objectUtils = require('../../shared/utils/object.utils');
 /**
  * Maps a customer address object to a customer address dto object.
  *
- * @param {object} address The customer address object to map.
+ * @param {object} customerAddress The customer address object to map.
  * @return {object} The customer address dto object.
  */
-const toDto = (address) => {
+const toDto = (customerAddress) => {
   return {
-    id: address.id,
-    street_name: address.street_name,
-    street_number: address.street_number,
-    sublocality: address.sublocality,
-    locality: address.locality,
-    state: address.state,
-    postal_code: address.postal_code,
+    id: customerAddress.id,
+    street_name: customerAddress.street_name,
+    street_number: customerAddress.street_number,
+    sublocality: customerAddress.sublocality,
+    locality: customerAddress.locality,
+    state: customerAddress.state,
+    postal_code: customerAddress.postal_code,
+    customer_id: customerAddress.customer_id,
   };
 };
 

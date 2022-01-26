@@ -62,7 +62,7 @@ const store = async (request, response, next) => {
     const { customer_id } = request.params;
     const { street_name, street_number, sublocality, locality, state, postal_code } = request.body;
 
-    const createdAdmin = await customerAddressService.store(
+    const createdAddress = await customerAddressService.store(
       {
         street_name,
         street_number,
@@ -74,11 +74,11 @@ const store = async (request, response, next) => {
       customer_id
     );
 
-    const createdAdminDto = customerAddressMapper.toDto(createdAdmin);
+    const createdAddressDto = customerAddressMapper.toDto(createdAddress);
 
     response.status(201).send({
       message: 'Created',
-      data: createdAdminDto,
+      data: createdAddressDto,
     });
   } catch (error) {
     next(error);
@@ -94,23 +94,27 @@ const store = async (request, response, next) => {
  */
 const update = async (request, response, next) => {
   try {
-    const { customer_id, customer_address_id } = request.params;
-    const { first_name, last_name } = request.body;
+    const { customer_id, address_id } = request.params;
+    const { street_name, street_number, sublocality, locality, state, postal_code } = request.body;
 
-    const updatedAdmin = await customerAddressService.update(
+    const updatedAddress = await customerAddressService.update(
       {
-        first_name,
-        last_name,
+        street_name,
+        street_number,
+        sublocality,
+        locality,
+        state,
+        postal_code,
       },
       customer_id,
-      customer_address_id
+      address_id
     );
 
-    const updatedAdminDto = customerAddressMapper.toDto(updatedAdmin);
+    const updatedAddressDto = customerAddressMapper.toDto(updatedAddress);
 
     response.send({
       message: 'Updated',
-      data: updatedAdminDto,
+      data: updatedAddressDto,
     });
   } catch (error) {
     next(error);
