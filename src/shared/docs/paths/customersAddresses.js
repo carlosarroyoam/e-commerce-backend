@@ -59,7 +59,7 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/AddCustomer',
+              $ref: '#/components/schemas/AddCustomerAddress',
             },
           },
         },
@@ -173,7 +173,7 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/ChangeUserPassword',
+              $ref: '#/components/schemas/UpdateCustomerAddress',
             },
           },
         },

@@ -14,7 +14,7 @@ async function getByCustomerId(customer_id, connection) {
       csa.locality,
       csa.state,
       csa.postal_code
-    FROM customer_shipping_addresses csa
+    FROM customer_addresses csa
     LEFT JOIN customers cus ON csa.customer_id = cus.id
     WHERE cus.id = ?`;
 
@@ -40,10 +40,10 @@ async function getById(customer_id, address_id, connection) {
       csa.state,
       csa.postal_code,
       cus.id as customer_id
-    FROM customer_shipping_addresses csa
+    FROM customer_addresses csa
     LEFT JOIN customers cus ON csa.customer_id = cus.id
-    WHERE csa.id = ?
-    AND cus.id = ?`;
+    WHERE cus.id = ?
+    AND csa.id = ?`;
 
   return connection.query(query, [customer_id, address_id]);
 }
@@ -56,7 +56,7 @@ async function getById(customer_id, address_id, connection) {
  * @return {Promise} The query result.
  */
 async function create(customerAddress, connection) {
-  const query = 'INSERT INTO customer_shipping_addresses SET ?';
+  const query = 'INSERT INTO customer_addresses SET ?';
 
   return connection.query(query, [customerAddress]);
 }
@@ -70,7 +70,7 @@ async function create(customerAddress, connection) {
  * @return {Promise} The query result.
  */
 async function update(customer_address, address_id, connection) {
-  const query = 'UPDATE customer_shipping_addresses SET ? WHERE id = ? LIMIT 1';
+  const query = 'UPDATE customer_addresses SET ? WHERE id = ? LIMIT 1';
 
   return connection.query(query, [customer_address, address_id]);
 }
@@ -83,7 +83,7 @@ async function update(customer_address, address_id, connection) {
  * @return {Promise} The query result.
  */
 async function deleteById(address_id, connection) {
-  const query = 'DELETE FROM customer_shipping_addresses WHERE id = ? LIMIT 1';
+  const query = 'DELETE FROM customer_addresses WHERE id = ? LIMIT 1';
 
   return connection.query(query, [address_id]);
 }

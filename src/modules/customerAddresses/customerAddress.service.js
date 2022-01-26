@@ -113,6 +113,8 @@ const store = async (customerAddress, customer_id) => {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
+    // TODO add no duplicate address validation
+
     const createdCustomerAddressId = await customerAddressRepository.store(
       { ...customerAddress, customer_id: customerById.id },
       connection

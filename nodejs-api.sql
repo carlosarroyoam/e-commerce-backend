@@ -49,7 +49,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`) 
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
     (1, 'Carlos Alberto', 'Arroyo Martínez', 'carlos.arroyo@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 1, nOW(), nOW(), NULL),
     (2, 'Cathy Stefania', 'Guido Rojas', 'cathy.guido@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 2, NOW(), NOW(), NULL),
@@ -70,10 +70,6 @@ CREATE TABLE `customers` (
         ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
---
--- Dumping data for table `customer_shipping_addresses`
---
-
 INSERT INTO `customers` (`id`, `user_id`) VALUES (1, 2), (2, 3);
 
 --
@@ -89,14 +85,13 @@ CREATE TABLE `customer_contact_details` (
     KEY `customer_contact_details_customer_id_fx_idx` (`customer_id`),
     CONSTRAINT `customer_contact_details_customer_id_fx` FOREIGN KEY (`customer_id`)
         REFERENCES `customers` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
--- Table structure for table `customer_shipping_addresses`
+-- Table structure for table `customer_addresses`
 --
 
-CREATE TABLE `customer_shipping_addresses` (
-    `id` BIGINT NOT NULL,
+CREATE TABLE `customer_addresses` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `street_name` VARCHAR(64) NOT NULL,
     `street_number` VARCHAR(5) NOT NULL,
     `sublocality` VARCHAR(45) NOT NULL,
@@ -105,11 +100,10 @@ CREATE TABLE `customer_shipping_addresses` (
     `postal_code` VARCHAR(5) NOT NULL,
     `customer_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    KEY `customer_shipping_addresses_customer_id_fk_idx` (`customer_id`),
-    CONSTRAINT `customer_shipping_addresses_customer_id_fk` FOREIGN KEY (`customer_id`)
+    KEY `customer_addresses_customer_id_fk_idx` (`customer_id`),
+    CONSTRAINT `customer_addresses_customer_id_fk` FOREIGN KEY (`customer_id`)
         REFERENCES `customers` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `admins`
 --
@@ -171,8 +165,7 @@ CREATE TABLE `products` (
     `deleted_at` TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `products_slug_idx` (`slug`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `product_variants`
 --
@@ -188,19 +181,17 @@ CREATE TABLE `product_variants` (
     KEY `product_variants_product_id_fk_idx` (`product_id`),
     CONSTRAINT `product_variants_product_id_fk` FOREIGN KEY (`product_id`)
         REFERENCES `products` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI+
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `product_properties`
 --
 
 CREATE TABLE `product_properties` (
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `product_properties_name_idx` (`name`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `product_properties`
 --
@@ -217,8 +208,7 @@ CREATE TABLE `product_property_values` (
         REFERENCES `products` (`id`),
     CONSTRAINT `product_property_values_product_property_id_fk` FOREIGN KEY (`product_property_id`)
         REFERENCES `product_properties` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `variant_options`
 --
@@ -228,8 +218,7 @@ CREATE TABLE `variant_options` (
     `name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `variant_options_name_idx` (`name`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `variant_option_values`
 --
@@ -247,4 +236,4 @@ CREATE TABLE `variant_option_values` (
         REFERENCES `product_variants` (`id`),
     CONSTRAINT `variant_option_values_variant_option_id` FOREIGN KEY (`variant_option_id`)
         REFERENCES `variant_options` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
