@@ -7,7 +7,7 @@ class ResourceNotFoundError extends Error {
    *
    */
   constructor() {
-    super('Resource not found');
+    super('The resource was not found');
     this.name = 'Not found';
     this.status = 404;
   }
