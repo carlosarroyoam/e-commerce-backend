@@ -31,8 +31,8 @@ module.exports = {
         'application/json': {
           schema: {
             example: {
-              message: 'Not found',
-              error: 'The /api/v1/wrong-route route was not found on this server',
+              message: 'The /api/v1/wrong-route route was not found on this server',
+              error: 'Not found',
             },
           },
         },
