@@ -6,8 +6,6 @@ USE `nodejs_api`;
 -- Table structure for table `user_roles`
 --
 
-DROP TABLE IF EXISTS `user_roles`;
-
 CREATE TABLE user_roles (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(32) NOT NULL,
@@ -23,8 +21,6 @@ INSERT INTO `user_roles` VALUES (1, 'App/Admin'), (2, 'App/Customer');
 --
 -- Table structure for table `users`
 --
-
-DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `users` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -59,8 +55,6 @@ VALUES
 -- Table structure for table `customers`
 --
 
-DROP TABLE IF EXISTS `customers`;
-
 CREATE TABLE `customers` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` BIGINT UNSIGNED NOT NULL,
@@ -84,6 +78,7 @@ CREATE TABLE `customer_addresses` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `street_name` VARCHAR(64) NOT NULL,
     `street_number` VARCHAR(5) NOT NULL,
+    `apartament_number` VARCHAR(5),
     `sublocality` VARCHAR(45) NOT NULL,
     `locality` VARCHAR(45) NOT NULL,
     `state` VARCHAR(45) NOT NULL,
@@ -94,13 +89,11 @@ CREATE TABLE `customer_addresses` (
     KEY `customer_addresses_customer_id_fk_idx` (`customer_id`),
     CONSTRAINT `customer_addresses_customer_id_fk` FOREIGN KEY (`customer_id`)
         REFERENCES `customers` (`id`)
-)  ENGINE=INNODB AUTO_INCREMENT=6 DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
-;
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
 --
 -- Table structure for table `admins`
 --
-
-DROP TABLE IF EXISTS `admins`;
 
 CREATE TABLE `admins` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -121,8 +114,6 @@ INSERT INTO `admins` (`id`, `is_super`, `user_id`) VALUES (1, 1, 1);
 --
 -- Table structure for table `personal_access_tokens`
 --
-
-DROP TABLE IF EXISTS `personal_access_tokens`;
 
 CREATE TABLE `personal_access_tokens` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -158,6 +149,7 @@ CREATE TABLE `products` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `products_slug_idx` (`slug`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
 --
 -- Table structure for table `product_variants`
 --
@@ -174,6 +166,7 @@ CREATE TABLE `product_variants` (
     CONSTRAINT `product_variants_product_id_fk` FOREIGN KEY (`product_id`)
         REFERENCES `products` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
 --
 -- Table structure for table `product_properties`
 --
@@ -184,6 +177,7 @@ CREATE TABLE `product_properties` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `product_properties_name_idx` (`name`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
 --
 -- Table structure for table `product_properties`
 --
@@ -201,6 +195,7 @@ CREATE TABLE `product_property_values` (
     CONSTRAINT `product_property_values_product_property_id_fk` FOREIGN KEY (`product_property_id`)
         REFERENCES `product_properties` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
 --
 -- Table structure for table `variant_options`
 --
@@ -211,6 +206,7 @@ CREATE TABLE `variant_options` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `variant_options_name_idx` (`name`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
 --
 -- Table structure for table `variant_option_values`
 --

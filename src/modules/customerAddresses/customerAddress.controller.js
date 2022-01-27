@@ -60,13 +60,22 @@ const show = async (request, response, next) => {
 const store = async (request, response, next) => {
   try {
     const { customer_id } = request.params;
-    const { street_name, street_number, sublocality, locality, state, postal_code, phone_number } =
-      request.body;
+    const {
+      street_name,
+      street_number,
+      apartament_number,
+      sublocality,
+      locality,
+      state,
+      postal_code,
+      phone_number,
+    } = request.body;
 
     const createdAddress = await customerAddressService.store(
       {
         street_name,
         street_number,
+        apartament_number,
         sublocality,
         locality,
         state,
@@ -97,12 +106,21 @@ const store = async (request, response, next) => {
 const update = async (request, response, next) => {
   try {
     const { customer_id, address_id } = request.params;
-    const { street_name, street_number, sublocality, locality, state, postal_code } = request.body;
+    const {
+      street_name,
+      street_number,
+      apartament_number,
+      sublocality,
+      locality,
+      state,
+      postal_code,
+    } = request.body;
 
     const updatedAddress = await customerAddressService.update(
       {
         street_name,
         street_number,
+        apartament_number,
         sublocality,
         locality,
         state,
