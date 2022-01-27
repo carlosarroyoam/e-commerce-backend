@@ -15,15 +15,15 @@ const passwordSchema = (parameterName) =>
 const resourceId = (parameterName) =>
   param(parameterName)
     .trim()
-    .isInt()
-    .withMessage(`The ${parameterName} must be an integer value`)
+    .isNumeric({ no_symbols: true })
+    .withMessage(`The ${parameterName} must be a numeric value`)
     .toInt();
 
 const resourceIdInBody = (parameterName) =>
   body(parameterName)
     .trim()
-    .isInt()
-    .withMessage(`The ${parameterName} must be an integer value`)
+    .isNumeric({ no_symbols: true })
+    .withMessage(`The ${parameterName} must be a numeric value`)
     .toInt();
 
 const skip = query('skip')
@@ -170,8 +170,19 @@ const postal_code = body('postal_code')
   .trim()
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The postal_code is required')
+  .isNumeric({ no_symbols: true })
+  .withMessage(`The postal_code must be only numeric characters`)
   .isLength({ min: 5, max: 5 })
   .withMessage('The postal_code must be 5 characters');
+
+const phone_number = body('phone_number')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The phone_number is required')
+  .isNumeric({ no_symbols: true })
+  .withMessage(`The phone_number must be only numeric characters`)
+  .isLength({ min: 10, max: 10 })
+  .withMessage('The phone_number must be 10 characters');
 
 module.exports = {
   resourceId,
@@ -196,4 +207,5 @@ module.exports = {
   locality,
   state,
   postal_code,
+  phone_number,
 };

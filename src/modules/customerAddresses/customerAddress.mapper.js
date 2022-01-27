@@ -15,6 +15,7 @@ const toDto = (customerAddress) => {
     locality: customerAddress.locality,
     state: customerAddress.state,
     postal_code: customerAddress.postal_code,
+    phone_number: customerAddress.phone_number,
     customer_id: customerAddress.customer_id,
   };
 };
@@ -34,6 +35,7 @@ const toDatabaseEntity = (customerAddressDto) => {
     locality: customerAddressDto.locality,
     state: customerAddressDto.state,
     postal_code: customerAddressDto.postal_code,
+    phone_number: customerAddressDto.phone_number,
     customer_id: customerAddressDto.customer_id,
   };
 

@@ -8,4 +8,5 @@ module.exports = [
   validators.locality,
   validators.state,
   validators.postal_code,
+  validators.phone_number,
 ];

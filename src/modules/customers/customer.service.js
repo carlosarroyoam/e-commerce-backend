@@ -1,7 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const customerRepository = require('./customer.repository');
 const customerAddressRepository = require('../customerAddresses/customerAddress.repository');
-const customerContactDetailRepository = require('../customerContactDetails/customersContactDetail.repository');
 const userRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
@@ -37,14 +36,8 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
           connection
         );
 
-        const contactDetailByCustomerId = await customerContactDetailRepository.findByCustomerId(
-          customer.id,
-          connection
-        );
-
         return {
           ...customer,
-          contactInfo: contactDetailByCustomerId,
           addresses: addressesByCustomerId,
         };
       })
@@ -92,16 +85,10 @@ const findById = async (customer_id) => {
       connection
     );
 
-    const contactDetailByCustomerId = await customerContactDetailRepository.findByCustomerId(
-      customer_id,
-      connection
-    );
-
     connection.release();
 
     return {
       ...customerById,
-      contactInfo: contactDetailByCustomerId,
       addresses: addressesByCustomerId,
     };
   } catch (err) {

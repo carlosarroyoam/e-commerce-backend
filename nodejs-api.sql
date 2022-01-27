@@ -70,22 +70,12 @@ CREATE TABLE `customers` (
         ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
+--
+-- Dumping data for table `customers`
+--
+
 INSERT INTO `customers` (`id`, `user_id`) VALUES (1, 2), (2, 3);
 
---
--- Table structure for table `customer_contact_details`
---
-
-CREATE TABLE `customer_contact_details` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `phone_number` VARCHAR(10) DEFAULT NULL,
-    `customer_id` BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `customer_contact_details_phone_number_idx` (`phone_number`),
-    KEY `customer_contact_details_customer_id_fx_idx` (`customer_id`),
-    CONSTRAINT `customer_contact_details_customer_id_fx` FOREIGN KEY (`customer_id`)
-        REFERENCES `customers` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 --
 -- Table structure for table `customer_addresses`
 --
@@ -98,12 +88,14 @@ CREATE TABLE `customer_addresses` (
     `locality` VARCHAR(45) NOT NULL,
     `state` VARCHAR(45) NOT NULL,
     `postal_code` VARCHAR(5) NOT NULL,
+    `phone_number` VARCHAR(10) NOT NULL,
     `customer_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     KEY `customer_addresses_customer_id_fk_idx` (`customer_id`),
     CONSTRAINT `customer_addresses_customer_id_fk` FOREIGN KEY (`customer_id`)
         REFERENCES `customers` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+)  ENGINE=INNODB AUTO_INCREMENT=6 DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI
+;
 --
 -- Table structure for table `admins`
 --
