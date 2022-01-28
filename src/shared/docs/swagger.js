@@ -7,6 +7,8 @@ const users = require('./paths/users');
 const admins = require('./paths/admins');
 const customers = require('./paths/customers');
 const customersAddresses = require('./paths/customersAddresses');
+const products = require('./paths/products');
+const productVariants = require('./paths/productVariants');
 
 module.exports = {
   ...info,
@@ -18,6 +20,8 @@ module.exports = {
     ...admins,
     ...customers,
     ...customersAddresses,
+    ...products,
+    ...productVariants,
   },
   ...components,
 };

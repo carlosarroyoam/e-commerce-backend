@@ -26,7 +26,7 @@ module.exports = {
         type: 'string',
       },
     },
-    UserSortParam: {
+    SortParam: {
       name: 'sort',
       in: 'query',
       description: 'Sort by',
