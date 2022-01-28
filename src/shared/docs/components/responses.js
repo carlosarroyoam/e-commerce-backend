@@ -6,7 +6,7 @@ module.exports = {
         'application/json': {
           schema: {
             example: {
-              message: 'OK',
+              message: 'Ok',
               data: null,
             },
           },
