@@ -30,13 +30,16 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
     }
 
     if (userByEmail.deleted_at !== null) {
-      throw new sharedErrors.UnauthorizedError({ message: 'The user account is disabled' });
+      throw new sharedErrors.UnauthorizedError({
+        message: 'The user account is disabled',
+        email: undefined,
+      });
     }
 
     const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
 
     if (!passwordMatchResult) {
-      throw new sharedErrors.UnauthorizedError({ email });
+      throw new sharedErrors.UnauthorizedError({ message: undefined, email });
     }
 
     const personalAccessTokenByFingerPrint =
@@ -167,6 +170,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
     if (!userById) {
       throw new sharedErrors.UnauthorizedError({
         message: 'User is not active',
+        email: undefined,
       });
     }
 
@@ -190,6 +194,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
     ) {
       throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid',
+        email: undefined,
       });
     }
 
@@ -225,6 +230,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
     ) {
       throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid',
+        email: undefined,
       });
     }
 
@@ -307,7 +313,7 @@ const forgotPassword = async ({ email }) => {
     );
 
     // TODO send mail recovery link
-    const passwordRecoveryURL = `${config.APP_URL}:${config.PORT}/auth/recover-password/${token}`;
+    const passwordRecoveryURL = `${config.APP.URL}:${config.APP.PORT}/auth/recover-password/${token}`;
 
     console.log(passwordRecoveryURL);
 
@@ -346,6 +352,7 @@ const resetPassword = async ({ token, password }) => {
     if (decoded == null) {
       throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid',
+        email: undefined,
       });
     }
 
@@ -375,6 +382,7 @@ const resetPassword = async ({ token, password }) => {
     ) {
       throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid or is expired',
+        email: undefined,
       });
     }
 
