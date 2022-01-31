@@ -114,7 +114,6 @@ const store = async (customerAddress, customer_id) => {
     }
 
     // TODO add no duplicate address validation
-
     const createdCustomerAddressId = await customerAddressRepository.store(
       { ...customerAddress, customer_id: customerById.id },
       connection

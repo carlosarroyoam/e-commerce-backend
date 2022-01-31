@@ -148,6 +148,7 @@ CREATE TABLE `products` (
     `deleted_at` TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `products_slug_idx` (`slug`)
+    FULLTEXT `products_title_description_idx` (`title` , `description`),
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
