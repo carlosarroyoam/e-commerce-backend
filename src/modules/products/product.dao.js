@@ -93,7 +93,7 @@ async function getAttributesByProductId(product_id, connection) {
  * @return {Promise} The query result.
  */
 async function getImagesByProductId(product_id, connection) {
-  const query = `SELECT 1 AS id, 'motog100' AS url`;
+  const query = `SELECT 1 AS id, 'http://localhost:3000/api/v1/products/images/motog100' AS url`;
 
   return connection.query(query, [product_id]);
 }
