@@ -16,5 +16,7 @@ module.exports = () => {
 
   router.get('/', validateRequestMiddleware(indexProductSchema), productController.index);
 
+  router.get('/:product_id', validateRequestMiddleware(showProductSchema), productController.show);
+
   return router;
 };

@@ -25,6 +25,31 @@ const index = async (request, response, next) => {
   }
 };
 
+/**
+ * Handles incoming request from the /products/:product_id endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const show = async (request, response, next) => {
+  try {
+    const { product_id } = request.params;
+
+    const productById = await productService.findById(product_id);
+
+    const productDto = productMapper.toDto(productById);
+
+    response.send({
+      message: 'Ok',
+      data: productDto,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
+  show,
 };
