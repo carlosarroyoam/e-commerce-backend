@@ -1,7 +1,7 @@
 module.exports = {
   '/product/{product_id}/variants': {
     get: {
-      tags: ['product-variants'],
+      tags: ['product-variant'],
       summary: 'Gets all product variants by product_id',
       operationId: 'getProductVariants',
       parameters: [

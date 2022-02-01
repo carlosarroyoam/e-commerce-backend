@@ -1,7 +1,7 @@
 module.exports = {
   '/customers/{customer_id}/addresses': {
     get: {
-      tags: ['customer-addresses'],
+      tags: ['customer-address'],
       summary: 'Gets all customer addresses',
       operationId: 'getCustomerAddresses',
       parameters: [
@@ -41,7 +41,7 @@ module.exports = {
       ],
     },
     post: {
-      tags: ['customer-addresses'],
+      tags: ['customer-address'],
       summary: 'Adds a new customer address',
       operationId: 'addCustomerAddress',
       parameters: [
@@ -91,7 +91,7 @@ module.exports = {
   },
   '/customers/{customer_id}/addresses/{address_id}': {
     get: {
-      tags: ['customer-addresses'],
+      tags: ['customer-address'],
       summary: 'Gets a customer address by its id',
       operationId: 'getCustomerAddressById',
       parameters: [
@@ -143,7 +143,7 @@ module.exports = {
       ],
     },
     put: {
-      tags: ['customer-addresses'],
+      tags: ['customer-address'],
       summary: 'Updates a customer address by its id',
       operationId: 'updateCustomerAddressById',
       parameters: [
@@ -206,7 +206,7 @@ module.exports = {
       ],
     },
     delete: {
-      tags: ['customer-addresses'],
+      tags: ['customer-address'],
       summary: 'Deletes a customer address by its id',
       operationId: 'getCustomerById',
       parameters: [
