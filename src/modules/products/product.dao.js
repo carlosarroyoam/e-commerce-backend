@@ -16,7 +16,7 @@ async function getAll({ skip = 0, limit = 50, sort = 'id', search }, connection)
       slug,
       description,
       featured,
-      status,
+      active,
       created_at,
       updated_at,
       deleted_at
@@ -59,7 +59,7 @@ async function getById(product_id, connection) {
       slug,
       description,
       featured,
-      status,
+      active,
       created_at,
       updated_at,
       deleted_at

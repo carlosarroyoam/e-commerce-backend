@@ -1,5 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const productRepository = require('./product.repository');
+const productVariantRepository = require('../productVariants/productVariant.repository');
 const sharedErrors = require('../../shared/errors');
 const logger = require('../../shared/lib/winston/logger');
 
@@ -28,10 +29,24 @@ const findAll = async ({ skip, limit, sort, search }) => {
           connection
         );
 
-        // const variantsByProductId = await productVariantRepository.findByCustomerId(
-        //   product.id,
-        //   connection
-        // );
+        const rawVariantsByProductId = await productVariantRepository.findByProductId(
+          product.id,
+          connection
+        );
+
+        const variantsByProductId = await Promise.all(
+          rawVariantsByProductId.map(async (variant) => {
+            const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+              variant.id,
+              connection
+            );
+
+            return {
+              ...variant,
+              attribute_combinations: attributesByVariantId,
+            };
+          })
+        );
 
         const imagesByProductId = await productRepository.findImagesByProductId(
           product.id,
@@ -41,7 +56,7 @@ const findAll = async ({ skip, limit, sort, search }) => {
         return {
           ...product,
           properties: propertiesByProductId,
-          variants: [],
+          variants: variantsByProductId,
           images: imagesByProductId,
         };
       })
@@ -89,10 +104,24 @@ const findById = async (product_id) => {
       connection
     );
 
-    // const variantsByProductId = await productVariantRepository.findByCustomerId(
-    //   product_id,
-    //   connection
-    // );
+    const rawVariantsByProductId = await productVariantRepository.findByProductId(
+      product_id,
+      connection
+    );
+
+    const variantsByProductId = await Promise.all(
+      rawVariantsByProductId.map(async (variant) => {
+        const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+          variant.id,
+          connection
+        );
+
+        return {
+          ...variant,
+          attribute_combinations: attributesByVariantId,
+        };
+      })
+    );
 
     const imagesByProductId = await productRepository.findImagesByProductId(product_id, connection);
 
@@ -101,7 +130,7 @@ const findById = async (product_id) => {
     return {
       ...productById,
       properties: propertiesByProductId,
-      variants: [],
+      variants: variantsByProductId,
       images: imagesByProductId,
     };
   } catch (err) {
