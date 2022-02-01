@@ -114,7 +114,6 @@ const store = async (customerAddress, customer_id) => {
     }
 
     // TODO add no duplicate address validation
-
     const createdCustomerAddressId = await customerAddressRepository.store(
       { ...customerAddress, customer_id: customerById.id },
       connection
@@ -211,10 +210,9 @@ const update = async (customer_address, customer_id, address_id) => {
  *
  * @param {number} customer_id The id of the customer.
  * @param {number} address_id The id of the address to delete.
- * @param {number} auth_user_id The id of the user who makes the request.
  * @return {Promise} The deleted address.
  */
-const deleteById = async (customer_id, address_id, auth_user_id) => {
+const deleteById = async (customer_id, address_id) => {
   let connection;
 
   try {

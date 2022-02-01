@@ -27,15 +27,15 @@ module.exports = () => {
       // @ts-ignore
       if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
         return res.status(400).send({
-          message: 'The JSON payload is malformed',
           error: 'Bad request',
+          message: 'The JSON payload is malformed',
         });
       }
 
       if (!err.fatal) {
         return res.status(err.status || 500).send({
-          message: err.message,
           error: err.name !== 'Error' ? err.name : 'Internal server error',
+          message: err.message,
           data: err.errors,
         });
       }

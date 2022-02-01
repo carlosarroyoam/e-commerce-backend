@@ -8,8 +8,5 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "eslint.validate": ["javascript"],
-  "[sql]": {
-    "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
-  }
+  "eslint.validate": ["javascript"]
 }

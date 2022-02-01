@@ -9,7 +9,7 @@ class UserNotFoundError extends Error {
    * @param {string} args.email The email of the user.
    */
   constructor({ email = undefined }) {
-    super(email ? `User with the email: ${email} was not found` : 'User not found');
+    super(email ? `User with the email: ${email} was not found` : 'The user was not found');
     this.name = 'Not found';
     this.status = 404;
   }

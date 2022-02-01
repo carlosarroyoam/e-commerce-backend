@@ -10,10 +10,12 @@ async function getByCustomerId(customer_id, connection) {
       csa.id,
       csa.street_name,
       csa.street_number,
+      csa.apartament_number,
       csa.sublocality,
       csa.locality,
       csa.state,
-      csa.postal_code
+      csa.postal_code,
+      csa.phone_number
     FROM customer_addresses csa
     LEFT JOIN customers cus ON csa.customer_id = cus.id
     WHERE cus.id = ?`;
@@ -35,10 +37,12 @@ async function getById(customer_id, address_id, connection) {
       csa.id,
       csa.street_name,
       csa.street_number,
+      csa.apartament_number,
       csa.sublocality,
       csa.locality,
       csa.state,
       csa.postal_code,
+      csa.phone_number,
       cus.id as customer_id
     FROM customer_addresses csa
     LEFT JOIN customers cus ON csa.customer_id = cus.id

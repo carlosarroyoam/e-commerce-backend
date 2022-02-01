@@ -17,12 +17,16 @@ module.exports = {
       description: 'Operations about customer users',
     },
     {
-      name: 'customer-addresses',
+      name: 'customer-address',
       description: 'Operations about customer addresses',
     },
     {
       name: 'product',
       description: 'Operations about products',
+    },
+    {
+      name: 'product-variant',
+      description: 'Operations about product variants',
     },
   ],
 };

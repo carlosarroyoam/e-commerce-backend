@@ -11,10 +11,12 @@ const toDto = (customerAddress) => {
     id: customerAddress.id,
     street_name: customerAddress.street_name,
     street_number: customerAddress.street_number,
+    apartament_number: customerAddress.apartament_number,
     sublocality: customerAddress.sublocality,
     locality: customerAddress.locality,
     state: customerAddress.state,
     postal_code: customerAddress.postal_code,
+    phone_number: customerAddress.phone_number,
     customer_id: customerAddress.customer_id,
   };
 };
@@ -30,10 +32,12 @@ const toDatabaseEntity = (customerAddressDto) => {
     id: customerAddressDto.id,
     street_name: customerAddressDto.street_name,
     street_number: customerAddressDto.street_number,
+    apartament_number: customerAddressDto.apartament_number,
     sublocality: customerAddressDto.sublocality,
     locality: customerAddressDto.locality,
     state: customerAddressDto.state,
     postal_code: customerAddressDto.postal_code,
+    phone_number: customerAddressDto.phone_number,
     customer_id: customerAddressDto.customer_id,
   };
 

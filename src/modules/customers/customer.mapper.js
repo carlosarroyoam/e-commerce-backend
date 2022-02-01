@@ -1,10 +1,10 @@
 const objectUtils = require('../../shared/utils/object.utils');
 
 /**
- * Maps a admin object to a customer dto object.
+ * Maps a customer object to a customer dto object.
  *
  * @param {object} customer The customer object to map.
- * @return {object} The admin dto object.
+ * @return {object} The customer dto object.
  */
 const toDto = (customer) => {
   return {
@@ -14,7 +14,6 @@ const toDto = (customer) => {
     last_name: customer.last_name,
     email: customer.email,
     password: customer.password,
-    contactInfo: customer.contactInfo,
     addresses: customer.addresses,
     created_at: customer.created_at,
     updated_at: customer.updated_at,
@@ -23,10 +22,10 @@ const toDto = (customer) => {
 };
 
 /**
- * Maps a adminDto object to a customer database entity object.
+ * Maps a customerDto object to a customer database entity object.
  *
  * @param {object} customerDto The customer dto object to map.
- * @return {object} The admin database entity object.
+ * @return {object} The customer database entity object.
  */
 const toDatabaseEntity = (customerDto) => {
   const customerDbEntity = {
