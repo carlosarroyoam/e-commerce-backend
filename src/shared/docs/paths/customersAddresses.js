@@ -2,7 +2,7 @@ module.exports = {
   '/customers/{customer_id}/addresses': {
     get: {
       tags: ['customer-address'],
-      summary: 'Gets all customer addresses',
+      summary: 'Gets all customer addresses by customer_id',
       operationId: 'getCustomerAddresses',
       parameters: [
         {

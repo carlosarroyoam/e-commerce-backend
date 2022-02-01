@@ -30,11 +30,6 @@ module.exports = {
           $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
         },
       },
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
     },
   },
 };
