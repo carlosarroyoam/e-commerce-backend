@@ -33,8 +33,8 @@ async function getAttributesByVariantId(variant_id, connection) {
       a.name AS title,
       vav.value
       FROM variant_attribute_values vav
-      LEFT JOIN attributes a ON vav.attribute_id = a.id
       LEFT JOIN variants v ON vav.variant_id = v.id
+      LEFT JOIN attributes a ON vav.attribute_id = a.id
       WHERE v.id = ?`;
 
   return connection.query(query, [variant_id]);
