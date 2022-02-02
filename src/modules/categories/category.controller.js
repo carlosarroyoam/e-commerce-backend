@@ -10,7 +10,9 @@ const categoryMapper = require('./category.mapper');
  */
 const index = async (request, response, next) => {
   try {
-    const categories = await categoryService.findAll();
+    const { skip, limit, sort } = request.query;
+
+    const categories = await categoryService.findAll({ skip, limit, sort });
 
     const categoriesDto = categories.map((category) => categoryMapper.toDto(category));
 

@@ -3,11 +3,15 @@ const categoryDao = require('./category.dao');
 /**
  * Retrieves all categories.
  *
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.sort The order for the results.
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */
-const findAll = async (connection) => {
-  const [result] = await categoryDao.getAll(connection);
+const findAll = async ({ skip, limit, sort }, connection) => {
+  const [result] = await categoryDao.getAll({ skip, limit, sort }, connection);
 
   return result;
 };

@@ -6,15 +6,19 @@ const logger = require('../../shared/lib/winston/logger');
 /**
  * Retrieves all product variants.
  *
+ * @param {object} queryOptions The query options.
+ * @param {number} queryOptions.skip The query skip.
+ * @param {number} queryOptions.limit The query limit.
+ * @param {string} queryOptions.sort The order for the results.
  * @return {Promise} The list of products.
  */
-const findAll = async () => {
+const findAll = async ({ skip, limit, sort }) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const categories = await categoryRepository.findAll(connection);
+    const categories = await categoryRepository.findAll({ skip, limit, sort }, connection);
 
     connection.release();
 
