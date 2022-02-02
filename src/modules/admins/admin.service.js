@@ -59,7 +59,7 @@ const findById = async (admin_id) => {
     const adminById = await adminRepository.findById(admin_id, connection);
 
     if (!adminById) {
-      throw new sharedErrors.UserNotFoundError({ email: undefined });
+      throw new sharedErrors.ResourceNotFoundError();
     }
 
     connection.release();
@@ -167,7 +167,7 @@ const update = async (admin_id, admin) => {
     const adminById = await adminRepository.findById(admin_id, connection);
 
     if (!adminById) {
-      throw new sharedErrors.UserNotFoundError({ email: undefined });
+      throw new sharedErrors.ResourceNotFoundError();
     }
 
     if (adminById.deleted_at !== null) {

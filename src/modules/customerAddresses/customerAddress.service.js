@@ -7,7 +7,7 @@ const logger = require('../../shared/lib/winston/logger');
 /**
  * Retrieves all customer addresses.
  *
- * @param {number} customer_id The id of the customer to retrieve addresses
+ * @param {number} customer_id The id of the customer to retrieve addresses.
  * @return {Promise} The list of customer addresses.
  */
 const findAll = async (customer_id) => {

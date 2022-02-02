@@ -51,7 +51,7 @@ const logout = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/refresh_token endpoint.
+ * Handles incoming request from the /auth/refresh-token endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -99,7 +99,7 @@ const forgotPassword = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/forgot-password endpoint.
+ * Handles incoming request from the /auth/reset-password endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.

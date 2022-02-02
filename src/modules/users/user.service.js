@@ -206,8 +206,9 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
     }
 
     if (auth_user_id !== userById.id) {
-      throw new sharedErrors.BadRequestError({
-        message: 'Cannot update someone else password account',
+      throw new sharedErrors.UnauthorizedError({
+        message: `User doesn't have permission to perform this action`,
+        email: undefined,
       });
     }
 
