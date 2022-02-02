@@ -7,7 +7,7 @@ module.exports = {
       parameters: [
         { $ref: '#/components/parameters/SkipParam' },
         { $ref: '#/components/parameters/LimitParam' },
-        { $ref: '#/components/parameters/attributeSortParam' },
+        { $ref: '#/components/parameters/AttributeSortParam' },
       ],
       responses: {
         200: {

@@ -79,5 +79,14 @@ module.exports = {
         enum: ['id', '-id', 'title', '-title'],
       },
     },
+    AttributeSortParam: {
+      name: 'sort',
+      in: 'query',
+      description: 'Sort by',
+      schema: {
+        type: 'string',
+        enum: ['id', '-id', 'title', '-title'],
+      },
+    },
   },
 };
