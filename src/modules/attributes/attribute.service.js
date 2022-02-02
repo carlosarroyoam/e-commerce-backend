@@ -28,7 +28,7 @@ const findAll = async () => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving attrubutes');
+      throw new Error('Error while retrieving attributes');
     }
 
     throw err;
@@ -36,26 +36,26 @@ const findAll = async () => {
 };
 
 /**
- * Retrieves a category by its id.
+ * Retrieves a attribute by its id.
  *
- * @param {number} category_id The id of the category to retrieve.
+ * @param {number} attribute_id The id of the attribute to retrieve.
  * @return {Promise} The variant.
  */
-const findById = async (category_id) => {
+const findById = async (attribute_id) => {
   let connection;
 
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const categoryById = await categoryRepository.findById(category_id, connection);
+    const attributeById = await categoryRepository.findById(attribute_id, connection);
 
-    if (!categoryById) {
+    if (!attributeById) {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
     connection.release();
 
-    return categoryById;
+    return attributeById;
   } catch (err) {
     if (connection) connection.release();
 

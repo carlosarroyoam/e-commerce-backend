@@ -19,7 +19,7 @@ module.exports = () => {
   router.get(
     '/:attribute_id',
     validateRequestMiddleware(showAttributeSchema),
-    attributeController.index
+    attributeController.show
   );
 
   return router;
