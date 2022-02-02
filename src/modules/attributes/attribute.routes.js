@@ -14,11 +14,19 @@ const updateAttributeSchema = require('./schemas/update.schema');
 module.exports = () => {
   const router = Router();
 
-  router.get('/', validateRequestMiddleware(indexAttributeSchema), attributeController.index);
+  router.get(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(indexAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.index
+  );
 
   router.get(
     '/:attribute_id',
+    verifyTokenMiddleware,
     validateRequestMiddleware(showAttributeSchema),
+    adminGuardMiddleware,
     attributeController.show
   );
 
