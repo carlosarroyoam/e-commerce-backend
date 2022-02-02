@@ -16,6 +16,12 @@ const findAll = async (product_id) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
+    const productById = await productRepository.findById(product_id, connection);
+
+    if (!productById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
     const variants = await productVariantRepository.findByProductId(product_id, connection);
 
     connection.release();

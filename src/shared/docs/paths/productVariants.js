@@ -1,14 +1,20 @@
 module.exports = {
-  '/product/{product_id}/variants': {
+  '/products/{product_id}/variants': {
     get: {
       tags: ['product-variant'],
       summary: 'Gets all product variants by product_id',
       operationId: 'getProductVariants',
       parameters: [
-        { $ref: '#/components/parameters/SkipParam' },
-        { $ref: '#/components/parameters/LimitParam' },
-        { $ref: '#/components/parameters/UserSortParam' },
-        { $ref: '#/components/parameters/SearchParam' },
+        {
+          name: 'product_id',
+          in: 'path',
+          description: 'ID of product to query',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
       ],
       responses: {
         200: {
