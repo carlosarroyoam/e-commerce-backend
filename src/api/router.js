@@ -10,7 +10,7 @@ const adminRoutes = require('../modules/admins/admin.routes');
 const customerRoutes = require('../modules/customers/customer.routes');
 const customerAddressesRoutes = require('../modules/customerAddresses/customerAddress.routes');
 const productRoutes = require('../modules/products/product.routes');
-// const productVariantRoutes = require('../modules/productVariants/productVariant.routes');
+const productVariantRoutes = require('../modules/productVariants/productVariant.routes');
 
 module.exports = () => {
   const router = Router();
@@ -22,7 +22,7 @@ module.exports = () => {
   apiRouter.use('/customers', customerRoutes());
   apiRouter.use('/', customerAddressesRoutes());
   apiRouter.use('/products', productRoutes());
-  // apiRouter.use('/', productVariantRoutes());
+  apiRouter.use('/', productVariantRoutes());
   apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   router.use('/', rootRoute());

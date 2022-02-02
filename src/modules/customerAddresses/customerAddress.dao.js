@@ -1,30 +1,5 @@
 /**
- * Performs the SQL query to customer addresses by the customer id.
- *
- * @param {number} customer_id The id of the customer user to query.
- * @param {*} connection The database connection object.
- * @return {Promise} The query result.
- */
-async function getByCustomerId(customer_id, connection) {
-  const query = `SELECT
-      csa.id,
-      csa.street_name,
-      csa.street_number,
-      csa.apartament_number,
-      csa.sublocality,
-      csa.locality,
-      csa.state,
-      csa.postal_code,
-      csa.phone_number
-    FROM customer_addresses csa
-    LEFT JOIN customers cus ON csa.customer_id = cus.id
-    WHERE cus.id = ?`;
-
-  return connection.query(query, [customer_id]);
-}
-
-/**
- * Performs the SQL query to customer addresses by customer_id and
+ * Performs the SQL query to get a customer address by customer_id and
  * address_id.
  *
  * @param {number} customer_id The id of the customer to query.
@@ -50,6 +25,31 @@ async function getById(customer_id, address_id, connection) {
     AND csa.id = ?`;
 
   return connection.query(query, [customer_id, address_id]);
+}
+
+/**
+ * Performs the SQL query to get all customer addresses by the customer id.
+ *
+ * @param {number} customer_id The id of the customer user to query.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function getByCustomerId(customer_id, connection) {
+  const query = `SELECT
+      csa.id,
+      csa.street_name,
+      csa.street_number,
+      csa.apartament_number,
+      csa.sublocality,
+      csa.locality,
+      csa.state,
+      csa.postal_code,
+      csa.phone_number
+    FROM customer_addresses csa
+    LEFT JOIN customers cus ON csa.customer_id = cus.id
+    WHERE cus.id = ?`;
+
+  return connection.query(query, [customer_id]);
 }
 
 /**
@@ -93,8 +93,8 @@ async function deleteById(address_id, connection) {
 }
 
 module.exports = {
-  getByCustomerId,
   getById,
+  getByCustomerId,
   create,
   update,
   deleteById,
