@@ -59,7 +59,7 @@ const userStatus = query('status')
 
 const search = query('search')
   .trim()
-  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .isAlpha('es-ES', { ignore: '\\s\\.\\+' })
   .withMessage('The search contains invalid characters')
   .isLength({ min: 1, max: 50 })
   .withMessage('The search must be between 1 and 50 characters')
