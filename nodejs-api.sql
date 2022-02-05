@@ -45,11 +45,13 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `user_role_id`, `created_at`, `updated_at`, `deleted_at`)
+INSERT INTO `users`
 VALUES
-    (1, 'Carlos Alberto', 'Arroyo Martínez', 'carlos.arroyo@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 1, nOW(), nOW(), NULL),
-    (2, 'Cathy Stefania', 'Guido Rojas', 'cathy.guido@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 2, NOW(), NOW(), NULL),
-    (3, 'Erandi Guadalupe', 'Vazquez Martínez', 'erandi.vazquez@bookstore.com', '$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte', 2, NOW(), NOW(), NULL);
+    (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL),
+    (2,'Cathy Stefania','Guido Rojas','cathy.guido@bookstore.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',2,'2022-01-31 21:45:56','2022-02-03 18:18:11','2022-02-03 18:18:11'),
+    (3,'Erandi Guadalupe','Vazquez Martínez','erandi.vazquez@bookstore.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',2,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL),
+    (4,'Lizbeth','Aparicio Vasquez','lizbeth.vasquez@bookstore.com','$2b$10$knwacqfvRFchQ6HsX7Kvcu8GOeFfJkxSXb6SeiW6yWIdYPugHvgVS',2,'2022-02-02 19:02:26','2022-02-02 19:03:27',NULL),
+    (5,'Adriana Erika','Rojas','adriana.rojas@bookstore.com','$2b$10$4Y.pJBPmtR7KHMCTUM7PFuGczcFS4fiHRvU3UorwzmjVs4dNPmfBe',2,'2022-02-03 14:07:21','2022-02-03 17:27:57',NULL);
 
 --
 -- Table structure for table `customers`
@@ -69,7 +71,7 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `user_id`) VALUES (1, 2), (2, 3);
+INSERT INTO `customers` VALUES (1,2),(2,3),(3,4),(4,5);
 
 --
 -- Table structure for table `customer_addresses`
@@ -155,7 +157,7 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` VALUES (1,'Smartphones');
+INSERT INTO `categories` VALUES (1,'Smartphones'),(2,'Headphones'),(3,'Accesories');
 
 --
 -- Table structure for table `products`
@@ -185,7 +187,7 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto g100',0,1,1,'2022-01-31 14:58:02','2022-01-31 19:09:45',NULL);
+INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto G100',0,1,1,'2022-01-31 20:58:02','2022-02-01 14:23:27',NULL),(2,'Moto G60','moto-g60','Moto G60',1,1,1,'2022-02-01 19:25:28','2022-02-01 19:25:28',NULL);
 
 --
 -- Table structure for table `variants`
@@ -209,7 +211,7 @@ CREATE TABLE `variants` (
 -- Dumping data for table `variants`
 --
 
-INSERT INTO `variants` VALUES (1,'motog100azulnimbus',500,0,400,100,1);
+INSERT INTO `variants` VALUES (1,'motog100nimbusblue',500,0,400,23,1),(2,'motog100borealgreen',479,0,400,34,1),(3,'motog60blue',248,0,200,78,2);
 
 --
 -- Table structure for table `product_images`
@@ -231,6 +233,12 @@ CREATE TABLE `product_images` (
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
+-- Dumping data for table `product_images`
+--
+
+INSERT INTO `product_images` VALUES (1,'motog100nimbusblue.jpg',1,1),(2,'motog100borealgreen.jpg',1,2),(3,'motog60blue.jpg',2,1);
+
+--
 -- Table structure for table `attributes`
 --
 
@@ -245,7 +253,7 @@ CREATE TABLE `attributes` (
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` VALUES (1,'Brand'),(2,'Model');
+INSERT INTO `attributes` VALUES (1,'Brand'),(3,'Color'),(2,'Model'),(4,'Storage');
 
 --
 -- Table structure for table `product_attribute_values`
@@ -270,7 +278,7 @@ CREATE TABLE `product_attribute_values` (
 -- Dumping data for table `product_attribute_values`
 --
 
-INSERT INTO `product_attribute_values` VALUES (1,'Motorola',1,1),(2,'Moto G100',1,2);
+INSERT INTO `product_attribute_values` VALUES (1,'Motorola',1,1),(2,'Moto G100',1,2),(3,'128gb',1,4),(4,'Motorola',2,1),(5,'Moto G60',2,2),(6,'128gb',2,4),(7,'Blue',2,3);
 
 --
 -- Table structure for table `variant_attribute_values`
@@ -295,4 +303,4 @@ CREATE TABLE `variant_attribute_values` (
 -- Dumping data for table `variant_attribute_values`
 --
 
-INSERT INTO `variant_attribute_values` VALUES (1,'Nimbus',1,1),(2,'128gb',1,2);
+INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,1),(2,'Boreal Green',2,1);
