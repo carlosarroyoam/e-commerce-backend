@@ -7,7 +7,7 @@ USE `nodejs_api`;
 --
 
 CREATE TABLE user_roles (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(32) NOT NULL,
     PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
@@ -28,7 +28,7 @@ CREATE TABLE `users` (
     `last_name` VARCHAR(64) NOT NULL,
     `email` VARCHAR(64) NOT NULL,
     `password` VARCHAR(96) NOT NULL,
-    `user_role_id` BIGINT UNSIGNED NOT NULL,
+    `user_role_id` TINYINT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at` TIMESTAMP DEFAULT NULL,
@@ -38,7 +38,6 @@ CREATE TABLE `users` (
     FULLTEXT `users_full_name_idx` (`first_name` , `last_name`),
     CONSTRAINT `users_user_role_id_fk` FOREIGN KEY (`user_role_id`)
         REFERENCES `user_roles` (`id`)
-        ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
@@ -64,7 +63,6 @@ CREATE TABLE `customers` (
     KEY `customers_user_id_fk` (`user_id`),
     CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
-        ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
@@ -112,7 +110,6 @@ CREATE TABLE `admins` (
     KEY `admins_user_id_fk` (`user_id`),
     CONSTRAINT `admins_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
-        ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
@@ -148,7 +145,7 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `categories` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
@@ -170,7 +167,7 @@ CREATE TABLE `products` (
     `description` TEXT,
     `featured` TINYINT UNSIGNED NOT NULL DEFAULT '0',
     `active` TINYINT UNSIGNED NOT NULL DEFAULT '0',
-    `category_id` BIGINT UNSIGNED NOT NULL,
+    `category_id` TINYINT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at` TIMESTAMP DEFAULT NULL,
@@ -180,7 +177,6 @@ CREATE TABLE `products` (
     KEY `products_category_id_fk` (`category_id`),
     CONSTRAINT `products_category_id_fk` FOREIGN KEY (`category_id`)
         REFERENCES `categories` (`id`)
-        ON DELETE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
@@ -304,3 +300,54 @@ CREATE TABLE `variant_attribute_values` (
 --
 
 INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,1),(2,'Boreal Green',2,1);
+
+--
+-- Table structure for table `movement_types`
+--
+
+CREATE TABLE `movement_types` (
+    `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id`)
+)  ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+--
+-- Dumping data for table `movement_types`
+--
+
+INSERT INTO `movement_types` VALUES (1,'In'),(2,'Out');
+
+--
+-- Table structure for table `movements`
+--
+
+CREATE TABLE `movements` (
+    `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(45) NOT NULL,
+    `movement_type_id` TINYINT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+--
+-- Dumping data for table `movements`
+--
+
+INSERT INTO `movements` VALUES (1,'Inital product registration',1),(2,'Inventory reception',1),(3,'Sale',2);
+
+--
+-- Table structure for table `inventory_movements`
+--
+
+CREATE TABLE `inventory_movements` (
+    `id` BIGINT UNSIGNED NOT NULL,
+    `quantity` INT NOT NULL DEFAULT '0',
+    `variant_id` BIGINT UNSIGNED NOT NULL,
+    `movement_id` TINYINT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `inventory_movements_variant_id_fk_idx` (`variant_id`),
+    KEY `inventory_movements_movement_id_fk` (`movement_id`),
+    CONSTRAINT `inventory_movements_movement_id_fk` FOREIGN KEY (`movement_id`)
+        REFERENCES `movements` (`id`),
+    CONSTRAINT `inventory_movements_variant_id_fk` FOREIGN KEY (`variant_id`)
+        REFERENCES `variants` (`id`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
