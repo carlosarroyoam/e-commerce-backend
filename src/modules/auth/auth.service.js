@@ -94,8 +94,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
     if (connection) connection.release();
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -137,8 +136,7 @@ const logout = async ({ refresh_token, user_id }) => {
     if (connection) connection.release();
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -235,8 +233,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
     }
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -273,8 +270,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
     if (connection) connection.release();
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -322,8 +318,7 @@ const forgotPassword = async ({ email }) => {
     if (connection) connection.release();
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -387,8 +382,7 @@ const resetPassword = async ({ token, password }) => {
     }
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 

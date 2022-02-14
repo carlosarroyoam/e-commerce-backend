@@ -50,8 +50,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
     if (connection) connection.release();
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -95,8 +94,7 @@ const findById = async (customer_id) => {
     if (connection) connection.release();
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -162,8 +160,7 @@ const store = async (customer) => {
     }
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 
@@ -224,8 +221,7 @@ const update = async (customer_id, customer) => {
     }
 
     if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+      logger.error({
         message: err.message,
       });
 

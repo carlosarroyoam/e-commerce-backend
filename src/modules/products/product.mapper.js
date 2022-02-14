@@ -15,7 +15,6 @@ const toDto = (product) => {
     featured: product.featured,
     active: product.active,
     category: product.category,
-    vendor: product.vendor,
     properties: product.properties,
     variants: product.variants,
     images: product.images,

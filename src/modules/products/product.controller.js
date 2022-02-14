@@ -1,5 +1,7 @@
 const productService = require('./product.service');
 const productMapper = require('./product.mapper');
+const productVariantMapper = require('../productVariants/productVariant.mapper');
+const attributeMapper = require('../attributes/attribute.mapper');
 
 /**
  * Handles incoming request from the /products endpoint.
@@ -14,7 +16,7 @@ const index = async (request, response, next) => {
 
     const products = await productService.findAll({ skip, limit, sort, search });
 
-    const productsDto = products.map((customer) => productMapper.toDto(customer));
+    const productsDto = products.map((product) => productMapper.toDto(product));
 
     response.send({
       message: 'Ok',
