@@ -55,7 +55,7 @@ async function getByProductId(product_id, connection) {
  */
 async function getAttributesByVariantId(variant_id, connection) {
   const query = `SELECT
-      a.name AS title,
+      a.title,
       vav.value
       FROM variant_attribute_values vav
       LEFT JOIN variants v ON vav.variant_id = v.id

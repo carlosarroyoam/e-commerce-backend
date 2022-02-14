@@ -9,7 +9,8 @@ const objectUtils = require('../../shared/utils/object.utils');
 const toDto = (attribute) => {
   return {
     id: attribute.id,
-    name: attribute.name,
+    title: attribute.title,
+    value: attribute.value,
   };
 };
 
@@ -22,7 +23,7 @@ const toDto = (attribute) => {
 const toDatabaseEntity = (attributeDto) => {
   const attributeDbEntity = {
     id: attributeDto.id,
-    name: attributeDto.name,
+    title: attributeDto.title,
   };
 
   const cleanedAttributeDbEntity = objectUtils.removeUndefined(attributeDbEntity);

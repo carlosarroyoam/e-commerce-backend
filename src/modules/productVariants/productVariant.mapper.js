@@ -10,9 +10,9 @@ const toDto = (variant) => {
   return {
     id: variant.id,
     sku: variant.sku,
-    price: variant.price,
-    compared_at_price: variant.compared_at_price,
-    cost_per_item: variant.cost_per_item,
+    price: Number(variant.price),
+    compared_at_price: Number(variant.compared_at_price),
+    cost_per_item: Number(variant.cost_per_item),
     quantity_on_stock: variant.quantity_on_stock,
     product_id: variant.product_id,
   };

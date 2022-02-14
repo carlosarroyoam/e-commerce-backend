@@ -82,7 +82,7 @@ async function getById(product_id, connection) {
  */
 async function getAttributesByProductId(product_id, connection) {
   const query = `SELECT
-      a.name AS title,
+      a.title,
       pav.value
     FROM product_attribute_values pav
     LEFT JOIN products p ON pav.product_id = p.id

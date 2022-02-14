@@ -7,7 +7,7 @@
 async function getAllByProductId(connection) {
   const query = `SELECT
       id,
-      name
+      title
     FROM attributes`;
 
   return connection.query(query);
@@ -22,7 +22,7 @@ async function getAllByProductId(connection) {
 async function getById(attribute_id, connection) {
   const query = `SELECT
       id,
-      name
+      title
     FROM attributes
     WHERE id = ?`;
 

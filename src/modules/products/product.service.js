@@ -1,6 +1,8 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const productRepository = require('./product.repository');
 const productVariantRepository = require('../productVariants/productVariant.repository');
+const productVariantMapper = require('../productVariants/productVariant.mapper');
+const attributeMapper = require('../attributes/attribute.mapper');
 const sharedErrors = require('../../shared/errors');
 const logger = require('../../shared/lib/winston/logger');
 
@@ -42,8 +44,10 @@ const findAll = async ({ skip, limit, sort, search }) => {
             );
 
             return {
-              ...variant,
-              attribute_combinations: attributesByVariantId,
+              variant: productVariantMapper.toDto(variant),
+              attribute_combinations: attributesByVariantId.map((attribute) =>
+                attributeMapper.toDto(attribute)
+              ),
             };
           })
         );
@@ -117,8 +121,10 @@ const findById = async (product_id) => {
         );
 
         return {
-          ...variant,
-          attribute_combinations: attributesByVariantId,
+          variant: productVariantMapper.toDto(variant),
+          attribute_combinations: attributesByVariantId.map((attribute) =>
+            attributeMapper.toDto(attribute)
+          ),
         };
       })
     );

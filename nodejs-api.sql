@@ -192,9 +192,9 @@ INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto G100',0,1,1,'2022
 CREATE TABLE `variants` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `sku` VARCHAR(64) NOT NULL,
-    `price` INT UNSIGNED NOT NULL DEFAULT '0',
-    `compared_at_price` INT UNSIGNED NOT NULL DEFAULT '0',
-    `cost_per_item` INT UNSIGNED NOT NULL DEFAULT '0',
+    `price` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
+    `compared_at_price` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
+    `cost_per_item` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
     `quantity_on_stock` INT UNSIGNED NOT NULL DEFAULT '0',
     `product_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
@@ -240,16 +240,16 @@ INSERT INTO `product_images` VALUES (1,'motog100nimbusblue.jpg',1,1),(2,'motog10
 
 CREATE TABLE `attributes` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(45) NOT NULL,
+    `title` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `attributes_name_idx` (`name`)
+    UNIQUE KEY `attributes_title_idx` (`title`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` VALUES (1,'Brand'),(3,'Color'),(2,'Model'),(4,'Storage');
+INSERT INTO `attributes` VALUES (1,'Brand'),(2,'Model'),(3,'Color'),(4,'Storage');
 
 --
 -- Table structure for table `product_attribute_values`
@@ -299,7 +299,7 @@ CREATE TABLE `variant_attribute_values` (
 -- Dumping data for table `variant_attribute_values`
 --
 
-INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,1),(2,'Boreal Green',2,1);
+INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,3),(2,'Boreal Green',2,3);
 
 --
 -- Table structure for table `movement_types`
