@@ -16,7 +16,36 @@ const index = async (request, response, next) => {
 
     const products = await productService.findAll({ skip, limit, sort, search });
 
-    const productsDto = products.map((product) => productMapper.toDto(product));
+    const productsDto = products.map((product) => {
+      const productDto = productMapper.toDto(product);
+
+      const productPropertiesDto = product.properties.map((property) =>
+        attributeMapper.toDto(property)
+      );
+
+      const productVariantsDto = product.variants.map(function (variant) {
+        const variantDto = productVariantMapper.toDto(variant);
+
+        const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
+          attributeMapper.toDto(attribute)
+        );
+
+        return {
+          ...variantDto,
+          attibute_combinations: variantAttributesDto,
+        };
+      });
+
+      // TODO add product images dto
+      const productImagesDto = product.images;
+
+      return {
+        ...productDto,
+        properties: productPropertiesDto,
+        variants: productVariantsDto,
+        images: productImagesDto,
+      };
+    });
 
     response.send({
       message: 'Ok',
@@ -42,9 +71,34 @@ const show = async (request, response, next) => {
 
     const productDto = productMapper.toDto(productById);
 
+    const productPropertiesDto = productById.properties.map((property) =>
+      attributeMapper.toDto(property)
+    );
+
+    const productVariantsDto = productById.variants.map(function (variant) {
+      const variantDto = productVariantMapper.toDto(variant);
+
+      const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
+        attributeMapper.toDto(attribute)
+      );
+
+      return {
+        ...variantDto,
+        attibute_combinations: variantAttributesDto,
+      };
+    });
+
+    // TODO add product images dto
+    const productImagesDto = productById.images;
+
     response.send({
       message: 'Ok',
-      data: productDto,
+      data: {
+        ...productDto,
+        properties: productPropertiesDto,
+        variants: productVariantsDto,
+        images: productImagesDto,
+      },
     });
   } catch (error) {
     next(error);
