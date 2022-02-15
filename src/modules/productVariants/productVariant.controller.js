@@ -1,5 +1,6 @@
 const productVariantService = require('./productVariant.service');
 const productVariantMapper = require('./productVariant.mapper');
+const attributeMapper = require('../attributes/attribute.mapper');
 
 /**
  * Handles incoming request from the /products/:product_id/variants endpoint.
@@ -14,11 +15,22 @@ const index = async (request, response, next) => {
 
     const variants = await productVariantService.findAll(product_id);
 
-    const variantsDto = variants.map((variant) => productVariantMapper.toDto(variant));
+    const productVariantsDto = variants.map((productVariant) => {
+      const productVariantDto = productVariantMapper.toDto(productVariant);
+
+      const productVariantAttributesDto = productVariant.attribute_combinations.map((attribute) =>
+        attributeMapper.toDto(attribute)
+      );
+
+      return {
+        ...productVariantDto,
+        attribute_combinations: productVariantAttributesDto,
+      };
+    });
 
     response.send({
       message: 'Ok',
-      data: variantsDto,
+      data: productVariantsDto,
     });
   } catch (error) {
     next(error);
@@ -38,11 +50,18 @@ const show = async (request, response, next) => {
 
     const variantById = await productVariantService.findById(product_id, variant_id);
 
-    const variantDto = productVariantMapper.toDto(variantById);
+    const productVariantDto = productVariantMapper.toDto(variantById);
+
+    const productVariantAttributesDto = variantById.attribute_combinations.map((attribute) =>
+      attributeMapper.toDto(attribute)
+    );
 
     response.send({
       message: 'Ok',
-      data: variantDto,
+      data: {
+        ...productVariantDto,
+        attribute_combinations: productVariantAttributesDto,
+      },
     });
   } catch (error) {
     next(error);

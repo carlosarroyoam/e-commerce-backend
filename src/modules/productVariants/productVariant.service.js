@@ -22,11 +22,28 @@ const findAll = async (product_id) => {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
-    const variants = await productVariantRepository.findByProductId(product_id, connection);
+    const rawProductVariants = await productVariantRepository.findByProductId(
+      product_id,
+      connection
+    );
+
+    const productVariants = await Promise.all(
+      rawProductVariants.map(async (variant) => {
+        const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+          variant.id,
+          connection
+        );
+
+        return {
+          ...variant,
+          attribute_combinations: attributesByVariantId,
+        };
+      })
+    );
 
     connection.release();
 
-    return variants;
+    return productVariants;
   } catch (err) {
     if (connection) connection.release();
 
@@ -67,9 +84,17 @@ const findById = async (product_id, variant_id) => {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
+    const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+      variantById.id,
+      connection
+    );
+
     connection.release();
 
-    return variantById;
+    return {
+      ...variantById,
+      attribute_combinations: attributesByVariantId,
+    };
   } catch (err) {
     if (connection) connection.release();
 
