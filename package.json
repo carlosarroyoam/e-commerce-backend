@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-api",
+  "name": "e-commerce-backend",
   "version": "1.4.0-snapshot",
-  "description": "Back-end system for a e-commerce",
+  "description": "Backend system for an e-commerce",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carlosarroyoam/nodejs-api.git"
+    "url": "git+https://github.com/carlosarroyoam/e-commerce-backend.git"
   },
   "keywords": [
     "nodejs",
@@ -21,9 +21,9 @@
   "author": "Carlos Alberto Arroyo Martínez",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/carlosarroyoam/nodejs-api/issues"
+    "url": "https://github.com/carlosarroyoam/e-commerce-backend/issues"
   },
-  "homepage": "https://github.com/carlosarroyoam/nodejs-api#readme",
+  "homepage": "https://github.com/carlosarroyoam/e-commerce-backend#readme",
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "eslint": "^7.32.0",
