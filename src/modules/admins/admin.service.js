@@ -17,7 +17,7 @@ const logger = require('../../shared/lib/winston/logger');
  * @param {string} queryOptions.search The search criteria.
  * @return {Promise} The list of admins.
  */
-const findAll = async ({ skip, limit, sort, status, search }) => {
+async function findAll({ skip, limit, sort, status, search }) {
   let connection;
 
   try {
@@ -41,7 +41,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
 
     throw err;
   }
-};
+}
 
 /**
  * Retrieves a admin user by its id.
@@ -49,7 +49,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
  * @param {number} admin_id The id of the admin user to retrieve.
  * @return {Promise} The admin user.
  */
-const findById = async (admin_id) => {
+async function findById(admin_id) {
   let connection;
 
   try {
@@ -77,7 +77,7 @@ const findById = async (admin_id) => {
 
     throw err;
   }
-};
+}
 
 /**
  * Stores a admin user.
@@ -85,7 +85,7 @@ const findById = async (admin_id) => {
  * @param {object} admin The admin user to store.
  * @return {Promise} The created admin user.
  */
-const store = async (admin) => {
+async function store(admin) {
   let connection;
 
   try {
@@ -144,7 +144,7 @@ const store = async (admin) => {
 
     throw err;
   }
-};
+}
 
 /**
  * Updates a admin user by its id.
@@ -153,7 +153,7 @@ const store = async (admin) => {
  * @param {object} admin The admin user to store.
  * @return {Promise} The updated admin user.
  */
-const update = async (admin_id, admin) => {
+async function update(admin_id, admin) {
   let connection;
 
   try {
@@ -205,7 +205,7 @@ const update = async (admin_id, admin) => {
 
     throw err;
   }
-};
+}
 
 module.exports = {
   findAll,

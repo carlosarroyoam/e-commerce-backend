@@ -8,7 +8,7 @@ const adminMapper = require('./admin.mapper');
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const index = async (request, response, next) => {
+async function index(request, response, next) {
   try {
     const { skip, limit, sort, status, search } = request.query;
 
@@ -23,7 +23,7 @@ const index = async (request, response, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /admins/:id endpoint.
@@ -32,7 +32,7 @@ const index = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const show = async (request, response, next) => {
+async function show(request, response, next) {
   try {
     const { admin_id } = request.params;
 
@@ -46,7 +46,7 @@ const show = async (request, response, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /admins endpoint.
@@ -55,7 +55,7 @@ const show = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const store = async (request, response, next) => {
+async function store(request, response, next) {
   try {
     const { first_name, last_name, email, password, is_super } = request.body;
 
@@ -76,7 +76,7 @@ const store = async (request, response, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /admins/:id endpoint.
@@ -85,7 +85,7 @@ const store = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const update = async (request, response, next) => {
+async function update(request, response, next) {
   try {
     const { admin_id } = request.params;
     const { first_name, last_name } = request.body;
@@ -104,7 +104,7 @@ const update = async (request, response, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = {
   index,
