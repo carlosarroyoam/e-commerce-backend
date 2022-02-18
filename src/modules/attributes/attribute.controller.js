@@ -14,7 +14,7 @@ const index = async (request, response, next) => {
 
     const attributesDto = attributes.map((attribute) => attributeMapper.toDto(attribute));
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: attributesDto,
     });
@@ -38,7 +38,7 @@ const show = async (request, response, next) => {
 
     const attributeDto = attributeMapper.toDto(attributeById);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: attributeDto,
     });

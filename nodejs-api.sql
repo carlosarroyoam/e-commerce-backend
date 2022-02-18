@@ -6,9 +6,10 @@ USE `nodejs_api`;
 -- Table structure for table `user_roles`
 --
 
-CREATE TABLE user_roles (
+CREATE TABLE `user_roles` (
     `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(32) NOT NULL,
+    UNIQUE KEY `user_roles_type_idx` (`type`),
     PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
@@ -61,6 +62,7 @@ CREATE TABLE `customers` (
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     KEY `customers_user_id_fk` (`user_id`),
+    UNIQUE KEY `customers_user_id_idx` (`user_id`),
     CONSTRAINT `customers_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
@@ -108,6 +110,7 @@ CREATE TABLE `admins` (
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     KEY `admins_user_id_fk` (`user_id`),
+    UNIQUE KEY `admins_user_id_idx` (`user_id`),
     CONSTRAINT `admins_user_id_fk` FOREIGN KEY (`user_id`)
         REFERENCES `users` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
@@ -147,7 +150,8 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `categories` (
     `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `categories_title_idx` (`title`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
@@ -173,7 +177,7 @@ CREATE TABLE `products` (
     `deleted_at` TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `products_slug_idx` (`slug`),
-    FULLTEXT `products_title_description_idx` (`title` , `description`),
+    FULLTEXT `products_title_description_idx` (`title`, `description`),
     KEY `products_category_id_fk` (`category_id`),
     CONSTRAINT `products_category_id_fk` FOREIGN KEY (`category_id`)
         REFERENCES `categories` (`id`)
@@ -199,6 +203,7 @@ CREATE TABLE `variants` (
     `product_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     KEY `variants_product_id_fk` (`product_id`),
+    UNIQUE KEY `variants_sku_idx` (`sku`),
     CONSTRAINT `variants_product_id_fk` FOREIGN KEY (`product_id`)
         REFERENCES `products` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
@@ -261,7 +266,7 @@ CREATE TABLE `product_attribute_values` (
     `product_id` BIGINT UNSIGNED NOT NULL,
     `attribute_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `product_attribute_values_idx` (`product_id` , `attribute_id`),
+    UNIQUE KEY `product_attribute_values_idx` (`product_id`, `attribute_id`),
     KEY `product_attribute_values_product_id_fk` (`product_id`),
     CONSTRAINT `product_attribute_values_product_id_fk` FOREIGN KEY (`product_id`)
         REFERENCES `products` (`id`),
@@ -286,7 +291,7 @@ CREATE TABLE `variant_attribute_values` (
     `variant_id` BIGINT UNSIGNED NOT NULL,
     `attribute_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `variant_attribute_values_variant_option_value_idx` (`value` , `variant_id` , `attribute_id`),
+    UNIQUE KEY `variant_attribute_values_variant_option_value_idx` (`variant_id`, `attribute_id`),
     KEY `variant_attribute_values_variant_id_fk` (`variant_id`),
     CONSTRAINT `variant_attribute_values_variant_id_fk` FOREIGN KEY (`variant_id`)
         REFERENCES `variants` (`id`),
@@ -308,7 +313,8 @@ INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,3),(2,'Boreal G
 CREATE TABLE `movement_types` (
     `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `movement_types_title_idx` (`title`)
 )  ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
@@ -325,7 +331,8 @@ CREATE TABLE `movements` (
     `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
     `movement_type_id` TINYINT UNSIGNED NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `movement_title_idx` (`title`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --

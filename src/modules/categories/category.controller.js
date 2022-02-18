@@ -16,7 +16,7 @@ const index = async (request, response, next) => {
 
     const categoriesDto = categories.map((category) => categoryMapper.toDto(category));
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: categoriesDto,
     });
@@ -40,7 +40,7 @@ const show = async (request, response, next) => {
 
     const categoryDto = categoryMapper.toDto(categoryById);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: categoryDto,
     });

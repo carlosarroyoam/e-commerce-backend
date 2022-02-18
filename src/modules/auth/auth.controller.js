@@ -19,7 +19,7 @@ const login = async (request, response, next) => {
       user_agent,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: auth,
     });
@@ -44,7 +44,7 @@ const logout = async (request, response, next) => {
       user_id,
     });
 
-    response.status(204).send();
+    response.status(204).end();
   } catch (error) {
     next(error);
   }
@@ -66,7 +66,7 @@ const refreshToken = async (request, response, next) => {
       device_fingerprint,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: refreshToken,
     });
@@ -90,7 +90,7 @@ const forgotPassword = async (request, response, next) => {
       email,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
     });
   } catch (error) {
@@ -115,7 +115,7 @@ const resetPassword = async (request, response, next) => {
       password,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
     });
   } catch (error) {

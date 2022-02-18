@@ -28,7 +28,7 @@ const index = async (request, response, next) => {
       };
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: productVariantsDto,
     });
@@ -56,7 +56,7 @@ const show = async (request, response, next) => {
       attributeMapper.toDto(attribute)
     );
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: {
         ...productVariantDto,

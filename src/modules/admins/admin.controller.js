@@ -16,7 +16,7 @@ async function index(request, response, next) {
 
     const adminsDto = admins.map((admin) => adminMapper.toDto(admin));
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: adminsDto,
     });
@@ -39,7 +39,7 @@ async function show(request, response, next) {
     const admin = await adminService.findById(admin_id);
     const adminDto = adminMapper.toDto(admin);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: adminDto,
     });
@@ -69,7 +69,7 @@ async function store(request, response, next) {
 
     const createdAdminDto = adminMapper.toDto(createdAdmin);
 
-    response.status(201).send({
+    response.status(201).json({
       message: 'Created',
       data: createdAdminDto,
     });
@@ -97,7 +97,7 @@ async function update(request, response, next) {
 
     const updatedAdminDto = adminMapper.toDto(updatedAdmin);
 
-    response.send({
+    response.json({
       message: 'Updated',
       data: updatedAdminDto,
     });

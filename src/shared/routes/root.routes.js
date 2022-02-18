@@ -1,14 +1,13 @@
 const { Router } = require('express');
 const packageJson = require('../../../package.json');
-const config = require('../../config');
 
 module.exports = () => {
   const router = Router();
 
   router.get('/', (request, response) => {
-    const APP_URL = `${config.APP.URL}:${config.APP.PORT}`;
+    const APP_URL = `${request.protocol}://${request.headers.host}`;
 
-    response.send({
+    response.json({
       name: packageJson.name,
       description: packageJson.description,
       author: packageJson.author,

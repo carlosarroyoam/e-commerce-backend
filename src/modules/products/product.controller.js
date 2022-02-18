@@ -47,7 +47,7 @@ async function index(request, response, next) {
       };
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: productsDto,
     });
@@ -91,7 +91,7 @@ async function show(request, response, next) {
     // TODO add product images dto
     const productImagesDto = productById.images;
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: {
         ...productDto,

@@ -16,7 +16,7 @@ const index = async (request, response, next) => {
 
     const usersDto = users.map((user) => userMapper.toDto(user));
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: usersDto,
     });
@@ -40,7 +40,7 @@ const show = async (request, response, next) => {
 
     const userDto = userMapper.toDto(user);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: userDto,
     });
@@ -63,7 +63,7 @@ const destroy = async (request, response, next) => {
 
     const userDeletedId = await userService.deleteById(user_id, auth_user_id);
 
-    response.send({
+    response.json({
       message: 'The user was successfully deleted',
       data: {
         user_deleted_id: userDeletedId,
@@ -88,7 +88,7 @@ const restore = async (request, response, next) => {
 
     const userRestoredId = await userService.restore(user_id, auth_user_id);
 
-    response.send({
+    response.json({
       message: 'The user was successfully restored',
       data: {
         user_restored_id: userRestoredId,
@@ -121,7 +121,7 @@ const changePassword = async (request, response, next) => {
       auth_user_id
     );
 
-    response.send({
+    response.json({
       message: 'Ok',
     });
   } catch (error) {
