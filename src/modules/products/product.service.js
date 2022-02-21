@@ -68,7 +68,7 @@ async function findAll({ skip, limit, sort, search }) {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -135,7 +135,7 @@ async function findById(product_id) {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });

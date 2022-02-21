@@ -31,7 +31,7 @@ async function findAll({ skip, limit, sort, status, search }) {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -67,7 +67,7 @@ async function findById(admin_id) {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -134,7 +134,7 @@ async function store(admin) {
       connection.release();
     }
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -195,7 +195,7 @@ async function update(admin_id, admin) {
       connection.release();
     }
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });

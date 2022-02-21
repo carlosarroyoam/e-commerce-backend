@@ -29,7 +29,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -65,7 +65,7 @@ const findById = async (user_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -116,7 +116,7 @@ const deleteById = async (user_id, auth_user_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -167,7 +167,7 @@ const restore = async (user_id, auth_user_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -226,7 +226,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });

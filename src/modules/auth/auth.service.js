@@ -36,7 +36,9 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
       });
     }
 
+    logger.profile('query running');
     const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
+    logger.profile('query running');
 
     if (!passwordMatchResult) {
       throw new sharedErrors.UnauthorizedError({ message: undefined, email });
@@ -93,7 +95,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -135,7 +137,7 @@ const logout = async ({ refresh_token, user_id }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -232,7 +234,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
       });
     }
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -269,7 +271,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -317,7 +319,7 @@ const forgotPassword = async ({ email }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -381,7 +383,7 @@ const resetPassword = async ({ token, password }) => {
       });
     }
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });

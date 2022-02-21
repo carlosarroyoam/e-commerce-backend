@@ -5,13 +5,9 @@ const config = require('../../../config');
  * @param {string | Buffer} plainTextPassword
  */
 async function hashPassword(plainTextPassword) {
-  return new Promise((resolve, reject) =>
-    bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS, function (err, hash) {
-      if (err) return reject(err);
+  const hash = bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
 
-      return resolve(hash);
-    })
-  );
+  return hash;
 }
 
 /**
@@ -19,13 +15,9 @@ async function hashPassword(plainTextPassword) {
  * @param {string} passwordHash
  */
 async function compare(plainTextPassword, passwordHash) {
-  return new Promise((resolve, reject) =>
-    bcrypt.compare(plainTextPassword, passwordHash, function (err, result) {
-      if (err) return reject(err);
+  const match = bcrypt.compare(plainTextPassword, passwordHash);
 
-      return resolve(result);
-    })
-  );
+  return match;
 }
 
 module.exports = {

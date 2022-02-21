@@ -22,7 +22,7 @@ const findAll = async () => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });
@@ -58,7 +58,7 @@ const findById = async (attribute_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
+    if (!err.status) {
       logger.error({
         message: err.message,
       });

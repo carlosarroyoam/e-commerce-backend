@@ -35,7 +35,9 @@ if (config.APP.ENV !== 'production') {
       format: winston.format.combine(
         winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss a' }),
         winston.format.colorize({ level: true }),
-        winston.format.printf((log) => `[${log.level}]: ${log.message} [${log.timestamp}]`)
+        winston.format.printf(
+          (log) => `[${log.level}]: ${log.message} [${log.durationMs || log.timestamp}]`
+        )
       ),
       level: 'info',
       handleExceptions: true,
