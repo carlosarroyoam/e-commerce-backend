@@ -142,7 +142,7 @@ const logout = async ({ refresh_token, user_id }) => {
         message: err.message,
       });
 
-      throw new Error('Error while authenticating');
+      throw new Error('Error while logging out');
     }
 
     throw err;
@@ -239,7 +239,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
         message: err.message,
       });
 
-      throw new Error('Error while authenticating');
+      throw new Error('Error while refreshing token');
     }
 
     throw err;
@@ -324,7 +324,7 @@ const forgotPassword = async ({ email }) => {
         message: err.message,
       });
 
-      throw new Error('Error while processing password request');
+      throw new Error('Error while requesting password reset');
     }
 
     throw err;
