@@ -6,24 +6,20 @@ const config = require('../../../config');
  * @param {string} password
  * @return {Promise} The signed token
  */
-function sign({ subject, userRole }, password) {
-  return new Promise((resolve, reject) => {
-    const payload = {
-      sub: subject,
-      userRole,
-    };
+async function sign({ subject, userRole }, password) {
+  const payload = {
+    sub: subject,
+    userRole,
+  };
 
-    const options = {
-      expiresIn: config.JWT.EXPIRES_IN,
-      issuer: config.APP.NAME,
-    };
+  const options = {
+    expiresIn: config.JWT.EXPIRES_IN,
+    issuer: config.APP.NAME,
+  };
 
-    jwt.sign(payload, config.JWT.SECRET_KEY + password, options, (err, token) => {
-      if (err) return reject(err);
+  const token = jwt.sign(payload, config.JWT.SECRET_KEY + password, options);
 
-      return resolve(token);
-    });
-  });
+  return token;
 }
 
 /**
@@ -31,23 +27,19 @@ function sign({ subject, userRole }, password) {
  * @param {object} payload
  * @return {Promise} The signed token
  */
-function signRefresh({ subject }) {
-  return new Promise((resolve, reject) => {
-    const payload = {
-      sub: subject,
-    };
+async function signRefresh({ subject }) {
+  const payload = {
+    sub: subject,
+  };
 
-    const options = {
-      expiresIn: config.JWT.REFRESH_EXPIRES_IN,
-      issuer: config.APP.NAME,
-    };
+  const options = {
+    expiresIn: config.JWT.REFRESH_EXPIRES_IN,
+    issuer: config.APP.NAME,
+  };
 
-    jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options, (err, token) => {
-      if (err) return reject(err);
+  const token = jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options);
 
-      return resolve(token);
-    });
-  });
+  return token;
 }
 
 /**
@@ -55,79 +47,61 @@ function signRefresh({ subject }) {
  * @param {string} password
  * @return {Promise} The signed token
  */
-function signPasswordRecoveryToken({ subject }, password) {
-  return new Promise((resolve, reject) => {
-    const payload = {
-      sub: subject,
-    };
+async function signPasswordRecoveryToken({ subject }, password) {
+  const payload = {
+    sub: subject,
+  };
 
-    const options = {
-      expiresIn: config.JWT.PASSWORD_RECOVERY_EXPIRES_IN,
-      issuer: config.APP.NAME,
-    };
+  const options = {
+    expiresIn: config.JWT.PASSWORD_RECOVERY_EXPIRES_IN,
+    issuer: config.APP.NAME,
+  };
 
-    jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options, (err, token) => {
-      if (err) return reject(err);
+  const token = jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options);
 
-      return resolve(token);
-    });
-  });
+  return token;
 }
 
 /**
  * @param {string} accessToken
  * @param {string} password
- * @return {object | string} The decoded token
+ * @return {promise} The decoded token
  */
-function verify(accessToken, password) {
-  return new Promise((resolve, reject) => {
-    jwt.verify(accessToken, config.JWT.SECRET_KEY + password, (err, decoded) => {
-      if (err) return reject(err);
+async function verify(accessToken, password) {
+  const decoded = jwt.verify(accessToken, config.JWT.SECRET_KEY + password);
 
-      return resolve(decoded);
-    });
-  });
+  return decoded;
 }
 
 /**
  * @param {string} refreshToken
- * @return {object | string} The decoded token
+ * @return {Promise} The decoded token
  */
-function verifyRefresh(refreshToken) {
-  return new Promise((resolve, reject) => {
-    jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY, (err, decoded) => {
-      if (err) return reject(err);
+async function verifyRefresh(refreshToken) {
+  const decoded = jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY);
 
-      return resolve(decoded);
-    });
-  });
+  return decoded;
 }
 
 /**
  * @param {string} accessToken
  * @param {string} password
- * @return {object | string} The decoded token
+ * @return {Promise} The decoded token
  */
-function verifyPasswordRecoveryToken(accessToken, password) {
-  return new Promise((resolve, reject) => {
-    jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, (err, decoded) => {
-      if (err) return reject(err);
+async function verifyPasswordRecoveryToken(accessToken, password) {
+  const decoded = jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password);
 
-      return resolve(decoded);
-    });
-  });
+  return decoded;
 }
 
 /**
  * @param {string} accessToken
- * @return {null | object} The decoded token
+ * @return {Promise} The decoded token
  */
-function decode(accessToken) {
-  return new Promise((resolve, reject) => {
-    const decoded = jwt.decode(accessToken, { complete: false });
+async function decode(accessToken) {
+  const decoded = await jwt.decode(accessToken, { complete: false });
 
-    resolve(decoded);
-  });
+  return decoded;
 }
 
 module.exports = {
