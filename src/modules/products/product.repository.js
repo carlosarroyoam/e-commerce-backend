@@ -1,5 +1,5 @@
 const productDao = require('./product.dao');
-const productMapper = require('./product.mapper');
+// const productMapper = require('./product.mapper');
 
 /**
  * Retrieves all products.
@@ -12,11 +12,11 @@ const productMapper = require('./product.mapper');
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */
-const findAll = async ({ skip, limit, sort, search }, connection) => {
+async function findAll({ skip, limit, sort, search }, connection) {
   const [result] = await productDao.getAll({ skip, limit, sort, search }, connection);
 
   return result;
-};
+}
 
 /**
  * Retrieves a product by its id.

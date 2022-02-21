@@ -22,7 +22,7 @@ async function getAll({ skip = 0, limit = 50, sort = 'id', status, search }, con
         usr.updated_at,
         usr.deleted_at
     FROM admins adm
-    LEFT JOIN users usr ON adm.id = usr.id
+    LEFT JOIN users usr ON adm.user_id = usr.id
     WHERE 1`;
 
   if (status) {

@@ -18,7 +18,7 @@ const index = async (request, response, next) => {
       customerAddressMapper.toDto(address)
     );
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: customerAddressesDto,
     });
@@ -41,7 +41,7 @@ const show = async (request, response, next) => {
     const customerAddress = await customerAddressService.findById(customer_id, address_id);
     const customerAddressDto = customerAddressMapper.toDto(customerAddress);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: customerAddressDto,
     });
@@ -87,7 +87,7 @@ const store = async (request, response, next) => {
 
     const createdAddressDto = customerAddressMapper.toDto(createdAddress);
 
-    response.status(201).send({
+    response.status(201).json({
       message: 'Created',
       data: createdAddressDto,
     });
@@ -132,7 +132,7 @@ const update = async (request, response, next) => {
 
     const updatedAddressDto = customerAddressMapper.toDto(updatedAddress);
 
-    response.send({
+    response.json({
       message: 'Updated',
       data: updatedAddressDto,
     });
@@ -154,7 +154,7 @@ const destroy = async (request, response, next) => {
 
     const addressDeletedId = await customerAddressService.deleteById(customer_id, address_id);
 
-    response.send({
+    response.json({
       message: 'The address was successfully deleted',
       data: {
         user_deleted_id: addressDeletedId,

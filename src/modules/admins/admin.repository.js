@@ -13,11 +13,11 @@ const adminMapper = require('./admin.mapper');
  * @param {*} connection The database connection object. The database connection object.
  * @return {Promise} The result of the query.
  */
-const findAll = async ({ skip, limit, sort, status, search }, connection) => {
+async function findAll({ skip, limit, sort, status, search }, connection) {
   const [result] = await adminDao.getAll({ skip, limit, sort, status, search }, connection);
 
   return result;
-};
+}
 
 /**
  * Retrieves a admin user by its id.
@@ -26,11 +26,11 @@ const findAll = async ({ skip, limit, sort, status, search }, connection) => {
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */
-const findById = async (admin_id, connection) => {
+async function findById(admin_id, connection) {
   const [[result]] = await adminDao.getById(admin_id, connection);
 
   return result;
-};
+}
 
 /**
  * Retrieves a admin user by its email.
@@ -39,11 +39,11 @@ const findById = async (admin_id, connection) => {
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */
-const findByEmail = async (email, connection) => {
+async function findByEmail(email, connection) {
   const [[result]] = await adminDao.getByEmail(email, connection);
 
   return result;
-};
+}
 
 /**
  * Stores a admin user.
@@ -51,13 +51,13 @@ const findByEmail = async (email, connection) => {
  * @param {object} admin The admin user to store.
  * @param {any} connection The database connection object.
  */
-const store = async (admin, connection) => {
+async function store(admin, connection) {
   const userDbEntity = adminMapper.toDatabaseEntity(admin);
 
   const [result] = await adminDao.create(userDbEntity, connection);
 
   return result.insertId;
-};
+}
 
 /**
  * Updates a admin user by its id.
@@ -67,13 +67,13 @@ const store = async (admin, connection) => {
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */
-const update = async (admin, admin_id, connection) => {
+async function update(admin, admin_id, connection) {
   const userDbEntity = adminMapper.toDatabaseEntity(admin);
 
   const [result] = await adminDao.update(userDbEntity, admin_id, connection);
 
   return result.changedRows;
-};
+}
 
 module.exports = {
   findAll,

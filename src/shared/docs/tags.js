@@ -28,5 +28,13 @@ module.exports = {
       name: 'product-variant',
       description: 'Operations about product variants',
     },
+    {
+      name: 'attribute',
+      description: 'Operations about attributes',
+    },
+    {
+      name: 'category',
+      description: 'Operations about categories',
+    },
   ],
 };

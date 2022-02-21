@@ -29,9 +29,8 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -66,9 +65,8 @@ const findById = async (user_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -118,9 +116,8 @@ const deleteById = async (user_id, auth_user_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -170,9 +167,8 @@ const restore = async (user_id, auth_user_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -206,8 +202,9 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
     }
 
     if (auth_user_id !== userById.id) {
-      throw new sharedErrors.BadRequestError({
-        message: 'Cannot update someone else password account',
+      throw new sharedErrors.UnauthorizedError({
+        message: `User doesn't have permission to perform this action`,
+        email: undefined,
       });
     }
 
@@ -229,9 +226,8 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 

@@ -8,7 +8,7 @@ const adminMapper = require('./admin.mapper');
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const index = async (request, response, next) => {
+async function index(request, response, next) {
   try {
     const { skip, limit, sort, status, search } = request.query;
 
@@ -16,14 +16,14 @@ const index = async (request, response, next) => {
 
     const adminsDto = admins.map((admin) => adminMapper.toDto(admin));
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: adminsDto,
     });
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /admins/:id endpoint.
@@ -32,21 +32,21 @@ const index = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const show = async (request, response, next) => {
+async function show(request, response, next) {
   try {
     const { admin_id } = request.params;
 
     const admin = await adminService.findById(admin_id);
     const adminDto = adminMapper.toDto(admin);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: adminDto,
     });
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /admins endpoint.
@@ -55,7 +55,7 @@ const show = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const store = async (request, response, next) => {
+async function store(request, response, next) {
   try {
     const { first_name, last_name, email, password, is_super } = request.body;
 
@@ -69,14 +69,14 @@ const store = async (request, response, next) => {
 
     const createdAdminDto = adminMapper.toDto(createdAdmin);
 
-    response.status(201).send({
+    response.status(201).json({
       message: 'Created',
       data: createdAdminDto,
     });
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /admins/:id endpoint.
@@ -85,7 +85,7 @@ const store = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const update = async (request, response, next) => {
+async function update(request, response, next) {
   try {
     const { admin_id } = request.params;
     const { first_name, last_name } = request.body;
@@ -97,14 +97,14 @@ const update = async (request, response, next) => {
 
     const updatedAdminDto = adminMapper.toDto(updatedAdmin);
 
-    response.send({
+    response.json({
       message: 'Updated',
       data: updatedAdminDto,
     });
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = {
   index,

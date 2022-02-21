@@ -36,7 +36,9 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
       });
     }
 
+    logger.profile('query running');
     const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
+    logger.profile('query running');
 
     if (!passwordMatchResult) {
       throw new sharedErrors.UnauthorizedError({ message: undefined, email });
@@ -93,9 +95,8 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -136,13 +137,12 @@ const logout = async ({ refresh_token, user_id }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
-      throw new Error('Error while authenticating');
+      throw new Error('Error while logging out');
     }
 
     throw err;
@@ -234,13 +234,12 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
       });
     }
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
-      throw new Error('Error while authenticating');
+      throw new Error('Error while refreshing token');
     }
 
     throw err;
@@ -272,9 +271,8 @@ const getUserForTokenVerify = async ({ user_id }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -321,13 +319,12 @@ const forgotPassword = async ({ email }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
-      throw new Error('Error while processing password request');
+      throw new Error('Error while requesting password reset');
     }
 
     throw err;
@@ -376,9 +373,9 @@ const resetPassword = async ({ token, password }) => {
     if (connection) connection.release();
 
     if (
-      err.name == 'TokenExpiredError' ||
-      err.name == 'JsonWebTokenError' ||
-      err.name == 'NotBeforeError'
+      err.name === 'TokenExpiredError' ||
+      err.name === 'JsonWebTokenError' ||
+      err.name === 'NotBeforeError'
     ) {
       throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid or is expired',
@@ -386,9 +383,8 @@ const resetPassword = async ({ token, password }) => {
       });
     }
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 

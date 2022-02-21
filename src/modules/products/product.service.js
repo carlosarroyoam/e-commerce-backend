@@ -14,7 +14,7 @@ const logger = require('../../shared/lib/winston/logger');
  * @param {string} queryOptions.search The search criteria.
  * @return {Promise} The list of products.
  */
-const findAll = async ({ skip, limit, sort, search }) => {
+async function findAll({ skip, limit, sort, search }) {
   let connection;
 
   try {
@@ -68,9 +68,8 @@ const findAll = async ({ skip, limit, sort, search }) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -79,7 +78,7 @@ const findAll = async ({ skip, limit, sort, search }) => {
 
     throw err;
   }
-};
+}
 
 /**
  * Retrieves a product by its id.
@@ -87,7 +86,7 @@ const findAll = async ({ skip, limit, sort, search }) => {
  * @param {number} product_id The id of the product to retrieve.
  * @return {Promise} The product.
  */
-const findById = async (product_id) => {
+async function findById(product_id) {
   let connection;
 
   try {
@@ -136,9 +135,8 @@ const findById = async (product_id) => {
   } catch (err) {
     if (connection) connection.release();
 
-    if (err.sqlMessage) {
-      logger.log({
-        level: 'error',
+    if (!err.status) {
+      logger.error({
         message: err.message,
       });
 
@@ -147,7 +145,7 @@ const findById = async (product_id) => {
 
     throw err;
   }
-};
+}
 
 module.exports = {
   findAll,

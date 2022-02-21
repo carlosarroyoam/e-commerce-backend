@@ -1,5 +1,7 @@
 const productService = require('./product.service');
 const productMapper = require('./product.mapper');
+const productVariantMapper = require('../productVariants/productVariant.mapper');
+const attributeMapper = require('../attributes/attribute.mapper');
 
 /**
  * Handles incoming request from the /products endpoint.
@@ -8,22 +10,51 @@ const productMapper = require('./product.mapper');
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const index = async (request, response, next) => {
+async function index(request, response, next) {
   try {
     const { skip, limit, sort, search } = request.query;
 
     const products = await productService.findAll({ skip, limit, sort, search });
 
-    const productsDto = products.map((customer) => productMapper.toDto(customer));
+    const productsDto = products.map((product) => {
+      const productDto = productMapper.toDto(product);
 
-    response.send({
+      const productPropertiesDto = product.properties.map((property) =>
+        attributeMapper.toDto(property)
+      );
+
+      const productVariantsDto = product.variants.map(function (variant) {
+        const variantDto = productVariantMapper.toDto(variant);
+
+        const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
+          attributeMapper.toDto(attribute)
+        );
+
+        return {
+          ...variantDto,
+          attibute_combinations: variantAttributesDto,
+        };
+      });
+
+      // TODO add product images dto
+      const productImagesDto = product.images;
+
+      return {
+        ...productDto,
+        properties: productPropertiesDto,
+        variants: productVariantsDto,
+        images: productImagesDto,
+      };
+    });
+
+    response.json({
       message: 'Ok',
       data: productsDto,
     });
   } catch (error) {
     next(error);
   }
-};
+}
 
 /**
  * Handles incoming request from the /products/:product_id endpoint.
@@ -32,7 +63,7 @@ const index = async (request, response, next) => {
  * @param {*} response The express.js response object.
  * @param {*} next The express.js next object.
  */
-const show = async (request, response, next) => {
+async function show(request, response, next) {
   try {
     const { product_id } = request.params;
 
@@ -40,14 +71,39 @@ const show = async (request, response, next) => {
 
     const productDto = productMapper.toDto(productById);
 
-    response.send({
+    const productPropertiesDto = productById.properties.map((property) =>
+      attributeMapper.toDto(property)
+    );
+
+    const productVariantsDto = productById.variants.map(function (variant) {
+      const variantDto = productVariantMapper.toDto(variant);
+
+      const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
+        attributeMapper.toDto(attribute)
+      );
+
+      return {
+        ...variantDto,
+        attibute_combinations: variantAttributesDto,
+      };
+    });
+
+    // TODO add product images dto
+    const productImagesDto = productById.images;
+
+    response.json({
       message: 'Ok',
-      data: productDto,
+      data: {
+        ...productDto,
+        properties: productPropertiesDto,
+        variants: productVariantsDto,
+        images: productImagesDto,
+      },
     });
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = {
   index,

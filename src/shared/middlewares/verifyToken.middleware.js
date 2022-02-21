@@ -12,6 +12,7 @@ module.exports = async (request, response, next) => {
     if (!accessToken) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({
         message: 'No token authorization provided',
+        email: undefined,
       });
 
       return next(unauthorizedError);
@@ -22,9 +23,10 @@ module.exports = async (request, response, next) => {
     if (!decoded?.sub) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({
         message: 'Error while decoding token',
+        email: undefined,
       });
 
-      next(unauthorizedError);
+      return next(unauthorizedError);
     }
 
     const userById = await authService.getUserForTokenVerify({ user_id: decoded.sub });
@@ -32,9 +34,10 @@ module.exports = async (request, response, next) => {
     if (userById.deleted_at !== null) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({
         message: 'The user account is disabled',
+        email: undefined,
       });
 
-      next(unauthorizedError);
+      return next(unauthorizedError);
     }
 
     await jsonwebtoken.verify(accessToken, userById.password);
@@ -53,6 +56,7 @@ module.exports = async (request, response, next) => {
 
     const unauthorizedError = new sharedErrors.UnauthorizedError({
       message: 'The provided token is not valid or the user has not access',
+      email: undefined,
     });
 
     next(unauthorizedError);

@@ -19,7 +19,7 @@ const login = async (request, response, next) => {
       user_agent,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: auth,
     });
@@ -44,14 +44,14 @@ const logout = async (request, response, next) => {
       user_id,
     });
 
-    response.status(204).send();
+    response.status(204).end();
   } catch (error) {
     next(error);
   }
 };
 
 /**
- * Handles incoming request from the /auth/refresh_token endpoint.
+ * Handles incoming request from the /auth/refresh-token endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -66,7 +66,7 @@ const refreshToken = async (request, response, next) => {
       device_fingerprint,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: refreshToken,
     });
@@ -90,7 +90,7 @@ const forgotPassword = async (request, response, next) => {
       email,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
     });
   } catch (error) {
@@ -99,7 +99,7 @@ const forgotPassword = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /auth/forgot-password endpoint.
+ * Handles incoming request from the /auth/reset-password endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -115,7 +115,7 @@ const resetPassword = async (request, response, next) => {
       password,
     });
 
-    response.send({
+    response.json({
       message: 'Ok',
     });
   } catch (error) {

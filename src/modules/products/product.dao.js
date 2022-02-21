@@ -11,16 +11,18 @@
  */
 async function getAll({ skip = 0, limit = 50, sort = 'id', search }, connection) {
   let query = `SELECT
-      id,
-      title,
-      slug,
-      description,
-      featured,
-      active,
-      created_at,
-      updated_at,
-      deleted_at
-    FROM products
+      p.id,
+      p.title,
+      p.slug,
+      p.description,
+      p.featured,
+      p.active,
+      c.title AS category,
+      p.created_at,
+      p.updated_at,
+      p.deleted_at
+    FROM products p
+    LEFT JOIN categories c ON p.category_id = c.id
     WHERE 1`;
 
   if (search) {
@@ -54,17 +56,19 @@ async function getAll({ skip = 0, limit = 50, sort = 'id', search }, connection)
  */
 async function getById(product_id, connection) {
   const query = `SELECT
-      id,
-      title,
-      slug,
-      description,
-      featured,
-      active,
-      created_at,
-      updated_at,
-      deleted_at
-    FROM products
-    WHERE id = ?`;
+      p.id,
+      p.title,
+      p.slug,
+      p.description,
+      p.featured,
+      p.active,
+      c.title AS category,
+      p.created_at,
+      p.updated_at,
+      p.deleted_at
+    FROM products p
+    LEFT JOIN categories c ON p.category_id = c.id
+    WHERE p.id = ?`;
 
   return connection.query(query, [product_id]);
 }
@@ -77,10 +81,13 @@ async function getById(product_id, connection) {
  * @return {Promise} The query result.
  */
 async function getAttributesByProductId(product_id, connection) {
-  const query = `SELECT a.name AS title, pav.value FROM products p
-      LEFT JOIN product_attribute_values pav ON p.id = pav.product_id
-      LEFT JOIN attributes a ON pav.attribute_id = a.id
-      WHERE p.id =  ?`;
+  const query = `SELECT
+      a.title,
+      pav.value
+    FROM product_attribute_values pav
+    LEFT JOIN products p ON pav.product_id = p.id
+    LEFT JOIN attributes a ON pav.attribute_id = a.id
+    WHERE p.id =  ?`;
 
   return connection.query(query, [product_id]);
 }
@@ -93,7 +100,15 @@ async function getAttributesByProductId(product_id, connection) {
  * @return {Promise} The query result.
  */
 async function getImagesByProductId(product_id, connection) {
-  const query = `SELECT 1 AS id, 'http://localhost:3000/api/v1/products/images/motog100' AS url`;
+  const query = `SELECT
+      pi.id,
+      pi.url,
+      pi.product_id,
+      pi.variant_id
+    FROM nodejs_api.product_images pi
+    LEFT JOIN products p ON pi.product_id = p.id
+    LEFT JOIN variants v ON pi.variant_id = v.id
+    WHERE p.id = ?`;
 
   return connection.query(query, [product_id]);
 }

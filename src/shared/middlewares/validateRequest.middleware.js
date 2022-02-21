@@ -9,6 +9,7 @@ const validateRequest = (validations) => async (request, response, next) => {
   const errors = validationResult(request).formatWith(errorFormatter);
   if (!errors.isEmpty()) {
     const unprocessableEntityError = new UnprocessableEntityError({
+      message: undefined,
       errors: errors.mapped(),
     });
 

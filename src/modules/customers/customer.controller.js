@@ -16,7 +16,7 @@ const index = async (request, response, next) => {
 
     const customersDto = customers.map((customer) => customerMapper.toDto(customer));
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: customersDto,
     });
@@ -39,7 +39,7 @@ const show = async (request, response, next) => {
     const customer = await customerService.findById(customer_id);
     const customerDto = customerMapper.toDto(customer);
 
-    response.send({
+    response.json({
       message: 'Ok',
       data: customerDto,
     });
@@ -68,7 +68,7 @@ const store = async (request, response, next) => {
 
     const createdCustomerDto = customerMapper.toDto(createdCustomer);
 
-    response.status(201).send({
+    response.status(201).json({
       message: 'Created',
       data: createdCustomerDto,
     });
@@ -96,7 +96,7 @@ const update = async (request, response, next) => {
 
     const updatedCustomerDto = customerMapper.toDto(updatedCustomer);
 
-    response.send({
+    response.json({
       message: 'Updated',
       data: updatedCustomerDto,
     });

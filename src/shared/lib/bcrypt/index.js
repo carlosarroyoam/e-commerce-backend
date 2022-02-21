@@ -2,30 +2,24 @@ const bcrypt = require('bcrypt');
 const config = require('../../../config');
 
 /**
- * @param {string | Buffer} plainTextPassword
+ * @param {string | Buffer} plainTextPassword the plain text password.
+ * @return {Promise<string>} The password hashed.
  */
 async function hashPassword(plainTextPassword) {
-  return new Promise((resolve, reject) =>
-    bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS, function (err, hash) {
-      if (err) return reject(err);
+  const hash = await bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
 
-      return resolve(hash);
-    })
-  );
+  return hash;
 }
 
 /**
- * @param {string | Buffer} plainTextPassword
- * @param {string} passwordHash
+ * @param {string | Buffer} plainTextPassword the plain text password.
+ * @param {string} passwordHash the password hash to compare.
+ * @return {Promise<boolean>}
  */
 async function compare(plainTextPassword, passwordHash) {
-  return new Promise((resolve, reject) =>
-    bcrypt.compare(plainTextPassword, passwordHash, function (err, result) {
-      if (err) return reject(err);
+  const match = await bcrypt.compare(plainTextPassword, passwordHash);
 
-      return resolve(result);
-    })
-  );
+  return match;
 }
 
 module.exports = {

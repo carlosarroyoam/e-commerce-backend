@@ -14,10 +14,7 @@ const toDto = (product) => {
     description: product.description,
     featured: product.featured,
     active: product.active,
-    vendor: product.vendor,
-    properties: product.properties,
-    variants: product.variants,
-    images: product.images,
+    category: product.category,
     created_at: product.created_at,
     updated_at: product.updated_at,
     deleted_at: product.deleted_at,
@@ -38,14 +35,15 @@ const toDatabaseEntity = (productDto) => {
     description: productDto.description,
     featured: productDto.featured,
     active: productDto.active,
+    category: productDto.category,
     created_at: productDto.created_at,
     updated_at: productDto.updated_at,
     deleted_at: productDto.deleted_at,
   };
 
-  const cleanedproductDbEntity = objectUtils.removeUndefined(productDbEntity);
+  const cleanedProductDbEntity = objectUtils.removeUndefined(productDbEntity);
 
-  return cleanedproductDbEntity;
+  return cleanedProductDbEntity;
 };
 
 module.exports = {
