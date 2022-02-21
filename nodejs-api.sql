@@ -47,11 +47,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users`
 VALUES
-    (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL),
-    (2,'Cathy Stefania','Guido Rojas','cathy.guido@bookstore.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',2,'2022-01-31 21:45:56','2022-02-03 18:18:11','2022-02-03 18:18:11'),
-    (3,'Erandi Guadalupe','Vazquez Martínez','erandi.vazquez@bookstore.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',2,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL),
-    (4,'Lizbeth','Aparicio Vasquez','lizbeth.vasquez@bookstore.com','$2b$10$knwacqfvRFchQ6HsX7Kvcu8GOeFfJkxSXb6SeiW6yWIdYPugHvgVS',2,'2022-02-02 19:02:26','2022-02-02 19:03:27',NULL),
-    (5,'Adriana Erika','Rojas','adriana.rojas@bookstore.com','$2b$10$4Y.pJBPmtR7KHMCTUM7PFuGczcFS4fiHRvU3UorwzmjVs4dNPmfBe',2,'2022-02-03 14:07:21','2022-02-03 17:27:57',NULL);
+    (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL);
 
 --
 -- Table structure for table `customers`
@@ -71,7 +67,7 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` VALUES (1,2),(2,3),(3,4),(4,5);
+INSERT INTO `customers` VALUES (1,2);
 
 --
 -- Table structure for table `customer_addresses`
