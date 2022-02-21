@@ -371,9 +371,9 @@ const resetPassword = async ({ token, password }) => {
     if (connection) connection.release();
 
     if (
-      err.name == 'TokenExpiredError' ||
-      err.name == 'JsonWebTokenError' ||
-      err.name == 'NotBeforeError'
+      err.name === 'TokenExpiredError' ||
+      err.name === 'JsonWebTokenError' ||
+      err.name === 'NotBeforeError'
     ) {
       throw new sharedErrors.UnauthorizedError({
         message: 'The provided token is not valid or is expired',

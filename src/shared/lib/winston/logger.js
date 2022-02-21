@@ -24,17 +24,6 @@ const logger = winston.createLogger({
       maxFiles: '14d',
     }),
   ],
-  exceptionHandlers: [
-    //
-    // Write exceptions logs `logs/%DATE%/exceptions.log`
-    //
-    new winston.transports.DailyRotateFile({
-      filename: 'logs/%DATE%/exceptions.log',
-      datePattern: 'DD-MM-YYYY',
-      zippedArchive: true,
-      maxFiles: '14d',
-    }),
-  ],
 });
 
 //
@@ -45,7 +34,8 @@ if (config.APP.ENV !== 'production') {
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.timestamp({ format: 'DD/MM/YYYY hh:mm:ss a' }),
-        winston.format.json({ space: 2 })
+        winston.format.colorize({ level: true }),
+        winston.format.printf((log) => `[${log.level}]: ${log.message} [${log.timestamp}]`)
       ),
       level: 'info',
       handleExceptions: true,

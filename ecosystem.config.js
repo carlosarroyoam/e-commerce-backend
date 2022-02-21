@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'nodejs_api',
+      name: 'e-commerce-backend',
       script: './index.js',
       instances: 2,
       env_development: {
