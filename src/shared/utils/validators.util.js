@@ -184,6 +184,16 @@ const phone_number = body('phone_number')
   .isLength({ min: 10, max: 10 })
   .withMessage('The phone_number must be 10 characters');
 
+const category_title = body('title')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The title is required')
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The title must be between 3 and 45 characters')
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The title contains invalid characters');
+
 module.exports = {
   resourceId,
   resourceIdInBody,
@@ -208,4 +218,5 @@ module.exports = {
   state,
   postal_code,
   phone_number,
+  category_title,
 };

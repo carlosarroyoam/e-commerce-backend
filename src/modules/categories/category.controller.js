@@ -49,7 +49,34 @@ const show = async (request, response, next) => {
   }
 };
 
+/**
+ * Handles incoming request from the /categories endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const store = async (request, response, next) => {
+  try {
+    const { title } = request.body;
+
+    const createdCategory = await categoryService.store({
+      title,
+    });
+
+    const createdCategoryDto = categoryMapper.toDto(createdCategory);
+
+    response.status(201).json({
+      message: 'Created',
+      data: createdCategoryDto,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   show,
+  store,
 };

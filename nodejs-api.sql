@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `nodejs_api`;
+CREATE DATABASE IF NOT EXISTS `ecommerce`;
 
-USE `nodejs_api`;
+USE `ecommerce`;
 
 --
 -- Table structure for table `user_roles`

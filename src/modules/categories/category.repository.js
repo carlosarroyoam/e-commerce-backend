@@ -1,4 +1,5 @@
 const categoryDao = require('./category.dao');
+const categoryMapper = require('./category.mapper');
 
 /**
  * Retrieves all categories.
@@ -29,7 +30,36 @@ const findById = async (category_id, connection) => {
   return result;
 };
 
+/**
+ * Retrieves a category by its title.
+ *
+ * @param {number} title The query options.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query.
+ */
+const findByTitle = async (title, connection) => {
+  const [[result]] = await categoryDao.getById(title, connection);
+
+  return result;
+};
+
+/**
+ * Stores a category.
+ *
+ * @param {object} category The category to store.
+ * @param {any} connection The database connection object.
+ */
+const store = async (category, connection) => {
+  const categoryDbEntity = categoryMapper.toDatabaseEntity(category);
+
+  const [result] = await categoryDao.create(categoryDbEntity, connection);
+
+  return result.insertId;
+};
+
 module.exports = {
   findAll,
   findById,
+  findByTitle,
+  store,
 };

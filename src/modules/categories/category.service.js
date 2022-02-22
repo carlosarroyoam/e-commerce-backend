@@ -74,7 +74,53 @@ const findById = async (category_id) => {
   }
 };
 
+/**
+ * Stores a category.
+ *
+ * @param {object} category The category to store.
+ * @return {Promise} The created category.
+ */
+const store = async (category) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const categoryByTitle = await categoryRepository.findByTitle(category.title, connection);
+
+    if (categoryByTitle) {
+      throw new sharedErrors.UnprocessableEntityError({
+        message: 'The request data is not valid',
+        errors: {
+          title: `The category: '${category.title}' already exists`,
+        },
+      });
+    }
+
+    const createdCategoryId = await categoryRepository.store({ title: category.title }, connection);
+
+    const createdCategory = await categoryRepository.findById(createdCategoryId, connection);
+
+    connection.release();
+
+    return createdCategory;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while storing category');
+    }
+
+    throw err;
+  }
+};
+
 module.exports = {
   findAll,
   findById,
+  store,
 };

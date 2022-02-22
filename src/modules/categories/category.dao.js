@@ -25,6 +25,7 @@ async function getAll({ skip = 0, limit = 50, sort = 'id' }, connection) {
 
   return connection.query(query);
 }
+
 /**
  * Performs the SQL query to get a category by its id.
  *
@@ -42,7 +43,38 @@ async function getById(category_id, connection) {
   return connection.query(query, [category_id]);
 }
 
+/**
+ * Performs the SQL query to get a category by its title.
+ *
+ * @param {number} title The title of the category to query.
+ * @param {*} connection The database connection number.
+ * @return {Promise} The query result.
+ */
+async function getById(title, connection) {
+  const query = `SELECT
+      id,
+      title
+    FROM categories
+    WHERE title = ?`;
+
+  return connection.query(query, [title]);
+}
+
+/**
+ * Performs the SQL query to insert a category.
+ *
+ * @param {object} category The category to store.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function create(category, connection) {
+  const query = 'INSERT INTO categories SET ?';
+
+  return connection.query(query, [category]);
+}
+
 module.exports = {
   getAll,
   getById,
+  create,
 };

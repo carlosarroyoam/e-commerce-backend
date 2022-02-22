@@ -22,5 +22,13 @@ module.exports = () => {
     categoryController.index
   );
 
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storeCategorySchema),
+    adminGuardMiddleware,
+    categoryController.store
+  );
+
   return router;
 };
