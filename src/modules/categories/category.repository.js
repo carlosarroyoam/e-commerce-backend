@@ -38,7 +38,7 @@ const findById = async (category_id, connection) => {
  * @return {Promise} The result of the query.
  */
 const findByTitle = async (title, connection) => {
-  const [[result]] = await categoryDao.getById(title, connection);
+  const [[result]] = await categoryDao.getByTitle(title, connection);
 
   return result;
 };

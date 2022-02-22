@@ -194,6 +194,26 @@ const category_title = body('title')
   .isAlpha('es-ES', { ignore: '\\s\\.' })
   .withMessage('The title contains invalid characters');
 
+const attribute_title = body('title')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The title is required')
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The title must be between 3 and 45 characters')
+  .customSanitizer((value) => stringUtils.capitalize(value))
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The title contains invalid characters');
+
+const attribute_value = body('attribute value')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The attribute value is required')
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The attribute value must be between 3 and 45 characters')
+  .customSanitizer((value) => stringUtils.capitalize(value))
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The attribute value contains invalid characters');
+
 module.exports = {
   resourceId,
   resourceIdInBody,
@@ -219,4 +239,6 @@ module.exports = {
   postal_code,
   phone_number,
   category_title,
+  attribute_title,
+  attribute_value,
 };

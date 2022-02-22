@@ -206,5 +206,14 @@ module.exports = {
       },
       required: ['title'],
     },
+    AddAttribute: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+        },
+      },
+      required: ['title'],
+    },
   },
 };

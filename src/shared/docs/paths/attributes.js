@@ -35,6 +35,44 @@ module.exports = {
         },
       ],
     },
+    post: {
+      tags: ['attribute'],
+      summary: 'Adds a new attribute',
+      operationId: 'addAttribute',
+      requestBody: {
+        description: 'attribute object that needs to be added',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/AddAttribute',
+            },
+          },
+        },
+        required: true,
+      },
+      responses: {
+        200: {
+          $ref: '#/components/responses/OK',
+        },
+        422: {
+          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
+        },
+        401: {
+          $ref: '#/components/responses/UNAUTHORIZED',
+        },
+        403: {
+          $ref: '#/components/responses/FORBIDDEN',
+        },
+        500: {
+          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+    },
   },
   '/attributes/{attribute_id}': {
     get: {

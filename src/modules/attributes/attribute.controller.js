@@ -47,7 +47,34 @@ const show = async (request, response, next) => {
   }
 };
 
+/**
+ * Handles incoming request from the /attributes endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const store = async (request, response, next) => {
+  try {
+    const { title } = request.body;
+
+    const createdAttribute = await attributeService.store({
+      title,
+    });
+
+    const createdAttributeDto = attributeMapper.toDto(createdAttribute);
+
+    response.status(201).json({
+      message: 'Created',
+      data: createdAttributeDto,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   show,
+  store,
 };

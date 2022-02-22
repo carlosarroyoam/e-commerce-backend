@@ -50,7 +50,7 @@ async function getById(category_id, connection) {
  * @param {*} connection The database connection number.
  * @return {Promise} The query result.
  */
-async function getById(title, connection) {
+async function getByTitle(title, connection) {
   const query = `SELECT
       id,
       title
@@ -76,5 +76,6 @@ async function create(category, connection) {
 module.exports = {
   getAll,
   getById,
+  getByTitle,
   create,
 };

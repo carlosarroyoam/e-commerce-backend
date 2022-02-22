@@ -1,5 +1,5 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
-const categoryRepository = require('./attribute.repository');
+const attributeRepository = require('./attribute.repository');
 const sharedErrors = require('../../shared/errors');
 const logger = require('../../shared/lib/winston/logger');
 
@@ -14,7 +14,7 @@ const findAll = async () => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const categories = await categoryRepository.findAll(connection);
+    const categories = await attributeRepository.findAll(connection);
 
     connection.release();
 
@@ -46,7 +46,7 @@ const findById = async (attribute_id) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const attributeById = await categoryRepository.findById(attribute_id, connection);
+    const attributeById = await attributeRepository.findById(attribute_id, connection);
 
     if (!attributeById) {
       throw new sharedErrors.ResourceNotFoundError();
@@ -70,7 +70,56 @@ const findById = async (attribute_id) => {
   }
 };
 
+/**
+ * Stores a attribute.
+ *
+ * @param {object} attribute The attribute to store.
+ * @return {Promise} The created attribute.
+ */
+const store = async (attribute) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const attributeByTitle = await attributeRepository.findByTitle(attribute.title, connection);
+
+    if (attributeByTitle) {
+      throw new sharedErrors.UnprocessableEntityError({
+        message: 'The request data is not valid',
+        errors: {
+          title: `The attribute: '${attribute.title}' already exists`,
+        },
+      });
+    }
+
+    const createdAttributeId = await attributeRepository.store(
+      { title: attribute.title },
+      connection
+    );
+
+    const createdAttribute = await attributeRepository.findById(createdAttributeId, connection);
+
+    connection.release();
+
+    return createdAttribute;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while storing attribute');
+    }
+
+    throw err;
+  }
+};
+
 module.exports = {
   findAll,
   findById,
+  store,
 };

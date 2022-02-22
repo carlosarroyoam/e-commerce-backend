@@ -30,5 +30,13 @@ module.exports = () => {
     attributeController.show
   );
 
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storeAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.store
+  );
+
   return router;
 };
