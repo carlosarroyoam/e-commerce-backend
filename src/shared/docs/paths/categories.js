@@ -107,5 +107,55 @@ module.exports = {
         },
       },
     },
+    put: {
+      tags: ['category'],
+      summary: 'Updates a category by its id',
+      operationId: 'updateCategory',
+      parameters: [
+        {
+          name: 'category_id',
+          in: 'path',
+          description: 'ID of category to update',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+      ],
+      requestBody: {
+        description: 'category object that needs to be updated',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/UpdateCategory',
+            },
+          },
+        },
+        required: true,
+      },
+      responses: {
+        200: {
+          $ref: '#/components/responses/OK',
+        },
+        422: {
+          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
+        },
+        401: {
+          $ref: '#/components/responses/UNAUTHORIZED',
+        },
+        403: {
+          $ref: '#/components/responses/FORBIDDEN',
+        },
+        500: {
+          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+    },
   },
 };

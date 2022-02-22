@@ -57,9 +57,26 @@ const store = async (category, connection) => {
   return result.insertId;
 };
 
+/**
+ * Updates a category by its id.
+ *
+ * @param {object} customer The category to update.
+ * @param {number} category_id The id of the category.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query.
+ */
+const update = async (customer, category_id, connection) => {
+  const categoryDbEntity = categoryMapper.toDatabaseEntity(customer);
+
+  const [result] = await categoryDao.update(categoryDbEntity, category_id, connection);
+
+  return result.changedRows;
+};
+
 module.exports = {
   findAll,
   findById,
   findByTitle,
   store,
+  update,
 };

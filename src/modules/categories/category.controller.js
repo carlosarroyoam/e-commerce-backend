@@ -75,8 +75,36 @@ const store = async (request, response, next) => {
   }
 };
 
+/**
+ * Handles incoming request from the /customers/:id endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const update = async (request, response, next) => {
+  try {
+    const { category_id } = request.params;
+    const { title } = request.body;
+
+    const updatedCategory = await categoryService.update(category_id, {
+      title,
+    });
+
+    const updatedCategoryDto = categoryMapper.toDto(updatedCategory);
+
+    response.json({
+      message: 'Updated',
+      data: updatedCategoryDto,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   index,
   show,
   store,
+  update,
 };

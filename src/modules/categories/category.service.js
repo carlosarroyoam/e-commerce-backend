@@ -119,8 +119,61 @@ const store = async (category) => {
   }
 };
 
+/**
+ * Updates a category by its id.
+ *
+ * @param {number} category_id The id of the category to update.
+ * @param {object} category The category to store.
+ * @return {Promise} The created category.
+ */
+const update = async (category_id, category) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const categoryById = await categoryRepository.findById(category_id, connection);
+
+    if (!categoryById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
+    const categoryByTitle = await categoryRepository.findByTitle(category.title, connection);
+
+    if (categoryByTitle && categoryByTitle.id !== category_id) {
+      throw new sharedErrors.UnprocessableEntityError({
+        message: 'The request data is not valid',
+        errors: {
+          title: `The category: '${category.title}' already exists`,
+        },
+      });
+    }
+
+    await categoryRepository.update({ title: category.title }, category_id, connection);
+
+    const updatedCategory = await categoryRepository.findById(category_id, connection);
+
+    connection.release();
+
+    return updatedCategory;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while updating category');
+    }
+
+    throw err;
+  }
+};
+
 module.exports = {
   findAll,
   findById,
   store,
+  update,
 };

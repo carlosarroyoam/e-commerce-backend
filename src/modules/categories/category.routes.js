@@ -30,5 +30,13 @@ module.exports = () => {
     categoryController.store
   );
 
+  router.put(
+    '/:category_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(updateCategorySchema),
+    adminGuardMiddleware,
+    categoryController.update
+  );
+
   return router;
 };

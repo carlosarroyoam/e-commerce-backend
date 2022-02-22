@@ -204,15 +204,15 @@ const attribute_title = body('title')
   .isAlpha('es-ES', { ignore: '\\s\\.' })
   .withMessage('The title contains invalid characters');
 
-const attribute_value = body('attribute value')
+const attribute_value = body('value')
   .trim()
   .exists({ checkNull: true, checkFalsy: true })
-  .withMessage('The attribute value is required')
+  .withMessage('The value is required')
   .isLength({ min: 3, max: 45 })
-  .withMessage('The attribute value must be between 3 and 45 characters')
+  .withMessage('The value must be between 3 and 45 characters')
   .customSanitizer((value) => stringUtils.capitalize(value))
   .isAlpha('es-ES', { ignore: '\\s\\.' })
-  .withMessage('The attribute value contains invalid characters');
+  .withMessage('The value contains invalid characters');
 
 module.exports = {
   resourceId,

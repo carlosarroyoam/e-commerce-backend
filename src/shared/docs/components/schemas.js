@@ -206,6 +206,15 @@ module.exports = {
       },
       required: ['title'],
     },
+    UpdateCategory: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+        },
+      },
+      required: ['title'],
+    },
     AddAttribute: {
       type: 'object',
       properties: {

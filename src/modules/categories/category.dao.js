@@ -73,9 +73,24 @@ async function create(category, connection) {
   return connection.query(query, [category]);
 }
 
+/**
+ * Performs the SQL query to update a category.
+ *
+ * @param {object} category The category to update.
+ * @param {number} category_id The id of the category.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function update(category, category_id, connection) {
+  const query = 'UPDATE categories SET ? WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [category, category_id]);
+}
+
 module.exports = {
   getAll,
   getById,
   getByTitle,
   create,
+  update,
 };
