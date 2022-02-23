@@ -182,7 +182,7 @@ const restore = async (user_id, auth_user_id) => {
 /**
  * Changes a user's password.
  *
- * @param {object} user The id of the user to restore.
+ * @param {object} user The user object.
  * @param {number} user.user_id The id of the user to restore.
  * @param {string} user.current_password The current password of the user.
  * @param {string} user.new_password The new password of the user.

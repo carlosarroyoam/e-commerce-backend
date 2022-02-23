@@ -22,8 +22,8 @@ const findAll = async ({ skip, limit, sort, status, search }, connection) => {
 /**
  * Retrieves a non-deleted/active user by its id.
  *
- * @param {number} user_id
- * @param {any} connection
+ * @param {number} user_id The id of the user to query.
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
  */
 const findById = async (user_id, connection) => {
@@ -36,7 +36,7 @@ const findById = async (user_id, connection) => {
  * Retrieves a non-deleted/active user by its email address.
  *
  * @param {string} email
- * @param {any} connection
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
  */
 const findByEmail = async (email, connection) => {
@@ -48,8 +48,8 @@ const findByEmail = async (email, connection) => {
 /**
  * Stores a user.
  *
- * @param {object} user
- * @param {any} connection
+ * @param {object} user The user to store.
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
  */
 const store = async (user, connection) => {
@@ -64,8 +64,8 @@ const store = async (user, connection) => {
  * Updates a user.
  *
  * @param {object} user
- * @param {number} user_id
- * @param {any} connection
+ * @param {number} user_id The id of the user to update.
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
  */
 const update = async (user, user_id, connection) => {
@@ -79,8 +79,8 @@ const update = async (user, user_id, connection) => {
 /**
  * Deletes a user.
  *
- * @param {number} user_id
- * @param {any} connection
+ * @param {number} user_id The id of the user to delete.
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
  */
 const deleteById = async (user_id, connection) => {
@@ -92,8 +92,8 @@ const deleteById = async (user_id, connection) => {
 /**
  * Restores a user.
  *
- * @param {number} user_id
- * @param {any} connection
+ * @param {number} user_id The id of the user to restore.
+ * @param {any} connection The database connection object.
  * @return {Promise} The result of the query
  */
 const restore = async (user_id, connection) => {

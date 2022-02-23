@@ -17,17 +17,17 @@ module.exports = () => {
 
   router.get(
     '/',
-    // verifyTokenMiddleware,
+    verifyTokenMiddleware,
     validateRequestMiddleware(indexUserSchema),
-    // adminGuardMiddleware,
+    adminGuardMiddleware,
     userController.index
   );
 
   router.get(
     '/:user_id',
-    // verifyTokenMiddleware,
+    verifyTokenMiddleware,
     validateRequestMiddleware(showUserSchema),
-    // adminGuardMiddleware,
+    adminGuardMiddleware,
     userController.show
   );
 
@@ -39,22 +39,20 @@ module.exports = () => {
     userController.changePassword
   );
 
-  router.put(
-    '/:user_id/restore',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(restoreUserSchema),
-    adminGuardMiddleware,
-    adminGuardMiddleware,
-    userController.restore
-  );
-
   router.delete(
     '/:user_id',
     verifyTokenMiddleware,
     validateRequestMiddleware(deleteUserSchema),
     adminGuardMiddleware,
-    adminGuardMiddleware,
     userController.destroy
+  );
+
+  router.put(
+    '/:user_id/restore',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(restoreUserSchema),
+    adminGuardMiddleware,
+    userController.restore
   );
 
   return router;
