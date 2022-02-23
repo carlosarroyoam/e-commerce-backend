@@ -27,7 +27,7 @@ const findAll = async () => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving attributes');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving attributes' });
     }
 
     throw err;
@@ -63,7 +63,7 @@ const findById = async (attribute_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving attribute');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving attribute' });
     }
 
     throw err;
@@ -111,7 +111,7 @@ const store = async (attribute) => {
         message: err.message,
       });
 
-      throw new Error('Error while storing attribute');
+      throw new sharedErrors.InternalServerError({ message: 'Error while storing attribute' });
     }
 
     throw err;
@@ -155,7 +155,7 @@ const deleteById = async (attribute_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while deleting attribute');
+      throw new sharedErrors.InternalServerError({ message: 'Error while deleting attribute' });
     }
 
     throw err;
@@ -199,7 +199,7 @@ const restore = async (attribute_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while restoring attribute');
+      throw new sharedErrors.InternalServerError({ message: 'Error while restoring attribute' });
     }
 
     throw err;

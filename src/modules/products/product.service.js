@@ -73,7 +73,7 @@ async function findAll({ skip, limit, sort, search }) {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving products');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving products' });
     }
 
     throw err;
@@ -140,7 +140,7 @@ async function findById(product_id) {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving product');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving product' });
     }
 
     throw err;

@@ -31,7 +31,7 @@ const findAll = async ({ skip, limit, sort }) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving categories');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving categories' });
     }
 
     throw err;
@@ -67,7 +67,7 @@ const findById = async (category_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving category');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving category' });
     }
 
     throw err;
@@ -112,7 +112,7 @@ const store = async (category) => {
         message: err.message,
       });
 
-      throw new Error('Error while storing category');
+      throw new sharedErrors.InternalServerError({ message: 'Error while storing category' });
     }
 
     throw err;
@@ -164,7 +164,7 @@ const update = async (category_id, category) => {
         message: err.message,
       });
 
-      throw new Error('Error while updating category');
+      throw new sharedErrors.InternalServerError({ message: 'Error while updating category' });
     }
 
     throw err;
@@ -208,7 +208,7 @@ const deleteById = async (category_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while deleting category');
+      throw new sharedErrors.InternalServerError({ message: 'Error while deleting category' });
     }
 
     throw err;
@@ -252,7 +252,7 @@ const restore = async (category_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while restoring category');
+      throw new sharedErrors.InternalServerError({ message: 'Error while restoring category' });
     }
 
     throw err;

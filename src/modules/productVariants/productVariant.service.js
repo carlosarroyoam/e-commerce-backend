@@ -52,7 +52,9 @@ const findAll = async (product_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving product variants');
+      throw new sharedErrors.InternalServerError({
+        message: 'Error while retrieving product variants',
+      });
     }
 
     throw err;
@@ -103,7 +105,9 @@ const findById = async (product_id, variant_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving product variant');
+      throw new sharedErrors.InternalServerError({
+        message: 'Error while retrieving product variant',
+      });
     }
 
     throw err;

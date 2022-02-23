@@ -21,7 +21,7 @@ module.exports = {
       .use(router())
       .use((err, req, res, next) => {
         logger.log({
-          level: err.status ? 'info' : 'error',
+          level: err.status !== 500 ? 'info' : 'error',
           message: err.message,
         });
 
@@ -35,7 +35,7 @@ module.exports = {
 
         if (!err.fatal) {
           return res.status(err.status || 500).json({
-            error: err.name !== 'Error' ? err.name : 'Internal server error',
+            error: err.name,
             message: err.message,
             data: err.errors,
           });
