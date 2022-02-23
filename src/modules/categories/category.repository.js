@@ -73,10 +73,38 @@ const update = async (customer, category_id, connection) => {
   return result.changedRows;
 };
 
+/**
+ * Deletes a category.
+ *
+ * @param {number} category_id The id of the category to delete.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query
+ */
+const deleteById = async (category_id, connection) => {
+  const [result] = await categoryDao.deleteById(category_id, connection);
+
+  return result.changedRows;
+};
+
+/**
+ * Restores a category.
+ *
+ * @param {number} category_id The id of the category to restore.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query
+ */
+const restore = async (category_id, connection) => {
+  const [result] = await categoryDao.restore(category_id, connection);
+
+  return result.changedRows;
+};
+
 module.exports = {
   findAll,
   findById,
   findByTitle,
   store,
   update,
+  deleteById,
+  restore,
 };

@@ -67,7 +67,7 @@ const store = async (request, response, next) => {
     const createdCategoryDto = categoryMapper.toDto(createdCategory);
 
     response.status(201).json({
-      message: 'Created',
+      message: 'Ok',
       data: createdCategoryDto,
     });
   } catch (error) {
@@ -76,7 +76,7 @@ const store = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /customers/:id endpoint.
+ * Handles incoming request from the /categories/:category_id endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -94,8 +94,56 @@ const update = async (request, response, next) => {
     const updatedCategoryDto = categoryMapper.toDto(updatedCategory);
 
     response.json({
-      message: 'Updated',
+      message: 'Ok',
       data: updatedCategoryDto,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Handles incoming request from the /categories/:category_id endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const destroy = async (request, response, next) => {
+  try {
+    const { category_id } = request.params;
+
+    const deletedCategoryId = await categoryService.deleteById(category_id);
+
+    response.json({
+      message: 'Ok',
+      data: {
+        category_id: deletedCategoryId,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Handles incoming request from the /categories/:category_id/restore endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+const restore = async (request, response, next) => {
+  try {
+    const { category_id } = request.params;
+
+    const restoredCategoryId = await categoryService.restore(category_id);
+
+    response.json({
+      message: 'Ok',
+      data: {
+        category_id: restoredCategoryId,
+      },
     });
   } catch (error) {
     next(error);
@@ -107,4 +155,6 @@ module.exports = {
   show,
   store,
   update,
+  destroy,
+  restore,
 };

@@ -171,9 +171,99 @@ const update = async (category_id, category) => {
   }
 };
 
+/**
+ * Deletes an category by its id.
+ *
+ * @param {number} category_id The id of the category to delete.
+ * @return {Promise} The id of the deleted category.
+ */
+const deleteById = async (category_id) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const categoryById = await categoryRepository.findById(category_id, connection);
+
+    if (!categoryById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
+    if (categoryById.deleted_at !== null) {
+      throw new sharedErrors.BadRequestError({
+        message: 'The category is already inactive',
+      });
+    }
+
+    await categoryRepository.deleteById(category_id, connection);
+
+    connection.release();
+
+    return category_id;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while deleting category');
+    }
+
+    throw err;
+  }
+};
+
+/**
+ * Restores a category by its id.
+ *
+ * @param {number} category_id The id of the category to restore.
+ * @return {Promise} The id of the restored category.
+ */
+const restore = async (category_id) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const categoryById = await categoryRepository.findById(category_id, connection);
+
+    if (!categoryById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
+    if (categoryById.deleted_at === null) {
+      throw new sharedErrors.BadRequestError({
+        message: 'The category is already active',
+      });
+    }
+
+    await categoryRepository.restore(category_id, connection);
+
+    connection.release();
+
+    return category_id;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while restoring category');
+    }
+
+    throw err;
+  }
+};
+
 module.exports = {
   findAll,
   findById,
   store,
   update,
+  deleteById,
+  restore,
 };

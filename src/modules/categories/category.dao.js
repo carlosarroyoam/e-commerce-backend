@@ -7,7 +7,8 @@
 async function getAll({ skip = 0, limit = 50, sort = 'id' }, connection) {
   let query = `SELECT
       id,
-      title
+      title,
+      deleted_at
     FROM categories`;
 
   if (sort) {
@@ -36,7 +37,8 @@ async function getAll({ skip = 0, limit = 50, sort = 'id' }, connection) {
 async function getById(category_id, connection) {
   const query = `SELECT
       id,
-      title
+      title,
+      deleted_at
     FROM categories
     WHERE id = ?`;
 
@@ -53,7 +55,8 @@ async function getById(category_id, connection) {
 async function getByTitle(title, connection) {
   const query = `SELECT
       id,
-      title
+      title,
+      deleted_at
     FROM categories
     WHERE title = ?`;
 
@@ -87,10 +90,38 @@ async function update(category, category_id, connection) {
   return connection.query(query, [category, category_id]);
 }
 
+/**
+ * Performs the SQL query to delete a category.
+ *
+ * @param {number} category_id The id of the category to delete.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function deleteById(category_id, connection) {
+  const query = 'UPDATE categories SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [category_id]);
+}
+
+/**
+ * Performs the SQL query to restore a category.
+ *
+ * @param {number} category_id The id of the category to restore.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function restore(category_id, connection) {
+  const query = 'UPDATE categories SET deleted_at = NULL WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [category_id]);
+}
+
 module.exports = {
   getAll,
   getById,
   getByTitle,
   create,
   update,
+  deleteById,
+  restore,
 };
