@@ -157,5 +157,91 @@ module.exports = {
         },
       ],
     },
+    delete: {
+      tags: ['category'],
+      summary: 'Deactivates a category by its id',
+      operationId: 'deactivateCategory',
+      parameters: [
+        {
+          name: 'category_id',
+          in: 'path',
+          description: 'ID of category to deactivate',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+      ],
+      responses: {
+        200: {
+          $ref: '#/components/responses/OK',
+        },
+        422: {
+          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
+        },
+        401: {
+          $ref: '#/components/responses/UNAUTHORIZED',
+        },
+        403: {
+          $ref: '#/components/responses/FORBIDDEN',
+        },
+        404: {
+          $ref: '#/components/responses/NOT_FOUND',
+        },
+        500: {
+          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+    },
+  },
+  '/categories/{category_id}/restore': {
+    put: {
+      tags: ['category'],
+      summary: 'Restores a category by its id',
+      operationId: 'restoreCategory',
+      parameters: [
+        {
+          name: 'category_id',
+          in: 'path',
+          description: 'ID of category to restore',
+          required: true,
+          schema: {
+            type: 'integer',
+            format: 'int64',
+          },
+        },
+      ],
+      responses: {
+        200: {
+          $ref: '#/components/responses/OK',
+        },
+        422: {
+          $ref: '#/components/responses/UNPROCESABLE_ENTITY',
+        },
+        401: {
+          $ref: '#/components/responses/UNAUTHORIZED',
+        },
+        403: {
+          $ref: '#/components/responses/FORBIDDEN',
+        },
+        404: {
+          $ref: '#/components/responses/NOT_FOUND',
+        },
+        500: {
+          $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
+    },
   },
 };

@@ -178,6 +178,8 @@ module.exports = {
         },
       ],
     },
+  },
+  '/users/{user_id}/restore': {
     put: {
       tags: ['user'],
       summary: 'Restores a user by its id',

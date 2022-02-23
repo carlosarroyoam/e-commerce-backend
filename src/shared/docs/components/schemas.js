@@ -225,4 +225,13 @@ module.exports = {
       required: ['title'],
     },
   },
+  UpdateAttribute: {
+    type: 'object',
+    properties: {
+      title: {
+        type: 'string',
+      },
+    },
+    required: ['title'],
+  },
 };
