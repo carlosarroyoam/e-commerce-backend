@@ -29,9 +29,6 @@ module.exports = {
         403: {
           $ref: '#/components/responses/FORBIDDEN',
         },
-        404: {
-          $ref: '#/components/responses/NOT_FOUND',
-        },
         500: {
           $ref: '#/components/responses/INTERNAL_SERVER_ERROR',
         },
