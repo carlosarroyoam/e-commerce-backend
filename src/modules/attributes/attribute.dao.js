@@ -22,7 +22,8 @@ async function getAllByProductId(connection) {
 async function getById(attribute_id, connection) {
   const query = `SELECT
       id,
-      title
+      title,
+      deleted_at
     FROM attributes
     WHERE id = ?`;
 
@@ -39,7 +40,8 @@ async function getById(attribute_id, connection) {
 async function getByTitle(title, connection) {
   const query = `SELECT
       id,
-      title
+      title,
+      deleted_at
     FROM attributes
     WHERE title = ?`;
 
@@ -59,9 +61,37 @@ async function create(attribute, connection) {
   return connection.query(query, [attribute]);
 }
 
+/**
+ * Performs the SQL query to delete a attribute.
+ *
+ * @param {number} attribute_id The id of the attribute to delete.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function deleteById(attribute_id, connection) {
+  const query = 'UPDATE attributes SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [attribute_id]);
+}
+
+/**
+ * Performs the SQL query to restore a attribute.
+ *
+ * @param {number} attribute_id The id of the attribute to restore.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function restore(attribute_id, connection) {
+  const query = 'UPDATE attributes SET deleted_at = NULL WHERE id = ? LIMIT 1';
+
+  return connection.query(query, [attribute_id]);
+}
+
 module.exports = {
   getAllByProductId,
   getById,
   getByTitle,
   create,
+  deleteById,
+  restore,
 };

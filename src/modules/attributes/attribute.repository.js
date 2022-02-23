@@ -53,9 +53,37 @@ const store = async (attribute, connection) => {
   return result.insertId;
 };
 
+/**
+ * Deletes a attribute.
+ *
+ * @param {number} attribute_id The id of the attribute to delete.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query
+ */
+const deleteById = async (attribute_id, connection) => {
+  const [result] = await attributeDao.deleteById(attribute_id, connection);
+
+  return result.changedRows;
+};
+
+/**
+ * Restores a attribute.
+ *
+ * @param {number} attribute_id The id of the attribute to restore.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query
+ */
+const restore = async (attribute_id, connection) => {
+  const [result] = await attributeDao.restore(attribute_id, connection);
+
+  return result.changedRows;
+};
+
 module.exports = {
   findAll,
   findById,
   findByTitle,
   store,
+  deleteById,
+  restore,
 };

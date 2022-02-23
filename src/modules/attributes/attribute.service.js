@@ -35,7 +35,7 @@ const findAll = async () => {
 };
 
 /**
- * Retrieves a attribute by its id.
+ * Retrieves an attribute by its id.
  *
  * @param {number} attribute_id The id of the attribute to retrieve.
  * @return {Promise} The variant.
@@ -71,7 +71,7 @@ const findById = async (attribute_id) => {
 };
 
 /**
- * Stores a attribute.
+ * Stores an attribute.
  *
  * @param {object} attribute The attribute to store.
  * @return {Promise} The created attribute.
@@ -118,8 +118,98 @@ const store = async (attribute) => {
   }
 };
 
+/**
+ * Deletes an attribute by its id.
+ *
+ * @param {number} attribute_id The id of the attribute to delete.
+ * @return {Promise} The id of the deleted attribute.
+ */
+const deleteById = async (attribute_id) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const attributeById = await attributeRepository.findById(attribute_id, connection);
+
+    if (!attributeById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
+    if (attributeById.deleted_at !== null) {
+      throw new sharedErrors.BadRequestError({
+        message: 'The attribute is already inactive',
+      });
+    }
+
+    await attributeRepository.deleteById(attribute_id, connection);
+
+    connection.release();
+
+    return attribute_id;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while deleting attribute');
+    }
+
+    throw err;
+  }
+};
+
+/**
+ * Restores a attribute by its id.
+ *
+ * @param {number} attribute_id The id of the attribute to restore.
+ * @return {Promise} The id of the restored attribute.
+ */
+const restore = async (attribute_id) => {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    const attributeById = await attributeRepository.findById(attribute_id, connection);
+
+    if (!attributeById) {
+      throw new sharedErrors.ResourceNotFoundError();
+    }
+
+    if (attributeById.deleted_at === null) {
+      throw new sharedErrors.BadRequestError({
+        message: 'The attribute is already active',
+      });
+    }
+
+    await attributeRepository.restore(attribute_id, connection);
+
+    connection.release();
+
+    return attribute_id;
+  } catch (err) {
+    if (connection) connection.release();
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new Error('Error while restoring attribute');
+    }
+
+    throw err;
+  }
+};
+
 module.exports = {
   findAll,
   findById,
   store,
+  deleteById,
+  restore,
 };
