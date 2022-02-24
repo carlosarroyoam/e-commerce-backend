@@ -82,6 +82,7 @@ async function getById(product_id, connection) {
  */
 async function getAttributesByProductId(product_id, connection) {
   const query = `SELECT
+      a.id,
       a.title,
       pav.value
     FROM product_attribute_values pav
@@ -102,10 +103,8 @@ async function getAttributesByProductId(product_id, connection) {
 async function getImagesByProductId(product_id, connection) {
   const query = `SELECT
       pi.id,
-      pi.url,
-      pi.product_id,
-      pi.variant_id
-    FROM nodejs_api.product_images pi
+      pi.url
+    FROM product_images pi
     LEFT JOIN products p ON pi.product_id = p.id
     LEFT JOIN variants v ON pi.variant_id = v.id
     WHERE p.id = ?`;
