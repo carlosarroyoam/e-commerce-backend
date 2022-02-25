@@ -25,9 +25,9 @@ module.exports = () => {
 
   router.get(
     '/:user_id',
-    // verifyTokenMiddleware,
+    verifyTokenMiddleware,
     validateRequestMiddleware(showUserSchema),
-    // adminGuardMiddleware,
+    adminGuardMiddleware,
     userController.show
   );
 

@@ -105,7 +105,42 @@ async function show(request, response, next) {
   }
 }
 
+/**
+ * Handles incoming request from the /products endpoint.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
+async function store(request, response, next) {
+  try {
+    const { title, slug, description, featured, active, category_id, properties, variants } =
+      request.body;
+
+    const createdProduct = await productService.store({
+      title,
+      slug,
+      description,
+      featured,
+      active,
+      category_id,
+      properties,
+      variants,
+    });
+
+    const createdProductDto = productMapper.toDto(createdProduct);
+
+    response.status(201).json({
+      message: 'Ok',
+      data: createdProductDto,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   index,
   show,
+  store,
 };
