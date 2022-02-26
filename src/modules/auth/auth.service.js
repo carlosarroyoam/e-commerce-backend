@@ -36,9 +36,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
       });
     }
 
-    logger.profile('query running');
     const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
-    logger.profile('query running');
 
     if (!passwordMatchResult) {
       throw new sharedErrors.UnauthorizedError({ message: undefined, email });

@@ -1,7 +1,7 @@
 {
   "name": "e-commerce-backend",
   "version": "1.4.0-snapshot",
-  "description": "Backend system for an e-commerce",
+  "description": "Backend for an e-commerce system.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
