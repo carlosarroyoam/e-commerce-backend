@@ -195,9 +195,9 @@ INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto G100',0,1,1,'2022
 CREATE TABLE `variants` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `sku` VARCHAR(64) NOT NULL,
-    `price` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
-    `compared_at_price` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
-    `cost_per_item` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
+    `price` DECIMAL(5,2) NOT NULL DEFAULT '0',
+    `compared_at_price` DECIMAL(5,2) NOT NULL DEFAULT '0',
+    `cost_per_item` DECIMAL(5,2) NOT NULL DEFAULT '0',
     `quantity_on_stock` INT UNSIGNED NOT NULL DEFAULT '0',
     `product_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
