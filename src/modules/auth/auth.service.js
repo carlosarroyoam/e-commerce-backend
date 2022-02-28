@@ -89,6 +89,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
       user_role: userByEmail.user_role,
       access_token: token,
       refresh_token: refreshToken,
+      device_fingerprint,
     };
   } catch (err) {
     if (connection) connection.release();
