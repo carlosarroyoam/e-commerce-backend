@@ -14,7 +14,11 @@
       "protocol": "inspector",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
-      "outFiles": ["${workspaceFolder}/**/*.js", "!**/node_modules/**"]
+      "outFiles": [
+        "${workspaceFolder}/**/*.js",
+        "!<node_internals>/**",
+        "!${workspaceFolder}/node_modules/**"
+      ]
     }
   ]
 }
