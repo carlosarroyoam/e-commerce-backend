@@ -18,5 +18,13 @@ module.exports = () => {
 
   router.get('/:product_id', validateRequestMiddleware(showProductSchema), productController.show);
 
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storeProductSchema),
+    adminGuardMiddleware,
+    productController.store
+  );
+
   return router;
 };

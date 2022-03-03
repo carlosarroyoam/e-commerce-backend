@@ -2,7 +2,7 @@ const customerAddressService = require('./customerAddress.service');
 const customerAddressMapper = require('./customerAddress.mapper');
 
 /**
- * Handles incoming request from the /customers/:id/addresses endpoint.
+ * Handles incoming request from the /customers/:customer_id/addresses endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -88,7 +88,7 @@ const store = async (request, response, next) => {
     const createdAddressDto = customerAddressMapper.toDto(createdAddress);
 
     response.status(201).json({
-      message: 'Created',
+      message: 'Ok',
       data: createdAddressDto,
     });
   } catch (error) {
@@ -133,7 +133,7 @@ const update = async (request, response, next) => {
     const updatedAddressDto = customerAddressMapper.toDto(updatedAddress);
 
     response.json({
-      message: 'Updated',
+      message: 'Ok',
       data: updatedAddressDto,
     });
   } catch (error) {

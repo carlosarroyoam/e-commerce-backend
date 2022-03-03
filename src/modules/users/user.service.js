@@ -34,7 +34,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving users');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving users' });
     }
 
     throw err;
@@ -70,7 +70,7 @@ const findById = async (user_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving user');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving user' });
     }
 
     throw err;
@@ -121,7 +121,7 @@ const deleteById = async (user_id, auth_user_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while deleting user');
+      throw new sharedErrors.InternalServerError({ message: 'Error while deleting user' });
     }
 
     throw err;
@@ -172,7 +172,7 @@ const restore = async (user_id, auth_user_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while restoring user');
+      throw new sharedErrors.InternalServerError({ message: 'Error while restoring user' });
     }
 
     throw err;
@@ -182,7 +182,7 @@ const restore = async (user_id, auth_user_id) => {
 /**
  * Changes a user's password.
  *
- * @param {object} user The id of the user to restore.
+ * @param {object} user The user object.
  * @param {number} user.user_id The id of the user to restore.
  * @param {string} user.current_password The current password of the user.
  * @param {string} user.new_password The new password of the user.
@@ -231,7 +231,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
         message: err.message,
       });
 
-      throw new Error('Error while changing user password');
+      throw new sharedErrors.InternalServerError({ message: 'Error while changing user password' });
     }
 
     throw err;

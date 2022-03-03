@@ -63,7 +63,7 @@ const store = async (customer, connection) => {
  * Updates a customer user by its id.
  *
  * @param {object} customer The customer user to update.
- * @param {number} customer_id
+ * @param {number} customer_id The id of the customer.
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */

@@ -26,7 +26,7 @@ const index = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /customers/:id endpoint.
+ * Handles incoming request from the /customers/:customer_id endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -69,7 +69,7 @@ const store = async (request, response, next) => {
     const createdCustomerDto = customerMapper.toDto(createdCustomer);
 
     response.status(201).json({
-      message: 'Created',
+      message: 'Ok',
       data: createdCustomerDto,
     });
   } catch (error) {
@@ -78,7 +78,7 @@ const store = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /customers/:id endpoint.
+ * Handles incoming request from the /customers/:customer_id endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -97,7 +97,7 @@ const update = async (request, response, next) => {
     const updatedCustomerDto = customerMapper.toDto(updatedCustomer);
 
     response.json({
-      message: 'Updated',
+      message: 'Ok',
       data: updatedCustomerDto,
     });
   } catch (error) {

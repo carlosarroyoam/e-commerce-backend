@@ -82,9 +82,9 @@ const browserFingerprint = body('device_fingerprint')
 
 const firstName = body('first_name')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The first_name is required')
-  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .isAlpha('es-ES', { ignore: '\\s\\.' })
   .withMessage('The first_name contains invalid characters')
   .isLength({ min: 5, max: 50 })
@@ -92,9 +92,9 @@ const firstName = body('first_name')
 
 const lastName = body('last_name')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The last_name is required')
-  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .isAlpha('es-ES', { ignore: '\\s\\.' })
   .withMessage('The last_name contains invalid characters')
   .isLength({ min: 5, max: 50 })
@@ -133,6 +133,7 @@ const confirmPassword = (passwordParameterName) =>
 
 const street_name = body('street_name')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalize(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The street_name is required')
   .isLength({ min: 5, max: 64 })
@@ -140,6 +141,7 @@ const street_name = body('street_name')
 
 const street_number = body('street_number')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalize(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The street_number is required')
   .isLength({ min: 1, max: 5 })
@@ -147,6 +149,7 @@ const street_number = body('street_number')
 
 const sublocality = body('sublocality')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The sublocality is required')
   .isLength({ min: 5, max: 45 })
@@ -154,6 +157,7 @@ const sublocality = body('sublocality')
 
 const locality = body('locality')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The locality is required')
   .isLength({ min: 5, max: 45 })
@@ -161,6 +165,7 @@ const locality = body('locality')
 
 const state = body('state')
   .trim()
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The state is required')
   .isLength({ min: 5, max: 45 })
@@ -183,6 +188,45 @@ const phone_number = body('phone_number')
   .withMessage(`The phone_number must be only numeric characters`)
   .isLength({ min: 10, max: 10 })
   .withMessage('The phone_number must be 10 characters');
+
+const category_title = body('title')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The title is required')
+  .customSanitizer((value) => stringUtils.capitalizeWords(value))
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The title must be between 3 and 45 characters')
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The title contains invalid characters');
+
+const attribute_title = body('title')
+  .trim()
+  .customSanitizer((value) => stringUtils.capitalize(value))
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The title is required')
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The title must be between 3 and 45 characters')
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The title contains invalid characters');
+
+const attribute_value = body('value')
+  .trim()
+  .customSanitizer((value) => stringUtils.capitalize(value))
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The value is required')
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The value must be between 3 and 45 characters')
+  .isAlpha('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The value contains invalid characters');
+
+const product_title = body('title')
+  .trim()
+  .exists({ checkNull: true, checkFalsy: true })
+  .withMessage('The title is required')
+  .isLength({ min: 3, max: 45 })
+  .withMessage('The title must be between 3 and 45 characters')
+  .isAlphanumeric('es-ES', { ignore: '\\s\\.' })
+  .withMessage('The title contains invalid characters');
 
 module.exports = {
   resourceId,
@@ -208,4 +252,8 @@ module.exports = {
   state,
   postal_code,
   phone_number,
+  category_title,
+  attribute_title,
+  attribute_value,
+  product_title,
 };

@@ -1,5 +1,5 @@
 const productDao = require('./product.dao');
-// const productMapper = require('./product.mapper');
+const productMapper = require('./product.mapper');
 
 /**
  * Retrieves all products.
@@ -21,12 +21,25 @@ async function findAll({ skip, limit, sort, search }, connection) {
 /**
  * Retrieves a product by its id.
  *
- * @param {number} product_id The id of the customer user to retrieve.
+ * @param {number} product_id The id of the product to retrieve.
  * @param {any} connection The database connection object.
  * @return {Promise} The result of the query.
  */
 const findById = async (product_id, connection) => {
   const [[result]] = await productDao.getById(product_id, connection);
+
+  return result;
+};
+
+/**
+ * Retrieves a product by its slug.
+ *
+ * @param {string} slug The slug of the product to retrieve.
+ * @param {any} connection The database connection object.
+ * @return {Promise} The result of the query.
+ */
+const findBySlug = async (slug, connection) => {
+  const [[result]] = await productDao.getBySlug(slug, connection);
 
   return result;
 };
@@ -57,9 +70,25 @@ const findImagesByProductId = async (product_id, connection) => {
   return result;
 };
 
+/**
+ * Stores a product.
+ *
+ * @param {object} product The product to store.
+ * @param {any} connection The database connection object.
+ */
+const store = async (product, connection) => {
+  const productDbEntity = productMapper.toDatabaseEntity(product);
+
+  const [result] = await productDao.create(productDbEntity, connection);
+
+  return result.insertId;
+};
+
 module.exports = {
   findAll,
   findById,
+  findBySlug,
   findAttributesByProductId,
   findImagesByProductId,
+  store,
 };

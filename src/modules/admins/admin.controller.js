@@ -70,7 +70,7 @@ async function store(request, response, next) {
     const createdAdminDto = adminMapper.toDto(createdAdmin);
 
     response.status(201).json({
-      message: 'Created',
+      message: 'Ok',
       data: createdAdminDto,
     });
   } catch (error) {
@@ -98,7 +98,7 @@ async function update(request, response, next) {
     const updatedAdminDto = adminMapper.toDto(updatedAdmin);
 
     response.json({
-      message: 'Updated',
+      message: 'Ok',
       data: updatedAdminDto,
     });
   } catch (error) {

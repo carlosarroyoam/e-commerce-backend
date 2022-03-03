@@ -197,5 +197,41 @@ module.exports = {
       },
       required: ['street_name', 'street_number', 'sublocality', 'locality', 'state', 'postal_code'],
     },
+    AddCategory: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+        },
+      },
+      required: ['title'],
+    },
+    UpdateCategory: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+        },
+      },
+      required: ['title'],
+    },
+    AddAttribute: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+        },
+      },
+      required: ['title'],
+    },
+  },
+  UpdateAttribute: {
+    type: 'object',
+    properties: {
+      title: {
+        type: 'string',
+      },
+    },
+    required: ['title'],
   },
 };

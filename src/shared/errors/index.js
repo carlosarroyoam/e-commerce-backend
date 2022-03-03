@@ -5,6 +5,7 @@ const UnauthorizedError = require('./unauthorizedError.error');
 const UnprocessableEntityError = require('./unprocessableEntity.error');
 const UserNotFoundError = require('./userNotFound.error');
 const ResourceNotFoundError = require('./resourceNotFound.error');
+const InternalServerError = require('./internalServerError.error');
 
 module.exports = {
   BadRequestError,
@@ -14,4 +15,5 @@ module.exports = {
   UnprocessableEntityError,
   UserNotFoundError,
   ResourceNotFoundError,
+  InternalServerError,
 };

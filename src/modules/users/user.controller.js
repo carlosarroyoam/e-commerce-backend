@@ -26,7 +26,7 @@ const index = async (request, response, next) => {
 };
 
 /**
- * Handles incoming request from the /users/:id endpoint.
+ * Handles incoming request from the /users/:user_id endpoint.
  *
  * @param {*} request The express.js request object.
  * @param {*} response The express.js response object.
@@ -61,12 +61,12 @@ const destroy = async (request, response, next) => {
     const { user_id } = request.params;
     const { id: auth_user_id } = request.user;
 
-    const userDeletedId = await userService.deleteById(user_id, auth_user_id);
+    const deletedUserId = await userService.deleteById(user_id, auth_user_id);
 
     response.json({
-      message: 'The user was successfully deleted',
+      message: 'Ok',
       data: {
-        user_deleted_id: userDeletedId,
+        user_id: deletedUserId,
       },
     });
   } catch (error) {
@@ -86,12 +86,12 @@ const restore = async (request, response, next) => {
     const { user_id } = request.params;
     const { id: auth_user_id } = request.user;
 
-    const userRestoredId = await userService.restore(user_id, auth_user_id);
+    const restoredUserId = await userService.restore(user_id, auth_user_id);
 
     response.json({
-      message: 'The user was successfully restored',
+      message: 'Ok',
       data: {
-        user_restored_id: userRestoredId,
+        user_id: restoredUserId,
       },
     });
   } catch (error) {

@@ -2,6 +2,7 @@ const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const productRepository = require('./product.repository');
 const productVariantRepository = require('../productVariants/productVariant.repository');
 const sharedErrors = require('../../shared/errors');
+const stringUtils = require('../../shared/utils/string.utils');
 const logger = require('../../shared/lib/winston/logger');
 
 /**
@@ -73,7 +74,7 @@ async function findAll({ skip, limit, sort, search }) {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving products');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving products' });
     }
 
     throw err;
@@ -140,7 +141,93 @@ async function findById(product_id) {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving product');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving product' });
+    }
+
+    throw err;
+  }
+}
+
+/**
+ * Stores a product.
+ *
+ * @param {object} product The product to store.
+ * @return {Promise} The created product.
+ */
+async function store(product) {
+  let connection;
+
+  try {
+    connection = await dbConnectionPool.getConnection();
+
+    connection.beginTransaction();
+
+    const slug = stringUtils.slugify(product.title);
+
+    const productBySlug = await productRepository.findBySlug(slug, connection);
+
+    if (productBySlug) {
+      throw new sharedErrors.BadRequestError({
+        message: `The product with title: '${product.title}' already exists`,
+      });
+    }
+
+    const createdProductId = await productRepository.store({ ...product, slug }, connection);
+
+    const productById = await productRepository.findById(createdProductId, connection);
+
+    const propertiesByProductId = await productRepository.findAttributesByProductId(
+      productById.id,
+      connection
+    );
+
+    const rawVariantsByProductId = await productVariantRepository.findByProductId(
+      productById.id,
+      connection
+    );
+
+    const variantsByProductId = await Promise.all(
+      rawVariantsByProductId.map(async (variant) => {
+        const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+          variant.id,
+          connection
+        );
+
+        return {
+          ...variant,
+          attribute_combinations: attributesByVariantId,
+        };
+      })
+    );
+
+    const imagesByProductId = await productRepository.findImagesByProductId(
+      productById.id,
+      connection
+    );
+
+    connection.rollback();
+
+    connection.release();
+
+    return {
+      ...productById,
+      properties: propertiesByProductId,
+      variants: variantsByProductId,
+      images: imagesByProductId,
+    };
+  } catch (err) {
+    if (connection) {
+      connection.rollback();
+
+      connection.release();
+    }
+
+    if (!err.status) {
+      logger.error({
+        message: err.message,
+      });
+
+      throw new sharedErrors.InternalServerError({ message: 'Error while storing product' });
     }
 
     throw err;
@@ -150,4 +237,5 @@ async function findById(product_id) {
 module.exports = {
   findAll,
   findById,
+  store,
 };

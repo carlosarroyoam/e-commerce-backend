@@ -28,7 +28,31 @@ const capitalizeWords = (string) => {
   return capitalizedWords.join(' ').toString();
 };
 
+/**
+ * Returns a slugify string.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+const slugify = (string) => {
+  if (typeof string !== 'string') return '';
+
+  const words = string.toLowerCase().split(' ');
+
+  const wordsWithoutSymbols = words
+    .map((word) =>
+      word
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9]/g, '')
+    )
+    .filter((word) => word.trim() !== '');
+
+  return wordsWithoutSymbols.join('-').toString();
+};
+
 module.exports = {
   capitalize,
   capitalizeWords,
+  slugify,
 };

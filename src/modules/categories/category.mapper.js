@@ -22,7 +22,7 @@ const toDto = (category) => {
 const toDatabaseEntity = (categoryDto) => {
   const categoryDbEntity = {
     id: categoryDto.id,
-    title: categoryDto.sku,
+    title: categoryDto.title,
   };
 
   const cleanedCategoryDbEntity = objectUtils.removeUndefined(categoryDbEntity);

@@ -35,7 +35,7 @@ const toDatabaseEntity = (productDto) => {
     description: productDto.description,
     featured: productDto.featured,
     active: productDto.active,
-    category: productDto.category,
+    category_id: productDto.category_id,
     created_at: productDto.created_at,
     updated_at: productDto.updated_at,
     deleted_at: productDto.deleted_at,

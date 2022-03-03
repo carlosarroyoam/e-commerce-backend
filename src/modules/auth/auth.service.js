@@ -36,9 +36,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
       });
     }
 
-    logger.profile('query running');
     const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
-    logger.profile('query running');
 
     if (!passwordMatchResult) {
       throw new sharedErrors.UnauthorizedError({ message: undefined, email });
@@ -91,6 +89,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
       user_role: userByEmail.user_role,
       access_token: token,
       refresh_token: refreshToken,
+      device_fingerprint,
     };
   } catch (err) {
     if (connection) connection.release();
@@ -100,7 +99,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
         message: err.message,
       });
 
-      throw new Error('Error while authenticating');
+      throw new sharedErrors.InternalServerError({ message: 'Error while authenticating' });
     }
 
     throw err;
@@ -142,7 +141,7 @@ const logout = async ({ refresh_token, user_id }) => {
         message: err.message,
       });
 
-      throw new Error('Error while logging out');
+      throw new sharedErrors.InternalServerError({ message: 'Error while logging out' });
     }
 
     throw err;
@@ -239,7 +238,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
         message: err.message,
       });
 
-      throw new Error('Error while refreshing token');
+      throw new sharedErrors.InternalServerError({ message: 'Error while refreshing token' });
     }
 
     throw err;
@@ -276,7 +275,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
         message: err.message,
       });
 
-      throw new Error('Error while authenticating');
+      throw new sharedErrors.InternalServerError({ message: 'Error while authenticating' });
     }
 
     throw err;
@@ -324,7 +323,9 @@ const forgotPassword = async ({ email }) => {
         message: err.message,
       });
 
-      throw new Error('Error while requesting password reset');
+      throw new sharedErrors.InternalServerError({
+        message: 'Error while requesting password reset',
+      });
     }
 
     throw err;
@@ -388,7 +389,7 @@ const resetPassword = async ({ token, password }) => {
         message: err.message,
       });
 
-      throw new Error('Error while resetting password');
+      throw new sharedErrors.InternalServerError({ message: 'Error while resetting password' });
     }
 
     throw err;

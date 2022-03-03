@@ -13,6 +13,19 @@ module.exports = {
         },
       },
     },
+    CREATED: {
+      description: 'CREATED',
+      content: {
+        'application/json': {
+          schema: {
+            example: {
+              message: 'Ok',
+              data: null,
+            },
+          },
+        },
+      },
+    },
     BAD_REQUEST: {
       description: 'BAD_REQUEST',
       content: {

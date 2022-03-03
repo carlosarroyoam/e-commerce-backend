@@ -38,7 +38,7 @@ const findAll = async (customer_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving admins');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving admins' });
     }
 
     throw err;
@@ -85,7 +85,9 @@ const findById = async (customer_id, address_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving customer address');
+      throw new sharedErrors.InternalServerError({
+        message: 'Error while retrieving customer address',
+      });
     }
 
     throw err;
@@ -136,7 +138,9 @@ const store = async (customerAddress, customer_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while storing customer address');
+      throw new sharedErrors.InternalServerError({
+        message: 'Error while storing customer address',
+      });
     }
 
     throw err;
@@ -194,7 +198,7 @@ const update = async (customer_address, customer_id, address_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while updating admin');
+      throw new sharedErrors.InternalServerError({ message: 'Error while updating admin' });
     }
 
     throw err;
@@ -245,7 +249,7 @@ const deleteById = async (customer_id, address_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while updating admin');
+      throw new sharedErrors.InternalServerError({ message: 'Error while updating admin' });
     }
 
     throw err;

@@ -36,7 +36,7 @@ async function findAll({ skip, limit, sort, status, search }) {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving admins');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving admins' });
     }
 
     throw err;
@@ -72,7 +72,7 @@ async function findById(admin_id) {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving admin');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving admin' });
     }
 
     throw err;
@@ -139,7 +139,7 @@ async function store(admin) {
         message: err.message,
       });
 
-      throw new Error('Error while storing admin');
+      throw new sharedErrors.InternalServerError({ message: 'Error while storing admin' });
     }
 
     throw err;
@@ -200,7 +200,7 @@ async function update(admin_id, admin) {
         message: err.message,
       });
 
-      throw new Error('Error while updating admin');
+      throw new sharedErrors.InternalServerError({ message: 'Error while updating admin' });
     }
 
     throw err;

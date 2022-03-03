@@ -74,6 +74,32 @@ async function getById(product_id, connection) {
 }
 
 /**
+ * Performs the SQL query to get a product by its slug.
+ *
+ * @param {string} slug The slug of the product to query.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function getBySlug(slug, connection) {
+  const query = `SELECT
+      p.id,
+      p.title,
+      p.slug,
+      p.description,
+      p.featured,
+      p.active,
+      c.title AS category,
+      p.created_at,
+      p.updated_at,
+      p.deleted_at
+    FROM products p
+    LEFT JOIN categories c ON p.category_id = c.id
+    WHERE p.slug = ?`;
+
+  return connection.query(query, [slug]);
+}
+
+/**
  * Performs the SQL query to get all product attributes by its id.
  *
  * @param {number} product_id The id of the product to query.
@@ -82,6 +108,7 @@ async function getById(product_id, connection) {
  */
 async function getAttributesByProductId(product_id, connection) {
   const query = `SELECT
+      a.id,
       a.title,
       pav.value
     FROM product_attribute_values pav
@@ -105,7 +132,7 @@ async function getImagesByProductId(product_id, connection) {
       pi.url,
       pi.product_id,
       pi.variant_id
-    FROM nodejs_api.product_images pi
+    FROM product_images pi
     LEFT JOIN products p ON pi.product_id = p.id
     LEFT JOIN variants v ON pi.variant_id = v.id
     WHERE p.id = ?`;
@@ -113,9 +140,24 @@ async function getImagesByProductId(product_id, connection) {
   return connection.query(query, [product_id]);
 }
 
+/**
+ * Performs the SQL query to insert a product.
+ *
+ * @param {object} product The product to store.
+ * @param {*} connection The database connection object.
+ * @return {Promise} The query result.
+ */
+async function create(product, connection) {
+  const query = 'INSERT INTO products SET ?';
+
+  return connection.query(query, [product]);
+}
+
 module.exports = {
   getAll,
   getById,
+  getBySlug,
   getAttributesByProductId,
   getImagesByProductId,
+  create,
 };

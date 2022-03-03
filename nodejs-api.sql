@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `nodejs_api`;
+CREATE DATABASE IF NOT EXISTS `ecommerce`;
 
-USE `nodejs_api`;
+USE `ecommerce`;
 
 --
 -- Table structure for table `user_roles`
@@ -47,7 +47,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users`
 VALUES
-    (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL);
+    (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL),
+    (2,'Cathy Stefania','Guido Rojas','cathy.guido@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL);
 
 --
 -- Table structure for table `customers`
@@ -146,7 +147,9 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `categories` (
     `id` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
+    `deleted_at` TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (`id`),
+    INDEX `categories_deleted_at_idx` (`deleted_at`),
     UNIQUE KEY `categories_title_idx` (`title`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
@@ -154,7 +157,7 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` VALUES (1,'Smartphones'),(2,'Headphones'),(3,'Accesories');
+INSERT INTO `categories` VALUES (1,'Smartphones',NULL),(2,'Headphones',NULL),(3,'Accesories',NULL);
 
 --
 -- Table structure for table `products`
@@ -192,9 +195,9 @@ INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto G100',0,1,1,'2022
 CREATE TABLE `variants` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `sku` VARCHAR(64) NOT NULL,
-    `price` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
-    `compared_at_price` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
-    `cost_per_item` DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT '0',
+    `price` DECIMAL(5,2) NOT NULL DEFAULT '0',
+    `compared_at_price` DECIMAL(5,2) NOT NULL DEFAULT '0',
+    `cost_per_item` DECIMAL(5,2) NOT NULL DEFAULT '0',
     `quantity_on_stock` INT UNSIGNED NOT NULL DEFAULT '0',
     `product_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
@@ -242,7 +245,9 @@ INSERT INTO `product_images` VALUES (1,'motog100nimbusblue.jpg',1,1),(2,'motog10
 CREATE TABLE `attributes` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
+    `deleted_at` TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (`id`),
+    INDEX `attributes_deleted_at_idx` (`deleted_at`),
     UNIQUE KEY `attributes_title_idx` (`title`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
@@ -250,7 +255,7 @@ CREATE TABLE `attributes` (
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` VALUES (1,'Brand'),(2,'Model'),(3,'Color'),(4,'Storage');
+INSERT INTO `attributes` VALUES (1,'Brand',NULL),(2,'Model',NULL),(3,'Color',NULL),(4,'Storage',NULL);
 
 --
 -- Table structure for table `product_attribute_values`

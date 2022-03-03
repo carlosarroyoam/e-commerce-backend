@@ -54,7 +54,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving customers');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving customers' });
     }
 
     throw err;
@@ -98,7 +98,7 @@ const findById = async (customer_id) => {
         message: err.message,
       });
 
-      throw new Error('Error while retrieving customer');
+      throw new sharedErrors.InternalServerError({ message: 'Error while retrieving customer' });
     }
 
     throw err;
@@ -164,7 +164,7 @@ const store = async (customer) => {
         message: err.message,
       });
 
-      throw new Error('Error while storing customer');
+      throw new sharedErrors.InternalServerError({ message: 'Error while storing customer' });
     }
 
     throw err;
@@ -225,7 +225,7 @@ const update = async (customer_id, customer) => {
         message: err.message,
       });
 
-      throw new Error('Error while updating customer');
+      throw new sharedErrors.InternalServerError({ message: 'Error while updating customer' });
     }
 
     throw err;
