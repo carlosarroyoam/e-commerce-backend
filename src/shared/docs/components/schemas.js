@@ -15,15 +15,6 @@ module.exports = {
       },
       required: ['email', 'password', 'device_fingerprint'],
     },
-    UserRevokeRefreshToken: {
-      type: 'object',
-      properties: {
-        user_id: {
-          type: 'integer',
-        },
-      },
-      required: ['user_id'],
-    },
     UserRefreshToken: {
       type: 'object',
       properties: {

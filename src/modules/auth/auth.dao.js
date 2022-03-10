@@ -1,23 +1,22 @@
 /**
  * Performs the SQL query to get a personal access token.
  *
- * @param {string} personal_access_token The token
- * @param {number} user_id The user id
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * @param {string} personal_access_token The token.
+ * @param {any} connection The database connection.
+ * @return {Promise} The query result.
  */
-async function getPersonalAccessToken(personal_access_token, user_id, connection) {
+async function getPersonalAccessToken(personal_access_token, connection) {
   const query = `SELECT id, fingerprint FROM personal_access_tokens
-        WHERE user_id = ? AND token = ?`;
+        WHERE token = ?`;
 
-  return connection.query(query, [user_id, personal_access_token]);
+  return connection.query(query, [personal_access_token]);
 }
 
 /**
  * Performs the SQL query to get all expired personal access token.
  *
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * @param {any} connection The database connection.
+ * @return {Promise} The query result.
  */
 async function getExpiredPersonalAccessTokens(connection) {
   const query = `SELECT id FROM personal_access_tokens
@@ -29,10 +28,10 @@ async function getExpiredPersonalAccessTokens(connection) {
 /**
  * Performs the SQL query to get a personal access token by finger print.
  *
- * @param {string} fingerprint The token finger print
- * @param {number} user_id The user id
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * @param {string} fingerprint The token finger print.
+ * @param {number} user_id The user id.
+ * @param {any} connection The database connection.
+ * @return {Promise} The query result.
  */
 async function getPersonalAccessTokenByFingerPrint(fingerprint, user_id, connection) {
   const query = `SELECT id FROM personal_access_tokens
@@ -44,9 +43,9 @@ async function getPersonalAccessTokenByFingerPrint(fingerprint, user_id, connect
 /**
  * Performs the SQL query to store a personal access token.
  *
- * @param {any} personal_access_token The personal access token data
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * @param {any} personal_access_token The personal access token data.
+ * @param {any} connection The database connection.
+ * @return {Promise} The query result.
  */
 async function storePersonalAccessToken(personal_access_token, connection) {
   const query = `INSERT INTO personal_access_tokens SET ?`;
@@ -57,10 +56,10 @@ async function storePersonalAccessToken(personal_access_token, connection) {
 /**
  * Performs the SQL query to update a personal access token.
  *
- * @param {any} personal_access_token The personal access token data
- * @param {number} personal_access_token_id The personal access token id
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * @param {any} personal_access_token The personal access token data.
+ * @param {number} personal_access_token_id The personal access token id.
+ * @param {any} connection The database connection.
+ * @return {Promise} The query result.
  */
 async function updatePersonalAccessToken(
   personal_access_token,
@@ -75,15 +74,14 @@ async function updatePersonalAccessToken(
 /**
  * Performs the SQL query to update a personal access token.
  *
- * @param {string} personal_access_token The personal access token
- * @param {number} user_id The personal access token owner id
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * @param {string} personal_access_token The personal access token.
+ * @param {any} connection The database connection.
+ * @return {Promise} The query result.
  */
-async function deleteRefreshToken(personal_access_token, user_id, connection) {
-  const query = `DELETE FROM personal_access_tokens WHERE token = ? AND user_id = ?`;
+async function deleteRefreshToken(personal_access_token, connection) {
+  const query = `DELETE FROM personal_access_tokens WHERE token = ?`;
 
-  return connection.query(query, [personal_access_token, user_id]);
+  return connection.query(query, [personal_access_token]);
 }
 
 module.exports = {

@@ -111,9 +111,8 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
  *
  * @param {object} sessionDetails The user session to delete.
  * @param {string} sessionDetails.refresh_token The user's refresh token.
- * @param {number} sessionDetails.user_id The user's id.
  */
-const logout = async ({ refresh_token, user_id }) => {
+const logout = async ({ refresh_token }) => {
   let connection;
 
   try {
@@ -121,7 +120,6 @@ const logout = async ({ refresh_token, user_id }) => {
 
     const currentPersonalAccessToken = await authRepository.getPersonalAccessToken(
       refresh_token,
-      user_id,
       connection
     );
 
@@ -130,7 +128,7 @@ const logout = async ({ refresh_token, user_id }) => {
       return;
     }
 
-    await authRepository.deleteRefreshToken(refresh_token, user_id, connection);
+    await authRepository.deleteRefreshToken(refresh_token, connection);
 
     connection.release();
   } catch (err) {
@@ -183,7 +181,6 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
 
     const currentPersonalAccessToken = await authRepository.getPersonalAccessToken(
       refresh_token,
-      decoded.sub,
       connection
     );
 

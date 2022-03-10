@@ -52,11 +52,10 @@ const login = async (request, response, next) => {
  */
 const logout = async (request, response, next) => {
   try {
-    const { refresh_token, user_id } = request.body;
+    const { refresh_token } = request.cookies;
 
     await authService.logout({
       refresh_token,
-      user_id,
     });
 
     response.clearCookie('access_token').clearCookie('refresh_token').status(204).end();
