@@ -37,8 +37,8 @@ module.exports = {
       summary: 'Revokes a refresh token',
       operationId: 'authLogout',
       responses: {
-        200: {
-          $ref: '#/components/responses/OK',
+        204: {
+          $ref: '#/components/responses/NO_CONTENT',
         },
         422: {
           $ref: '#/components/responses/UNPROCESABLE_ENTITY',
