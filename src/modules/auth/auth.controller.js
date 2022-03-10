@@ -37,6 +37,8 @@ const login = async (request, response, next) => {
         data: auth,
       });
   } catch (error) {
+    response.clearCookie('access_token').clearCookie('refresh_token');
+
     next(error);
   }
 };
@@ -96,6 +98,8 @@ const refreshToken = async (request, response, next) => {
         data: refreshToken,
       });
   } catch (error) {
+    response.clearCookie('access_token').clearCookie('refresh_token');
+
     next(error);
   }
 };
