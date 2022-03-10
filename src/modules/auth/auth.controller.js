@@ -1,4 +1,6 @@
+const ms = require('ms');
 const authService = require('./auth.service');
+const config = require('../../config');
 
 /**
  * Handles incoming request from the /auth/login endpoint.
@@ -19,10 +21,21 @@ const login = async (request, response, next) => {
       user_agent,
     });
 
-    response.json({
-      message: 'Ok',
-      data: auth,
-    });
+    response
+      .cookie('access_token', `Bearer ${auth.access_token}`, {
+        maxAge: ms(config.JWT.EXPIRES_IN),
+        httpOnly: true,
+        sameSite: true,
+      })
+      .cookie('refresh_token', auth.refresh_token, {
+        maxAge: ms(config.JWT.REFRESH_EXPIRES_IN),
+        httpOnly: true,
+        sameSite: true,
+      })
+      .json({
+        message: 'Ok',
+        data: auth,
+      });
   } catch (error) {
     next(error);
   }
@@ -44,7 +57,7 @@ const logout = async (request, response, next) => {
       user_id,
     });
 
-    response.status(204).end();
+    response.clearCookie('access_token').clearCookie('refresh_token').status(204).end();
   } catch (error) {
     next(error);
   }
@@ -59,17 +72,29 @@ const logout = async (request, response, next) => {
  */
 const refreshToken = async (request, response, next) => {
   try {
-    const { refresh_token, device_fingerprint } = request.body;
+    const { refresh_token } = request.cookies;
+    const { device_fingerprint } = request.body;
 
     const refreshToken = await authService.refreshToken({
       refresh_token,
       device_fingerprint,
     });
 
-    response.json({
-      message: 'Ok',
-      data: refreshToken,
-    });
+    response
+      .cookie('access_token', `Bearer ${refreshToken.access_token}`, {
+        maxAge: ms(config.JWT.EXPIRES_IN),
+        httpOnly: true,
+        sameSite: true,
+      })
+      .cookie('refresh_token', refreshToken.refresh_token, {
+        maxAge: ms(config.JWT.REFRESH_EXPIRES_IN),
+        httpOnly: true,
+        sameSite: true,
+      })
+      .json({
+        message: 'Ok',
+        data: refreshToken,
+      });
   } catch (error) {
     next(error);
   }
