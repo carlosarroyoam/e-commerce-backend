@@ -13,6 +13,7 @@ class ProductVariantRepository {
     this.connection = connection;
     this.productVariantDao = new ProductVariantDao(this.connection);
   }
+
   /**
    * Retrieves product variant by its id.
    *
