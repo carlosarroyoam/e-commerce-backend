@@ -4,11 +4,11 @@
  * @param {string} string The string to capitalize
  * @return {string} The capitalized string
  */
-const capitalize = (string) => {
+function capitalize(string) {
   if (typeof string !== 'string') return '';
 
   return string.charAt(0).toUpperCase() + string.slice(1);
-};
+}
 
 /**
  * Capitalizes every word in a string.
@@ -16,7 +16,7 @@ const capitalize = (string) => {
  * @param {string} string
  * @return {string}
  */
-const capitalizeWords = (string) => {
+function capitalizeWords(string) {
   if (typeof string !== 'string') return '';
 
   const words = string.toLowerCase().split(' ');
@@ -26,7 +26,7 @@ const capitalizeWords = (string) => {
     .filter((word) => word.trim() !== '');
 
   return capitalizedWords.join(' ').toString();
-};
+}
 
 /**
  * Returns a slugify string.
@@ -34,7 +34,7 @@ const capitalizeWords = (string) => {
  * @param {string} string
  * @return {string}
  */
-const slugify = (string) => {
+function slugify(string) {
   if (typeof string !== 'string') return '';
 
   const words = string.toLowerCase().split(' ');
@@ -49,7 +49,7 @@ const slugify = (string) => {
     .filter((word) => word.trim() !== '');
 
   return wordsWithoutSymbols.join('-').toString();
-};
+}
 
 module.exports = {
   capitalize,

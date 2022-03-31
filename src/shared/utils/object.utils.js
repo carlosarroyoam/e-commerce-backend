@@ -4,7 +4,7 @@
  * @param {object} object The object to remove undefined.
  * @return {object} The object without undefined.
  */
-const removeUndefined = (object) => {
+function removeUndefined(object) {
   const cleanedObject = Object.keys(object).reduce((acc, key) => {
     const _acc = acc;
     if (object[key] !== undefined) _acc[key] = object[key];
@@ -14,7 +14,7 @@ const removeUndefined = (object) => {
   Object.freeze(cleanedObject);
 
   return cleanedObject;
-};
+}
 
 module.exports = {
   removeUndefined,
