@@ -1,7 +1,7 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const customerRepository = require('./customer.repository');
 const customerAddressRepository = require('../customerAddresses/customerAddress.repository');
-const userRepositoryFactory = require('../users/user.repository');
+const UserRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -116,7 +116,7 @@ const store = async (customer) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     connection.beginTransaction();
 
@@ -130,14 +130,11 @@ const store = async (customer) => {
 
     const passwordHash = await bcrypt.hashPassword(customer.password);
 
-    const createdUserId = await userRepository.store(
-      {
-        ...customer,
-        password: passwordHash,
-        user_role_id: userRoles.customer.id,
-      },
-      connection
-    );
+    const createdUserId = await userRepository.store({
+      ...customer,
+      password: passwordHash,
+      user_role_id: userRoles.customer.id,
+    });
 
     const createdCustomerId = await customerRepository.store(
       {
@@ -184,7 +181,7 @@ const update = async (customer_id, customer) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     connection.beginTransaction();
 

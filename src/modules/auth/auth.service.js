@@ -1,6 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const authRepository = require('./auth.repository');
-const userRepositoryFactory = require('../users/user.repository');
+const UserRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const config = require('../../config');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -23,7 +23,7 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userByEmail = await userRepository.findByEmail(email);
 
@@ -161,7 +161,7 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const decoded = await jsonwebtoken.verifyRefresh(refresh_token);
 
@@ -257,7 +257,7 @@ const getUserForTokenVerify = async ({ user_id }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userById = await userRepository.findById(user_id);
 
@@ -294,7 +294,7 @@ const forgotPassword = async ({ email }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userByEmail = await userRepository.findByEmail(email);
 
@@ -346,7 +346,7 @@ const resetPassword = async ({ token, password }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const decoded = await jsonwebtoken.decode(token);
 
@@ -370,7 +370,7 @@ const resetPassword = async ({ token, password }) => {
 
     const hashPassword = await bcrypt.hashPassword(password);
 
-    await userRepository.update({ password: hashPassword }, decodedVerified.sub, connection);
+    await userRepository.update({ password: hashPassword }, decodedVerified.sub);
 
     return;
   } catch (err) {

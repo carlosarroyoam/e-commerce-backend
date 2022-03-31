@@ -2,13 +2,18 @@ const userDao = require('./user.dao');
 const userMapper = require('./user.mapper');
 
 /**
- * Creates a userRepository object.
- *
- * @param {*} connection The database connection object. The database connection object.
- *
- * @return {object} The userRepository object.
+ * UserRepository class.
  */
-const userRepositoryFactory = (connection) => {
+class UserRepository {
+  /**
+   * Creates a userRepository object.
+   *
+   * @param {*} connection The database connection object. The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+  }
+
   /**
    * Retrieves all non-deleted/active users.
    *
@@ -20,11 +25,11 @@ const userRepositoryFactory = (connection) => {
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The result of the query
    */
-  const findAll = async ({ skip, limit, sort, status, search }) => {
-    const [result] = await userDao.getAll({ skip, limit, sort, status, search }, connection);
+  async findAll({ skip, limit, sort, status, search }) {
+    const [result] = await userDao.getAll({ skip, limit, sort, status, search }, this.connection);
 
     return result;
-  };
+  }
 
   /**
    * Retrieves a non-deleted/active user by its id.
@@ -32,11 +37,11 @@ const userRepositoryFactory = (connection) => {
    * @param {number} user_id The id of the user to query.
    * @return {Promise} The result of the query
    */
-  const findById = async (user_id) => {
-    const [[result]] = await userDao.getById(user_id, connection);
+  async findById(user_id) {
+    const [[result]] = await userDao.getById(user_id, this.connection);
 
     return result;
-  };
+  }
 
   /**
    * Retrieves a non-deleted/active user by its email address.
@@ -44,11 +49,11 @@ const userRepositoryFactory = (connection) => {
    * @param {string} email
    * @return {Promise} The result of the query
    */
-  const findByEmail = async (email) => {
-    const [[result]] = await userDao.getByEmail(email, connection);
+  async findByEmail(email) {
+    const [[result]] = await userDao.getByEmail(email, this.connection);
 
     return result;
-  };
+  }
 
   /**
    * Stores a user.
@@ -56,13 +61,13 @@ const userRepositoryFactory = (connection) => {
    * @param {object} user The user to store.
    * @return {Promise} The result of the query
    */
-  const store = async (user) => {
+  async store(user) {
     const userDbEntity = userMapper.toDatabaseEntity(user);
 
-    const [result] = await userDao.create(userDbEntity, connection);
+    const [result] = await userDao.create(userDbEntity, this.connection);
 
     return result.insertId;
-  };
+  }
 
   /**
    * Updates a user.
@@ -71,13 +76,13 @@ const userRepositoryFactory = (connection) => {
    * @param {number} user_id The id of the user to update.
    * @return {Promise} The result of the query
    */
-  const update = async (user, user_id) => {
+  async update(user, user_id) {
     const userDbEntity = userMapper.toDatabaseEntity(user);
 
-    const [result] = await userDao.update(userDbEntity, user_id, connection);
+    const [result] = await userDao.update(userDbEntity, user_id, this.connection);
 
     return result.changedRows;
-  };
+  }
 
   /**
    * Deletes a user.
@@ -85,11 +90,11 @@ const userRepositoryFactory = (connection) => {
    * @param {number} user_id The id of the user to delete.
    * @return {Promise} The result of the query
    */
-  const deleteById = async (user_id) => {
-    const [result] = await userDao.deleteById(user_id, connection);
+  async deleteById(user_id) {
+    const [result] = await userDao.deleteById(user_id, this.connection);
 
     return result.changedRows;
-  };
+  }
 
   /**
    * Restores a user.
@@ -97,21 +102,11 @@ const userRepositoryFactory = (connection) => {
    * @param {number} user_id The id of the user to restore.
    * @return {Promise} The result of the query
    */
-  const restore = async (user_id) => {
-    const [result] = await userDao.restore(user_id, connection);
+  async restore(user_id) {
+    const [result] = await userDao.restore(user_id, this.connection);
 
     return result.changedRows;
-  };
+  }
+}
 
-  return {
-    findAll,
-    findById,
-    findByEmail,
-    store,
-    update,
-    deleteById,
-    restore,
-  };
-};
-
-module.exports = userRepositoryFactory;
+module.exports = UserRepository;

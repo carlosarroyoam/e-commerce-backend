@@ -1,6 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const adminRepository = require('./admin.repository');
-const userRepositoryFactory = require('../../modules/users/user.repository');
+const UserRepository = require('../../modules/users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../../modules/auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -91,7 +91,7 @@ async function store(admin) {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     connection.beginTransaction();
 
@@ -157,7 +157,7 @@ async function update(admin_id, admin) {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     connection.beginTransaction();
 

@@ -1,5 +1,5 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
-const userRepositoryFactory = require('./user.repository');
+const UserRepository = require('./user.repository');
 const sharedErrors = require('../../shared/errors');
 const bcrypt = require('../../shared/lib/bcrypt');
 const logger = require('../../shared/lib/winston/logger');
@@ -20,7 +20,7 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const users = await userRepository.findAll({ skip, limit, sort, status, search });
 
@@ -53,7 +53,7 @@ const findById = async (user_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userById = await userRepository.findById(user_id);
 
@@ -91,7 +91,7 @@ const deleteById = async (user_id, auth_user_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userById = await userRepository.findById(user_id);
 
@@ -111,7 +111,7 @@ const deleteById = async (user_id, auth_user_id) => {
       });
     }
 
-    await userRepository.deleteById(user_id, connection);
+    await userRepository.deleteById(user_id);
 
     connection.release();
 
@@ -143,7 +143,7 @@ const restore = async (user_id, auth_user_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userById = await userRepository.findById(user_id);
 
@@ -163,7 +163,7 @@ const restore = async (user_id, auth_user_id) => {
       });
     }
 
-    await userRepository.restore(user_id, connection);
+    await userRepository.restore(user_id);
 
     connection.release();
 
@@ -198,7 +198,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
 
   try {
     connection = await dbConnectionPool.getConnection();
-    const userRepository = userRepositoryFactory(connection);
+    const userRepository = new UserRepository(connection);
 
     const userById = await userRepository.findById(user_id);
 
@@ -223,7 +223,7 @@ const changePassword = async ({ user_id, current_password, new_password }, auth_
 
     const hashPassword = await bcrypt.hashPassword(new_password);
 
-    await userRepository.update({ password: hashPassword }, user_id, connection);
+    await userRepository.update({ password: hashPassword }, user_id);
 
     connection.release();
 
