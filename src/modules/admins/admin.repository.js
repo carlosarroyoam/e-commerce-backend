@@ -10,7 +10,6 @@ const adminMapper = require('./admin.mapper');
  * @param {string} queryOptions.sort The order for the results.
  * @param {string} queryOptions.status The user status to query.
  * @param {string} queryOptions.search The search criteria.
- * @param {*} connection The database connection object. The database connection object.
  * @return {Promise} The result of the query.
  */
 async function findAll({ skip, limit, sort, status, search }, connection) {

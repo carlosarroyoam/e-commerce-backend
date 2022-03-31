@@ -1,7 +1,7 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const customerRepository = require('./customer.repository');
 const customerAddressRepository = require('../customerAddresses/customerAddress.repository');
-const userRepository = require('../users/user.repository');
+const userRepositoryFactory = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -116,10 +116,11 @@ const store = async (customer) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
     connection.beginTransaction();
 
-    const customerByEmail = await userRepository.findByEmail(customer.email, connection);
+    const customerByEmail = await userRepository.findByEmail(customer.email);
 
     if (customerByEmail) {
       throw new sharedErrors.EmailAlreadyTakenError({
@@ -183,6 +184,7 @@ const update = async (customer_id, customer) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
     connection.beginTransaction();
 
@@ -202,8 +204,7 @@ const update = async (customer_id, customer) => {
       {
         ...customer,
       },
-      customerById.user_id,
-      connection
+      customerById.user_id
     );
 
     const updatedCustomer = await customerRepository.findById(customer_id, connection);

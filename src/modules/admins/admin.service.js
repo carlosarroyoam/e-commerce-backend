@@ -1,6 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const adminRepository = require('./admin.repository');
-const userRepository = require('../../modules/users/user.repository');
+const userRepositoryFactory = require('../../modules/users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const userRoles = require('../../modules/auth/roles');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -46,10 +46,11 @@ async function findAll({ skip, limit, sort, status, search }) {
 /**
  * Retrieves a admin user by its id.
  *
- * @param {number} admin_id The id of the admin user to retrieve.
+ * @param {object} admin The admin user object.
+ * @param {number} admin.admin_id The id of the admin user to retrieve.
  * @return {Promise} The admin user.
  */
-async function findById(admin_id) {
+async function findById({ admin_id }) {
   let connection;
 
   try {
@@ -90,10 +91,11 @@ async function store(admin) {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
     connection.beginTransaction();
 
-    const userByEmail = await userRepository.findByEmail(admin.email, connection);
+    const userByEmail = await userRepository.findByEmail(admin.email);
 
     if (userByEmail) {
       throw new sharedErrors.EmailAlreadyTakenError({
@@ -103,14 +105,11 @@ async function store(admin) {
 
     const passwordHash = await bcrypt.hashPassword(admin.password);
 
-    const createdUserId = await userRepository.store(
-      {
-        ...admin,
-        password: passwordHash,
-        user_role_id: userRoles.admin.id,
-      },
-      connection
-    );
+    const createdUserId = await userRepository.store({
+      ...admin,
+      password: passwordHash,
+      user_role_id: userRoles.admin.id,
+    });
 
     const createdAdminId = await adminRepository.store(
       {
@@ -158,6 +157,7 @@ async function update(admin_id, admin) {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
     connection.beginTransaction();
 
@@ -177,8 +177,7 @@ async function update(admin_id, admin) {
       {
         ...admin,
       },
-      adminById.user_id,
-      connection
+      adminById.user_id
     );
 
     const updatedAdmin = await adminRepository.findById(admin_id, connection);

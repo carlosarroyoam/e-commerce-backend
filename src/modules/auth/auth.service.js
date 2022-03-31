@@ -1,6 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const authRepository = require('./auth.repository');
-const userRepository = require('../users/user.repository');
+const userRepositoryFactory = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
 const config = require('../../config');
 const bcrypt = require('../../shared/lib/bcrypt');
@@ -23,7 +23,9 @@ const login = async ({ email, password, device_fingerprint, user_agent }) => {
   try {
     connection = await dbConnectionPool.getConnection();
 
-    const userByEmail = await userRepository.findByEmail(email, connection);
+    const userRepository = userRepositoryFactory(connection);
+
+    const userByEmail = await userRepository.findByEmail(email);
 
     if (!userByEmail) {
       throw new sharedErrors.UserNotFoundError({ email });
@@ -159,10 +161,11 @@ const refreshToken = async ({ refresh_token, device_fingerprint }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
     const decoded = await jsonwebtoken.verifyRefresh(refresh_token);
 
-    const userById = await userRepository.findById(decoded.sub, connection);
+    const userById = await userRepository.findById(decoded.sub);
 
     if (!userById) {
       throw new sharedErrors.UnauthorizedError({
@@ -254,8 +257,9 @@ const getUserForTokenVerify = async ({ user_id }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
-    const userById = await userRepository.findById(user_id, connection);
+    const userById = await userRepository.findById(user_id);
 
     if (!userById) {
       throw new sharedErrors.UserNotFoundError({ email: undefined });
@@ -290,8 +294,9 @@ const forgotPassword = async ({ email }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
-    const userByEmail = await userRepository.findByEmail(email, connection);
+    const userByEmail = await userRepository.findByEmail(email);
 
     connection.release();
 
@@ -341,6 +346,7 @@ const resetPassword = async ({ token, password }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const userRepository = userRepositoryFactory(connection);
 
     const decoded = await jsonwebtoken.decode(token);
 
@@ -351,7 +357,7 @@ const resetPassword = async ({ token, password }) => {
       });
     }
 
-    const userById = await userRepository.findById(decoded.sub, connection);
+    const userById = await userRepository.findById(decoded.sub);
 
     if (!userById) {
       throw new sharedErrors.UserNotFoundError({ email: undefined });

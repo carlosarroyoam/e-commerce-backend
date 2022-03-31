@@ -36,7 +36,7 @@ async function show(request, response, next) {
   try {
     const { admin_id } = request.params;
 
-    const admin = await adminService.findById(admin_id);
+    const admin = await adminService.findById({ admin_id });
     const adminDto = adminMapper.toDto(admin);
 
     response.json({
