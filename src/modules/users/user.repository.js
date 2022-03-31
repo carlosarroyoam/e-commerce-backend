@@ -6,7 +6,7 @@ const userMapper = require('./user.mapper');
  */
 class UserRepository {
   /**
-   * Creates a userRepository object.
+   * UserRepository class constructor.
    *
    * @param {*} connection The database connection object.
    */

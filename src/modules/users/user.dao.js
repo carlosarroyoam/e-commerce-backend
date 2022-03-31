@@ -3,7 +3,7 @@
  */
 class UserDao {
   /**
-   * Creates a userDao object.
+   * UserDao class constructor.
    *
    * @param {*} connection The database connection object.
    */

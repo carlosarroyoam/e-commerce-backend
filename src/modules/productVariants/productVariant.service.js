@@ -1,6 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const productRepository = require('../products/product.repository');
-const productVariantRepository = require('./productVariant.repository');
+const ProductVariantRepository = require('./productVariant.repository');
 const sharedErrors = require('../../shared/errors');
 const logger = require('../../shared/lib/winston/logger');
 
@@ -15,6 +15,7 @@ const findAll = async (product_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productVariantRepository = new ProductVariantRepository(connection);
 
     const productById = await productRepository.findById(product_id, connection);
 
@@ -22,16 +23,12 @@ const findAll = async (product_id) => {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
-    const rawProductVariants = await productVariantRepository.findByProductId(
-      product_id,
-      connection
-    );
+    const rawProductVariants = await productVariantRepository.findByProductId(product_id);
 
     const productVariants = await Promise.all(
       rawProductVariants.map(async (variant) => {
         const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-          variant.id,
-          connection
+          variant.id
         );
 
         return {
@@ -73,6 +70,7 @@ const findById = async (product_id, variant_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productVariantRepository = new ProductVariantRepository(connection);
 
     const productById = await productRepository.findById(product_id, connection);
 
@@ -80,15 +78,14 @@ const findById = async (product_id, variant_id) => {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
-    const variantById = await productVariantRepository.findById(product_id, variant_id, connection);
+    const variantById = await productVariantRepository.findById(product_id, variant_id);
 
     if (!variantById) {
       throw new sharedErrors.ResourceNotFoundError();
     }
 
     const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-      variantById.id,
-      connection
+      variantById.id
     );
 
     connection.release();

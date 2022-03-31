@@ -1,6 +1,6 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
 const productRepository = require('./product.repository');
-const productVariantRepository = require('../productVariants/productVariant.repository');
+const ProductVariantRepository = require('../productVariants/productVariant.repository');
 const sharedErrors = require('../../shared/errors');
 const stringUtils = require('../../shared/utils/string.utils');
 const logger = require('../../shared/lib/winston/logger');
@@ -20,6 +20,7 @@ async function findAll({ skip, limit, sort, search }) {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productVariantRepository = new ProductVariantRepository(connection);
 
     const rawProducts = await productRepository.findAll({ skip, limit, sort, search }, connection);
 
@@ -30,16 +31,12 @@ async function findAll({ skip, limit, sort, search }) {
           connection
         );
 
-        const rawVariantsByProductId = await productVariantRepository.findByProductId(
-          product.id,
-          connection
-        );
+        const rawVariantsByProductId = await productVariantRepository.findByProductId(product.id);
 
         const variantsByProductId = await Promise.all(
           rawVariantsByProductId.map(async (variant) => {
             const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-              variant.id,
-              connection
+              variant.id
             );
 
             return {
@@ -92,6 +89,7 @@ async function findById(product_id) {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productVariantRepository = new ProductVariantRepository(connection);
 
     const productById = await productRepository.findById(product_id, connection);
 
@@ -104,16 +102,12 @@ async function findById(product_id) {
       connection
     );
 
-    const rawVariantsByProductId = await productVariantRepository.findByProductId(
-      product_id,
-      connection
-    );
+    const rawVariantsByProductId = await productVariantRepository.findByProductId(product_id);
 
     const variantsByProductId = await Promise.all(
       rawVariantsByProductId.map(async (variant) => {
         const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-          variant.id,
-          connection
+          variant.id
         );
 
         return {
@@ -159,6 +153,7 @@ async function store(product) {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productVariantRepository = new ProductVariantRepository(connection);
 
     connection.beginTransaction();
 
@@ -181,16 +176,12 @@ async function store(product) {
       connection
     );
 
-    const rawVariantsByProductId = await productVariantRepository.findByProductId(
-      productById.id,
-      connection
-    );
+    const rawVariantsByProductId = await productVariantRepository.findByProductId(productById.id);
 
     const variantsByProductId = await Promise.all(
       rawVariantsByProductId.map(async (variant) => {
         const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-          variant.id,
-          connection
+          variant.id
         );
 
         return {
