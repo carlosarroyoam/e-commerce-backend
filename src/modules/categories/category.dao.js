@@ -43,7 +43,6 @@ class CategoryDao {
    * Performs the SQL query to get a category by its id.
    *
    * @param {number} category_id The id of the category to query.
-   * @param {*} connection The database connection number.
    * @return {Promise} The query result.
    */
   async getById(category_id) {
@@ -61,7 +60,6 @@ class CategoryDao {
    * Performs the SQL query to get a category by its title.
    *
    * @param {number} title The title of the category to query.
-   * @param {*} connection The database connection number.
    * @return {Promise} The query result.
    */
   async getByTitle(title) {
