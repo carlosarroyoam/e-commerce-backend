@@ -1,89 +1,107 @@
-const attributeDao = require('./attribute.dao');
+const AttributeDao = require('./attribute.dao');
 const attributeMapper = require('./attribute.mapper');
 
 /**
- * Retrieves all attributes.
- *
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
+ * AttributeRepository class.
  */
-const findAll = async (connection) => {
-  const [result] = await attributeDao.getAllByProductId(connection);
+class AttributeRepository {
+  /**
+   * AttributeRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.attributeDao = new AttributeDao(this.connection);
+  }
 
-  return result;
-};
+  /**
+   * Retrieves all attributes.
+   *
+   * @return {Promise} The result of the query.
+   */
+  async findAll() {
+    const [result] = await this.attributeDao.getAllByProductId();
 
-/**
- * Retrieves a attribute by its id.
- *
- * @param {number} attribute_id The query options.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findById = async (attribute_id, connection) => {
-  const [[result]] = await attributeDao.getById(attribute_id, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves a attribute by its id.
+   *
+   * @param {number} attribute_id The query options.
+   * @return {Promise} The result of the query.
+   */
+  async findById(attribute_id) {
+    const [[result]] = await this.attributeDao.getById(attribute_id);
 
-/**
- * Retrieves a attribute by its id.
- *
- * @param {number} title The query options.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findByTitle = async (title, connection) => {
-  const [[result]] = await attributeDao.getByTitle(title, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves a attribute by its id.
+   *
+   * @param {number} title The query options.
+   * @return {Promise} The result of the query.
+   */
+  async findByTitle(title) {
+    const [[result]] = await this.attributeDao.getByTitle(title);
 
-/**
- * Stores a attribute.
- *
- * @param {object} attribute The attribute to store.
- * @param {any} connection The database connection object.
- */
-const store = async (attribute, connection) => {
-  const attributeDbEntity = attributeMapper.toDatabaseEntity(attribute);
+    return result;
+  }
 
-  const [result] = await attributeDao.create(attributeDbEntity, connection);
+  /**
+   * Stores a attribute.
+   *
+   * @param {object} attribute The attribute to store.
+   * @return {Promise} The result of the query.
+   */
+  async store(attribute) {
+    const attributeDbEntity = attributeMapper.toDatabaseEntity(attribute);
 
-  return result.insertId;
-};
+    const [result] = await this.attributeDao.create(attributeDbEntity);
 
-/**
- * Deletes a attribute.
- *
- * @param {number} attribute_id The id of the attribute to delete.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query
- */
-const deleteById = async (attribute_id, connection) => {
-  const [result] = await attributeDao.deleteById(attribute_id, connection);
+    return result.insertId;
+  }
 
-  return result.changedRows;
-};
+  /**
+   * Updates a attribute.
+   *
+   * @param {object} attribute The attribute to update.
+   * @param {number} attribute_id The id of the attribute to update.
+   * @return {Promise} The result of the query.
+   */
+  async update(attribute, attribute_id) {
+    const attributeDbEntity = attributeMapper.toDatabaseEntity(attribute);
 
-/**
- * Restores a attribute.
- *
- * @param {number} attribute_id The id of the attribute to restore.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query
- */
-const restore = async (attribute_id, connection) => {
-  const [result] = await attributeDao.restore(attribute_id, connection);
+    const [result] = await this.attributeDao.update(attributeDbEntity, attribute_id);
 
-  return result.changedRows;
-};
+    return result.changedRows;
+  }
 
-module.exports = {
-  findAll,
-  findById,
-  findByTitle,
-  store,
-  deleteById,
-  restore,
-};
+  /**
+   * Deletes a attribute.
+   *
+   * @param {number} attribute_id The id of the attribute to delete.
+   * @return {Promise} The result of the query.
+   */
+  async deleteById(attribute_id) {
+    const [result] = await this.attributeDao.deleteById(attribute_id);
+
+    return result.changedRows;
+  }
+
+  /**
+   * Restores a attribute.
+   *
+   * @param {number} attribute_id The id of the attribute to restore.
+   * @return {Promise} The result of the query
+   */
+  async restore(attribute_id) {
+    const [result] = await this.attributeDao.restore(attribute_id);
+
+    return result.changedRows;
+  }
+}
+
+module.exports = AttributeRepository;
