@@ -1,5 +1,5 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
-const customerRepository = require('./customer.repository');
+const CustomerRepository = require('./customer.repository');
 const customerAddressRepository = require('../customerAddresses/customerAddress.repository');
 const UserRepository = require('../users/user.repository');
 const sharedErrors = require('../../shared/errors');
@@ -23,11 +23,9 @@ const findAll = async ({ skip, limit, sort, status, search }) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const customerRepository = new CustomerRepository(connection);
 
-    const rawCustomers = await customerRepository.findAll(
-      { skip, limit, sort, status, search },
-      connection
-    );
+    const rawCustomers = await customerRepository.findAll({ skip, limit, sort, status, search });
 
     const customers = await Promise.all(
       rawCustomers.map(async (customer) => {
@@ -72,17 +70,15 @@ const findById = async (customer_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const customerRepository = new CustomerRepository(connection);
 
-    const customerById = await customerRepository.findById(customer_id, connection);
+    const customerById = await customerRepository.findById(customer_id);
 
     if (!customerById) {
       throw new sharedErrors.UserNotFoundError({ email: undefined });
     }
 
-    const addressesByCustomerId = await customerAddressRepository.findByCustomerId(
-      customer_id,
-      connection
-    );
+    const addressesByCustomerId = await customerAddressRepository.findByCustomerId(customer_id);
 
     connection.release();
 
@@ -117,6 +113,7 @@ const store = async (customer) => {
   try {
     connection = await dbConnectionPool.getConnection();
     const userRepository = new UserRepository(connection);
+    const customerRepository = new CustomerRepository(connection);
 
     connection.beginTransaction();
 
@@ -136,14 +133,11 @@ const store = async (customer) => {
       user_role_id: userRoles.customer.id,
     });
 
-    const createdCustomerId = await customerRepository.store(
-      {
-        user_id: createdUserId,
-      },
-      connection
-    );
+    const createdCustomerId = await customerRepository.store({
+      user_id: createdUserId,
+    });
 
-    const createdCustomer = await customerRepository.findById(createdCustomerId, connection);
+    const createdCustomer = await customerRepository.findById(createdCustomerId);
 
     connection.commit();
 
@@ -153,7 +147,6 @@ const store = async (customer) => {
   } catch (err) {
     if (connection) {
       connection.rollback();
-
       connection.release();
     }
 
@@ -182,10 +175,11 @@ const update = async (customer_id, customer) => {
   try {
     connection = await dbConnectionPool.getConnection();
     const userRepository = new UserRepository(connection);
+    const customerRepository = new CustomerRepository(connection);
 
     connection.beginTransaction();
 
-    const customerById = await customerRepository.findById(customer_id, connection);
+    const customerById = await customerRepository.findById(customer_id);
 
     if (!customerById) {
       throw new sharedErrors.UserNotFoundError({ email: undefined });
@@ -204,7 +198,7 @@ const update = async (customer_id, customer) => {
       customerById.user_id
     );
 
-    const updatedCustomer = await customerRepository.findById(customer_id, connection);
+    const updatedCustomer = await customerRepository.findById(customer_id);
 
     connection.commit();
 
@@ -214,7 +208,6 @@ const update = async (customer_id, customer) => {
   } catch (err) {
     if (connection) {
       connection.rollback();
-
       connection.release();
     }
 

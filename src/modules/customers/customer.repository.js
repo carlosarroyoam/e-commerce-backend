@@ -1,84 +1,88 @@
-const customerDao = require('./customer.dao');
+const CustomerDao = require('./customer.dao');
 const customerMapper = require('./customer.mapper');
 
 /**
- * Retrieves all customer users.
- *
- * @param {object} queryOptions The query options.
- * @param {number} queryOptions.skip The query skip.
- * @param {number} queryOptions.limit The query limit.
- * @param {string} queryOptions.sort The order for the results.
- * @param {string} queryOptions.status The user status to query.
- * @param {string} queryOptions.search The search criteria.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
+ * CustomerRepository class.
  */
-const findAll = async ({ skip, limit, sort, status, search }, connection) => {
-  const [result] = await customerDao.getAll({ skip, limit, sort, status, search }, connection);
+class CustomerRepository {
+  /**
+   * CustomerRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.customerDao = new CustomerDao(this.connection);
+  }
 
-  return result;
-};
+  /**
+   * Retrieves all customer users.
+   *
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.skip The query skip.
+   * @param {number} queryOptions.limit The query limit.
+   * @param {string} queryOptions.sort The order for the results.
+   * @param {string} queryOptions.status The user status to query.
+   * @param {string} queryOptions.search The search criteria.
+   * @return {Promise} The result of the query.
+   */
+  async findAll({ skip, limit, sort, status, search }) {
+    const [result] = await this.customerDao.getAll({ skip, limit, sort, status, search });
 
-/**
- * Retrieves a customer user by its id.
- *
- * @param {number} customer_id The id of the customer user to retrieve.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findById = async (customer_id, connection) => {
-  const [[result]] = await customerDao.getById(customer_id, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves a customer user by its id.
+   *
+   * @param {number} customer_id The id of the customer user to retrieve.
+   * @return {Promise} The result of the query.
+   */
+  async findById(customer_id) {
+    const [[result]] = await this.customerDao.getById(customer_id);
 
-/**
- * Retrieves a customer user by its email.
- *
- * @param {string} email The email of the customer user to retrieve.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findByEmail = async (email, connection) => {
-  const [[result]] = await customerDao.getByEmail(email, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves a customer user by its email.
+   *
+   * @param {string} email The email of the customer user to retrieve.
+   * @return {Promise} The result of the query.
+   */
+  async findByEmail(email) {
+    const [[result]] = await this.customerDao.getByEmail(email);
 
-/**
- * Stores a customer user.
- *
- * @param {object} customer The customer user to store.
- * @param {any} connection The database connection object.
- */
-const store = async (customer, connection) => {
-  const userDbEntity = customerMapper.toDatabaseEntity(customer);
+    return result;
+  }
 
-  const [result] = await customerDao.create(userDbEntity, connection);
+  /**
+   * Stores a customer user.
+   *
+   * @param {object} customer The customer user to store.
+   */
+  async store(customer) {
+    const userDbEntity = customerMapper.toDatabaseEntity(customer);
 
-  return result.insertId;
-};
+    const [result] = await this.customerDao.create(userDbEntity);
 
-/**
- * Updates a customer user by its id.
- *
- * @param {object} customer The customer user to update.
- * @param {number} customer_id The id of the customer.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const update = async (customer, customer_id, connection) => {
-  const userDbEntity = customerMapper.toDatabaseEntity(customer);
+    return result.insertId;
+  }
 
-  const [result] = await customerDao.update(userDbEntity, customer_id, connection);
+  /**
+   * Updates a customer user by its id.
+   *
+   * @param {object} customer The customer user to update.
+   * @param {number} customer_id The id of the customer.
+   * @return {Promise} The result of the query.
+   */
+  async update(customer, customer_id) {
+    const userDbEntity = customerMapper.toDatabaseEntity(customer);
 
-  return result.changedRows;
-};
+    const [result] = await this.customerDao.update(userDbEntity, customer_id);
 
-module.exports = {
-  findAll,
-  findById,
-  findByEmail,
-  store,
-  update,
-};
+    return result.changedRows;
+  }
+}
+
+module.exports = CustomerRepository;
