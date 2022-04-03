@@ -14,10 +14,9 @@ class CategoryDao {
   /**
    * Performs the SQL query to get all categories.
    *
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async getAll({ skip = 0, limit = 50, sort = 'id' }, connection) {
+  async getAll({ skip = 0, limit = 50, sort = 'id' }) {
     let query = `SELECT
       id,
       title,
@@ -32,12 +31,12 @@ class CategoryDao {
         sort = sort.substring(1);
       }
 
-      query += ` ORDER BY ${connection.escapeId(sort)} ${order}`;
+      query += ` ORDER BY ${this.connection.escapeId(sort)} ${order}`;
     }
 
-    query += ` LIMIT ${connection.escape(skip)}, ${connection.escape(limit)}`;
+    query += ` LIMIT ${this.connection.escape(skip)}, ${this.connection.escape(limit)}`;
 
-    return connection.query(query);
+    return this.connection.query(query);
   }
 
   /**
@@ -47,7 +46,7 @@ class CategoryDao {
    * @param {*} connection The database connection number.
    * @return {Promise} The query result.
    */
-  async getById(category_id, connection) {
+  async getById(category_id) {
     const query = `SELECT
       id,
       title,
@@ -55,7 +54,7 @@ class CategoryDao {
     FROM categories
     WHERE id = ?`;
 
-    return connection.query(query, [category_id]);
+    return this.connection.query(query, [category_id]);
   }
 
   /**
@@ -65,7 +64,7 @@ class CategoryDao {
    * @param {*} connection The database connection number.
    * @return {Promise} The query result.
    */
-  async getByTitle(title, connection) {
+  async getByTitle(title) {
     const query = `SELECT
       id,
       title,
@@ -73,20 +72,19 @@ class CategoryDao {
     FROM categories
     WHERE title = ?`;
 
-    return connection.query(query, [title]);
+    return this.connection.query(query, [title]);
   }
 
   /**
    * Performs the SQL query to insert a category.
    *
    * @param {object} category The category to store.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async create(category, connection) {
+  async create(category) {
     const query = 'INSERT INTO categories SET ?';
 
-    return connection.query(query, [category]);
+    return this.connection.query(query, [category]);
   }
 
   /**
@@ -94,39 +92,36 @@ class CategoryDao {
    *
    * @param {object} category The category to update.
    * @param {number} category_id The id of the category.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async update(category, category_id, connection) {
+  async update(category, category_id) {
     const query = 'UPDATE categories SET ? WHERE id = ? LIMIT 1';
 
-    return connection.query(query, [category, category_id]);
+    return this.connection.query(query, [category, category_id]);
   }
 
   /**
    * Performs the SQL query to delete a category.
    *
    * @param {number} category_id The id of the category to delete.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async deleteById(category_id, connection) {
+  async deleteById(category_id) {
     const query = 'UPDATE categories SET deleted_at = CURRENT_TIMESTAMP WHERE id = ? LIMIT 1';
 
-    return connection.query(query, [category_id]);
+    return this.connection.query(query, [category_id]);
   }
 
   /**
    * Performs the SQL query to restore a category.
    *
    * @param {number} category_id The id of the category to restore.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async restore(category_id, connection) {
+  async restore(category_id) {
     const query = 'UPDATE categories SET deleted_at = NULL WHERE id = ? LIMIT 1';
 
-    return connection.query(query, [category_id]);
+    return this.connection.query(query, [category_id]);
   }
 }
 

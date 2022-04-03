@@ -17,10 +17,9 @@ class CustomerAddressDao {
    *
    * @param {number} customer_id The id of the customer to query.
    * @param {number} address_id The id of the address to query.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async getById(customer_id, address_id, connection) {
+  async getById(customer_id, address_id) {
     const query = `SELECT
       csa.id,
       csa.street_name,
@@ -37,17 +36,16 @@ class CustomerAddressDao {
     WHERE cus.id = ?
     AND csa.id = ?`;
 
-    return connection.query(query, [customer_id, address_id]);
+    return this.connection.query(query, [customer_id, address_id]);
   }
 
   /**
    * Performs the SQL query to get all customer addresses by the customer id.
    *
    * @param {number} customer_id The id of the customer user to query.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async getByCustomerId(customer_id, connection) {
+  async getByCustomerId(customer_id) {
     const query = `SELECT
       csa.id,
       csa.street_name,
@@ -63,20 +61,19 @@ class CustomerAddressDao {
     LEFT JOIN customers cus ON csa.customer_id = cus.id
     WHERE cus.id = ?`;
 
-    return connection.query(query, [customer_id]);
+    return this.connection.query(query, [customer_id]);
   }
 
   /**
    * Performs the SQL query to insert a customer address.
    *
    * @param {object} customerAddress The customer address to store.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async create(customerAddress, connection) {
+  async create(customerAddress) {
     const query = 'INSERT INTO customer_addresses SET ?';
 
-    return connection.query(query, [customerAddress]);
+    return this.connection.query(query, [customerAddress]);
   }
 
   /**
@@ -84,26 +81,24 @@ class CustomerAddressDao {
    *
    * @param {object} customer_address The customer address to update.
    * @param {number} address_id The id of the customer address to update.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async update(customer_address, address_id, connection) {
+  async update(customer_address, address_id) {
     const query = 'UPDATE customer_addresses SET ? WHERE id = ? LIMIT 1';
 
-    return connection.query(query, [customer_address, address_id]);
+    return this.connection.query(query, [customer_address, address_id]);
   }
 
   /**
    * Performs the SQL query to delete a customer address.
    *
    * @param {number} address_id The id of the address to delete.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async deleteById(address_id, connection) {
+  async deleteById(address_id) {
     const query = 'DELETE FROM customer_addresses WHERE id = ? LIMIT 1';
 
-    return connection.query(query, [address_id]);
+    return this.connection.query(query, [address_id]);
   }
 }
 
