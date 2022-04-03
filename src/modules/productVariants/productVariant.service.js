@@ -1,5 +1,5 @@
 const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
-const productRepository = require('../products/product.repository');
+const ProductRepository = require('../products/product.repository');
 const ProductVariantRepository = require('./productVariant.repository');
 const sharedErrors = require('../../shared/errors');
 const logger = require('../../shared/lib/winston/logger');
@@ -15,9 +15,10 @@ const findAll = async (product_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productRepository = new ProductRepository(connection);
     const productVariantRepository = new ProductVariantRepository(connection);
 
-    const productById = await productRepository.findById(product_id, connection);
+    const productById = await productRepository.findById(product_id);
 
     if (!productById) {
       throw new sharedErrors.ResourceNotFoundError();
@@ -70,9 +71,10 @@ const findById = async (product_id, variant_id) => {
 
   try {
     connection = await dbConnectionPool.getConnection();
+    const productRepository = new ProductRepository(connection);
     const productVariantRepository = new ProductVariantRepository(connection);
 
-    const productById = await productRepository.findById(product_id, connection);
+    const productById = await productRepository.findById(product_id);
 
     if (!productById) {
       throw new sharedErrors.ResourceNotFoundError();
