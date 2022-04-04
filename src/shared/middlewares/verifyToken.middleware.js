@@ -5,9 +5,10 @@ const logger = require('../../shared/lib/winston/logger');
 
 module.exports = async (request, response, next) => {
   try {
-    const { authorization } = request.headers;
+    const { access_token } = request.cookies;
+
     const accessToken =
-      authorization && authorization.startsWith('Bearer') && authorization.split(' ')[1];
+      access_token && access_token.startsWith('Bearer') && access_token.split(' ')[1];
 
     if (!accessToken) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({

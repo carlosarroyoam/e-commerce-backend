@@ -1,110 +1,111 @@
-const categoryDao = require('./category.dao');
+const CategoryDao = require('./category.dao');
 const categoryMapper = require('./category.mapper');
 
 /**
- * Retrieves all categories.
- *
- * @param {object} queryOptions The query options.
- * @param {number} queryOptions.skip The query skip.
- * @param {number} queryOptions.limit The query limit.
- * @param {string} queryOptions.sort The order for the results.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
+ * CategoryRepository class.
  */
-const findAll = async ({ skip, limit, sort }, connection) => {
-  const [result] = await categoryDao.getAll({ skip, limit, sort }, connection);
+class CategoryRepository {
+  /**
+   * CategoryRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.categoryDao = new CategoryDao(this.connection);
+  }
 
-  return result;
-};
+  /**
+   * Retrieves all categories.
+   *
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.skip The query skip.
+   * @param {number} queryOptions.limit The query limit.
+   * @param {string} queryOptions.sort The order for the results.
+   * @return {Promise} The result of the query.
+   */
+  async findAll({ skip, limit, sort }) {
+    const [result] = await this.categoryDao.getAll({ skip, limit, sort });
 
-/**
- * Retrieves a category by its id.
- *
- * @param {number} category_id The query options.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findById = async (category_id, connection) => {
-  const [[result]] = await categoryDao.getById(category_id, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves a category by its id.
+   *
+   * @param {number} category_id The query options.
+   * @return {Promise} The result of the query.
+   */
+  async findById(category_id) {
+    const [[result]] = await this.categoryDao.getById(category_id);
 
-/**
- * Retrieves a category by its title.
- *
- * @param {number} title The query options.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findByTitle = async (title, connection) => {
-  const [[result]] = await categoryDao.getByTitle(title, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves a category by its title.
+   *
+   * @param {number} title The query options.
+   * @return {Promise} The result of the query.
+   */
+  async findByTitle(title) {
+    const [[result]] = await this.categoryDao.getByTitle(title);
 
-/**
- * Stores a category.
- *
- * @param {object} category The category to store.
- * @param {any} connection The database connection object.
- */
-const store = async (category, connection) => {
-  const categoryDbEntity = categoryMapper.toDatabaseEntity(category);
+    return result;
+  }
 
-  const [result] = await categoryDao.create(categoryDbEntity, connection);
+  /**
+   * Stores a category.
+   *
+   * @param {object} category The category to store.
+   * @return {Promise} The result of the query.
+   */
+  async store(category) {
+    const categoryDbEntity = categoryMapper.toDatabaseEntity(category);
 
-  return result.insertId;
-};
+    const [result] = await this.categoryDao.create(categoryDbEntity);
 
-/**
- * Updates a category by its id.
- *
- * @param {object} customer The category to update.
- * @param {number} category_id The id of the category.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const update = async (customer, category_id, connection) => {
-  const categoryDbEntity = categoryMapper.toDatabaseEntity(customer);
+    return result.insertId;
+  }
 
-  const [result] = await categoryDao.update(categoryDbEntity, category_id, connection);
+  /**
+   * Updates a category by its id.
+   *
+   * @param {object} customer The category to update.
+   * @param {number} category_id The id of the category.
+   * @return {Promise} The result of the query.
+   */
+  async update(customer, category_id) {
+    const categoryDbEntity = categoryMapper.toDatabaseEntity(customer);
 
-  return result.changedRows;
-};
+    const [result] = await this.categoryDao.update(categoryDbEntity, category_id);
 
-/**
- * Deletes a category.
- *
- * @param {number} category_id The id of the category to delete.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query
- */
-const deleteById = async (category_id, connection) => {
-  const [result] = await categoryDao.deleteById(category_id, connection);
+    return result.changedRows;
+  }
 
-  return result.changedRows;
-};
+  /**
+   * Deletes a category.
+   *
+   * @param {number} category_id The id of the category to delete.
+   * @return {Promise} The result of the query.
+   */
+  async deleteById(category_id) {
+    const [result] = await this.categoryDao.deleteById(category_id);
 
-/**
- * Restores a category.
- *
- * @param {number} category_id The id of the category to restore.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query
- */
-const restore = async (category_id, connection) => {
-  const [result] = await categoryDao.restore(category_id, connection);
+    return result.changedRows;
+  }
 
-  return result.changedRows;
-};
+  /**
+   * Restores a category.
+   *
+   * @param {number} category_id The id of the category to restore.
+   * @return {Promise} The result of the query.
+   */
+  async restore(category_id) {
+    const [result] = await this.categoryDao.restore(category_id);
 
-module.exports = {
-  findAll,
-  findById,
-  findByTitle,
-  store,
-  update,
-  deleteById,
-  restore,
-};
+    return result.changedRows;
+  }
+}
+
+module.exports = CategoryRepository;

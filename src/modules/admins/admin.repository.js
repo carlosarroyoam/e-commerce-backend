@@ -1,84 +1,88 @@
-const adminDao = require('./admin.dao');
+const AdminDao = require('./admin.dao');
 const adminMapper = require('./admin.mapper');
 
 /**
- * Retrieves all admin users.
- *
- * @param {object} queryOptions The query options.
- * @param {number} queryOptions.skip The query skip.
- * @param {number} queryOptions.limit The query limit.
- * @param {string} queryOptions.sort The order for the results.
- * @param {string} queryOptions.status The user status to query.
- * @param {string} queryOptions.search The search criteria.
- * @param {*} connection The database connection object. The database connection object.
- * @return {Promise} The result of the query.
+ * AdminRepository class.
  */
-async function findAll({ skip, limit, sort, status, search }, connection) {
-  const [result] = await adminDao.getAll({ skip, limit, sort, status, search }, connection);
+class AdminRepository {
+  /**
+   * AdminRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.adminDao = new AdminDao(this.connection);
+  }
 
-  return result;
+  /**
+   * Retrieves all admin users.
+   *
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.skip The query skip.
+   * @param {number} queryOptions.limit The query limit.
+   * @param {string} queryOptions.sort The order for the results.
+   * @param {string} queryOptions.status The user status to query.
+   * @param {string} queryOptions.search The search criteria.
+   * @return {Promise} The result of the query.
+   */
+  async findAll({ skip, limit, sort, status, search }) {
+    const [result] = await this.adminDao.getAll({ skip, limit, sort, status, search });
+
+    return result;
+  }
+
+  /**
+   * Retrieves a admin user by its id.
+   *
+   * @param {number} admin_id The id of the admin user to retrieve.
+   * @return {Promise} The result of the query.
+   */
+  async findById(admin_id) {
+    const [[result]] = await this.adminDao.getById(admin_id);
+
+    return result;
+  }
+
+  /**
+   * Retrieves a admin user by its email.
+   *
+   * @param {string} email The email of the admin user to retrieve.
+   * @return {Promise} The result of the query.
+   */
+  async findByEmail(email) {
+    const [[result]] = await this.adminDao.getByEmail(email);
+
+    return result;
+  }
+
+  /**
+   * Stores a admin user.
+   *
+   * @param {object} admin The admin user to store.
+   */
+  async store(admin) {
+    const userDbEntity = adminMapper.toDatabaseEntity(admin);
+
+    const [result] = await this.adminDao.create(userDbEntity);
+
+    return result.insertId;
+  }
+
+  /**
+   * Updates a admin user by its id.
+   *
+   * @param {object} admin The admin user to update.
+   * @param {number} admin_id The id of the admin user to update.
+   * @return {Promise} The result of the query.
+   */
+  async update(admin, admin_id) {
+    const userDbEntity = adminMapper.toDatabaseEntity(admin);
+
+    const [result] = await this.adminDao.update(userDbEntity, admin_id);
+
+    return result.changedRows;
+  }
 }
 
-/**
- * Retrieves a admin user by its id.
- *
- * @param {number} admin_id The id of the admin user to retrieve.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-async function findById(admin_id, connection) {
-  const [[result]] = await adminDao.getById(admin_id, connection);
-
-  return result;
-}
-
-/**
- * Retrieves a admin user by its email.
- *
- * @param {string} email The email of the admin user to retrieve.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-async function findByEmail(email, connection) {
-  const [[result]] = await adminDao.getByEmail(email, connection);
-
-  return result;
-}
-
-/**
- * Stores a admin user.
- *
- * @param {object} admin The admin user to store.
- * @param {any} connection The database connection object.
- */
-async function store(admin, connection) {
-  const userDbEntity = adminMapper.toDatabaseEntity(admin);
-
-  const [result] = await adminDao.create(userDbEntity, connection);
-
-  return result.insertId;
-}
-
-/**
- * Updates a admin user by its id.
- *
- * @param {object} admin The admin user to update.
- * @param {number} admin_id The id of the admin user to update.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-async function update(admin, admin_id, connection) {
-  const userDbEntity = adminMapper.toDatabaseEntity(admin);
-
-  const [result] = await adminDao.update(userDbEntity, admin_id, connection);
-
-  return result.changedRows;
-}
-
-module.exports = {
-  findAll,
-  findById,
-  findByEmail,
-  store,
-  update,
-};
+module.exports = AdminRepository;

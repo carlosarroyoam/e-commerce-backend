@@ -3,6 +3,7 @@ const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 
 const config = require('../config');
 const router = require('./router');
@@ -17,6 +18,7 @@ module.exports = {
     app
       .use(cors({ origin: 'http://localhost:3001', credentials: true }))
       .use(express.json())
+      .use(cookieParser())
       .use(compression())
       .use(morgan('dev'))
       .use(helmet())

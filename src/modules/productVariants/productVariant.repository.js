@@ -1,47 +1,55 @@
-const productVariantDao = require('./productVariant.dao');
+const ProductVariantDao = require('./productVariant.dao');
 
 /**
- * Retrieves product variant by its id.
- *
- * @param {number} product_id The id of the product.
- * @param {number} variant_id The id of the variant.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
+ * ProductVariantRepository class.
  */
-const findById = async (product_id, variant_id, connection) => {
-  const [[result]] = await productVariantDao.getById(product_id, variant_id, connection);
+class ProductVariantRepository {
+  /**
+   * ProductVariantRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.productVariantDao = new ProductVariantDao(this.connection);
+  }
 
-  return result;
-};
+  /**
+   * Retrieves product variant by its id.
+   *
+   * @param {number} product_id The id of the product.
+   * @param {number} variant_id The id of the variant.
+   * @return {Promise} The result of the query.
+   */
+  async findById(product_id, variant_id) {
+    const [[result]] = await this.productVariantDao.getById(product_id, variant_id);
 
-/**
- * Retrieves all product variants by product_id.
- *
- * @param {number} product_id The query options.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findByProductId = async (product_id, connection) => {
-  const [result] = await productVariantDao.getByProductId(product_id, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves all product variants by product_id.
+   *
+   * @param {number} product_id The query options.
+   * @return {Promise} The result of the query.
+   */
+  async findByProductId(product_id) {
+    const [result] = await this.productVariantDao.getByProductId(product_id);
 
-/**
- * Retrieves all product attributes by product_id.
- *
- * @param {number} variant_id The query options.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findAttributesByVariantId = async (variant_id, connection) => {
-  const [result] = await productVariantDao.getAttributesByVariantId(variant_id, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves all product attributes by product_id.
+   *
+   * @param {number} variant_id The query options.
+   * @return {Promise} The result of the query.
+   */
+  async findAttributesByVariantId(variant_id) {
+    const [result] = await this.productVariantDao.getAttributesByVariantId(variant_id);
 
-module.exports = {
-  findById,
-  findByProductId,
-  findAttributesByVariantId,
-};
+    return result;
+  }
+}
+
+module.exports = ProductVariantRepository;

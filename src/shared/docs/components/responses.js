@@ -26,6 +26,9 @@ module.exports = {
         },
       },
     },
+    NO_CONTENT: {
+      description: 'NO_CONTENT',
+    },
     BAD_REQUEST: {
       description: 'BAD_REQUEST',
       content: {

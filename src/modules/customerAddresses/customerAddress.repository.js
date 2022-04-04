@@ -1,84 +1,84 @@
-const customerAddresesDao = require('./customerAddress.dao');
+const CustomerAddressDao = require('./customerAddress.dao');
 const customerAddressMapper = require('./customerAddress.mapper');
 
 /**
- * Retrieves customer address by its id.
- *
- * @param {number} customer_id The id of the customer.
- * @param {number} address_id The id of the address.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
+ * CustomerAddressRepository class.
  */
-const findById = async (customer_id, address_id, connection) => {
-  const [[result]] = await customerAddresesDao.getById(customer_id, address_id, connection);
+class CustomerAddressRepository {
+  /**
+   * CustomerAddressRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.customerAddressDao = new CustomerAddressDao(this.connection);
+  }
 
-  return result;
-};
+  /**
+   * Retrieves customer address by its id.
+   *
+   * @param {number} customer_id The id of the customer.
+   * @param {number} address_id The id of the address.
+   * @return {Promise} The result of the query.
+   */
+  async findById(customer_id, address_id) {
+    const [[result]] = await this.customerAddressDao.getById(customer_id, address_id);
 
-/**
- * Retrieves customer addresses by customer id.
- *
- * @param {number} customer_id The id of the customer user.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const findByCustomerId = async (customer_id, connection) => {
-  const [result] = await customerAddresesDao.getByCustomerId(customer_id, connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Retrieves customer addresses by customer id.
+   *
+   * @param {number} customer_id The id of the customer user.
+   * @return {Promise} The result of the query.
+   */
+  async findByCustomerId(customer_id) {
+    const [result] = await this.customerAddressDao.getByCustomerId(customer_id);
 
-/**
- * Stores a customer address.
- *
- * @param {object} customerAddress The customer address to store.
- * @param {any} connection The database connection object.
- */
-const store = async (customerAddress, connection) => {
-  const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customerAddress);
+    return result;
+  }
 
-  const [result] = await customerAddresesDao.create(customerAddressDbEntity, connection);
+  /**
+   * Stores a customer address.
+   *
+   * @param {object} customerAddress The customer address to store.
+   */
+  async store(customerAddress) {
+    const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customerAddress);
 
-  return result.insertId;
-};
+    const [result] = await this.customerAddressDao.create(customerAddressDbEntity);
 
-/**
- * Updates a customer address by its id.
- *
- * @param {object} customer The customer address to update.
- * @param {number} address_id The id of the customer address.
- * @param {any} connection The database connection object.
- * @return {Promise} The result of the query.
- */
-const update = async (customer, address_id, connection) => {
-  const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customer);
+    return result.insertId;
+  }
 
-  const [result] = await customerAddresesDao.update(
-    customerAddressDbEntity,
-    address_id,
-    connection
-  );
+  /**
+   * Updates a customer address by its id.
+   *
+   * @param {object} customer The customer address to update.
+   * @param {number} address_id The id of the customer address.
+   * @return {Promise} The result of the query.
+   */
+  async update(customer, address_id) {
+    const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customer);
 
-  return result.changedRows;
-};
+    const [result] = await this.customerAddressDao.update(customerAddressDbEntity, address_id);
 
-/**
- * Deletes a customer address by its id.
- *
- * @param {number} address_id
- * @param {any} connection
- * @return {Promise} The result of the query
- */
-const deleteById = async (address_id, connection) => {
-  const [result] = await customerAddresesDao.deleteById(address_id, connection);
+    return result.changedRows;
+  }
 
-  return result.changedRows;
-};
+  /**
+   * Deletes a customer address by its id.
+   *
+   * @param {number} address_id The id of the customer address.
+   * @return {Promise} The result of the query.
+   */
+  async deleteById(address_id) {
+    const [result] = await this.customerAddressDao.deleteById(address_id);
 
-module.exports = {
-  findByCustomerId,
-  findById,
-  store,
-  update,
-  deleteById,
-};
+    return result.changedRows;
+  }
+}
+
+module.exports = CustomerAddressRepository;

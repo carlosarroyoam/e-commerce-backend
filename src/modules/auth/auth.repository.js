@@ -1,107 +1,94 @@
-const authDao = require('./auth.dao');
+const AuthDao = require('./auth.dao');
 
 /**
- * Gets a personal access token.
- *
- * @param {string} personal_access_token The personal access token
- * @param {number} user_id The user id
- * @param {any} connection The database connection
- * @return {Promise} The query result
+ * AuthRepository class.
  */
-const getPersonalAccessToken = async (personal_access_token, user_id, connection) => {
-  const [[result]] = await authDao.getPersonalAccessToken(
-    personal_access_token,
-    user_id,
-    connection
-  );
+class AuthRepository {
+  /**
+   * AuthRepository class constructor.
+   *
+   * @param {*} connection The database connection object.
+   */
+  constructor(connection) {
+    this.connection = connection;
+    this.authDao = new AuthDao(this.connection);
+  }
 
-  return result;
-};
+  /**
+   * Gets a personal access token.
+   *
+   * @param {string} personal_access_token The personal access token.
+   * @return {Promise} The query result.
+   */
+  async getPersonalAccessToken(personal_access_token) {
+    const [[result]] = await this.authDao.getPersonalAccessToken(personal_access_token);
 
-/**
- * Gets all the expired personal access tokens.
- *
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-const getExpiredPersonalAccessTokens = async (connection) => {
-  const [result] = await authDao.getExpiredPersonalAccessTokens(connection);
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Gets all the expired personal access tokens.
+   *
+   * @return {Promise} The query result.
+   */
+  async getExpiredPersonalAccessTokens() {
+    const [result] = await this.authDao.getExpiredPersonalAccessTokens();
 
-/**
- * Gets a personal access token by finger print.
- *
- * @param {string} fingerprint The token finger print
- * @param {number} user_id The user id
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-const getPersonalAccessTokenByFingerPrint = async (fingerprint, user_id, connection) => {
-  const [[result]] = await authDao.getPersonalAccessTokenByFingerPrint(
-    fingerprint,
-    user_id,
-    connection
-  );
+    return result;
+  }
 
-  return result;
-};
+  /**
+   * Gets a personal access token by finger print.
+   *
+   * @param {string} fingerprint The token finger print.
+   * @param {number} user_id The user id.
+   * @return {Promise} The query result.
+   */
+  async getPersonalAccessTokenByFingerPrint(fingerprint, user_id) {
+    const [[result]] = await this.authDao.getPersonalAccessTokenByFingerPrint(fingerprint, user_id);
 
-/**
- * Stores a personal access token.
- *
- * @param {any} personal_access_token The personal access token data
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-const storePersonalAccessToken = async (personal_access_token, connection) => {
-  const [result] = await authDao.storePersonalAccessToken(personal_access_token, connection);
+    return result;
+  }
 
-  return result.insertId;
-};
+  /**
+   * Stores a personal access token.
+   *
+   * @param {any} personal_access_token The personal access token data.
+   * @return {Promise} The query result.
+   */
+  async storePersonalAccessToken(personal_access_token) {
+    const [result] = await this.authDao.storePersonalAccessToken(personal_access_token);
 
-/**
- * Updates a personal access token.
- *
- * @param {any} personal_access_token The personal access token data
- * @param {number} personal_access_token_id The personal access token id
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-const updatePersonalAccessToken = async (
-  personal_access_token,
-  personal_access_token_id,
-  connection
-) => {
-  const [result] = await authDao.updatePersonalAccessToken(
-    personal_access_token,
-    personal_access_token_id,
-    connection
-  );
+    return result.insertId;
+  }
 
-  return result.changedRows;
-};
+  /**
+   * Updates a personal access token.
+   *
+   * @param {any} personal_access_token The personal access token data.
+   * @param {number} personal_access_token_id The personal access token id.
+   * @return {Promise} The query result.
+   */
+  async updatePersonalAccessToken(personal_access_token, personal_access_token_id) {
+    const [result] = await this.authDao.updatePersonalAccessToken(
+      personal_access_token,
+      personal_access_token_id
+    );
 
-/**
- * Updates a personal access token.
- *
- * @param {string} personal_access_token The personal access token
- * @param {number} user_id The personal access token owner id
- * @param {any} connection The database connection
- * @return {Promise} The query result
- */
-const deleteRefreshToken = async (personal_access_token, user_id, connection) => {
-  const [result] = await authDao.deleteRefreshToken(personal_access_token, user_id, connection);
+    return result.changedRows;
+  }
 
-  return result.changedRows;
-};
+  /**
+   * Updates a personal access token.
+   *
+   * @param {string} personal_access_token The personal access token.
+   * @return {Promise} The query result.
+   */
+  async deleteRefreshToken(personal_access_token) {
+    const [result] = await this.authDao.deleteRefreshToken(personal_access_token);
 
-module.exports = {
-  getPersonalAccessToken,
-  getExpiredPersonalAccessTokens,
-  getPersonalAccessTokenByFingerPrint,
-  storePersonalAccessToken,
-  updatePersonalAccessToken,
-  deleteRefreshToken,
-};
+    return result.changedRows;
+  }
+}
+
+module.exports = AuthRepository;
