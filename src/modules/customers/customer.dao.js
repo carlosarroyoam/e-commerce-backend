@@ -20,10 +20,9 @@ class CustomerDao {
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async getAll({ skip = 0, limit = 50, sort = 'id', status, search }, connection) {
+  async getAll({ skip = 0, limit = 50, sort = 'id', status, search }) {
     let query = `SELECT
         cus.id,
         usr.id AS user_id,
@@ -46,7 +45,7 @@ class CustomerDao {
     }
 
     if (search) {
-      query += ` AND MATCH(first_name, last_name) AGAINST("${connection.escape(
+      query += ` AND MATCH(first_name, last_name) AGAINST("${this.connection.escape(
         search
       )}*" IN BOOLEAN MODE)`;
     }
@@ -59,22 +58,21 @@ class CustomerDao {
         sort = sort.substring(1);
       }
 
-      query += ` ORDER BY ${connection.escapeId(sort)} ${order}`;
+      query += ` ORDER BY ${this.connection.escapeId(sort)} ${order}`;
     }
 
-    query += ` LIMIT ${connection.escape(skip)}, ${connection.escape(limit)}`;
+    query += ` LIMIT ${this.connection.escape(skip)}, ${this.connection.escape(limit)}`;
 
-    return connection.query(query);
+    return this.connection.query(query);
   }
 
   /**
    * Performs the SQL query to get a customer user by its id.
    *
    * @param {number} customer_id The id of the customer user to query.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async getById(customer_id, connection) {
+  async getById(customer_id) {
     const query = `SELECT
         cus.id,
         usr.id AS user_id,
@@ -88,17 +86,16 @@ class CustomerDao {
     LEFT JOIN users usr ON cus.user_id = usr.id
     WHERE cus.id = ?`;
 
-    return connection.query(query, [customer_id]);
+    return this.connection.query(query, [customer_id]);
   }
 
   /**
    * Performs the SQL query to get a customer user by its email address.
    *
    * @param {string} email The email of the customer user to query.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async getByEmail(email, connection) {
+  async getByEmail(email) {
     const query = `SELECT
         cus.id,
         usr.id AS user_id,
@@ -112,20 +109,19 @@ class CustomerDao {
     LEFT JOIN users usr ON cus.user_id = usr.id
     WHERE usr.email = ?`;
 
-    return connection.query(query, [email]);
+    return this.connection.query(query, [email]);
   }
 
   /**
    * Performs the SQL query to insert a customer user.
    *
    * @param {object} customer The customer user to store.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async create(customer, connection) {
+  async create(customer) {
     const query = 'INSERT INTO customers SET ?';
 
-    return connection.query(query, [customer]);
+    return this.connection.query(query, [customer]);
   }
 
   /**
@@ -133,13 +129,12 @@ class CustomerDao {
    *
    * @param {object} customer The customer user to update.
    * @param {number} customer_id The id of the customer user to update.
-   * @param {*} connection The database connection object.
    * @return {Promise} The query result.
    */
-  async update(customer, customer_id, connection) {
+  async update(customer, customer_id) {
     const query = 'UPDATE customers SET ? WHERE id = ? LIMIT 1';
 
-    return connection.query(query, [customer, customer_id]);
+    return this.connection.query(query, [customer, customer_id]);
   }
 }
 

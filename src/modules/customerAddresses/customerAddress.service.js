@@ -41,7 +41,9 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving admins' });
+        throw new sharedErrors.InternalServerError({
+          message: 'Error while retrieving customer addresses',
+        });
       }
 
       throw err;
@@ -197,7 +199,9 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while updating admin' });
+        throw new sharedErrors.InternalServerError({
+          message: 'Error while updating customer address',
+        });
       }
 
       throw err;
@@ -246,7 +250,9 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while updating admin' });
+        throw new sharedErrors.InternalServerError({
+          message: 'Error while deleting customer address',
+        });
       }
 
       throw err;
