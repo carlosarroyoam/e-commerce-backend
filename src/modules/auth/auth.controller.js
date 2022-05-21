@@ -1,6 +1,6 @@
 const ms = require('ms');
 const authService = require('./auth.service');
-const config = require('../../config');
+const config = require('../../shared/config');
 
 /**
  * AuthController class.

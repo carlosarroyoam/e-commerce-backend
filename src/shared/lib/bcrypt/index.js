@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const config = require('../../../config');
+const config = require('../../config');
 
 /**
  * @param {string | Buffer} plainTextPassword the plain text password.
