@@ -5,11 +5,11 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const config = require('../shared/config');
+const config = require('../common/config');
 const router = require('./router');
-const logger = require('../shared/lib/winston/logger');
-const validateJsonPayloadMiddleware = require('../shared/middlewares/validateJsonPayload.middleware');
-const errorHandlerMiddleware = require('../shared/middlewares/errorHandler.middleware');
+const logger = require('../common/lib/winston/logger');
+const validateJsonPayloadMiddleware = require('../common/middlewares/validateJsonPayload.middleware');
+const errorHandlerMiddleware = require('../common/middlewares/errorHandler.middleware');
 
 module.exports = {
   start: () => {

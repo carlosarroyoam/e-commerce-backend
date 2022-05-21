@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const sharedErrors = require('../../shared/errors/');
+const sharedErrors = require('../errors');
 
 const errorFormatter = ({ msg }) => msg;
 

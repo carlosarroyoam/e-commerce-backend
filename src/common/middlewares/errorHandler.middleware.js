@@ -1,4 +1,4 @@
-const logger = require('../../shared/lib/winston/logger');
+const logger = require('../lib/winston/logger');
 
 module.exports = () => async (error, request, response, next) => {
   logger.log({

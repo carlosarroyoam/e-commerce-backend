@@ -1,11 +1,11 @@
-const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const CustomerRepository = require('./customer.repository');
 const CustomerAddressRepository = require('../customerAddresses/customerAddress.repository');
 const UserRepository = require('../users/user.repository');
-const sharedErrors = require('../../shared/errors');
+const sharedErrors = require('../../common/errors');
 const userRoles = require('../auth/roles');
-const bcrypt = require('../../shared/lib/bcrypt');
-const logger = require('../../shared/lib/winston/logger');
+const bcrypt = require('../../common/lib/bcrypt');
+const logger = require('../../common/lib/winston/logger');
 
 /**
  * CustomerService class.

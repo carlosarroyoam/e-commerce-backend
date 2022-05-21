@@ -1,11 +1,11 @@
-const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const AuthRepository = require('./auth.repository');
 const UserRepository = require('../users/user.repository');
-const sharedErrors = require('../../shared/errors');
-const config = require('../../shared/config');
-const bcrypt = require('../../shared/lib/bcrypt');
-const jsonwebtoken = require('../../shared/lib/jwt');
-const logger = require('../../shared/lib/winston/logger');
+const sharedErrors = require('../../common/errors');
+const config = require('../../common/config');
+const bcrypt = require('../../common/lib/bcrypt');
+const jsonwebtoken = require('../../common/lib/jwt');
+const logger = require('../../common/lib/winston/logger');
 
 /**
  * AuthService class.

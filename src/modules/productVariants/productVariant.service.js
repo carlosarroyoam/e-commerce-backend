@@ -1,8 +1,8 @@
-const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const ProductRepository = require('../products/product.repository');
 const ProductVariantRepository = require('./productVariant.repository');
-const sharedErrors = require('../../shared/errors');
-const logger = require('../../shared/lib/winston/logger');
+const sharedErrors = require('../../common/errors');
+const logger = require('../../common/lib/winston/logger');
 
 /**
  * Retrieves all product variants.

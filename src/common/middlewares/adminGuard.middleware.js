@@ -1,4 +1,4 @@
-const sharedErrors = require('../../shared/errors');
+const sharedErrors = require('../errors');
 const userRoles = require('../../modules/auth/roles');
 
 module.exports = async (request, response, next) => {

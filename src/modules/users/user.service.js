@@ -1,8 +1,8 @@
-const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const UserRepository = require('./user.repository');
-const sharedErrors = require('../../shared/errors');
-const bcrypt = require('../../shared/lib/bcrypt');
-const logger = require('../../shared/lib/winston/logger');
+const sharedErrors = require('../../common/errors');
+const bcrypt = require('../../common/lib/bcrypt');
+const logger = require('../../common/lib/winston/logger');
 
 /**
  * UserService class.

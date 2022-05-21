@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../shared/docs/swagger');
+const swaggerDocument = require('../common/docs/swagger');
 
-const rootRoute = require('../shared/routes/root.routes');
-const defaultRoute = require('../shared/routes/default.routes');
+const rootRoute = require('../common/routes/root.routes');
+const defaultRoute = require('../common/routes/default.routes');
 const authRoutes = require('../modules/auth/auth.routes');
 const userRoutes = require('../modules/users/user.routes');
 const adminRoutes = require('../modules/admins/admin.routes');
@@ -15,7 +15,9 @@ const attributeRoutes = require('../modules/attributes/attribute.routes');
 const categoryRoutes = require('../modules/categories/category.routes');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
+  // eslint-disable-next-line new-cap
   const apiRouter = Router();
 
   apiRouter.use('/auth', authRoutes());
