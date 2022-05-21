@@ -1,7 +1,7 @@
 const { Router } = require('express');
 
 const authController = require('./auth.controller');
-const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
+const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
 const loginSchema = require('./schemas/login.schema');
 const refreshTokenSchema = require('./schemas/refreshToken.schema');
 const resetPasswordSchema = require('./schemas/resetPassword.schema');

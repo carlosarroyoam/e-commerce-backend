@@ -1,10 +1,10 @@
-const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const AdminRepository = require('./admin.repository');
 const UserRepository = require('../../modules/users/user.repository');
-const sharedErrors = require('../../shared/errors');
+const sharedErrors = require('../../common/errors');
 const userRoles = require('../../modules/auth/roles');
-const bcrypt = require('../../shared/lib/bcrypt');
-const logger = require('../../shared/lib/winston/logger');
+const bcrypt = require('../../common/lib/bcrypt');
+const logger = require('../../common/lib/winston/logger');
 
 /**
  * AdminService class.

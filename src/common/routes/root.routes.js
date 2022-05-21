@@ -2,6 +2,7 @@ const { Router } = require('express');
 const packageJson = require('../../../package.json');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.get('/', (request, response) => {

@@ -1,7 +1,7 @@
-const dbConnectionPool = require('../../shared/lib/mysql/connectionPool');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const CategoryRepository = require('./category.repository');
-const sharedErrors = require('../../shared/errors');
-const logger = require('../../shared/lib/winston/logger');
+const sharedErrors = require('../../common/errors');
+const logger = require('../../common/lib/winston/logger');
 
 /**
  * CategoryService class.

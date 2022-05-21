@@ -1,4 +1,4 @@
-const objectUtils = require('../../shared/utils/object.utils');
+const objectUtils = require('../../common/utils/object.utils');
 
 /**
  * AdminMapper class.

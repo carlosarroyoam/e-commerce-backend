@@ -1,4 +1,4 @@
-const stringUtils = require('../../shared/utils/string.utils');
+const stringUtils = require('../../common/utils/string.utils');
 
 describe('capitalize', () => {
   it('word to be capitalized', () => {

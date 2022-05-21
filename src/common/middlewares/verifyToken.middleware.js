@@ -1,7 +1,7 @@
 const authService = require('../../modules/auth/auth.service');
-const sharedErrors = require('../../shared/errors/');
-const jsonwebtoken = require('../../shared/lib/jwt');
-const logger = require('../../shared/lib/winston/logger');
+const sharedErrors = require('../errors');
+const jsonwebtoken = require('../lib/jwt');
+const logger = require('../lib/winston/logger');
 
 module.exports = async (request, response, next) => {
   try {

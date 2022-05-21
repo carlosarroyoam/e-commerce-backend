@@ -2,8 +2,8 @@ const { Router } = require('express');
 
 const customerAddressController = require('./customerAddress.controller');
 
-const verifyTokenMiddleware = require('../../shared/middlewares/verifyToken.middleware');
-const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
+const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
+const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
 
 const indexCustomerAddressSchema = require('./schemas/index.schema');
 const showCustomerAddressSchema = require('./schemas/show.schema');

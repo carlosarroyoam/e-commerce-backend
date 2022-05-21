@@ -1,4 +1,4 @@
-const sharedErrors = require('../../shared/errors/');
+const sharedErrors = require('../errors');
 
 module.exports = () => async (error, request, response, next) => {
   // @ts-ignore

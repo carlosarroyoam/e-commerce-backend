@@ -2,9 +2,9 @@ const { Router } = require('express');
 
 const categoryController = require('./category.controller');
 
-const verifyTokenMiddleware = require('../../shared/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../shared/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../shared/middlewares/validateRequest.middleware');
+const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
+const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
+const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
 
 const indexCategorySchema = require('./schemas/index.schema');
 const showCategorySchema = require('./schemas/show.schema');

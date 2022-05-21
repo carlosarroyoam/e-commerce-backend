@@ -1,6 +1,7 @@
 const { Router } = require('express');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.all('*', (request, response) => {
