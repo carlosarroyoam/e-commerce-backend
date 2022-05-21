@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const config = require('../../../config');
+const config = require('../../config');
 
 /**
  * @param {object} payload
  * @param {string} password
- * @return {Promise} The signed token
+ * @return {Promise} The signed token.
  */
 async function sign({ subject, userRole }, password) {
   const payload = {
@@ -25,7 +25,7 @@ async function sign({ subject, userRole }, password) {
 /**
  *
  * @param {object} payload
- * @return {Promise} The signed token
+ * @return {Promise} The signed token.
  */
 async function signRefresh({ subject }) {
   const payload = {
@@ -45,7 +45,7 @@ async function signRefresh({ subject }) {
 /**
  * @param {object} payload
  * @param {string} password
- * @return {Promise} The signed token
+ * @return {Promise} The signed token.
  */
 async function signPasswordRecoveryToken({ subject }, password) {
   const payload = {
@@ -69,7 +69,7 @@ async function signPasswordRecoveryToken({ subject }, password) {
 /**
  * @param {string} accessToken
  * @param {string} password
- * @return {Promise} The decoded token
+ * @return {Promise} The decoded token.
  */
 async function verify(accessToken, password) {
   const decoded = await jwt.verify(accessToken, config.JWT.SECRET_KEY + password);
@@ -79,7 +79,7 @@ async function verify(accessToken, password) {
 
 /**
  * @param {string} refreshToken
- * @return {Promise} The decoded token
+ * @return {Promise} The decoded token.
  */
 async function verifyRefresh(refreshToken) {
   const decoded = await jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY);
@@ -90,7 +90,7 @@ async function verifyRefresh(refreshToken) {
 /**
  * @param {string} accessToken
  * @param {string} password
- * @return {Promise} The decoded token
+ * @return {Promise} The decoded token.
  */
 async function verifyPasswordRecoveryToken(accessToken, password) {
   const decoded = jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password);
@@ -100,7 +100,7 @@ async function verifyPasswordRecoveryToken(accessToken, password) {
 
 /**
  * @param {string} accessToken
- * @return {Promise} The decoded token
+ * @return {Promise} The decoded token.
  */
 async function decode(accessToken) {
   const decoded = await jwt.decode(accessToken, { complete: false });
