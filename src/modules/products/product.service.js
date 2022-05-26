@@ -71,7 +71,7 @@ class ProductService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving products' });
+        throw new sharedErrors.InternalServerError('Error while retrieving products');
       }
 
       throw err;
@@ -133,7 +133,7 @@ class ProductService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving product' });
+        throw new sharedErrors.InternalServerError('Error while retrieving product');
       }
 
       throw err;
@@ -161,9 +161,9 @@ class ProductService {
       const productBySlug = await productRepository.findBySlug(slug);
 
       if (productBySlug) {
-        throw new sharedErrors.BadRequestError({
-          message: `The product with title: '${product.title}' already exists`,
-        });
+        throw new sharedErrors.BadRequestError(
+          `The product with title: '${product.title}' already exists`
+        );
       }
 
       const createdProductId = await productRepository.store({ ...product, slug });
@@ -213,7 +213,7 @@ class ProductService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while storing product' });
+        throw new sharedErrors.InternalServerError('Error while storing product');
       }
 
       throw err;

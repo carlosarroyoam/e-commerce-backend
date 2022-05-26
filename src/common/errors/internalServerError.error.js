@@ -5,11 +5,10 @@ class InternalServerError extends Error {
   /**
    * Constructor for InternalServerError.
    *
-   * @param {object} args The error args.
-   * @param {string} args.message The error message.
+   * @param {string} message The error message.
    */
-  constructor({ message = undefined }) {
-    super(message || 'Something went wrong');
+  constructor(message = 'Something went wrong') {
+    super(message);
     this.name = 'Internal server error';
     this.status = 500;
   }

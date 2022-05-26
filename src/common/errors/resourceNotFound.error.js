@@ -5,9 +5,10 @@ class ResourceNotFoundError extends Error {
   /**
    * Constructor for ResourceNotFoundError.
    *
+   * @param {string} message The error message.
    */
-  constructor() {
-    super('The resource was not found');
+  constructor(message = 'The resource was not found') {
+    super(message);
     this.name = 'Not found';
     this.status = 404;
   }

@@ -5,11 +5,10 @@ class BadRequest extends Error {
   /**
    * Constructor for BadRequestError.
    *
-   * @param {object} args The error args.
-   * @param {string} args.message The error message.
+   * @param {string} message The error message.
    */
-  constructor({ message }) {
-    super(message || 'The request is not valid');
+  constructor(message = 'The request is not valid') {
+    super(message);
     this.name = 'Bad Request';
     this.status = 400;
   }

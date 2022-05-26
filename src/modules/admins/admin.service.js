@@ -41,7 +41,7 @@ class AdminService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving admins' });
+        throw new sharedErrors.InternalServerError('Error while retrieving admins');
       }
 
       throw err;
@@ -79,7 +79,7 @@ class AdminService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving admin' });
+        throw new sharedErrors.InternalServerError('Error while retrieving admin');
       }
 
       throw err;
@@ -142,7 +142,7 @@ class AdminService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while storing admin' });
+        throw new sharedErrors.InternalServerError('Error while storing admin');
       }
 
       throw err;
@@ -173,9 +173,7 @@ class AdminService {
       }
 
       if (adminById.deleted_at !== null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The user account is disabled',
-        });
+        throw new sharedErrors.BadRequestError('The user account is disabled');
       }
 
       await userRepository.update(
@@ -204,7 +202,7 @@ class AdminService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while updating admin' });
+        throw new sharedErrors.InternalServerError('Error while updating admin');
       }
 
       throw err;

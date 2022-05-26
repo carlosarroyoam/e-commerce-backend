@@ -41,9 +41,7 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while retrieving customer addresses',
-        });
+        throw new sharedErrors.InternalServerError('Error while retrieving customer addresses');
       }
 
       throw err;
@@ -88,9 +86,7 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while retrieving customer address',
-        });
+        throw new sharedErrors.InternalServerError('Error while retrieving customer address');
       }
 
       throw err;
@@ -142,9 +138,7 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while storing customer address',
-        });
+        throw new sharedErrors.InternalServerError('Error while storing customer address');
       }
 
       throw err;
@@ -199,9 +193,7 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while updating customer address',
-        });
+        throw new sharedErrors.InternalServerError('Error while updating customer address');
       }
 
       throw err;
@@ -250,9 +242,7 @@ class CustomerAddressService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while deleting customer address',
-        });
+        throw new sharedErrors.InternalServerError('Error while deleting customer address');
       }
 
       throw err;

@@ -10,7 +10,7 @@ class UnauthorizedError extends Error {
    * @param {object} args.email The email of the user.
    */
   constructor({ message, email }) {
-    super(message || `Failed to authorize user with the email: ${email}`);
+    super(message || `Failed to authorize user with the email: '${email}'`);
     this.name = 'Unauthorized';
     this.status = 401;
   }
