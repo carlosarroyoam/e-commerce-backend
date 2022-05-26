@@ -8,9 +8,12 @@ module.exports = () => async (error, request, response, next) => {
 
   if (!error.fatal) {
     return response.status(error.status || 500).json({
-      error: error.name,
       message: error.message,
-      data: error.errors,
+      error: error.name,
+      details: error.errors,
+      status: error.status,
+      path: request.originalUrl,
+      timestamp: new Date().toISOString(),
     });
   }
 
