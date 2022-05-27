@@ -36,9 +36,7 @@ class CategoryService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while retrieving categories',
-        });
+        throw new sharedErrors.InternalServerError('Error while retrieving categories');
       }
 
       throw err;
@@ -75,7 +73,7 @@ class CategoryService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving category' });
+        throw new sharedErrors.InternalServerError('Error while retrieving category');
       }
 
       throw err;
@@ -121,7 +119,7 @@ class CategoryService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while storing category' });
+        throw new sharedErrors.InternalServerError('Error while storing category');
       }
 
       throw err;
@@ -174,7 +172,7 @@ class CategoryService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while updating category' });
+        throw new sharedErrors.InternalServerError('Error while updating category');
       }
 
       throw err;
@@ -201,9 +199,7 @@ class CategoryService {
       }
 
       if (categoryById.deleted_at !== null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The category is already inactive',
-        });
+        throw new sharedErrors.BadRequestError('The category is already inactive');
       }
 
       await categoryRepository.deleteById(category_id);
@@ -219,7 +215,7 @@ class CategoryService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while deleting category' });
+        throw new sharedErrors.InternalServerError('Error while deleting category');
       }
 
       throw err;
@@ -246,9 +242,7 @@ class CategoryService {
       }
 
       if (categoryById.deleted_at === null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The category is already active',
-        });
+        throw new sharedErrors.BadRequestError('The category is already active');
       }
 
       await categoryRepository.restore(category_id);
@@ -264,7 +258,7 @@ class CategoryService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while restoring category' });
+        throw new sharedErrors.InternalServerError('Error while restoring category');
       }
 
       throw err;

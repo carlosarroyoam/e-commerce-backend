@@ -7,7 +7,7 @@ module.exports = {
           schema: {
             example: {
               message: 'Ok',
-              data: null,
+              data: {},
             },
           },
         },
@@ -20,7 +20,7 @@ module.exports = {
           schema: {
             example: {
               message: 'Ok',
-              data: null,
+              data: {},
             },
           },
         },
@@ -37,6 +37,9 @@ module.exports = {
             example: {
               error: 'Bad request',
               message: 'The request is not valid',
+              status: 400,
+              path: '/api/v1/users',
+              timestamp: '2022-05-26T22:06:12.887Z',
             },
           },
         },
@@ -50,6 +53,9 @@ module.exports = {
             example: {
               error: 'Not found',
               message: 'The /api/v1/wrong-route route was not found on this server',
+              status: 404,
+              path: '/api/v1/users',
+              timestamp: '2022-05-26T22:06:12.887Z',
             },
           },
         },
@@ -62,7 +68,10 @@ module.exports = {
           schema: {
             example: {
               error: 'Unauthorized',
-              message: 'Failed to authorize user with the email: example@domain.com',
+              message: "Failed to authorize user with the email: 'example@domain.com'",
+              status: 401,
+              path: '/api/v1/users',
+              timestamp: '2022-05-26T22:06:12.887Z',
             },
           },
         },
@@ -76,6 +85,9 @@ module.exports = {
             example: {
               error: 'Forbidden',
               message: 'The user has not permission to perform this action',
+              status: 403,
+              path: '/api/v1/users',
+              timestamp: '2022-05-26T22:06:12.887Z',
             },
           },
         },
@@ -89,10 +101,13 @@ module.exports = {
             example: {
               error: 'Unprocessable entity',
               message: 'The request data is not valid',
-              data: {
+              details: {
                 password: 'The password must be between 8 and 16 characters',
                 email: 'The email format is invalid',
               },
+              status: 422,
+              path: '/api/v1/users',
+              timestamp: '2022-05-26T22:06:12.887Z',
             },
           },
         },
@@ -106,6 +121,9 @@ module.exports = {
             example: {
               error: 'Internal server error',
               message: 'Error while updating information',
+              status: 500,
+              path: '/api/v1/users',
+              timestamp: '2022-05-26T22:06:12.887Z',
             },
           },
         },

@@ -100,7 +100,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while authenticating' });
+        throw new sharedErrors.InternalServerError('Error while authenticating');
       }
 
       throw err;
@@ -138,7 +138,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while logging out' });
+        throw new sharedErrors.InternalServerError('Error while logging out');
       }
 
       throw err;
@@ -232,7 +232,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while refreshing token' });
+        throw new sharedErrors.InternalServerError('Error while refreshing token');
       }
 
       throw err;
@@ -270,7 +270,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while authenticating' });
+        throw new sharedErrors.InternalServerError('Error while authenticating');
       }
 
       throw err;
@@ -319,9 +319,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while requesting password reset',
-        });
+        throw new sharedErrors.InternalServerError('Error while requesting password reset');
       }
 
       throw err;
@@ -386,7 +384,7 @@ class AuthService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while resetting password' });
+        throw new sharedErrors.InternalServerError('Error while resetting password');
       }
 
       throw err;

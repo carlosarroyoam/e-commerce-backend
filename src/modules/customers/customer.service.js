@@ -56,7 +56,7 @@ class CustomerService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving customers' });
+        throw new sharedErrors.InternalServerError('Error while retrieving customers');
       }
 
       throw err;
@@ -99,7 +99,7 @@ class CustomerService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving customer' });
+        throw new sharedErrors.InternalServerError('Error while retrieving customer');
       }
 
       throw err;
@@ -160,7 +160,7 @@ class CustomerService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while storing customer' });
+        throw new sharedErrors.InternalServerError('Error while storing customer');
       }
 
       throw err;
@@ -191,9 +191,7 @@ class CustomerService {
       }
 
       if (customerById.deleted_at !== null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The user account is disabled',
-        });
+        throw new sharedErrors.BadRequestError('The user account is disabled');
       }
 
       await userRepository.update(
@@ -221,7 +219,7 @@ class CustomerService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while updating customer' });
+        throw new sharedErrors.InternalServerError('Error while updating customer');
       }
 
       throw err;

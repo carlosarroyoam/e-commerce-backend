@@ -39,7 +39,7 @@ class UserService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving users' });
+        throw new sharedErrors.InternalServerError('Error while retrieving users');
       }
 
       throw err;
@@ -76,7 +76,7 @@ class UserService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving user' });
+        throw new sharedErrors.InternalServerError('Error while retrieving user');
       }
 
       throw err;
@@ -104,15 +104,11 @@ class UserService {
       }
 
       if (userById.deleted_at !== null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The user is already inactive',
-        });
+        throw new sharedErrors.BadRequestError('The user is already inactive');
       }
 
       if (auth_user_id === userById.id) {
-        throw new sharedErrors.BadRequestError({
-          message: 'A user cannot deactivate to itself',
-        });
+        throw new sharedErrors.BadRequestError('A user cannot deactivate to itself');
       }
 
       await userRepository.deleteById(user_id);
@@ -128,7 +124,7 @@ class UserService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while deleting user' });
+        throw new sharedErrors.InternalServerError('Error while deleting user');
       }
 
       throw err;
@@ -156,15 +152,11 @@ class UserService {
       }
 
       if (userById.deleted_at === null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The user is already active',
-        });
+        throw new sharedErrors.BadRequestError('The user is already active');
       }
 
       if (auth_user_id === userById.id) {
-        throw new sharedErrors.BadRequestError({
-          message: 'A user cannot activate to itself',
-        });
+        throw new sharedErrors.BadRequestError('A user cannot activate to itself');
       }
 
       await userRepository.restore(user_id);
@@ -180,7 +172,7 @@ class UserService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while restoring user' });
+        throw new sharedErrors.InternalServerError('Error while restoring user');
       }
 
       throw err;
@@ -220,9 +212,7 @@ class UserService {
       const passwordMatchResult = await bcrypt.compare(current_password, userById.password);
 
       if (!passwordMatchResult) {
-        throw new sharedErrors.BadRequestError({
-          message: 'Invalid credentials. Please try again',
-        });
+        throw new sharedErrors.BadRequestError('Invalid credentials. Please try again');
       }
 
       const hashPassword = await bcrypt.hashPassword(new_password);

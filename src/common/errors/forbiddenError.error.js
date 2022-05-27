@@ -5,11 +5,10 @@ class ForbiddenError extends Error {
   /**
    * Constructor for ForbiddenError.
    *
-   * @param {object} args The error args.
-   * @param {string} args.message The error message.
+   * @param {string} message The error message.
    */
-  constructor({ message }) {
-    super(message || "You don't have access to this resource");
+  constructor(message = "You don't have access to this resource") {
+    super(message);
     this.name = 'Forbidden';
     this.status = 403;
   }

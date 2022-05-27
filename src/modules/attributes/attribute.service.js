@@ -32,9 +32,7 @@ class AttributeService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({
-          message: 'Error while retrieving attributes',
-        });
+        throw new sharedErrors.InternalServerError('Error while retrieving attributes');
       }
 
       throw err;
@@ -71,7 +69,7 @@ class AttributeService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while retrieving attribute' });
+        throw new sharedErrors.InternalServerError('Error while retrieving attribute');
       }
 
       throw err;
@@ -117,7 +115,7 @@ class AttributeService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while storing attribute' });
+        throw new sharedErrors.InternalServerError('Error while storing attribute');
       }
 
       throw err;
@@ -159,7 +157,7 @@ class AttributeService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while updating attribute' });
+        throw new sharedErrors.InternalServerError('Error while updating attribute');
       }
 
       throw err;
@@ -186,9 +184,7 @@ class AttributeService {
       }
 
       if (attributeById.deleted_at !== null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The attribute is already inactive',
-        });
+        throw new sharedErrors.BadRequestError('The attribute is already inactive');
       }
 
       await attributeRepository.deleteById(attribute_id);
@@ -204,7 +200,7 @@ class AttributeService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while deleting attribute' });
+        throw new sharedErrors.InternalServerError('Error while deleting attribute');
       }
 
       throw err;
@@ -231,9 +227,7 @@ class AttributeService {
       }
 
       if (attributeById.deleted_at === null) {
-        throw new sharedErrors.BadRequestError({
-          message: 'The attribute is already active',
-        });
+        throw new sharedErrors.BadRequestError('The attribute is already active');
       }
 
       await attributeRepository.restore(attribute_id);
@@ -249,7 +243,7 @@ class AttributeService {
           message: err.message,
         });
 
-        throw new sharedErrors.InternalServerError({ message: 'Error while restoring attribute' });
+        throw new sharedErrors.InternalServerError('Error while restoring attribute');
       }
 
       throw err;
