@@ -12,6 +12,7 @@ const updateCustomerAddressSchema = require('./schemas/update.schema');
 const deleteCustomerAddressSchema = require('./schemas/delete.schema');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.get(

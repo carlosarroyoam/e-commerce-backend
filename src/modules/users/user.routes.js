@@ -13,6 +13,7 @@ const restoreUserSchema = require('./schemas/restore.schema');
 const changePasswordSchema = require('./schemas/changePassword.schema');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.get(

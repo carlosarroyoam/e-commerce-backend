@@ -8,6 +8,7 @@ const resetPasswordSchema = require('./schemas/resetPassword.schema');
 const forgotPasswordSchema = require('./schemas/forgotPassword.schema');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.post('/login', validateRequestMiddleware(loginSchema), authController.login);

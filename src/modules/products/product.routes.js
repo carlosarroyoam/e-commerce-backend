@@ -12,6 +12,7 @@ const storeProductSchema = require('./schemas/store.schema');
 const updateProductSchema = require('./schemas/update.schema');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.get('/', validateRequestMiddleware(indexProductSchema), productController.index);

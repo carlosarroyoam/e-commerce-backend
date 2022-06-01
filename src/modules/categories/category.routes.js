@@ -14,6 +14,7 @@ const deleteCategorySchema = require('./schemas/delete.schema');
 const restoreCategorySchema = require('./schemas/restore.schema');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.get('/', validateRequestMiddleware(indexCategorySchema), categoryController.index);
