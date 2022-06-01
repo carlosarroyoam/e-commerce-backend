@@ -49,7 +49,7 @@ class AdminService {
   }
 
   /**
-   * Retrieves a admin user by its id.
+   * Retrieves an admin user by its id.
    *
    * @param {object} admin The admin user object.
    * @param {number} admin.admin_id The id of the admin user to retrieve.
@@ -87,7 +87,7 @@ class AdminService {
   }
 
   /**
-   * Stores a admin user.
+   * Stores an admin user.
    *
    * @param {object} admin The admin user to store.
    * @return {Promise} The created admin user.
@@ -150,7 +150,7 @@ class AdminService {
   }
 
   /**
-   * Updates a admin user by its id.
+   * Updates an admin user by its id.
    *
    * @param {number} admin_id The id of the admin user to update.
    * @param {object} admin The admin user to store.

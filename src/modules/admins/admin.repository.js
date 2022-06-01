@@ -33,7 +33,7 @@ class AdminRepository {
   }
 
   /**
-   * Retrieves a admin user by its id.
+   * Retrieves an admin user by its id.
    *
    * @param {number} admin_id The id of the admin user to retrieve.
    * @return {Promise} The result of the query.
@@ -45,7 +45,7 @@ class AdminRepository {
   }
 
   /**
-   * Retrieves a admin user by its email.
+   * Retrieves an admin user by its email.
    *
    * @param {string} email The email of the admin user to retrieve.
    * @return {Promise} The result of the query.
@@ -57,7 +57,7 @@ class AdminRepository {
   }
 
   /**
-   * Stores a admin user.
+   * Stores an admin user.
    *
    * @param {object} admin The admin user to store.
    */
@@ -70,7 +70,7 @@ class AdminRepository {
   }
 
   /**
-   * Updates a admin user by its id.
+   * Updates an admin user by its id.
    *
    * @param {object} admin The admin user to update.
    * @param {number} admin_id The id of the admin user to update.
