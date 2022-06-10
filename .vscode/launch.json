@@ -10,8 +10,6 @@
       "request": "launch",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run-script", "dev:start"],
-      "port": 9229,
-      "protocol": "inspector",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
       "outFiles": [
