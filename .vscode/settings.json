@@ -5,8 +5,5 @@
     "source.fixAll": true,
     "source.fixAll.format": true
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "eslint.validate": ["javascript"]
 }
