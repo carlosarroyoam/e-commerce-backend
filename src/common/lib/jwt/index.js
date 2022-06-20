@@ -17,7 +17,7 @@ async function sign({ subject, userRole }, password) {
     issuer: config.APP.NAME,
   };
 
-  const token = await jwt.sign(payload, config.JWT.SECRET_KEY + password, options);
+  const token = jwt.sign(payload, config.JWT.SECRET_KEY + password, options);
 
   return token;
 }
@@ -37,7 +37,7 @@ async function signRefresh({ subject }) {
     issuer: config.APP.NAME,
   };
 
-  const token = await jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options);
+  const token = jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options);
 
   return token;
 }
@@ -57,11 +57,7 @@ async function signPasswordRecoveryToken({ subject }, password) {
     issuer: config.APP.NAME,
   };
 
-  const token = await jwt.sign(
-    payload,
-    config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password,
-    options
-  );
+  const token = jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options);
 
   return token;
 }
@@ -72,7 +68,7 @@ async function signPasswordRecoveryToken({ subject }, password) {
  * @return {Promise} The decoded token.
  */
 async function verify(accessToken, password) {
-  const decoded = await jwt.verify(accessToken, config.JWT.SECRET_KEY + password);
+  const decoded = jwt.verify(accessToken, config.JWT.SECRET_KEY + password);
 
   return decoded;
 }
@@ -82,7 +78,7 @@ async function verify(accessToken, password) {
  * @return {Promise} The decoded token.
  */
 async function verifyRefresh(refreshToken) {
-  const decoded = await jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY);
+  const decoded = jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY);
 
   return decoded;
 }
@@ -103,7 +99,7 @@ async function verifyPasswordRecoveryToken(accessToken, password) {
  * @return {Promise} The decoded token.
  */
 async function decode(accessToken) {
-  const decoded = await jwt.decode(accessToken, { complete: false });
+  const decoded = jwt.decode(accessToken, { complete: false });
 
   return decoded;
 }
