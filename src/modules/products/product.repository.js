@@ -26,7 +26,12 @@ class ProductRepository {
    * @return {Promise} The result of the query.
    */
   async findAll({ skip, limit, sort, search }) {
-    const [result] = await this.productDao.getAll({ skip, limit, sort, search });
+    const [result] = await this.productDao.getAll({
+      skip,
+      limit,
+      sort,
+      search,
+    });
 
     return result;
   }

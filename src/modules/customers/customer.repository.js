@@ -27,7 +27,13 @@ class CustomerRepository {
    * @return {Promise} The result of the query.
    */
   async findAll({ skip, limit, sort, status, search }) {
-    const [result] = await this.customerDao.getAll({ skip, limit, sort, status, search });
+    const [result] = await this.customerDao.getAll({
+      skip,
+      limit,
+      sort,
+      status,
+      search,
+    });
 
     return result;
   }

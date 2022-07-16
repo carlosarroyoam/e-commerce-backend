@@ -1,15 +1,12 @@
 module.exports = {
+  parserOptions: {
+    ecmaVersion: 2021,
+  },
   env: {
     commonjs: true,
     es2021: true,
     node: true,
   },
-  plugins: ['prettier', 'security'],
-  extends: ['google', 'prettier', 'plugin:security/recommended'],
-  parserOptions: {
-    ecmaVersion: 2021,
-  },
-  rules: {
-    camelcase: 0,
-  },
+  plugins: ['prettier'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
 };

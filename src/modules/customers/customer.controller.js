@@ -16,7 +16,13 @@ class CustomerController {
     try {
       const { skip, limit, sort, status, search } = request.query;
 
-      const customers = await customerService.findAll({ skip, limit, sort, status, search });
+      const customers = await customerService.findAll({
+        skip,
+        limit,
+        sort,
+        status,
+        search,
+      });
 
       const customersDto = customers.map((customer) => customerMapper.toDto(customer));
 

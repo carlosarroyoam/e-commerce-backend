@@ -3,8 +3,8 @@ const AdminRepository = require('./admin.repository');
 const UserRepository = require('../../modules/users/user.repository');
 const sharedErrors = require('../../common/errors');
 const userRoles = require('../../modules/auth/roles');
-const bcrypt = require('../../common/lib/bcrypt');
 const logger = require('../../common/lib/winston/logger');
+const bcrypt = require('../../common/lib/bcrypt');
 
 /**
  * AdminService class.
@@ -28,7 +28,13 @@ class AdminService {
       connection = await dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
-      const admins = await adminRepository.findAll({ skip, limit, sort, status, search });
+      const admins = await adminRepository.findAll({
+        skip,
+        limit,
+        sort,
+        status,
+        search,
+      });
 
       connection.release();
 

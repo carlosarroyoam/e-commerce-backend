@@ -9,7 +9,7 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "dev:start"],
+      "runtimeArgs": ["run-script", "start:dev"],
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
       "outFiles": [

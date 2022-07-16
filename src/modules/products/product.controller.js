@@ -18,7 +18,12 @@ class ProductController {
     try {
       const { skip, limit, sort, search } = request.query;
 
-      const products = await productService.findAll({ skip, limit, sort, search });
+      const products = await productService.findAll({
+        skip,
+        limit,
+        sort,
+        search,
+      });
 
       const productsDto = products.map((product) => {
         const productDto = productMapper.toDto(product);
