@@ -3,8 +3,8 @@ const AdminRepository = require('./admin.repository');
 const UserRepository = require('../../modules/users/user.repository');
 const sharedErrors = require('../../common/errors');
 const userRoles = require('../../modules/auth/roles');
-const bcrypt = require('../../common/lib/bcrypt');
 const logger = require('../../common/lib/winston/logger');
+const bcrypt = require('../../common/lib/bcrypt');
 
 /**
  * AdminService class.
@@ -28,7 +28,13 @@ class AdminService {
       connection = await dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
-      const admins = await adminRepository.findAll({ skip, limit, sort, status, search });
+      const admins = await adminRepository.findAll({
+        skip,
+        limit,
+        sort,
+        status,
+        search,
+      });
 
       connection.release();
 
@@ -49,7 +55,7 @@ class AdminService {
   }
 
   /**
-   * Retrieves a admin user by its id.
+   * Retrieves an admin user by its id.
    *
    * @param {object} admin The admin user object.
    * @param {number} admin.admin_id The id of the admin user to retrieve.
@@ -87,7 +93,7 @@ class AdminService {
   }
 
   /**
-   * Stores a admin user.
+   * Stores an admin user.
    *
    * @param {object} admin The admin user to store.
    * @return {Promise} The created admin user.
@@ -150,7 +156,7 @@ class AdminService {
   }
 
   /**
-   * Updates a admin user by its id.
+   * Updates an admin user by its id.
    *
    * @param {number} admin_id The id of the admin user to update.
    * @param {object} admin The admin user to store.

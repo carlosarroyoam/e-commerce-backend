@@ -27,7 +27,12 @@ class ProductService {
       const productRepository = new ProductRepository(connection);
       const productVariantRepository = new ProductVariantRepository(connection);
 
-      const rawProducts = await productRepository.findAll({ skip, limit, sort, search });
+      const rawProducts = await productRepository.findAll({
+        skip,
+        limit,
+        sort,
+        search,
+      });
 
       const products = await Promise.all(
         rawProducts.map(async (product) => {
@@ -166,7 +171,10 @@ class ProductService {
         );
       }
 
-      const createdProductId = await productRepository.store({ ...product, slug });
+      const createdProductId = await productRepository.store({
+        ...product,
+        slug,
+      });
 
       const productById = await productRepository.findById(createdProductId);
 

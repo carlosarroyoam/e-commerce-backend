@@ -16,7 +16,13 @@ class UserController {
     try {
       const { skip, limit, sort, status, search } = request.query;
 
-      const users = await userService.findAll({ skip, limit, sort, status, search });
+      const users = await userService.findAll({
+        skip,
+        limit,
+        sort,
+        status,
+        search,
+      });
 
       const usersDto = users.map((user) => userMapper.toDto(user));
 

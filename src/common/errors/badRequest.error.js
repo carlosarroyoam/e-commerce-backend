@@ -9,7 +9,7 @@ class BadRequest extends Error {
    */
   constructor(message = 'The request is not valid') {
     super(message);
-    this.name = 'Bad Request';
+    this.name = 'Bad request';
     this.status = 400;
   }
 }

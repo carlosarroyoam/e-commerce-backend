@@ -30,7 +30,9 @@ module.exports = async (request, response, next) => {
       return next(unauthorizedError);
     }
 
-    const userById = await authService.getUserForTokenVerify({ user_id: decoded.sub });
+    const userById = await authService.getUserForTokenVerify({
+      user_id: decoded.sub,
+    });
 
     if (userById.deleted_at !== null) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({

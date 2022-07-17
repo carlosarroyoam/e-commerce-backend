@@ -16,7 +16,13 @@ class AdminController {
     try {
       const { skip, limit, sort, status, search } = request.query;
 
-      const admins = await adminService.findAll({ skip, limit, sort, status, search });
+      const admins = await adminService.findAll({
+        skip,
+        limit,
+        sort,
+        status,
+        search,
+      });
 
       const adminsDto = admins.map((admin) => adminMapper.toDto(admin));
 

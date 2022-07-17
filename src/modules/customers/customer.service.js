@@ -30,7 +30,13 @@ class CustomerService {
       const customerRepository = new CustomerRepository(connection);
       const customerAddressRepository = new CustomerAddressRepository(connection);
 
-      const rawCustomers = await customerRepository.findAll({ skip, limit, sort, status, search });
+      const rawCustomers = await customerRepository.findAll({
+        skip,
+        limit,
+        sort,
+        status,
+        search,
+      });
 
       const customers = await Promise.all(
         rawCustomers.map(async (customer) => {

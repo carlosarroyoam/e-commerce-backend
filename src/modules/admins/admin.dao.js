@@ -116,7 +116,7 @@ class AdminDao {
   }
 
   /**
-   * Performs the SQL query to insert a admin user.
+   * Performs the SQL query to insert an admin user.
    *
    * @param {object} admin The admin user to store.
    * @return {Promise} The query result.
@@ -128,7 +128,7 @@ class AdminDao {
   }
 
   /**
-   * Performs the SQL query to update a admin user.
+   * Performs the SQL query to update an admin user.
    *
    * @param {object} admin The admin user to update.
    * @param {number} admin_id The id of the admin user to update.

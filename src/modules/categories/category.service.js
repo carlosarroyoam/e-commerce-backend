@@ -23,7 +23,11 @@ class CategoryService {
       connection = await dbConnectionPool.getConnection();
       const categoryRepository = new CategoryRepository(connection);
 
-      const categories = await categoryRepository.findAll({ skip, limit, sort });
+      const categories = await categoryRepository.findAll({
+        skip,
+        limit,
+        sort,
+      });
 
       connection.release();
 
@@ -104,7 +108,9 @@ class CategoryService {
         });
       }
 
-      const createdCategoryId = await categoryRepository.store({ title: category.title });
+      const createdCategoryId = await categoryRepository.store({
+        title: category.title,
+      });
 
       const createdCategory = await categoryRepository.findById(createdCategoryId);
 

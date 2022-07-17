@@ -54,7 +54,7 @@ class AuthService {
           userByEmail.id
         );
 
-      const token = await jsonwebtoken.sign(
+      const token = jsonwebtoken.sign(
         {
           subject: userByEmail.id,
           userRole: userByEmail.user_role,
@@ -62,7 +62,7 @@ class AuthService {
         userByEmail.password
       );
 
-      const refreshToken = await jsonwebtoken.signRefresh({
+      const refreshToken = jsonwebtoken.signRefresh({
         subject: userByEmail.id,
       });
 
@@ -161,9 +161,9 @@ class AuthService {
       const userRepository = new UserRepository(connection);
       const authRepository = new AuthRepository(connection);
 
-      const decoded = await jsonwebtoken.verifyRefresh(refresh_token);
+      const decoded = jsonwebtoken.verifyRefresh(refresh_token);
 
-      const userById = await userRepository.findById(decoded.sub);
+      const userById = await userRepository.findById(Number(decoded.sub));
 
       if (!userById) {
         throw new sharedErrors.UnauthorizedError({
@@ -172,7 +172,7 @@ class AuthService {
         });
       }
 
-      const token = await jsonwebtoken.sign(
+      const token = jsonwebtoken.sign(
         {
           subject: userById.id,
           userRole: userById.user_role,
@@ -192,7 +192,7 @@ class AuthService {
         });
       }
 
-      const refreshToken = await jsonwebtoken.signRefresh({
+      const refreshToken = jsonwebtoken.signRefresh({
         subject: userById.id,
       });
 
@@ -298,7 +298,7 @@ class AuthService {
         throw new sharedErrors.UserNotFoundError({ email });
       }
 
-      const token = await jsonwebtoken.signPasswordRecoveryToken(
+      const token = jsonwebtoken.signPasswordRecoveryToken(
         {
           subject: userByEmail.id,
         },
@@ -340,7 +340,7 @@ class AuthService {
       connection = await dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
-      const decoded = await jsonwebtoken.decode(token);
+      const decoded = jsonwebtoken.decode(token);
 
       if (decoded == null) {
         throw new sharedErrors.UnauthorizedError({
@@ -349,20 +349,17 @@ class AuthService {
         });
       }
 
-      const userById = await userRepository.findById(decoded.sub);
+      const userById = await userRepository.findById(Number(decoded.sub));
 
       if (!userById) {
         throw new sharedErrors.UserNotFoundError({ email: undefined });
       }
 
-      const decodedVerified = await jsonwebtoken.verifyPasswordRecoveryToken(
-        token,
-        userById.password
-      );
+      const decodedVerified = jsonwebtoken.verifyPasswordRecoveryToken(token, userById.password);
 
       const hashPassword = await bcrypt.hashPassword(password);
 
-      await userRepository.update({ password: hashPassword }, decodedVerified.sub);
+      await userRepository.update({ password: hashPassword }, Number(decodedVerified.sub));
 
       return;
     } catch (err) {

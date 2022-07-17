@@ -14,6 +14,7 @@ const deleteAttributeSchema = require('./schemas/delete.schema');
 const restoreAttributeSchema = require('./schemas/restore.schema');
 
 module.exports = () => {
+  // eslint-disable-next-line new-cap
   const router = Router();
 
   router.get(

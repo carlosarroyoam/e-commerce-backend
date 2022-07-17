@@ -100,7 +100,9 @@ class AttributeService {
         });
       }
 
-      const createdAttributeId = await attributeRepository.store({ title: attribute.title });
+      const createdAttributeId = await attributeRepository.store({
+        title: attribute.title,
+      });
 
       const createdAttribute = await attributeRepository.findById(createdAttributeId);
 
