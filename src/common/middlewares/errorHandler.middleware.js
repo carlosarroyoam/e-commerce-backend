@@ -1,21 +1,21 @@
 const logger = require('../lib/winston/logger');
 
 module.exports = () => async (error, request, response, next) => {
-  logger.log({
-    level: error.status !== 500 ? 'info' : 'error',
-    message: error.message,
-  });
+	logger.log({
+		level: error.status !== 500 ? 'info' : 'error',
+		message: error.message,
+	});
 
-  if (!error.fatal) {
-    return response.status(error.status || 500).json({
-      message: error.message,
-      error: error.name,
-      details: error.errors,
-      status: error.status,
-      path: request.originalUrl,
-      timestamp: new Date().toISOString(),
-    });
-  }
+	if (!error.fatal) {
+		return response.status(error.status || 500).json({
+			message: error.message,
+			error: error.name,
+			details: error.errors,
+			status: error.status,
+			path: request.originalUrl,
+			timestamp: new Date().toISOString(),
+		});
+	}
 
-  next();
+	next();
 };

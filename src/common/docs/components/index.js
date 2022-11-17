@@ -4,10 +4,10 @@ const parameters = require('./parameters');
 const schemas = require('./schemas');
 
 module.exports = {
-  components: {
-    ...securitySchemas,
-    ...responses,
-    ...parameters,
-    ...schemas,
-  },
+	components: {
+		...securitySchemas,
+		...responses,
+		...parameters,
+		...schemas,
+	},
 };

@@ -13,19 +13,19 @@ const attributes = require('./paths/attributes');
 const categories = require('./paths/categories');
 
 module.exports = {
-  ...info,
-  ...servers,
-  ...tags,
-  paths: {
-    ...auth,
-    ...users,
-    ...admins,
-    ...customers,
-    ...customersAddresses,
-    ...products,
-    ...productVariants,
-    ...attributes,
-    ...categories,
-  },
-  ...components,
+	...info,
+	...servers,
+	...tags,
+	paths: {
+		...auth,
+		...users,
+		...admins,
+		...customers,
+		...customersAddresses,
+		...products,
+		...productVariants,
+		...attributes,
+		...categories,
+	},
+	...components,
 };

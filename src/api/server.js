@@ -12,29 +12,29 @@ const validateJsonPayloadMiddleware = require('../common/middlewares/validateJso
 const errorHandlerMiddleware = require('../common/middlewares/errorHandler.middleware');
 
 module.exports = {
-  start: () => {
-    const app = express();
+	start: () => {
+		const app = express();
 
-    app
-      .use(cors({ origin: ['http://localhost:3001', 'http://localhost:4200'], credentials: true }))
-      .use(express.json())
-      .use(cookieParser())
-      .use(compression())
-      .use(morgan('dev'))
-      .use(helmet())
-      .use(router())
-      .use(validateJsonPayloadMiddleware())
-      .use(errorHandlerMiddleware());
+		app
+			.use(cors({ origin: ['http://localhost:3001', 'http://localhost:4200'], credentials: true }))
+			.use(express.json())
+			.use(cookieParser())
+			.use(compression())
+			.use(morgan('dev'))
+			.use(helmet())
+			.use(router())
+			.use(validateJsonPayloadMiddleware())
+			.use(errorHandlerMiddleware());
 
-    return new Promise((resolve) => {
-      app.listen(config.APP.PORT, () => {
-        logger.log({
-          level: 'info',
-          message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
-        });
+		return new Promise((resolve) => {
+			app.listen(config.APP.PORT, () => {
+				logger.log({
+					level: 'info',
+					message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
+				});
 
-        resolve();
-      });
-    });
-  },
+				resolve();
+			});
+		});
+	},
 };

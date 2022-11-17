@@ -11,50 +11,50 @@ const logger = require('../../common/lib/winston/logger');
  * @return {Promise} The list of products.
  */
 const findAll = async (product_id) => {
-  let connection;
+	let connection;
 
-  try {
-    connection = await dbConnectionPool.getConnection();
-    const productRepository = new ProductRepository(connection);
-    const productVariantRepository = new ProductVariantRepository(connection);
+	try {
+		connection = await dbConnectionPool.getConnection();
+		const productRepository = new ProductRepository(connection);
+		const productVariantRepository = new ProductVariantRepository(connection);
 
-    const productById = await productRepository.findById(product_id);
+		const productById = await productRepository.findById(product_id);
 
-    if (!productById) {
-      throw new sharedErrors.ResourceNotFoundError();
-    }
+		if (!productById) {
+			throw new sharedErrors.ResourceNotFoundError();
+		}
 
-    const rawProductVariants = await productVariantRepository.findByProductId(product_id);
+		const rawProductVariants = await productVariantRepository.findByProductId(product_id);
 
-    const productVariants = await Promise.all(
-      rawProductVariants.map(async (variant) => {
-        const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-          variant.id
-        );
+		const productVariants = await Promise.all(
+			rawProductVariants.map(async (variant) => {
+				const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+					variant.id
+				);
 
-        return {
-          ...variant,
-          attribute_combinations: attributesByVariantId,
-        };
-      })
-    );
+				return {
+					...variant,
+					attribute_combinations: attributesByVariantId,
+				};
+			})
+		);
 
-    connection.release();
+		connection.release();
 
-    return productVariants;
-  } catch (err) {
-    if (connection) connection.release();
+		return productVariants;
+	} catch (err) {
+		if (connection) connection.release();
 
-    if (!err.status) {
-      logger.error({
-        message: err.message,
-      });
+		if (!err.status) {
+			logger.error({
+				message: err.message,
+			});
 
-      throw new sharedErrors.InternalServerError('Error while retrieving product variants');
-    }
+			throw new sharedErrors.InternalServerError('Error while retrieving product variants');
+		}
 
-    throw err;
-  }
+		throw err;
+	}
 };
 
 /**
@@ -65,51 +65,51 @@ const findAll = async (product_id) => {
  * @return {Promise} The variant.
  */
 const findById = async (product_id, variant_id) => {
-  let connection;
+	let connection;
 
-  try {
-    connection = await dbConnectionPool.getConnection();
-    const productRepository = new ProductRepository(connection);
-    const productVariantRepository = new ProductVariantRepository(connection);
+	try {
+		connection = await dbConnectionPool.getConnection();
+		const productRepository = new ProductRepository(connection);
+		const productVariantRepository = new ProductVariantRepository(connection);
 
-    const productById = await productRepository.findById(product_id);
+		const productById = await productRepository.findById(product_id);
 
-    if (!productById) {
-      throw new sharedErrors.ResourceNotFoundError();
-    }
+		if (!productById) {
+			throw new sharedErrors.ResourceNotFoundError();
+		}
 
-    const variantById = await productVariantRepository.findById(product_id, variant_id);
+		const variantById = await productVariantRepository.findById(product_id, variant_id);
 
-    if (!variantById) {
-      throw new sharedErrors.ResourceNotFoundError();
-    }
+		if (!variantById) {
+			throw new sharedErrors.ResourceNotFoundError();
+		}
 
-    const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-      variantById.id
-    );
+		const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
+			variantById.id
+		);
 
-    connection.release();
+		connection.release();
 
-    return {
-      ...variantById,
-      attribute_combinations: attributesByVariantId,
-    };
-  } catch (err) {
-    if (connection) connection.release();
+		return {
+			...variantById,
+			attribute_combinations: attributesByVariantId,
+		};
+	} catch (err) {
+		if (connection) connection.release();
 
-    if (!err.status) {
-      logger.error({
-        message: err.message,
-      });
+		if (!err.status) {
+			logger.error({
+				message: err.message,
+			});
 
-      throw new sharedErrors.InternalServerError('Error while retrieving product variant');
-    }
+			throw new sharedErrors.InternalServerError('Error while retrieving product variant');
+		}
 
-    throw err;
-  }
+		throw err;
+	}
 };
 
 module.exports = {
-  findAll,
-  findById,
+	findAll,
+	findById,
 };

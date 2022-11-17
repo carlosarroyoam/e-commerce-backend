@@ -12,40 +12,40 @@ const storeAdminSchema = require('./schemas/store.schema');
 const updateAdminSchema = require('./schemas/update.schema');
 
 module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(indexAdminSchema),
-    adminGuardMiddleware,
-    adminController.index
-  );
+	router.get(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(indexAdminSchema),
+		adminGuardMiddleware,
+		adminController.index
+	);
 
-  router.get(
-    '/:admin_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(showAdminSchema),
-    adminGuardMiddleware,
-    adminController.show
-  );
+	router.get(
+		'/:admin_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(showAdminSchema),
+		adminGuardMiddleware,
+		adminController.show
+	);
 
-  router.post(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(storeAdminSchema),
-    adminGuardMiddleware,
-    adminController.store
-  );
+	router.post(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(storeAdminSchema),
+		adminGuardMiddleware,
+		adminController.store
+	);
 
-  router.put(
-    '/:admin_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(updateAdminSchema),
-    adminGuardMiddleware,
-    adminController.update
-  );
+	router.put(
+		'/:admin_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(updateAdminSchema),
+		adminGuardMiddleware,
+		adminController.update
+	);
 
-  return router;
+	return router;
 };

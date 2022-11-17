@@ -1,9 +1,9 @@
 const validators = require('../../../common/utils/validators.util');
 
 module.exports = [
-  validators.currentPassword,
+	validators.currentPassword,
 
-  validators.newPassword,
+	validators.newPassword,
 
-  validators.confirmPassword('new_password'),
+	validators.confirmPassword('new_password'),
 ];

@@ -8,30 +8,30 @@ const resetPasswordSchema = require('./schemas/resetPassword.schema');
 const forgotPasswordSchema = require('./schemas/forgotPassword.schema');
 
 module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.post('/login', validateRequestMiddleware(loginSchema), authController.login);
+	router.post('/login', validateRequestMiddleware(loginSchema), authController.login);
 
-  router.post('/logout', authController.logout);
+	router.post('/logout', authController.logout);
 
-  router.post(
-    '/refresh-token',
-    validateRequestMiddleware(refreshTokenSchema),
-    authController.refreshToken
-  );
+	router.post(
+		'/refresh-token',
+		validateRequestMiddleware(refreshTokenSchema),
+		authController.refreshToken
+	);
 
-  router.post(
-    '/forgot-password',
-    validateRequestMiddleware(forgotPasswordSchema),
-    authController.forgotPassword
-  );
+	router.post(
+		'/forgot-password',
+		validateRequestMiddleware(forgotPasswordSchema),
+		authController.forgotPassword
+	);
 
-  router.post(
-    '/reset-password',
-    validateRequestMiddleware(resetPasswordSchema),
-    authController.resetPassword
-  );
+	router.post(
+		'/reset-password',
+		validateRequestMiddleware(resetPasswordSchema),
+		authController.resetPassword
+	);
 
-  return router;
+	return router;
 };

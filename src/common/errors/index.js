@@ -8,12 +8,12 @@ const ResourceNotFoundError = require('./resourceNotFound.error');
 const InternalServerError = require('./internalServerError.error');
 
 module.exports = {
-  BadRequestError,
-  EmailAlreadyTakenError,
-  ForbiddenError,
-  UnauthorizedError,
-  UnprocessableEntityError,
-  UserNotFoundError,
-  ResourceNotFoundError,
-  InternalServerError,
+	BadRequestError,
+	EmailAlreadyTakenError,
+	ForbiddenError,
+	UnauthorizedError,
+	UnprocessableEntityError,
+	UserNotFoundError,
+	ResourceNotFoundError,
+	InternalServerError,
 };

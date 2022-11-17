@@ -12,20 +12,20 @@ const storeProductVariantSchema = require('./schemas/store.schema');
 const updateProductVariantSchema = require('./schemas/update.schema');
 
 module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get(
-    '/products/:product_id/variants',
-    validateRequestMiddleware(indexProductVariantSchema),
-    productVariantController.index
-  );
+	router.get(
+		'/products/:product_id/variants',
+		validateRequestMiddleware(indexProductVariantSchema),
+		productVariantController.index
+	);
 
-  router.get(
-    '/products/:product_id/variants/:variant_id',
-    validateRequestMiddleware(showProductVariantSchema),
-    productVariantController.show
-  );
+	router.get(
+		'/products/:product_id/variants/:variant_id',
+		validateRequestMiddleware(showProductVariantSchema),
+		productVariantController.show
+	);
 
-  return router;
+	return router;
 };

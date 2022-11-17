@@ -7,19 +7,19 @@ const config = require('../../config');
  * @return {string | jwt.JwtPayload} The signed token.
  */
 function sign({ subject, userRole }, password) {
-  const payload = {
-    sub: subject,
-    userRole,
-  };
+	const payload = {
+		sub: subject,
+		userRole,
+	};
 
-  const options = {
-    expiresIn: config.JWT.EXPIRES_IN,
-    issuer: config.APP.NAME,
-  };
+	const options = {
+		expiresIn: config.JWT.EXPIRES_IN,
+		issuer: config.APP.NAME,
+	};
 
-  const token = jwt.sign(payload, config.JWT.SECRET_KEY + password, options);
+	const token = jwt.sign(payload, config.JWT.SECRET_KEY + password, options);
 
-  return token;
+	return token;
 }
 
 /**
@@ -28,18 +28,18 @@ function sign({ subject, userRole }, password) {
  * @return {string | jwt.JwtPayload} The signed token.
  */
 function signRefresh({ subject }) {
-  const payload = {
-    sub: subject,
-  };
+	const payload = {
+		sub: subject,
+	};
 
-  const options = {
-    expiresIn: config.JWT.REFRESH_EXPIRES_IN,
-    issuer: config.APP.NAME,
-  };
+	const options = {
+		expiresIn: config.JWT.REFRESH_EXPIRES_IN,
+		issuer: config.APP.NAME,
+	};
 
-  const token = jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options);
+	const token = jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options);
 
-  return token;
+	return token;
 }
 
 /**
@@ -48,18 +48,18 @@ function signRefresh({ subject }) {
  * @return {string | jwt.JwtPayload} The signed token.
  */
 function signPasswordRecoveryToken({ subject }, password) {
-  const payload = {
-    sub: subject,
-  };
+	const payload = {
+		sub: subject,
+	};
 
-  const options = {
-    expiresIn: config.JWT.PASSWORD_RECOVERY_EXPIRES_IN,
-    issuer: config.APP.NAME,
-  };
+	const options = {
+		expiresIn: config.JWT.PASSWORD_RECOVERY_EXPIRES_IN,
+		issuer: config.APP.NAME,
+	};
 
-  const token = jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options);
+	const token = jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options);
 
-  return token;
+	return token;
 }
 
 /**
@@ -68,9 +68,9 @@ function signPasswordRecoveryToken({ subject }, password) {
  * @return {string | jwt.JwtPayload} The decoded token.
  */
 function verify(accessToken, password) {
-  const decoded = jwt.verify(accessToken, config.JWT.SECRET_KEY + password);
+	const decoded = jwt.verify(accessToken, config.JWT.SECRET_KEY + password);
 
-  return decoded;
+	return decoded;
 }
 
 /**
@@ -78,9 +78,9 @@ function verify(accessToken, password) {
  * @return {string | jwt.JwtPayload} The decoded token.
  */
 function verifyRefresh(refreshToken) {
-  const decoded = jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY);
+	const decoded = jwt.verify(refreshToken, config.JWT.REFRESH_SECRET_KEY);
 
-  return decoded;
+	return decoded;
 }
 
 /**
@@ -89,9 +89,9 @@ function verifyRefresh(refreshToken) {
  * @return {string | jwt.JwtPayload} The decoded token.
  */
 function verifyPasswordRecoveryToken(accessToken, password) {
-  const decoded = jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password);
+	const decoded = jwt.verify(accessToken, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password);
 
-  return decoded;
+	return decoded;
 }
 
 /**
@@ -99,17 +99,17 @@ function verifyPasswordRecoveryToken(accessToken, password) {
  * @return {string | jwt.JwtPayload} The decoded token.
  */
 function decode(accessToken) {
-  const decoded = jwt.decode(accessToken, { complete: false });
+	const decoded = jwt.decode(accessToken, { complete: false });
 
-  return decoded;
+	return decoded;
 }
 
 module.exports = {
-  sign,
-  signRefresh,
-  signPasswordRecoveryToken,
-  verify,
-  verifyRefresh,
-  verifyPasswordRecoveryToken,
-  decode,
+	sign,
+	signRefresh,
+	signPasswordRecoveryToken,
+	verify,
+	verifyRefresh,
+	verifyPasswordRecoveryToken,
+	decode,
 };

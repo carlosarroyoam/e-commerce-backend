@@ -5,17 +5,17 @@
  * @return {object} The object without undefined.
  */
 function removeUndefined(object) {
-  const cleanedObject = Object.keys(object).reduce((acc, key) => {
-    const _acc = acc;
-    if (object[key] !== undefined) _acc[key] = object[key];
-    return _acc;
-  }, {});
+	const cleanedObject = Object.keys(object).reduce((acc, key) => {
+		const _acc = acc;
+		if (object[key] !== undefined) _acc[key] = object[key];
+		return _acc;
+	}, {});
 
-  Object.freeze(cleanedObject);
+	Object.freeze(cleanedObject);
 
-  return cleanedObject;
+	return cleanedObject;
 }
 
 module.exports = {
-  removeUndefined,
+	removeUndefined,
 };
