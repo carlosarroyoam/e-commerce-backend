@@ -47,20 +47,22 @@ class ProductService {
 							const attributesByVariantId =
 								await productVariantRepository.findAttributesByVariantId(variant.id);
 
+							const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
+								variant.id
+							);
+
 							return {
 								...variant,
 								attribute_combinations: attributesByVariantId,
+								images: imagesByVariantId,
 							};
 						})
 					);
-
-					const imagesByProductId = await productRepository.findImagesByProductId(product.id);
 
 					return {
 						...product,
 						properties: propertiesByProductId,
 						variants: variantsByProductId,
-						images: imagesByProductId,
 					};
 				})
 			);
@@ -113,14 +115,17 @@ class ProductService {
 						variant.id
 					);
 
+					const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
+						variant.id
+					);
+
 					return {
 						...variant,
 						attribute_combinations: attributesByVariantId,
+						images: imagesByVariantId,
 					};
 				})
 			);
-
-			const imagesByProductId = await productRepository.findImagesByProductId(product_id);
 
 			connection.release();
 
@@ -128,7 +133,6 @@ class ProductService {
 				...productById,
 				properties: propertiesByProductId,
 				variants: variantsByProductId,
-				images: imagesByProductId,
 			};
 		} catch (err) {
 			if (connection) connection.release();
@@ -190,14 +194,17 @@ class ProductService {
 						variant.id
 					);
 
+					const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
+						variant.id
+					);
+
 					return {
 						...variant,
 						attribute_combinations: attributesByVariantId,
+						images: imagesByVariantId,
 					};
 				})
 			);
-
-			const imagesByProductId = await productRepository.findImagesByProductId(productById.id);
 
 			connection.rollback();
 
@@ -207,7 +214,6 @@ class ProductService {
 				...productById,
 				properties: propertiesByProductId,
 				variants: variantsByProductId,
-				images: imagesByProductId,
 			};
 		} catch (err) {
 			if (connection) {

@@ -128,26 +128,6 @@ class ProductDao {
 	}
 
 	/**
-	 * Performs the SQL query to get all product images by its id.
-	 *
-	 * @param {number} product_id The id of the product to query.
-	 * @return {Promise} The query result.
-	 */
-	async getImagesByProductId(product_id) {
-		const query = `SELECT
-      pi.id,
-      pi.url,
-      pi.product_id,
-      pi.variant_id
-    FROM product_images pi
-    LEFT JOIN products p ON pi.product_id = p.id
-    LEFT JOIN variants v ON pi.variant_id = v.id
-    WHERE p.id = ?`;
-
-		return this.connection.query(query, [product_id]);
-	}
-
-	/**
 	 * Performs the SQL query to insert a product.
 	 *
 	 * @param {object} product The product to store.

@@ -19,16 +19,20 @@ class ProductVariantController {
 
 			const variants = await productVariantService.findAll(product_id);
 
-			const productVariantsDto = variants.map((productVariant) => {
-				const productVariantDto = productVariantMapper.toDto(productVariant);
+			const productVariantsDto = variants.map((variant) => {
+				const productVariantDto = productVariantMapper.toDto(variant);
 
-				const productVariantAttributesDto = productVariant.attribute_combinations.map((attribute) =>
+				const productVariantAttributesDto = variant.attribute_combinations.map((attribute) =>
 					attributeMapper.toDto(attribute)
 				);
+
+				// TODO add product images dto
+				const variantImagesDto = variant.images;
 
 				return {
 					...productVariantDto,
 					attribute_combinations: productVariantAttributesDto,
+					images: variantImagesDto,
 				};
 			});
 
@@ -60,11 +64,15 @@ class ProductVariantController {
 				attributeMapper.toDto(attribute)
 			);
 
+			// TODO add product images dto
+			const variantImagesDto = variantById.images;
+
 			response.json({
 				message: 'Ok',
 				data: {
 					...productVariantDto,
 					attribute_combinations: productVariantAttributesDto,
+					images: variantImagesDto,
 				},
 			});
 		} catch (error) {

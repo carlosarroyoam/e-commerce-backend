@@ -39,20 +39,20 @@ class ProductController {
 						attributeMapper.toDto(attribute)
 					);
 
+					// TODO add product images dto
+					const variantImagesDto = variant.images;
+
 					return {
 						...variantDto,
 						attibute_combinations: variantAttributesDto,
+						images: variantImagesDto,
 					};
 				});
-
-				// TODO add product images dto
-				const productImagesDto = product.images;
 
 				return {
 					...productDto,
 					properties: productPropertiesDto,
 					variants: productVariantsDto,
-					images: productImagesDto,
 				};
 			});
 
@@ -91,14 +91,15 @@ class ProductController {
 					attributeMapper.toDto(attribute)
 				);
 
+				// TODO add product images dto
+				const variantImagesDto = variant.images;
+
 				return {
 					...variantDto,
 					attibute_combinations: variantAttributesDto,
+					images: variantImagesDto,
 				};
 			});
-
-			// TODO add product images dto
-			const productImagesDto = productById.images;
 
 			response.json({
 				message: 'Ok',
@@ -106,7 +107,6 @@ class ProductController {
 					...productDto,
 					properties: productPropertiesDto,
 					variants: productVariantsDto,
-					images: productImagesDto,
 				},
 			});
 		} catch (error) {

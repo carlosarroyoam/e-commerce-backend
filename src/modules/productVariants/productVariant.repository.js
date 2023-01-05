@@ -40,13 +40,25 @@ class ProductVariantRepository {
 	}
 
 	/**
-	 * Retrieves all product attributes by product_id.
+	 * Retrieves all product attributes by variant_id.
 	 *
 	 * @param {number} variant_id The query options.
 	 * @return {Promise} The result of the query.
 	 */
 	async findAttributesByVariantId(variant_id) {
 		const [result] = await this.productVariantDao.getAttributesByVariantId(variant_id);
+
+		return result;
+	}
+
+	/**
+	 * Retrieves all product images by variant_id.
+	 *
+	 * @param {number} variant_id The query options.
+	 * @return {Promise} The result of the query.
+	 */
+	async findImagesByVariantId(variant_id) {
+		const [result] = await this.productVariantDao.getImagesByVariantId(variant_id);
 
 		return result;
 	}

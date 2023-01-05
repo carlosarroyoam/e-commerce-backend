@@ -214,29 +214,25 @@ CREATE TABLE `variants` (
 INSERT INTO `variants` VALUES (1,'motog100nimbusblue',500,0,400,23,1),(2,'motog100borealgreen',479,0,400,34,1),(3,'motog60blue',248,0,200,78,2);
 
 --
--- Table structure for table `product_images`
+-- Table structure for table `variant_images`
 --
 
-CREATE TABLE `product_images` (
+CREATE TABLE `variant_images` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `url` VARCHAR(128) NOT NULL,
-    `product_id` BIGINT UNSIGNED NOT NULL,
     `variant_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `product_images_url_idx` (`url`),
-    KEY `product_images_product_id_fk` (`product_id`),
-    CONSTRAINT `product_images_product_id_fk` FOREIGN KEY (`product_id`)
-        REFERENCES `products` (`id`),
-    KEY `product_images_variant_id_fk` (`variant_id`),
-    CONSTRAINT `product_images_variant_id_fk` FOREIGN KEY (`variant_id`)
+    UNIQUE KEY `variant_images_url_idx` (`url`),
+    KEY `variant_images_variant_id_fk` (`variant_id`),
+    CONSTRAINT `variant_images_variant_id_fk` FOREIGN KEY (`variant_id`)
         REFERENCES `variants` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
--- Dumping data for table `product_images`
+-- Dumping data for table `variant_images`
 --
 
-INSERT INTO `product_images` VALUES (1,'motog100nimbusblue.jpg',1,1),(2,'motog100borealgreen.jpg',1,2),(3,'motog60blue.jpg',2,1);
+INSERT INTO `variant_images` VALUES (1,'motog100nimbusblue.jpg',1),(2,'motog100borealgreen.jpg',2),(3,'motog60blue.jpg',3);
 
 --
 -- Table structure for table `attributes`
