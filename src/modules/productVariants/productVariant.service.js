@@ -32,9 +32,12 @@ const findAll = async (product_id) => {
 					variant.id
 				);
 
+				const imagesByVariantId = await productVariantRepository.findImagesByVariantId(variant.id);
+
 				return {
 					...variant,
 					attribute_combinations: attributesByVariantId,
+					images: imagesByVariantId,
 				};
 			})
 		);
@@ -88,11 +91,14 @@ const findById = async (product_id, variant_id) => {
 			variantById.id
 		);
 
+		const imagesByVariantId = await productVariantRepository.findImagesByVariantId(variantById.id);
+
 		connection.release();
 
 		return {
 			...variantById,
 			attribute_combinations: attributesByVariantId,
+			images: imagesByVariantId,
 		};
 	} catch (err) {
 		if (connection) connection.release();

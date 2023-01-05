@@ -31,7 +31,7 @@ module.exports = async (request, response, next) => {
 		}
 
 		const userById = await authService.getUserForTokenVerify({
-			user_id: decoded.sub,
+			user_id: Number(decoded.sub),
 		});
 
 		if (userById.deleted_at !== null) {
@@ -43,7 +43,7 @@ module.exports = async (request, response, next) => {
 			return next(unauthorizedError);
 		}
 
-		await jsonwebtoken.verify(accessToken, userById.password);
+		jsonwebtoken.verify(accessToken, userById.password);
 
 		request.user = {
 			id: userById.id,

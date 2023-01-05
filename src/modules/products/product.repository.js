@@ -66,20 +66,8 @@ class ProductRepository {
 	 * @param {number} product_id The query options.
 	 * @return {Promise} The result of the query.
 	 */
-	async findAttributesByProductId(product_id) {
-		const [result] = await this.productDao.getAttributesByProductId(product_id);
-
-		return result;
-	}
-
-	/**
-	 * Retrieves all product images by product_id.
-	 *
-	 * @param {number} product_id The query options.
-	 * @return {Promise} The result of the query.
-	 */
-	async findImagesByProductId(product_id) {
-		const [result] = await this.productDao.getImagesByProductId(product_id);
+	async findPropertiesByProductId(product_id) {
+		const [result] = await this.productDao.findPropertiesByProductId(product_id);
 
 		return result;
 	}

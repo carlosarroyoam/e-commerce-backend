@@ -8,8 +8,6 @@ const validateRequestMiddleware = require('../../common/middlewares/validateRequ
 
 const indexProductVariantSchema = require('./schemas/index.schema');
 const showProductVariantSchema = require('./schemas/show.schema');
-const storeProductVariantSchema = require('./schemas/store.schema');
-const updateProductVariantSchema = require('./schemas/update.schema');
 
 module.exports = () => {
 	// eslint-disable-next-line new-cap

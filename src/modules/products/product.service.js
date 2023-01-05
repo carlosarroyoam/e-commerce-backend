@@ -36,7 +36,7 @@ class ProductService {
 
 			const products = await Promise.all(
 				rawProducts.map(async (product) => {
-					const propertiesByProductId = await productRepository.findAttributesByProductId(
+					const propertiesByProductId = await productRepository.findPropertiesByProductId(
 						product.id
 					);
 
@@ -47,20 +47,22 @@ class ProductService {
 							const attributesByVariantId =
 								await productVariantRepository.findAttributesByVariantId(variant.id);
 
+							const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
+								variant.id
+							);
+
 							return {
 								...variant,
 								attribute_combinations: attributesByVariantId,
+								images: imagesByVariantId,
 							};
 						})
 					);
-
-					const imagesByProductId = await productRepository.findImagesByProductId(product.id);
 
 					return {
 						...product,
 						properties: propertiesByProductId,
 						variants: variantsByProductId,
-						images: imagesByProductId,
 					};
 				})
 			);
@@ -103,7 +105,7 @@ class ProductService {
 				throw new sharedErrors.ResourceNotFoundError();
 			}
 
-			const propertiesByProductId = await productRepository.findAttributesByProductId(product_id);
+			const propertiesByProductId = await productRepository.findPropertiesByProductId(product_id);
 
 			const rawVariantsByProductId = await productVariantRepository.findByProductId(product_id);
 
@@ -113,14 +115,17 @@ class ProductService {
 						variant.id
 					);
 
+					const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
+						variant.id
+					);
+
 					return {
 						...variant,
 						attribute_combinations: attributesByVariantId,
+						images: imagesByVariantId,
 					};
 				})
 			);
-
-			const imagesByProductId = await productRepository.findImagesByProductId(product_id);
 
 			connection.release();
 
@@ -128,7 +133,6 @@ class ProductService {
 				...productById,
 				properties: propertiesByProductId,
 				variants: variantsByProductId,
-				images: imagesByProductId,
 			};
 		} catch (err) {
 			if (connection) connection.release();
@@ -178,7 +182,7 @@ class ProductService {
 
 			const productById = await productRepository.findById(createdProductId);
 
-			const propertiesByProductId = await productRepository.findAttributesByProductId(
+			const propertiesByProductId = await productRepository.findPropertiesByProductId(
 				productById.id
 			);
 
@@ -190,14 +194,17 @@ class ProductService {
 						variant.id
 					);
 
+					const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
+						variant.id
+					);
+
 					return {
 						...variant,
 						attribute_combinations: attributesByVariantId,
+						images: imagesByVariantId,
 					};
 				})
 			);
-
-			const imagesByProductId = await productRepository.findImagesByProductId(productById.id);
 
 			connection.rollback();
 
@@ -207,7 +214,6 @@ class ProductService {
 				...productById,
 				properties: propertiesByProductId,
 				variants: variantsByProductId,
-				images: imagesByProductId,
 			};
 		} catch (err) {
 			if (connection) {

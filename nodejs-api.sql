@@ -189,6 +189,50 @@ CREATE TABLE `products` (
 INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto G100',0,1,1,'2022-01-31 20:58:02','2022-02-01 14:23:27',NULL),(2,'Moto G60','moto-g60','Moto G60',1,1,1,'2022-02-01 19:25:28','2022-02-01 19:25:28',NULL);
 
 --
+-- Table structure for table `properties`
+--
+
+CREATE TABLE `properties` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(45) NOT NULL,
+    `deleted_at` TIMESTAMP DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `properties_deleted_at_idx` (`deleted_at`),
+    UNIQUE KEY `properties_title_idx` (`title`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+--
+-- Dumping data for table `properties`
+--
+
+INSERT INTO `properties` VALUES (1,'Brand',NULL),(2,'Model',NULL);
+
+--
+-- Table structure for table `product_property_values`
+--
+
+CREATE TABLE `product_property_values` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `value` VARCHAR(45) NOT NULL,
+    `product_id` BIGINT UNSIGNED NOT NULL,
+    `property_id` BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `product_property_values_idx` (`product_id`, `property_id`),
+    KEY `product_property_values_product_fk` (`product_id`),
+    CONSTRAINT `product_property_values_product_fk` FOREIGN KEY (`product_id`)
+        REFERENCES `products` (`id`),
+    KEY `product_property_values_property_fk` (`property_id`),
+    CONSTRAINT `product_property_values_property_fk` FOREIGN KEY (`property_id`)
+        REFERENCES `properties` (`id`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+--
+-- Dumping data for table `product_property_values`
+--
+
+INSERT INTO `product_property_values` VALUES (1,'Motorola',1,1),(2,'Moto G100',1,2),(4,'Motorola',2,1),(5,'Moto G60',2,2);
+
+--
 -- Table structure for table `variants`
 --
 
@@ -214,29 +258,25 @@ CREATE TABLE `variants` (
 INSERT INTO `variants` VALUES (1,'motog100nimbusblue',500,0,400,23,1),(2,'motog100borealgreen',479,0,400,34,1),(3,'motog60blue',248,0,200,78,2);
 
 --
--- Table structure for table `product_images`
+-- Table structure for table `variant_images`
 --
 
-CREATE TABLE `product_images` (
+CREATE TABLE `variant_images` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `url` VARCHAR(128) NOT NULL,
-    `product_id` BIGINT UNSIGNED NOT NULL,
     `variant_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `product_images_url_idx` (`url`),
-    KEY `product_images_product_id_fk` (`product_id`),
-    CONSTRAINT `product_images_product_id_fk` FOREIGN KEY (`product_id`)
-        REFERENCES `products` (`id`),
-    KEY `product_images_variant_id_fk` (`variant_id`),
-    CONSTRAINT `product_images_variant_id_fk` FOREIGN KEY (`variant_id`)
+    UNIQUE KEY `variant_images_url_idx` (`url`),
+    KEY `variant_images_variant_id_fk` (`variant_id`),
+    CONSTRAINT `variant_images_variant_id_fk` FOREIGN KEY (`variant_id`)
         REFERENCES `variants` (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 --
--- Dumping data for table `product_images`
+-- Dumping data for table `variant_images`
 --
 
-INSERT INTO `product_images` VALUES (1,'motog100nimbusblue.jpg',1,1),(2,'motog100borealgreen.jpg',1,2),(3,'motog60blue.jpg',2,1);
+INSERT INTO `variant_images` VALUES (1,'motog100nimbusblue.jpg',1),(2,'motog100borealgreen.jpg',2),(3,'motog60blue.jpg',3);
 
 --
 -- Table structure for table `attributes`
@@ -255,32 +295,7 @@ CREATE TABLE `attributes` (
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` VALUES (1,'Brand',NULL),(2,'Model',NULL),(3,'Color',NULL),(4,'Storage',NULL);
-
---
--- Table structure for table `product_attribute_values`
---
-
-CREATE TABLE `product_attribute_values` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `value` VARCHAR(45) NOT NULL,
-    `product_id` BIGINT UNSIGNED NOT NULL,
-    `attribute_id` BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `product_attribute_values_idx` (`product_id`, `attribute_id`),
-    KEY `product_attribute_values_product_id_fk` (`product_id`),
-    CONSTRAINT `product_attribute_values_product_id_fk` FOREIGN KEY (`product_id`)
-        REFERENCES `products` (`id`),
-    KEY `product_attribute_values_attribute_id_fk` (`attribute_id`),
-    CONSTRAINT `product_attribute_values_attribute_id_fk` FOREIGN KEY (`attribute_id`)
-        REFERENCES `attributes` (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
-
---
--- Dumping data for table `product_attribute_values`
---
-
-INSERT INTO `product_attribute_values` VALUES (1,'Motorola',1,1),(2,'Moto G100',1,2),(3,'128gb',1,4),(4,'Motorola',2,1),(5,'Moto G60',2,2),(6,'128gb',2,4),(7,'Blue',2,3);
+INSERT INTO `attributes` VALUES (1,'Color',NULL),(2,'Storage',NULL);
 
 --
 -- Table structure for table `variant_attribute_values`
@@ -292,7 +307,7 @@ CREATE TABLE `variant_attribute_values` (
     `variant_id` BIGINT UNSIGNED NOT NULL,
     `attribute_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `variant_attribute_values_variant_option_value_idx` (`variant_id`, `attribute_id`),
+    UNIQUE KEY `variant_attribute_values_idx` (`variant_id`, `attribute_id`),
     KEY `variant_attribute_values_variant_id_fk` (`variant_id`),
     CONSTRAINT `variant_attribute_values_variant_id_fk` FOREIGN KEY (`variant_id`)
         REFERENCES `variants` (`id`),
@@ -305,7 +320,7 @@ CREATE TABLE `variant_attribute_values` (
 -- Dumping data for table `variant_attribute_values`
 --
 
-INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,3),(2,'Boreal Green',2,3);
+INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,1),(2,'Boreal Green',2,1),(3,'Blue',3,1),(4,'128gb',1,2),(5,'128gb',2,2),(6,'128gb',3,2);
 
 --
 -- Table structure for table `movement_types`

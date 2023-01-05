@@ -109,40 +109,20 @@ class ProductDao {
 	}
 
 	/**
-	 * Performs the SQL query to get all product attributes by its id.
+	 * Performs the SQL query to get all product properties by its id.
 	 *
 	 * @param {number} product_id The id of the product to query.
 	 * @return {Promise} The query result.
 	 */
-	async getAttributesByProductId(product_id) {
+	async findPropertiesByProductId(product_id) {
 		const query = `SELECT
       a.id,
       a.title,
-      pav.value
-    FROM product_attribute_values pav
-    LEFT JOIN products p ON pav.product_id = p.id
-    LEFT JOIN attributes a ON pav.attribute_id = a.id
+      ppv.value
+    FROM product_property_values ppv
+    LEFT JOIN products p ON ppv.product_id = p.id
+    LEFT JOIN properties a ON ppv.property_id = a.id
     WHERE p.id =  ?`;
-
-		return this.connection.query(query, [product_id]);
-	}
-
-	/**
-	 * Performs the SQL query to get all product images by its id.
-	 *
-	 * @param {number} product_id The id of the product to query.
-	 * @return {Promise} The query result.
-	 */
-	async getImagesByProductId(product_id) {
-		const query = `SELECT
-      pi.id,
-      pi.url,
-      pi.product_id,
-      pi.variant_id
-    FROM product_images pi
-    LEFT JOIN products p ON pi.product_id = p.id
-    LEFT JOIN variants v ON pi.variant_id = v.id
-    WHERE p.id = ?`;
 
 		return this.connection.query(query, [product_id]);
 	}

@@ -199,6 +199,26 @@ const category_title = body('title')
 	.isAlpha('es-ES', { ignore: '\\s\\.' })
 	.withMessage('The title contains invalid characters');
 
+const property_title = body('title')
+	.trim()
+	.customSanitizer((value) => stringUtils.capitalize(value))
+	.exists({ checkNull: true, checkFalsy: true })
+	.withMessage('The title is required')
+	.isLength({ min: 3, max: 45 })
+	.withMessage('The title must be between 3 and 45 characters')
+	.isAlpha('es-ES', { ignore: '\\s\\.' })
+	.withMessage('The title contains invalid characters');
+
+const property_value = body('value')
+	.trim()
+	.customSanitizer((value) => stringUtils.capitalize(value))
+	.exists({ checkNull: true, checkFalsy: true })
+	.withMessage('The value is required')
+	.isLength({ min: 3, max: 45 })
+	.withMessage('The value must be between 3 and 45 characters')
+	.isAlpha('es-ES', { ignore: '\\s\\.' })
+	.withMessage('The value contains invalid characters');
+
 const attribute_title = body('title')
 	.trim()
 	.customSanitizer((value) => stringUtils.capitalize(value))
@@ -253,7 +273,9 @@ module.exports = {
 	postal_code,
 	phone_number,
 	category_title,
+	property_title,
 	attribute_title,
 	attribute_value,
+	property_value,
 	product_title,
 };

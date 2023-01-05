@@ -17,10 +17,9 @@ class ProductVariantDao {
 	 *
 	 * @param {number} product_id The id of the product to query.
 	 * @param {number} variant_id The id of the variant to query.
-	 * @param {*} connection The database connection object.
 	 * @return {Promise} The query result.
 	 */
-	async getById(product_id, variant_id, connection) {
+	async getById(product_id, variant_id) {
 		const query = `SELECT
       v.id,
       v.sku,
@@ -40,10 +39,9 @@ class ProductVariantDao {
 	 * Performs the SQL query to get all product variants by product_id.
 	 *
 	 * @param {number} product_id The id of the product to query.
-	 * @param {*} connection The database connection number.
 	 * @return {Promise} The query result.
 	 */
-	async getByProductId(product_id, connection) {
+	async getByProductId(product_id) {
 		const query = `SELECT
       v.id,
       v.sku,
@@ -63,10 +61,9 @@ class ProductVariantDao {
 	 * Performs the SQL query to get all attributes by variant_id.
 	 *
 	 * @param {number} variant_id The id of the variant to query.
-	 * @param {*} connection The database connection number.
 	 * @return {Promise} The query result.
 	 */
-	async getAttributesByVariantId(variant_id, connection) {
+	async getAttributesByVariantId(variant_id) {
 		const query = `SELECT
       a.id,
       a.title,
@@ -75,6 +72,24 @@ class ProductVariantDao {
       LEFT JOIN variants v ON vav.variant_id = v.id
       LEFT JOIN attributes a ON vav.attribute_id = a.id
       WHERE v.id = ?`;
+
+		return this.connection.query(query, [variant_id]);
+	}
+
+	/**
+	 * Performs the SQL query to get all variant images by its id.
+	 *
+	 * @param {number} variant_id The id of the variant to query.
+	 * @return {Promise} The query result.
+	 */
+	async getImagesByVariantId(variant_id) {
+		const query = `SELECT
+      vi.id,
+      vi.url,
+      vi.variant_id
+    FROM variant_images vi
+    LEFT JOIN variants v ON vi.variant_id = v.id
+    WHERE v.id = ?`;
 
 		return this.connection.query(query, [variant_id]);
 	}
