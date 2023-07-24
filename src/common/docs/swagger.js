@@ -10,6 +10,7 @@ const customersAddresses = require('./paths/customersAddresses');
 const products = require('./paths/products');
 const productVariants = require('./paths/productVariants');
 const attributes = require('./paths/attributes');
+const properties = require('./paths/properties');
 const categories = require('./paths/categories');
 
 module.exports = {
@@ -25,6 +26,7 @@ module.exports = {
 		...products,
 		...productVariants,
 		...attributes,
+		...properties,
 		...categories,
 	},
 	...components,
