@@ -86,6 +86,9 @@ class AuthService {
 
 			return {
 				user_id: userByEmail.id,
+				email: userByEmail.email,
+				first_name: userByEmail.first_name,
+				last_name: userByEmail.last_name,
 				user_role_id: userByEmail.user_role_id,
 				user_role: userByEmail.user_role,
 				access_token: token,

@@ -85,4 +85,5 @@ class ProductRepository {
 		return result.insertId;
 	}
 }
+
 module.exports = ProductRepository;
