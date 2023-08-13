@@ -7,7 +7,6 @@ module.exports = {
 					schema: {
 						example: {
 							message: 'Ok',
-							data: {},
 						},
 					},
 				},
@@ -20,7 +19,6 @@ module.exports = {
 					schema: {
 						example: {
 							message: 'Ok',
-							data: {},
 						},
 					},
 				},
@@ -93,8 +91,8 @@ module.exports = {
 				},
 			},
 		},
-		UNPROCESABLE_ENTITY: {
-			description: 'UNPROCESABLE_ENTITY',
+		UNPROCESSABLE_ENTITY: {
+			description: 'UNPROCESSABLE_ENTITY',
 			content: {
 				'application/json': {
 					schema: {

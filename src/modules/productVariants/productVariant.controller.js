@@ -38,7 +38,7 @@ class ProductVariantController {
 
 			response.json({
 				message: 'Ok',
-				data: productVariantsDto,
+				product_variants: productVariantsDto,
 			});
 		} catch (error) {
 			next(error);
@@ -69,7 +69,7 @@ class ProductVariantController {
 
 			response.json({
 				message: 'Ok',
-				data: {
+				product_variant: {
 					...productVariantDto,
 					attribute_combinations: productVariantAttributesDto,
 					images: variantImagesDto,

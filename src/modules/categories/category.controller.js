@@ -22,7 +22,7 @@ class CategoryController {
 
 			response.json({
 				message: 'Ok',
-				data: categoriesDto,
+				categories: categoriesDto,
 			});
 		} catch (error) {
 			next(error);
@@ -46,7 +46,7 @@ class CategoryController {
 
 			response.json({
 				message: 'Ok',
-				data: categoryDto,
+				category: categoryDto,
 			});
 		} catch (error) {
 			next(error);
@@ -72,7 +72,7 @@ class CategoryController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdCategoryDto,
+				category: createdCategoryDto,
 			});
 		} catch (error) {
 			next(error);
@@ -99,7 +99,7 @@ class CategoryController {
 
 			response.json({
 				message: 'Ok',
-				data: updatedCategoryDto,
+				category: updatedCategoryDto,
 			});
 		} catch (error) {
 			next(error);
@@ -121,8 +121,8 @@ class CategoryController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					category_id: deletedCategoryId,
+				category: {
+					id: deletedCategoryId,
 				},
 			});
 		} catch (error) {
@@ -145,8 +145,8 @@ class CategoryController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					category_id: restoredCategoryId,
+				category: {
+					id: restoredCategoryId,
 				},
 			});
 		} catch (error) {

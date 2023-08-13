@@ -20,7 +20,7 @@ class PropertyController {
 
 			response.json({
 				message: 'Ok',
-				data: propertiesDto,
+				properties: propertiesDto,
 			});
 		} catch (error) {
 			next(error);
@@ -44,7 +44,7 @@ class PropertyController {
 
 			response.json({
 				message: 'Ok',
-				data: propertyDto,
+				property: propertyDto,
 			});
 		} catch (error) {
 			next(error);
@@ -70,7 +70,7 @@ class PropertyController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdPropertyDto,
+				property: createdPropertyDto,
 			});
 		} catch (error) {
 			next(error);
@@ -97,7 +97,7 @@ class PropertyController {
 
 			response.json({
 				message: 'Ok',
-				data: updatedPropertyDto,
+				property: updatedPropertyDto,
 			});
 		} catch (error) {
 			next(error);
@@ -119,8 +119,8 @@ class PropertyController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					property_id: deletedPropertyId,
+				property: {
+					id: deletedPropertyId,
 				},
 			});
 		} catch (error) {
@@ -143,8 +143,8 @@ class PropertyController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					property_id: restoredPropertyId,
+				property: {
+					id: restoredPropertyId,
 				},
 			});
 		} catch (error) {

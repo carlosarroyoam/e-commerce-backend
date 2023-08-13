@@ -28,7 +28,7 @@ class CustomerController {
 
 			response.json({
 				message: 'Ok',
-				data: customersDto,
+				customers: customersDto,
 			});
 		} catch (error) {
 			next(error);
@@ -51,7 +51,7 @@ class CustomerController {
 
 			response.json({
 				message: 'Ok',
-				data: customerDto,
+				customer: customerDto,
 			});
 		} catch (error) {
 			next(error);
@@ -80,7 +80,7 @@ class CustomerController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdCustomerDto,
+				customer: createdCustomerDto,
 			});
 		} catch (error) {
 			next(error);
@@ -108,7 +108,7 @@ class CustomerController {
 
 			response.json({
 				message: 'Ok',
-				data: updatedCustomerDto,
+				customer: updatedCustomerDto,
 			});
 		} catch (error) {
 			next(error);

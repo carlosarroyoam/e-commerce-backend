@@ -28,7 +28,7 @@ class AdminController {
 
 			response.json({
 				message: 'Ok',
-				data: adminsDto,
+				admins: adminsDto,
 			});
 		} catch (error) {
 			next(error);
@@ -51,7 +51,7 @@ class AdminController {
 
 			response.json({
 				message: 'Ok',
-				data: adminDto,
+				admin: adminDto,
 			});
 		} catch (error) {
 			next(error);
@@ -81,7 +81,7 @@ class AdminController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdAdminDto,
+				admin: createdAdminDto,
 			});
 		} catch (error) {
 			next(error);
@@ -109,7 +109,7 @@ class AdminController {
 
 			response.json({
 				message: 'Ok',
-				data: updatedAdminDto,
+				admin: updatedAdminDto,
 			});
 		} catch (error) {
 			next(error);

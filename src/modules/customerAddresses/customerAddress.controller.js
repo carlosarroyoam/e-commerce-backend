@@ -24,7 +24,7 @@ class CustomerAddressController {
 
 			response.json({
 				message: 'Ok',
-				data: customerAddressesDto,
+				addresses: customerAddressesDto,
 			});
 		} catch (error) {
 			next(error);
@@ -47,7 +47,7 @@ class CustomerAddressController {
 
 			response.json({
 				message: 'Ok',
-				data: customerAddressDto,
+				address: customerAddressDto,
 			});
 		} catch (error) {
 			next(error);
@@ -93,7 +93,7 @@ class CustomerAddressController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdAddressDto,
+				address: createdAddressDto,
 			});
 		} catch (error) {
 			next(error);
@@ -138,7 +138,7 @@ class CustomerAddressController {
 
 			response.json({
 				message: 'Ok',
-				data: updatedAddressDto,
+				address: updatedAddressDto,
 			});
 		} catch (error) {
 			next(error);
@@ -160,8 +160,8 @@ class CustomerAddressController {
 
 			response.json({
 				message: 'The address was successfully deleted',
-				data: {
-					user_deleted_id: addressDeletedId,
+				address: {
+					id: addressDeletedId,
 				},
 			});
 		} catch (error) {

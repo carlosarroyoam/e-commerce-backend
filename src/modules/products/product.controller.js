@@ -58,7 +58,7 @@ class ProductController {
 
 			response.json({
 				message: 'Ok',
-				data: productsDto,
+				products: productsDto,
 			});
 		} catch (error) {
 			next(error);
@@ -103,7 +103,7 @@ class ProductController {
 
 			response.json({
 				message: 'Ok',
-				data: {
+				product: {
 					...productDto,
 					properties: productPropertiesDto,
 					variants: productVariantsDto,
@@ -141,7 +141,7 @@ class ProductController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdProductDto,
+				product: createdProductDto,
 			});
 		} catch (error) {
 			next(error);

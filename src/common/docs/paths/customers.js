@@ -16,7 +16,7 @@ module.exports = {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -57,7 +57,7 @@ module.exports = {
 					$ref: '#/components/responses/CREATED',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -95,7 +95,7 @@ module.exports = {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -139,7 +139,7 @@ module.exports = {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
