@@ -236,9 +236,7 @@ class UserService {
 					message: err.message,
 				});
 
-				throw new sharedErrors.InternalServerError({
-					message: 'Error while changing user password',
-				});
+				throw new sharedErrors.InternalServerError('Error while changing user password');
 			}
 
 			throw err;
