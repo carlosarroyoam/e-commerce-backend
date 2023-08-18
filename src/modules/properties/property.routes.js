@@ -1,8 +1,11 @@
 import { Router } from 'express';
+
 import propertyController from '#modules/properties/property.controller.js';
+
 import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
+
 import indexPropertySchema from './schemas/index.schema.js';
 import showPropertySchema from './schemas/show.schema.js';
 import storePropertySchema from './schemas/store.schema.js';

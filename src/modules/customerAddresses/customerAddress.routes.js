@@ -1,7 +1,10 @@
 import { Router } from 'express';
+
 import customerAddressController from '#modules/customerAddresses/customerAddress.controller.js';
+
 import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
 import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
+
 import indexCustomerAddressSchema from './schemas/index.schema.js';
 import showCustomerAddressSchema from './schemas/show.schema.js';
 import storeCustomerAddressSchema from './schemas/store.schema.js';

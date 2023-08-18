@@ -1,4 +1,5 @@
 import UserRepository from '#modules/users/user.repository.js';
+
 import sharedErrors from '#common/errors/index.js';
 import bcrypt from '#common/lib/bcrypt/index.js';
 import dbConnectionPool from '#common/lib/mysql/connectionPool.js';

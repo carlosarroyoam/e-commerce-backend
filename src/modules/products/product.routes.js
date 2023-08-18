@@ -1,8 +1,11 @@
 import { Router } from 'express';
+
 import productController from '#modules/products/product.controller.js';
+
 import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
+
 import indexProductSchema from './schemas/index.schema.js';
 import showProductSchema from './schemas/show.schema.js';
 import storeProductSchema from './schemas/store.schema.js';

@@ -1,5 +1,6 @@
 import AuthRepository from '#modules/auth/auth.repository.js';
 import UserRepository from '#modules/users/user.repository.js';
+
 import config from '#common/config/index.js';
 import sharedErrors from '#common/errors/index.js';
 import bcrypt from '#common/lib/bcrypt/index.js';

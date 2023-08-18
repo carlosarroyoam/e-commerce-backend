@@ -1,4 +1,5 @@
 import AttributeRepository from '#modules/attributes/attribute.repository.js';
+
 import sharedErrors from '#common/errors/index.js';
 import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
 import logger from '#common/lib/winston/logger.js';
