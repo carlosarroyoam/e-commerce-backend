@@ -1,5 +1,5 @@
-import ProductDao from './product.dao.js';
-import productMapper from './product.mapper.js';
+import ProductDao from '#modules/products/product.dao.js';
+import productMapper from '#modules/products/product.mapper.js';
 
 /**
  * ProductRepository class.

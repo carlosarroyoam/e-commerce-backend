@@ -1,5 +1,5 @@
-import categoryService from './category.service.js';
-import categoryMapper from './category.mapper.js';
+import categoryService from '#modules/categories/category.service.js';
+import categoryMapper from '#modules/categories/category.mapper.js';
 
 /**
  * CategoryController class.

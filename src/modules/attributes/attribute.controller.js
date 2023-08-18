@@ -1,5 +1,5 @@
-import attributeService from './attribute.service.js';
-import attributeMapper from './attribute.mapper.js';
+import attributeService from '#modules/attributes/attribute.service.js';
+import attributeMapper from '#modules/attributes/attribute.mapper.js';
 
 /**
  * AttributeController class.

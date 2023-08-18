@@ -1,5 +1,5 @@
-import server from './src/api/server.js';
-import logger from './src/common/lib/winston/logger.js';
+import server from '#app/api/server.js';
+import logger from '#common/lib/winston/logger.js';
 
 server.start().catch((err) => {
 	logger.log({

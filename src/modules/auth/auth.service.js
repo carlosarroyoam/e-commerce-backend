@@ -1,11 +1,11 @@
-import AuthRepository from './auth.repository.js';
-import UserRepository from '../users/user.repository.js';
-import config from '../../common/config/index.js';
-import sharedErrors from '../../common/errors/index.js';
-import bcrypt from '../../common/lib/bcrypt/index.js';
-import jsonwebtoken from '../../common/lib/jwt/index.js';
-import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
-import logger from '../../common/lib/winston/logger.js';
+import AuthRepository from '#modules/auth/auth.repository.js';
+import UserRepository from '#modules/users/user.repository.js';
+import config from '#common/config/index.js';
+import sharedErrors from '#common/errors/index.js';
+import bcrypt from '#common/lib/bcrypt/index.js';
+import jsonwebtoken from '#common/lib/jwt/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
 
 /**
  * AuthService class.

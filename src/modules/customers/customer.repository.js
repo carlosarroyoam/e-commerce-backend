@@ -1,5 +1,5 @@
-import CustomerDao from './customer.dao.js';
-import customerMapper from './customer.mapper.js';
+import CustomerDao from '#modules/customers/customer.dao.js';
+import customerMapper from '#modules/customers/customer.mapper.js';
 
 /**
  * CustomerRepository class.

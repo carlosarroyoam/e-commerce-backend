@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import userController from './user.controller.js';
-import verifyTokenMiddleware from '../../common/middlewares/verifyToken.middleware.js';
-import adminGuardMiddleware from '../../common/middlewares/adminGuard.middleware.js';
-import validateRequestMiddleware from '../../common/middlewares/validateRequest.middleware.js';
+import userController from '#modules/users/user.controller.js';
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 import indexUserSchema from './schemas/index.schema.js';
 import showUserSchema from './schemas/show.schema.js';
 import deleteUserSchema from './schemas/delete.schema.js';

@@ -1,7 +1,7 @@
-import authService from '../../modules/auth/auth.service.js';
-import sharedErrors from '../errors/index.js';
-import jsonwebtoken from '../lib/jwt/index.js';
-import logger from '../lib/winston/logger.js';
+import authService from '#modules/auth/auth.service.js';
+import sharedErrors from '#common/errors/index.js';
+import jsonwebtoken from '#common/lib/jwt/index.js';
+import logger from '#common/lib/winston/logger.js';
 
 export default async (request, response, next) => {
 	try {

@@ -1,6 +1,6 @@
-import productVariantService from './productVariant.service.js';
-import productVariantMapper from './productVariant.mapper.js';
-import attributeMapper from '../attributes/attribute.mapper.js';
+import productVariantService from '#modules/productVariants/productVariant.service.js';
+import productVariantMapper from '#modules/productVariants/productVariant.mapper.js';
+import attributeMapper from '#modules/attributes/attribute.mapper.js';
 
 /**
  * ProductVariantController class.

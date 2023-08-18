@@ -1,5 +1,5 @@
-import AdminDao from './admin.dao.js';
-import adminMapper from './admin.mapper.js';
+import AdminDao from '#modules/admins/admin.dao.js';
+import adminMapper from '#modules/admins/admin.mapper.js';
 
 /**
  * AdminRepository class.

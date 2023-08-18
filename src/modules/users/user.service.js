@@ -1,8 +1,8 @@
-import UserRepository from './user.repository.js';
-import sharedErrors from '../../common/errors/index.js';
-import bcrypt from '../../common/lib/bcrypt/index.js';
-import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
-import logger from '../../common/lib/winston/logger.js';
+import UserRepository from '#modules/users/user.repository.js';
+import sharedErrors from '#common/errors/index.js';
+import bcrypt from '#common/lib/bcrypt/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
 
 /**
  * UserService class.

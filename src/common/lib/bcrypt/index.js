@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import config from '../../config/index.js';
+import config from '#common/config/index.js';
 
 /**
  * @param {string | Buffer} plainTextPassword the plain text password.

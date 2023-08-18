@@ -1,5 +1,5 @@
-import adminService from './admin.service.js';
-import adminMapper from './admin.mapper.js';
+import adminService from '#modules/admins/admin.service.js';
+import adminMapper from '#modules/admins/admin.mapper.js';
 
 /**
  * AdminController class.

@@ -1,4 +1,4 @@
-import sharedErrors from '../errors/index.js';
+import sharedErrors from '#common/errors/index.js';
 
 export default () => async (error, request, response, next) => {
 	// @ts-ignore

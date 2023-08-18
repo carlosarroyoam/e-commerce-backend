@@ -1,7 +1,7 @@
-import UserRepository from '../modules/users/user.repository.js';
-import userService from '../modules/users/user.service.js';
+import userService from '#app/modules/users/user.service.js';
+import UserRepository from '#modules/users/user.repository.js';
 
-jest.mock('../modules/users/user.repository', () => {
+jest.mock('#modules/users/user.repository', () => {
 	return jest.fn().mockImplementation(() => {
 		return {
 			findById: () => {

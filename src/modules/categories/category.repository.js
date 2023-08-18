@@ -1,5 +1,5 @@
-import CategoryDao from './category.dao.js';
-import categoryMapper from './category.mapper.js';
+import CategoryDao from '#modules/categories/category.dao.js';
+import categoryMapper from '#modules/categories/category.mapper.js';
 
 /**
  * CategoryRepository class.

@@ -2,7 +2,7 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
 import { body, param, query } from 'express-validator';
-import stringUtils from './string.utils.js';
+import stringUtils from '#common/utils/string.utils.js';
 
 const passwordSchema = (parameterName) =>
 	body(parameterName)

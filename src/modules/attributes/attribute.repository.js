@@ -1,5 +1,5 @@
-import AttributeDao from './attribute.dao.js';
-import attributeMapper from './attribute.mapper.js';
+import AttributeDao from '#modules/attributes/attribute.dao.js';
+import attributeMapper from '#modules/attributes/attribute.mapper.js';
 
 /**
  * AttributeRepository class.

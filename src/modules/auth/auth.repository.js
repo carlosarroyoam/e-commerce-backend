@@ -1,4 +1,4 @@
-import AuthDao from './auth.dao.js';
+import AuthDao from '#modules/auth/auth.dao.js';
 
 /**
  * AuthRepository class.

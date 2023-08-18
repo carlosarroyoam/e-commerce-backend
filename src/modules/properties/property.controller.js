@@ -1,5 +1,5 @@
-import propertyService from './property.service.js';
-import propertyMapper from './property.mapper.js';
+import propertyService from '#modules/properties/property.service.js';
+import propertyMapper from '#modules/properties/property.mapper.js';
 
 /**
  * PropertyController class.

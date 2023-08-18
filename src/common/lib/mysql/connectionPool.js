@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import config from '../../config/index.js';
+import config from '#common/config/index.js';
 
 const pool = mysql.createPool({
 	connectionLimit: config.DB.CONNECTION_LIMIT,

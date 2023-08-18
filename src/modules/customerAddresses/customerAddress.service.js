@@ -1,8 +1,8 @@
-import CustomerRepository from '../customers/customer.repository.js';
-import CustomerAddressRepository from './customerAddress.repository.js';
-import sharedErrors from '../../common/errors/index.js';
-import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
-import logger from '../../common/lib/winston/logger.js';
+import CustomerRepository from '#modules/customers/customer.repository.js';
+import CustomerAddressRepository from '#modules/customerAddresses/customerAddress.repository.js';
+import sharedErrors from '#common/errors/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
 
 /**
  * CustomerAddressService class.

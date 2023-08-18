@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import sharedErrors from '../errors/index.js';
+import sharedErrors from '#common/errors/index.js';
 
 export default () => {
 	// eslint-disable-next-line new-cap

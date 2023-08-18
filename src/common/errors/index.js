@@ -1,11 +1,11 @@
-import BadRequestError from './badRequest.error.js';
-import EmailAlreadyTakenError from './emailAlreadyTakenError.error.js';
-import ForbiddenError from './forbiddenError.error.js';
-import UnauthorizedError from './unauthorizedError.error.js';
-import UnprocessableEntityError from './unprocessableEntity.error.js';
-import UserNotFoundError from './userNotFound.error.js';
-import ResourceNotFoundError from './resourceNotFound.error.js';
-import InternalServerError from './internalServerError.error.js';
+import BadRequestError from '#common/errors/badRequest.error.js';
+import EmailAlreadyTakenError from '#common/errors/emailAlreadyTakenError.error.js';
+import ForbiddenError from '#common/errors/forbiddenError.error.js';
+import UnauthorizedError from '#common/errors/unauthorizedError.error.js';
+import UnprocessableEntityError from '#common/errors/unprocessableEntity.error.js';
+import UserNotFoundError from '#common/errors/userNotFound.error.js';
+import ResourceNotFoundError from '#common/errors/resourceNotFound.error.js';
+import InternalServerError from '#common/errors/internalServerError.error.js';
 
 export default {
 	BadRequestError,

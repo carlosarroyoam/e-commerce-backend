@@ -1,5 +1,5 @@
-import customerService from './customer.service.js';
-import customerMapper from './customer.mapper.js';
+import customerService from '#modules/customers/customer.service.js';
+import customerMapper from '#modules/customers/customer.mapper.js';
 
 /**
  * CustomerController class.

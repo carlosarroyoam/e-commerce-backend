@@ -1,6 +1,6 @@
 import 'winston-daily-rotate-file';
 import winston from 'winston';
-import config from '../../config/index.js';
+import config from '#common/config/index.js';
 
 const logger = winston.createLogger({
 	level: 'warn',

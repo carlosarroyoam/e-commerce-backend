@@ -1,4 +1,4 @@
-import stringUtils from '../../common/utils/string.utils.js';
+import stringUtils from '#common/utils/string.utils.js';
 
 describe('capitalize', () => {
 	it('word to be capitalized', () => {

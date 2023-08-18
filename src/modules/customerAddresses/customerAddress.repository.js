@@ -1,5 +1,5 @@
-import CustomerAddressDao from './customerAddress.dao.js';
-import customerAddressMapper from './customerAddress.mapper.js';
+import CustomerAddressDao from '#modules/customerAddresses/customerAddress.dao.js';
+import customerAddressMapper from '#modules/customerAddresses/customerAddress.mapper.js';
 
 /**
  * CustomerAddressRepository class.

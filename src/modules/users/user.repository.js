@@ -1,5 +1,5 @@
-import UserDao from './user.dao.js';
-import userMapper from './user.mapper.js';
+import UserDao from '#modules/users/user.dao.js';
+import userMapper from '#modules/users/user.mapper.js';
 
 /**
  * UserRepository class.

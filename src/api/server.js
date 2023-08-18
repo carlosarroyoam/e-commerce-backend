@@ -4,11 +4,11 @@ import compression from 'compression';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import router from './router.js';
-import config from '../common/config/index.js';
-import logger from '../common/lib/winston/logger.js';
-import validateJsonPayloadMiddleware from '../common/middlewares/validateJsonPayload.middleware.js';
-import errorHandlerMiddleware from '../common/middlewares/errorHandler.middleware.js';
+import router from '#app/api/router.js';
+import config from '#common/config/index.js';
+import logger from '#common/lib/winston/logger.js';
+import validateJsonPayloadMiddleware from '#common/middlewares/validateJsonPayload.middleware.js';
+import errorHandlerMiddleware from '#common/middlewares/errorHandler.middleware.js';
 
 export default {
 	start: () => {

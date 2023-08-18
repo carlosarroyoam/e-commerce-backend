@@ -1,5 +1,5 @@
-import PropertyDao from './property.dao.js';
-import propertyMapper from './property.mapper.js';
+import PropertyDao from '#modules/properties/property.dao.js';
+import propertyMapper from '#modules/properties/property.mapper.js';
 
 /**
  * PropertyRepository class.

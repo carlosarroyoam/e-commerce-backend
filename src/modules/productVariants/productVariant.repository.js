@@ -1,4 +1,4 @@
-import ProductVariantDao from './productVariant.dao.js';
+import ProductVariantDao from '#modules/productVariants/productVariant.dao.js';
 
 /**
  * ProductVariantRepository class.

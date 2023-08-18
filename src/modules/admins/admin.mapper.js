@@ -1,4 +1,4 @@
-import objectUtils from '../../common/utils/object.utils.js';
+import objectUtils from '#common/utils/object.utils.js';
 
 /**
  * AdminMapper class.

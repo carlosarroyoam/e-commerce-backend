@@ -1,5 +1,5 @@
-import customerAddressService from './customerAddress.service.js';
-import customerAddressMapper from './customerAddress.mapper.js';
+import customerAddressService from '#modules/customerAddresses/customerAddress.service.js';
+import customerAddressMapper from '#modules/customerAddresses/customerAddress.mapper.js';
 
 /**
  * CustomerController class.

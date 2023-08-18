@@ -1,5 +1,5 @@
-import userService from './user.service.js';
-import userMapper from './user.mapper.js';
+import userService from '#modules/users/user.service.js';
+import userMapper from '#modules/users/user.mapper.js';
 
 /**
  * UserController class.

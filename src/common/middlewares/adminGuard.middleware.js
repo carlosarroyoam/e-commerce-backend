@@ -1,5 +1,5 @@
-import sharedErrors from '../errors/index.js';
-import userRoles from '../../modules/auth/roles.js';
+import sharedErrors from '#common/errors/index.js';
+import userRoles from '#modules/auth/roles.js';
 
 export default async (request, response, next) => {
 	const { user } = request;
