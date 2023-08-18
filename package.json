@@ -28,7 +28,7 @@
 	"scripts": {
 		"start": "node index.js",
 		"start:dev": "nodemon index.js",
-		"test": "jest --watchAll --detectOpenHandles"
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll --detectOpenHandles"
 	},
 	"devDependencies": {
 		"@types/jest": "^26.0.24",
