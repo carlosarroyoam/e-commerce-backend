@@ -1,5 +1,5 @@
-const UserDao = require('./user.dao');
-const userMapper = require('./user.mapper');
+import UserDao from './user.dao.js';
+import userMapper from './user.mapper.js';
 
 /**
  * UserRepository class.
@@ -116,4 +116,4 @@ class UserRepository {
 	}
 }
 
-module.exports = UserRepository;
+export default UserRepository;

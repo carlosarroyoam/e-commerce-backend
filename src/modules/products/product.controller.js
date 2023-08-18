@@ -1,7 +1,7 @@
-const productService = require('./product.service');
-const productMapper = require('./product.mapper');
-const productVariantMapper = require('../productVariants/productVariant.mapper');
-const attributeMapper = require('../attributes/attribute.mapper');
+import productService from './product.service.js';
+import productMapper from './product.mapper.js';
+import productVariantMapper from '../productVariants/productVariant.mapper.js';
+import attributeMapper from '../attributes/attribute.mapper.js';
 
 /**
  * ProductController class.
@@ -149,4 +149,4 @@ class ProductController {
 	}
 }
 
-module.exports = new ProductController();
+export default new ProductController();

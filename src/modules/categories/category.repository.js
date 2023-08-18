@@ -1,5 +1,5 @@
-const CategoryDao = require('./category.dao');
-const categoryMapper = require('./category.mapper');
+import CategoryDao from './category.dao.js';
+import categoryMapper from './category.mapper.js';
 
 /**
  * CategoryRepository class.
@@ -108,4 +108,4 @@ class CategoryRepository {
 	}
 }
 
-module.exports = CategoryRepository;
+export default CategoryRepository;

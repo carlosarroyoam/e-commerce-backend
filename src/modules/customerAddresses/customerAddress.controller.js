@@ -1,5 +1,5 @@
-const customerAddressService = require('./customerAddress.service');
-const customerAddressMapper = require('./customerAddress.mapper');
+import customerAddressService from './customerAddress.service.js';
+import customerAddressMapper from './customerAddress.mapper.js';
 
 /**
  * CustomerController class.
@@ -170,4 +170,4 @@ class CustomerAddressController {
 	}
 }
 
-module.exports = new CustomerAddressController();
+export default new CustomerAddressController();

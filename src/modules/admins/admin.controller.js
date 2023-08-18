@@ -1,5 +1,5 @@
-const adminService = require('./admin.service');
-const adminMapper = require('./admin.mapper');
+import adminService from './admin.service.js';
+import adminMapper from './admin.mapper.js';
 
 /**
  * AdminController class.
@@ -117,4 +117,4 @@ class AdminController {
 	}
 }
 
-module.exports = new AdminController();
+export default new AdminController();

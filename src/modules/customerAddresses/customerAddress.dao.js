@@ -102,4 +102,4 @@ class CustomerAddressDao {
 	}
 }
 
-module.exports = CustomerAddressDao;
+export default CustomerAddressDao;

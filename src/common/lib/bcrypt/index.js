@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const config = require('../../config');
+import bcrypt from 'bcrypt';
+import config from '../../config/index.js';
 
 /**
  * @param {string | Buffer} plainTextPassword the plain text password.
@@ -22,7 +22,7 @@ async function compare(plainTextPassword, passwordHash) {
 	return match;
 }
 
-module.exports = {
+export default {
 	hashPassword,
 	compare,
 };

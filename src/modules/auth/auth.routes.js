@@ -1,13 +1,12 @@
-const { Router } = require('express');
+import { Router } from 'express';
+import authController from './auth.controller.js';
+import validateRequestMiddleware from '../../common/middlewares/validateRequest.middleware.js';
+import loginSchema from './schemas/login.schema.js';
+import refreshTokenSchema from './schemas/refreshToken.schema.js';
+import resetPasswordSchema from './schemas/resetPassword.schema.js';
+import forgotPasswordSchema from './schemas/forgotPassword.schema.js';
 
-const authController = require('./auth.controller');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
-const loginSchema = require('./schemas/login.schema');
-const refreshTokenSchema = require('./schemas/refreshToken.schema');
-const resetPasswordSchema = require('./schemas/resetPassword.schema');
-const forgotPasswordSchema = require('./schemas/forgotPassword.schema');
-
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

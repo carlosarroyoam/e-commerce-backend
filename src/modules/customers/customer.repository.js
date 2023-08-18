@@ -1,5 +1,5 @@
-const CustomerDao = require('./customer.dao');
-const customerMapper = require('./customer.mapper');
+import CustomerDao from './customer.dao.js';
+import customerMapper from './customer.mapper.js';
 
 /**
  * CustomerRepository class.
@@ -91,4 +91,4 @@ class CustomerRepository {
 	}
 }
 
-module.exports = CustomerRepository;
+export default CustomerRepository;

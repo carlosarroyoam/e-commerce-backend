@@ -1,5 +1,5 @@
-const propertyService = require('./property.service');
-const propertyMapper = require('./property.mapper');
+import propertyService from './property.service.js';
+import propertyMapper from './property.mapper.js';
 
 /**
  * PropertyController class.
@@ -153,4 +153,4 @@ class PropertyController {
 	}
 }
 
-module.exports = new PropertyController();
+export default new PropertyController();

@@ -1,21 +1,20 @@
-const { Router } = require('express');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../common/docs/swagger');
+import { Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../common/docs/swagger.js';
+import rootRoute from '../common/routes/root.routes.js';
+import defaultRoute from '../common/routes/default.routes.js';
+import authRoutes from '../modules/auth/auth.routes.js';
+import userRoutes from '../modules/users/user.routes.js';
+import adminRoutes from '../modules/admins/admin.routes.js';
+import customerRoutes from '../modules/customers/customer.routes.js';
+import customerAddressesRoutes from '../modules/customerAddresses/customerAddress.routes.js';
+import productRoutes from '../modules/products/product.routes.js';
+import productPropertyRoutes from '../modules/productVariants/productVariant.routes.js';
+import attributeRoutes from '../modules/attributes/attribute.routes.js';
+import propertyRoutes from '../modules/properties/property.routes.js';
+import categoryRoutes from '../modules/categories/category.routes.js';
 
-const rootRoute = require('../common/routes/root.routes');
-const defaultRoute = require('../common/routes/default.routes');
-const authRoutes = require('../modules/auth/auth.routes');
-const userRoutes = require('../modules/users/user.routes');
-const adminRoutes = require('../modules/admins/admin.routes');
-const customerRoutes = require('../modules/customers/customer.routes');
-const customerAddressesRoutes = require('../modules/customerAddresses/customerAddress.routes');
-const productRoutes = require('../modules/products/product.routes');
-const productPropertyRoutes = require('../modules/productVariants/productVariant.routes');
-const attributeRoutes = require('../modules/attributes/attribute.routes');
-const propertyRoutes = require('../modules/properties/property.routes');
-const categoryRoutes = require('../modules/categories/category.routes');
-
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 	// eslint-disable-next-line new-cap

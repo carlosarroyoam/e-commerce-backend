@@ -1,3 +1,3 @@
-const validators = require('../../../common/utils/validators.util');
+import validators from '../../../common/utils/validators.util.js';
 
-module.exports = [validators.password, validators.confirmPassword('password')];
+export default [validators.password, validators.confirmPassword('password')];

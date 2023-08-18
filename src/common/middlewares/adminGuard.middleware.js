@@ -1,7 +1,7 @@
-const sharedErrors = require('../errors');
-const userRoles = require('../../modules/auth/roles');
+import sharedErrors from '../errors/index.js';
+import userRoles from '../../modules/auth/roles.js';
 
-module.exports = async (request, response, next) => {
+export default async (request, response, next) => {
 	const { user } = request;
 
 	if (user?.role !== userRoles.admin.type) {

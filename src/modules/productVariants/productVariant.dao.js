@@ -95,4 +95,4 @@ class ProductVariantDao {
 	}
 }
 
-module.exports = ProductVariantDao;
+export default ProductVariantDao;

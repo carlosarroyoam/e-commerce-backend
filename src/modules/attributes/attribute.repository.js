@@ -1,5 +1,5 @@
-const AttributeDao = require('./attribute.dao');
-const attributeMapper = require('./attribute.mapper');
+import AttributeDao from './attribute.dao.js';
+import attributeMapper from './attribute.mapper.js';
 
 /**
  * AttributeRepository class.
@@ -104,4 +104,4 @@ class AttributeRepository {
 	}
 }
 
-module.exports = AttributeRepository;
+export default AttributeRepository;

@@ -1,11 +1,10 @@
-const AdminRepository = require('./admin.repository');
-const UserRepository = require('../../modules/users/user.repository');
-
-const userRoles = require('../../modules/auth/roles');
-const bcrypt = require('../../common/lib/bcrypt');
-const sharedErrors = require('../../common/errors');
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const logger = require('../../common/lib/winston/logger');
+import AdminRepository from './admin.repository.js';
+import UserRepository from '../../modules/users/user.repository.js';
+import userRoles from '../../modules/auth/roles.js';
+import bcrypt from '../../common/lib/bcrypt/index.js';
+import sharedErrors from '../../common/errors/index.js';
+import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
+import logger from '../../common/lib/winston/logger.js';
 
 /**
  * AdminService class.
@@ -217,4 +216,4 @@ class AdminService {
 	}
 }
 
-module.exports = new AdminService();
+export default new AdminService();

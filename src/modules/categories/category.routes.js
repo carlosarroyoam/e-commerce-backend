@@ -1,19 +1,16 @@
-const { Router } = require('express');
+import { Router } from 'express';
+import categoryController from './category.controller.js';
+import verifyTokenMiddleware from '../../common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '../../common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '../../common/middlewares/validateRequest.middleware.js';
+import indexCategorySchema from './schemas/index.schema.js';
+import showCategorySchema from './schemas/show.schema.js';
+import storeCategorySchema from './schemas/store.schema.js';
+import updateCategorySchema from './schemas/update.schema.js';
+import deleteCategorySchema from './schemas/delete.schema.js';
+import restoreCategorySchema from './schemas/restore.schema.js';
 
-const categoryController = require('./category.controller');
-
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
-
-const indexCategorySchema = require('./schemas/index.schema');
-const showCategorySchema = require('./schemas/show.schema');
-const storeCategorySchema = require('./schemas/store.schema');
-const updateCategorySchema = require('./schemas/update.schema');
-const deleteCategorySchema = require('./schemas/delete.schema');
-const restoreCategorySchema = require('./schemas/restore.schema');
-
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

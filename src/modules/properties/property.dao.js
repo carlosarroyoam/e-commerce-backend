@@ -109,4 +109,4 @@ class PropertyDao {
 	}
 }
 
-module.exports = PropertyDao;
+export default PropertyDao;

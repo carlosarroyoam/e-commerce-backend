@@ -1,4 +1,4 @@
-const objectUtils = require('../../common/utils/object.utils');
+import objectUtils from '../../common/utils/object.utils.js';
 
 /**
  * CustomerMapper class.
@@ -42,4 +42,4 @@ class CustomerMapper {
 	}
 }
 
-module.exports = new CustomerMapper();
+export default new CustomerMapper();

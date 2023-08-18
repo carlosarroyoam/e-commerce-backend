@@ -1,17 +1,14 @@
-const { Router } = require('express');
+import { Router } from 'express';
+import adminController from './admin.controller.js';
+import verifyTokenMiddleware from '../../common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '../../common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '../../common/middlewares/validateRequest.middleware.js';
+import indexAdminSchema from './schemas/index.schema.js';
+import showAdminSchema from './schemas/show.schema.js';
+import storeAdminSchema from './schemas/store.schema.js';
+import updateAdminSchema from './schemas/update.schema.js';
 
-const adminController = require('./admin.controller');
-
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
-
-const indexAdminSchema = require('./schemas/index.schema');
-const showAdminSchema = require('./schemas/show.schema');
-const storeAdminSchema = require('./schemas/store.schema');
-const updateAdminSchema = require('./schemas/update.schema');
-
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

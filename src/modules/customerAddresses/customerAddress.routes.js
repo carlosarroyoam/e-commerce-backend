@@ -1,17 +1,14 @@
-const { Router } = require('express');
+import { Router } from 'express';
+import customerAddressController from './customerAddress.controller.js';
+import verifyTokenMiddleware from '../../common/middlewares/verifyToken.middleware.js';
+import validateRequestMiddleware from '../../common/middlewares/validateRequest.middleware.js';
+import indexCustomerAddressSchema from './schemas/index.schema.js';
+import showCustomerAddressSchema from './schemas/show.schema.js';
+import storeCustomerAddressSchema from './schemas/store.schema.js';
+import updateCustomerAddressSchema from './schemas/update.schema.js';
+import deleteCustomerAddressSchema from './schemas/delete.schema.js';
 
-const customerAddressController = require('./customerAddress.controller');
-
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
-
-const indexCustomerAddressSchema = require('./schemas/index.schema');
-const showCustomerAddressSchema = require('./schemas/show.schema');
-const storeCustomerAddressSchema = require('./schemas/store.schema');
-const updateCustomerAddressSchema = require('./schemas/update.schema');
-const deleteCustomerAddressSchema = require('./schemas/delete.schema');
-
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

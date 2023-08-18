@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	'/auth/login': {
 		post: {
 			tags: ['auth'],

@@ -141,4 +141,4 @@ class AdminDao {
 	}
 }
 
-module.exports = AdminDao;
+export default AdminDao;

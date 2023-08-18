@@ -1,19 +1,19 @@
-const info = require('./info');
-const servers = require('./servers');
-const components = require('./components');
-const tags = require('./tags');
-const auth = require('./paths/auth');
-const users = require('./paths/users');
-const admins = require('./paths/admins');
-const customers = require('./paths/customers');
-const customersAddresses = require('./paths/customersAddresses');
-const products = require('./paths/products');
-const productVariants = require('./paths/productVariants');
-const attributes = require('./paths/attributes');
-const properties = require('./paths/properties');
-const categories = require('./paths/categories');
+import info from './info.js';
+import servers from './servers.js';
+import components from './components/index.js';
+import tags from './tags.js';
+import auth from './paths/auth.js';
+import users from './paths/users.js';
+import admins from './paths/admins.js';
+import customers from './paths/customers.js';
+import customersAddresses from './paths/customersAddresses.js';
+import products from './paths/products.js';
+import productVariants from './paths/productVariants.js';
+import attributes from './paths/attributes.js';
+import properties from './paths/properties.js';
+import categories from './paths/categories.js';
 
-module.exports = {
+export default {
 	...info,
 	...servers,
 	...tags,

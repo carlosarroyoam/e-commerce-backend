@@ -1,9 +1,9 @@
-const authService = require('../../modules/auth/auth.service');
-const sharedErrors = require('../errors');
-const jsonwebtoken = require('../lib/jwt');
-const logger = require('../lib/winston/logger');
+import authService from '../../modules/auth/auth.service.js';
+import sharedErrors from '../errors/index.js';
+import jsonwebtoken from '../lib/jwt/index.js';
+import logger from '../lib/winston/logger.js';
 
-module.exports = async (request, response, next) => {
+export default async (request, response, next) => {
 	try {
 		const { access_token } = request.cookies;
 

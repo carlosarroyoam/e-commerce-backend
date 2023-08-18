@@ -1,9 +1,8 @@
-const UserRepository = require('./user.repository');
-
-const sharedErrors = require('../../common/errors');
-const bcrypt = require('../../common/lib/bcrypt');
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const logger = require('../../common/lib/winston/logger');
+import UserRepository from './user.repository.js';
+import sharedErrors from '../../common/errors/index.js';
+import bcrypt from '../../common/lib/bcrypt/index.js';
+import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
+import logger from '../../common/lib/winston/logger.js';
 
 /**
  * UserService class.
@@ -245,4 +244,4 @@ class UserService {
 	}
 }
 
-module.exports = new UserService();
+export default new UserService();

@@ -2,7 +2,8 @@
 	"name": "e-commerce-backend",
 	"version": "1.4.0-snapshot",
 	"description": "Backend for an e-commerce system.",
-	"main": "index.js",
+	"exports": "./index.js",
+	"type": "module",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/carlosarroyoam/e-commerce-backend.git"

@@ -88,4 +88,4 @@ class AuthDao {
 	}
 }
 
-module.exports = AuthDao;
+export default AuthDao;

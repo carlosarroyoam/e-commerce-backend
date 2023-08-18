@@ -1,12 +1,11 @@
-const AuthRepository = require('./auth.repository');
-const UserRepository = require('../users/user.repository');
-
-const config = require('../../common/config');
-const sharedErrors = require('../../common/errors');
-const bcrypt = require('../../common/lib/bcrypt');
-const jsonwebtoken = require('../../common/lib/jwt');
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const logger = require('../../common/lib/winston/logger');
+import AuthRepository from './auth.repository.js';
+import UserRepository from '../users/user.repository.js';
+import config from '../../common/config/index.js';
+import sharedErrors from '../../common/errors/index.js';
+import bcrypt from '../../common/lib/bcrypt/index.js';
+import jsonwebtoken from '../../common/lib/jwt/index.js';
+import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
+import logger from '../../common/lib/winston/logger.js';
 
 /**
  * AuthService class.
@@ -390,4 +389,4 @@ class AuthService {
 	}
 }
 
-module.exports = new AuthService();
+export default new AuthService();

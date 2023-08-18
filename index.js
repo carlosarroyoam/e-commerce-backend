@@ -1,5 +1,5 @@
-const server = require('./src/api/server');
-const logger = require('./src/common/lib/winston/logger');
+import server from './src/api/server.js';
+import logger from './src/common/lib/winston/logger.js';
 
 server.start().catch((err) => {
 	logger.log({

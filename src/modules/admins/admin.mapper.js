@@ -1,4 +1,4 @@
-const objectUtils = require('../../common/utils/object.utils');
+import objectUtils from '../../common/utils/object.utils.js';
 
 /**
  * AdminMapper class.
@@ -43,4 +43,4 @@ class AdminMapper {
 	}
 }
 
-module.exports = new AdminMapper();
+export default new AdminMapper();

@@ -1,17 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const compression = require('compression');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
+import express from 'express';
+import cors from 'cors';
+import compression from 'compression';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import router from './router.js';
+import config from '../common/config/index.js';
+import logger from '../common/lib/winston/logger.js';
+import validateJsonPayloadMiddleware from '../common/middlewares/validateJsonPayload.middleware.js';
+import errorHandlerMiddleware from '../common/middlewares/errorHandler.middleware.js';
 
-const router = require('./router');
-const config = require('../common/config');
-const logger = require('../common/lib/winston/logger');
-const validateJsonPayloadMiddleware = require('../common/middlewares/validateJsonPayload.middleware');
-const errorHandlerMiddleware = require('../common/middlewares/errorHandler.middleware');
-
-module.exports = {
+export default {
 	start: () => {
 		const app = express();
 

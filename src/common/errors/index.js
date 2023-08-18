@@ -1,13 +1,13 @@
-const BadRequestError = require('./badRequest.error');
-const EmailAlreadyTakenError = require('./emailAlreadyTakenError.error');
-const ForbiddenError = require('./forbiddenError.error');
-const UnauthorizedError = require('./unauthorizedError.error');
-const UnprocessableEntityError = require('./unprocessableEntity.error');
-const UserNotFoundError = require('./userNotFound.error');
-const ResourceNotFoundError = require('./resourceNotFound.error');
-const InternalServerError = require('./internalServerError.error');
+import BadRequestError from './badRequest.error.js';
+import EmailAlreadyTakenError from './emailAlreadyTakenError.error.js';
+import ForbiddenError from './forbiddenError.error.js';
+import UnauthorizedError from './unauthorizedError.error.js';
+import UnprocessableEntityError from './unprocessableEntity.error.js';
+import UserNotFoundError from './userNotFound.error.js';
+import ResourceNotFoundError from './resourceNotFound.error.js';
+import InternalServerError from './internalServerError.error.js';
 
-module.exports = {
+export default {
 	BadRequestError,
 	EmailAlreadyTakenError,
 	ForbiddenError,

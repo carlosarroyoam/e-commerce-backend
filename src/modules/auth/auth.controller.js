@@ -1,6 +1,6 @@
-const ms = require('ms');
-const authService = require('./auth.service');
-const config = require('../../common/config');
+import ms from 'ms';
+import authService from './auth.service.js';
+import config from '../../common/config/index.js';
 
 /**
  * AuthController class.
@@ -156,4 +156,4 @@ class AuthController {
 	}
 }
 
-module.exports = new AuthController();
+export default new AuthController();

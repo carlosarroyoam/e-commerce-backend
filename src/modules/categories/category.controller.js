@@ -1,5 +1,5 @@
-const categoryService = require('./category.service');
-const categoryMapper = require('./category.mapper');
+import categoryService from './category.service.js';
+import categoryMapper from './category.mapper.js';
 
 /**
  * CategoryController class.
@@ -155,4 +155,4 @@ class CategoryController {
 	}
 }
 
-module.exports = new CategoryController();
+export default new CategoryController();

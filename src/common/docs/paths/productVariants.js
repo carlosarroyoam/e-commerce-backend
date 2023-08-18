@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	'/products/{product_id}/variants': {
 		get: {
 			tags: ['product-variant'],

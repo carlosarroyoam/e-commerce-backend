@@ -1,6 +1,6 @@
-require('winston-daily-rotate-file');
-const winston = require('winston');
-const config = require('../../config');
+import 'winston-daily-rotate-file';
+import winston from 'winston';
+import config from '../../config/index.js';
 
 const logger = winston.createLogger({
 	level: 'warn',
@@ -45,4 +45,4 @@ if (config.APP.ENV !== 'production') {
 	);
 }
 
-module.exports = logger;
+export default logger;

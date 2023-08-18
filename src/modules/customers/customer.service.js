@@ -1,12 +1,11 @@
-const CustomerRepository = require('./customer.repository');
-const CustomerAddressRepository = require('../customerAddresses/customerAddress.repository');
-const UserRepository = require('../users/user.repository');
-
-const userRoles = require('../auth/roles');
-const sharedErrors = require('../../common/errors');
-const bcrypt = require('../../common/lib/bcrypt');
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const logger = require('../../common/lib/winston/logger');
+import CustomerRepository from './customer.repository.js';
+import CustomerAddressRepository from '../customerAddresses/customerAddress.repository.js';
+import UserRepository from '../users/user.repository.js';
+import userRoles from '../auth/roles.js';
+import sharedErrors from '../../common/errors/index.js';
+import bcrypt from '../../common/lib/bcrypt/index.js';
+import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
+import logger from '../../common/lib/winston/logger.js';
 
 /**
  * CustomerService class.
@@ -234,4 +233,4 @@ class CustomerService {
 	}
 }
 
-module.exports = new CustomerService();
+export default new CustomerService();

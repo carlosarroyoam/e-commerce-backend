@@ -1,5 +1,5 @@
-const UserRepository = require('../modules/users/user.repository');
-const userService = require('../modules/users/user.service');
+import UserRepository from '../modules/users/user.repository.js';
+import userService from '../modules/users/user.service.js';
 
 jest.mock('../modules/users/user.repository', () => {
 	return jest.fn().mockImplementation(() => {

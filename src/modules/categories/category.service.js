@@ -1,8 +1,7 @@
-const CategoryRepository = require('./category.repository');
-
-const sharedErrors = require('../../common/errors');
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const logger = require('../../common/lib/winston/logger');
+import CategoryRepository from './category.repository.js';
+import sharedErrors from '../../common/errors/index.js';
+import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
+import logger from '../../common/lib/winston/logger.js';
 
 /**
  * CategoryService class.
@@ -273,4 +272,4 @@ class CategoryService {
 	}
 }
 
-module.exports = new CategoryService();
+export default new CategoryService();

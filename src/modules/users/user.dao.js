@@ -167,4 +167,4 @@ class UserDao {
 	}
 }
 
-module.exports = UserDao;
+export default UserDao;

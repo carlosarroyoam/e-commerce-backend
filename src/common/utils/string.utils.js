@@ -51,7 +51,7 @@ function slugify(string) {
 	return wordsWithoutSymbols.join('-').toString();
 }
 
-module.exports = {
+export default {
 	capitalize,
 	capitalizeWords,
 	slugify,

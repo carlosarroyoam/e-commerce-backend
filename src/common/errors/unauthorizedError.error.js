@@ -16,4 +16,4 @@ class UnauthorizedError extends Error {
 	}
 }
 
-module.exports = UnauthorizedError;
+export default UnauthorizedError;

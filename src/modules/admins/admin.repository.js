@@ -1,5 +1,5 @@
-const AdminDao = require('./admin.dao');
-const adminMapper = require('./admin.mapper');
+import AdminDao from './admin.dao.js';
+import adminMapper from './admin.mapper.js';
 
 /**
  * AdminRepository class.
@@ -91,4 +91,4 @@ class AdminRepository {
 	}
 }
 
-module.exports = AdminRepository;
+export default AdminRepository;

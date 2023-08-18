@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	'/customers': {
 		get: {
 			tags: ['customer'],

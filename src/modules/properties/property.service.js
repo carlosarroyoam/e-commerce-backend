@@ -1,8 +1,7 @@
-const PropertyRepository = require('./property.repository');
-
-const sharedErrors = require('../../common/errors');
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const logger = require('../../common/lib/winston/logger');
+import PropertyRepository from './property.repository.js';
+import sharedErrors from '../../common/errors/index.js';
+import dbConnectionPool from '../../common/lib/mysql/connectionPool.js';
+import logger from '../../common/lib/winston/logger.js';
 
 /**
  * PropertyService class.
@@ -254,4 +253,4 @@ class PropertyService {
 	}
 }
 
-module.exports = new PropertyService();
+export default new PropertyService();

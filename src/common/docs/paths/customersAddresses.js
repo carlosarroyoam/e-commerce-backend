@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	'/customers/{customer_id}/addresses': {
 		get: {
 			tags: ['customer-address'],
