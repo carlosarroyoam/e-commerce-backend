@@ -1,6 +1,7 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const CategoryRepository = require('./category.repository');
+
 const sharedErrors = require('../../common/errors');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const logger = require('../../common/lib/winston/logger');
 
 /**

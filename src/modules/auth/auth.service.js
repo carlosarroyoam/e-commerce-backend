@@ -1,10 +1,11 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const AuthRepository = require('./auth.repository');
 const UserRepository = require('../users/user.repository');
-const sharedErrors = require('../../common/errors');
+
 const config = require('../../common/config');
+const sharedErrors = require('../../common/errors');
 const bcrypt = require('../../common/lib/bcrypt');
 const jsonwebtoken = require('../../common/lib/jwt');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const logger = require('../../common/lib/winston/logger');
 
 /**

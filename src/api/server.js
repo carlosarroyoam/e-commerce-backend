@@ -5,8 +5,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const config = require('../common/config');
 const router = require('./router');
+const config = require('../common/config');
 const logger = require('../common/lib/winston/logger');
 const validateJsonPayloadMiddleware = require('../common/middlewares/validateJsonPayload.middleware');
 const errorHandlerMiddleware = require('../common/middlewares/errorHandler.middleware');

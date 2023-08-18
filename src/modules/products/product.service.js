@@ -1,9 +1,10 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const ProductRepository = require('./product.repository');
 const ProductVariantRepository = require('../productVariants/productVariant.repository');
+
 const sharedErrors = require('../../common/errors');
-const stringUtils = require('../../common/utils/string.utils');
+const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
 const logger = require('../../common/lib/winston/logger');
+const stringUtils = require('../../common/utils/string.utils');
 
 /**
  * ProductService class.
