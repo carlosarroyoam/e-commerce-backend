@@ -1,4 +1,4 @@
-const objectUtils = require('../../common/utils/object.utils');
+import objectUtils from '#common/utils/object.utils.js';
 
 /**
  * AttributeMapper class.
@@ -36,4 +36,4 @@ class AttributeMapper {
 	}
 }
 
-module.exports = new AttributeMapper();
+export default new AttributeMapper();

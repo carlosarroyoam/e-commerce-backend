@@ -1,5 +1,5 @@
-const attributeService = require('./attribute.service');
-const attributeMapper = require('./attribute.mapper');
+import attributeService from '#modules/attributes/attribute.service.js';
+import attributeMapper from '#modules/attributes/attribute.mapper.js';
 
 /**
  * AttributeController class.
@@ -153,4 +153,4 @@ class AttributeController {
 	}
 }
 
-module.exports = new AttributeController();
+export default new AttributeController();

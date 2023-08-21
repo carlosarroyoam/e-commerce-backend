@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	responses: {
 		OK: {
 			description: 'OK',

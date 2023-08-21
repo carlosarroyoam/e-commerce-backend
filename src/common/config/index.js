@@ -1,5 +1,5 @@
-require('dotenv').config();
-const Joi = require('joi');
+import 'dotenv/config.js';
+import Joi from 'joi';
 
 const envSchema = Joi.object()
 	.keys({
@@ -32,7 +32,7 @@ if (error) {
 	throw new Error(`Config validation error: ${error.message}`);
 }
 
-module.exports = {
+export default {
 	APP: {
 		ENV: env.APP_ENV,
 		NAME: env.APP_NAME,

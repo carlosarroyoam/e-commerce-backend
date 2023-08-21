@@ -123,4 +123,4 @@ class CategoryDao {
 	}
 }
 
-module.exports = CategoryDao;
+export default CategoryDao;

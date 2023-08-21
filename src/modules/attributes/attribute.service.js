@@ -1,7 +1,8 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const AttributeRepository = require('./attribute.repository');
-const sharedErrors = require('../../common/errors');
-const logger = require('../../common/lib/winston/logger');
+import AttributeRepository from '#modules/attributes/attribute.repository.js';
+
+import sharedErrors from '#common/errors/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
 
 /**
  * AttributeService class.
@@ -253,4 +254,4 @@ class AttributeService {
 	}
 }
 
-module.exports = new AttributeService();
+export default new AttributeService();

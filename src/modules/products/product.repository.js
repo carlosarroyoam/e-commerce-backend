@@ -1,5 +1,5 @@
-const ProductDao = require('./product.dao');
-const productMapper = require('./product.mapper');
+import ProductDao from '#modules/products/product.dao.js';
+import productMapper from '#modules/products/product.mapper.js';
 
 /**
  * ProductRepository class.
@@ -85,5 +85,4 @@ class ProductRepository {
 		return result.insertId;
 	}
 }
-
-module.exports = ProductRepository;
+export default ProductRepository;

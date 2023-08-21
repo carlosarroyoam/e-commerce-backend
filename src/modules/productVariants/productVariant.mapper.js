@@ -1,4 +1,4 @@
-const objectUtils = require('../../common/utils/object.utils');
+import objectUtils from '#common/utils/object.utils.js';
 
 /**
  * ProductVariantMapper class.
@@ -45,4 +45,4 @@ class ProductVariantMapper {
 	}
 }
 
-module.exports = new ProductVariantMapper();
+export default new ProductVariantMapper();

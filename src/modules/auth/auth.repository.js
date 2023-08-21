@@ -1,4 +1,4 @@
-const AuthDao = require('./auth.dao');
+import AuthDao from '#modules/auth/auth.dao.js';
 
 /**
  * AuthRepository class.
@@ -91,4 +91,4 @@ class AuthRepository {
 	}
 }
 
-module.exports = AuthRepository;
+export default AuthRepository;

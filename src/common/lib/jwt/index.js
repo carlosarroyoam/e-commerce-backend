@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const config = require('../../config');
+import jwt from 'jsonwebtoken';
+import config from '#common/config/index.js';
 
 /**
  * @param {object} payload
@@ -104,7 +104,7 @@ function decode(accessToken) {
 	return decoded;
 }
 
-module.exports = {
+export default {
 	sign,
 	signRefresh,
 	signPasswordRecoveryToken,

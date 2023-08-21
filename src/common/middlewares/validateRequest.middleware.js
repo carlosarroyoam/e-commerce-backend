@@ -1,5 +1,5 @@
-const { validationResult } = require('express-validator');
-const sharedErrors = require('../errors');
+import { validationResult } from 'express-validator';
+import sharedErrors from '#common/errors/index.js';
 
 const errorFormatter = ({ msg }) => msg;
 
@@ -20,4 +20,4 @@ const validateRequest = (validations) => async (request, response, next) => {
 	next();
 };
 
-module.exports = validateRequest;
+export default validateRequest;

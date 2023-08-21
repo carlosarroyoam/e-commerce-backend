@@ -1,5 +1,5 @@
-const CustomerAddressDao = require('./customerAddress.dao');
-const customerAddressMapper = require('./customerAddress.mapper');
+import CustomerAddressDao from '#modules/customerAddresses/customerAddress.dao.js';
+import customerAddressMapper from '#modules/customerAddresses/customerAddress.mapper.js';
 
 /**
  * CustomerAddressRepository class.
@@ -81,4 +81,4 @@ class CustomerAddressRepository {
 	}
 }
 
-module.exports = CustomerAddressRepository;
+export default CustomerAddressRepository;

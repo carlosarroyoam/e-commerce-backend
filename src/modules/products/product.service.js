@@ -1,9 +1,10 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const ProductRepository = require('./product.repository');
-const ProductVariantRepository = require('../productVariants/productVariant.repository');
-const sharedErrors = require('../../common/errors');
-const stringUtils = require('../../common/utils/string.utils');
-const logger = require('../../common/lib/winston/logger');
+import ProductRepository from '#modules/products/product.repository.js';
+import ProductVariantRepository from '#modules/productVariants/productVariant.repository.js';
+
+import sharedErrors from '#common/errors/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
+import stringUtils from '#common/utils/string.utils.js';
 
 /**
  * ProductService class.
@@ -235,4 +236,4 @@ class ProductService {
 	}
 }
 
-module.exports = new ProductService();
+export default new ProductService();

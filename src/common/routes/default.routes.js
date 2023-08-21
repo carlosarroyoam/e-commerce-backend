@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const sharedErrors = require('../errors/index');
+import { Router } from 'express';
+import sharedErrors from '#common/errors/index.js';
 
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

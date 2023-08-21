@@ -1,4 +1,4 @@
-const stringUtils = require('../../common/utils/string.utils');
+import stringUtils from '#common/utils/string.utils.js';
 
 describe('capitalize', () => {
 	it('word to be capitalized', () => {

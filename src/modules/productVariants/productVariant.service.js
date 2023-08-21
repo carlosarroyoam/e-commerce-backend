@@ -1,8 +1,9 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const ProductRepository = require('../products/product.repository');
-const ProductVariantRepository = require('./productVariant.repository');
-const sharedErrors = require('../../common/errors');
-const logger = require('../../common/lib/winston/logger');
+import ProductRepository from '#modules/products/product.repository.js';
+import ProductVariantRepository from '#modules/productVariants/productVariant.repository.js';
+
+import sharedErrors from '#common/errors/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
 
 /**
  * Retrieves all product variants.
@@ -115,7 +116,7 @@ const findById = async (product_id, variant_id) => {
 	}
 };
 
-module.exports = {
+export default {
 	findAll,
 	findById,
 };

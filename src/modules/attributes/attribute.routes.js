@@ -1,19 +1,19 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const attributeController = require('./attribute.controller');
+import attributeController from '#modules/attributes/attribute.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexAttributeSchema = require('./schemas/index.schema');
-const showAttributeSchema = require('./schemas/show.schema');
-const storeAttributeSchema = require('./schemas/store.schema');
-const updateAttributeSchema = require('./schemas/update.schema');
-const deleteAttributeSchema = require('./schemas/delete.schema');
-const restoreAttributeSchema = require('./schemas/restore.schema');
+import indexAttributeSchema from './schemas/index.schema.js';
+import showAttributeSchema from './schemas/show.schema.js';
+import storeAttributeSchema from './schemas/store.schema.js';
+import updateAttributeSchema from './schemas/update.schema.js';
+import deleteAttributeSchema from './schemas/delete.schema.js';
+import restoreAttributeSchema from './schemas/restore.schema.js';
 
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

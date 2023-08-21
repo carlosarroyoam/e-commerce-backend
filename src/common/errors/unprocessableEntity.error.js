@@ -17,4 +17,4 @@ class UnprocessableEntity extends Error {
 	}
 }
 
-module.exports = UnprocessableEntity;
+export default UnprocessableEntity;

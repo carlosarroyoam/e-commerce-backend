@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	parameters: {
 		LimitParam: {
 			name: 'limit',

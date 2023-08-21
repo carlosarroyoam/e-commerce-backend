@@ -1,4 +1,4 @@
-const ProductVariantDao = require('./productVariant.dao');
+import ProductVariantDao from '#modules/productVariants/productVariant.dao.js';
 
 /**
  * ProductVariantRepository class.
@@ -64,4 +64,4 @@ class ProductVariantRepository {
 	}
 }
 
-module.exports = ProductVariantRepository;
+export default ProductVariantRepository;

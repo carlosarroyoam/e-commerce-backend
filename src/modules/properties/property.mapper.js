@@ -1,4 +1,4 @@
-const objectUtils = require('../../common/utils/object.utils');
+import objectUtils from '#common/utils/object.utils.js';
 
 /**
  * PropertyMapper class.
@@ -37,4 +37,4 @@ class PropertyMapper {
 	}
 }
 
-module.exports = new PropertyMapper();
+export default new PropertyMapper();

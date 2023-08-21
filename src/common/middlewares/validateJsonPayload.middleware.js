@@ -1,6 +1,6 @@
-const sharedErrors = require('../errors');
+import sharedErrors from '#common/errors/index.js';
 
-module.exports = () => async (error, request, response, next) => {
+export default () => async (error, request, response, next) => {
 	// @ts-ignore
 	if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {
 		const badRequestError = new sharedErrors.BadRequestError('The JSON payload is malformed');

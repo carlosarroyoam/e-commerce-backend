@@ -1,3 +1,3 @@
-const validators = require('../../../common/utils/validators.util');
+import validators from '#common/utils/validators.util.js';
 
-module.exports = [validators.resourceId('product_id'), validators.resourceId('variant_id')];
+export default [validators.resourceId('product_id'), validators.resourceId('variant_id')];

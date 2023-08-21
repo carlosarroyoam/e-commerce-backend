@@ -1,8 +1,9 @@
-const dbConnectionPool = require('../../common/lib/mysql/connectionPool');
-const CustomerRepository = require('../customers/customer.repository');
-const CustomerAddressRepository = require('./customerAddress.repository');
-const sharedErrors = require('../../common/errors');
-const logger = require('../../common/lib/winston/logger');
+import CustomerRepository from '#modules/customers/customer.repository.js';
+import CustomerAddressRepository from '#modules/customerAddresses/customerAddress.repository.js';
+
+import sharedErrors from '#common/errors/index.js';
+import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
+import logger from '#common/lib/winston/logger.js';
 
 /**
  * CustomerAddressService class.
@@ -249,4 +250,4 @@ class CustomerAddressService {
 		}
 	}
 }
-module.exports = new CustomerAddressService();
+export default new CustomerAddressService();

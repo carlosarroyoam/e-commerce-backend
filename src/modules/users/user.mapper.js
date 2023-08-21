@@ -1,4 +1,4 @@
-const objectUtils = require('../../common/utils/object.utils');
+import objectUtils from '#common/utils/object.utils.js';
 
 /**
  * UserMapper class.
@@ -46,4 +46,4 @@ class UserMapper {
 	}
 }
 
-module.exports = new UserMapper();
+export default new UserMapper();

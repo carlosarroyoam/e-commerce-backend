@@ -16,4 +16,4 @@ class EmailAlreadyTakenError extends Error {
 	}
 }
 
-module.exports = EmailAlreadyTakenError;
+export default EmailAlreadyTakenError;

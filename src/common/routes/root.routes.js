@@ -1,7 +1,7 @@
-const { Router } = require('express');
-const packageJson = require('../../../package.json');
+import { Router } from 'express';
+import packageJson from '../../../package.json' assert { type: 'json' };
 
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

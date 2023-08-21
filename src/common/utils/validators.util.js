@@ -1,8 +1,8 @@
 /* eslint-disable security/detect-object-injection */
 /* eslint-disable security/detect-non-literal-fs-filename */
 
-const { body, param, query } = require('express-validator');
-const stringUtils = require('./string.utils');
+import { body, param, query } from 'express-validator';
+import stringUtils from '#common/utils/string.utils.js';
 
 const passwordSchema = (parameterName) =>
 	body(parameterName)
@@ -248,7 +248,7 @@ const product_title = body('title')
 	.isAlphanumeric('es-ES', { ignore: '\\s\\.' })
 	.withMessage('The title contains invalid characters');
 
-module.exports = {
+export default {
 	resourceId,
 	resourceIdInBody,
 	sort,

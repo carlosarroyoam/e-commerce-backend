@@ -1,18 +1,18 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const userController = require('./user.controller');
+import userController from '#modules/users/user.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexUserSchema = require('./schemas/index.schema');
-const showUserSchema = require('./schemas/show.schema');
-const deleteUserSchema = require('./schemas/delete.schema');
-const restoreUserSchema = require('./schemas/restore.schema');
-const changePasswordSchema = require('./schemas/changePassword.schema');
+import indexUserSchema from './schemas/index.schema.js';
+import showUserSchema from './schemas/show.schema.js';
+import deleteUserSchema from './schemas/delete.schema.js';
+import restoreUserSchema from './schemas/restore.schema.js';
+import changePasswordSchema from './schemas/changePassword.schema.js';
 
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

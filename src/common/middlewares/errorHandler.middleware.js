@@ -1,6 +1,6 @@
-const logger = require('../lib/winston/logger');
+import logger from '#common/lib/winston/logger.js';
 
-module.exports = () => async (error, request, response, next) => {
+export default () => async (error, request, response, next) => {
 	logger.log({
 		level: error.status !== 500 ? 'info' : 'error',
 		message: error.message,

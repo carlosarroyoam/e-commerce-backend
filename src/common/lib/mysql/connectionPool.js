@@ -1,5 +1,5 @@
-const mysql = require('mysql2/promise');
-const config = require('../../config');
+import mysql from 'mysql2/promise';
+import config from '#common/config/index.js';
 
 const pool = mysql.createPool({
 	connectionLimit: config.DB.CONNECTION_LIMIT,
@@ -10,4 +10,4 @@ const pool = mysql.createPool({
 	port: config.DB.PORT,
 });
 
-module.exports = pool;
+export default pool;

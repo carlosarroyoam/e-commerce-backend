@@ -1,5 +1,5 @@
-const userService = require('./user.service');
-const userMapper = require('./user.mapper');
+import userService from '#modules/users/user.service.js';
+import userMapper from '#modules/users/user.mapper.js';
 
 /**
  * UserController class.
@@ -140,4 +140,4 @@ class UserController {
 	}
 }
 
-module.exports = new UserController();
+export default new UserController();

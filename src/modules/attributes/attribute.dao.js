@@ -108,4 +108,4 @@ class AttributeDao {
 	}
 }
 
-module.exports = AttributeDao;
+export default AttributeDao;

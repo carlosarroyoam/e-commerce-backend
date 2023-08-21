@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	admin: {
 		id: 1,
 		type: 'App/Admin',

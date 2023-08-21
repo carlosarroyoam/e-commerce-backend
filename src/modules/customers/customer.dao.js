@@ -138,4 +138,4 @@ class CustomerDao {
 	}
 }
 
-module.exports = CustomerDao;
+export default CustomerDao;

@@ -16,6 +16,6 @@ function removeUndefined(object) {
 	return cleanedObject;
 }
 
-module.exports = {
+export default {
 	removeUndefined,
 };

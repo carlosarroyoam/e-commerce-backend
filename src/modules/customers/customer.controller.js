@@ -1,5 +1,5 @@
-const customerService = require('./customer.service');
-const customerMapper = require('./customer.mapper');
+import customerService from '#modules/customers/customer.service.js';
+import customerMapper from '#modules/customers/customer.mapper.js';
 
 /**
  * CustomerController class.
@@ -116,4 +116,4 @@ class CustomerController {
 	}
 }
 
-module.exports = new CustomerController();
+export default new CustomerController();

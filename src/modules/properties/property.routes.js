@@ -1,19 +1,19 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const propertyController = require('./property.controller');
+import propertyController from '#modules/properties/property.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexPropertySchema = require('./schemas/index.schema');
-const showPropertySchema = require('./schemas/show.schema');
-const storePropertySchema = require('./schemas/store.schema');
-const updatePropertySchema = require('./schemas/update.schema');
-const deletePropertySchema = require('./schemas/delete.schema');
-const restorePropertySchema = require('./schemas/restore.schema');
+import indexPropertySchema from './schemas/index.schema.js';
+import showPropertySchema from './schemas/show.schema.js';
+import storePropertySchema from './schemas/store.schema.js';
+import updatePropertySchema from './schemas/update.schema.js';
+import deletePropertySchema from './schemas/delete.schema.js';
+import restorePropertySchema from './schemas/restore.schema.js';
 
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

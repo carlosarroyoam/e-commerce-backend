@@ -1,15 +1,15 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const productVariantController = require('./productVariant.controller');
+import productVariantController from '#modules/productVariants/productVariant.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexProductVariantSchema = require('./schemas/index.schema');
-const showProductVariantSchema = require('./schemas/show.schema');
+import indexProductVariantSchema from './schemas/index.schema.js';
+import showProductVariantSchema from './schemas/show.schema.js';
 
-module.exports = () => {
+export default () => {
 	// eslint-disable-next-line new-cap
 	const router = Router();
 

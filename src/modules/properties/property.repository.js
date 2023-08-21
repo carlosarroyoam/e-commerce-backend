@@ -1,5 +1,5 @@
-const PropertyDao = require('./property.dao');
-const propertyMapper = require('./property.mapper');
+import PropertyDao from '#modules/properties/property.dao.js';
+import propertyMapper from '#modules/properties/property.mapper.js';
 
 /**
  * PropertyRepository class.
@@ -104,4 +104,4 @@ class PropertyRepository {
 	}
 }
 
-module.exports = PropertyRepository;
+export default PropertyRepository;
