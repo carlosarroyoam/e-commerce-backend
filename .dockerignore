@@ -1,2 +1,12 @@
-node_modules
-logs
+# Dependency directories
+node_modules/
+
+# Env file
+.env
+
+# Database script files
+*.sql
+
+# Logs
+logs/
+*.log
