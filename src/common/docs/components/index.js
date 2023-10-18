@@ -1,13 +1,13 @@
-const securitySchemas = require('./security-schemas');
-const responses = require('./responses');
-const parameters = require('./parameters');
-const schemas = require('./schemas');
+import securitySchemas from './security-schemas.js';
+import responses from './responses.js';
+import parameters from './parameters.js';
+import schemas from './schemas.js';
 
-module.exports = {
-  components: {
-    ...securitySchemas,
-    ...responses,
-    ...parameters,
-    ...schemas,
-  },
+export default {
+	components: {
+		...securitySchemas,
+		...responses,
+		...parameters,
+		...schemas,
+	},
 };

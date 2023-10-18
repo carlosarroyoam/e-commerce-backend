@@ -1,14 +1,14 @@
-const bcrypt = require('bcrypt');
-const config = require('../../config');
+import bcrypt from 'bcrypt';
+import config from '#common/config/index.js';
 
 /**
  * @param {string | Buffer} plainTextPassword the plain text password.
  * @return {Promise<string>} The password hashed.
  */
 async function hashPassword(plainTextPassword) {
-  const hash = await bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
+	const hash = await bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
 
-  return hash;
+	return hash;
 }
 
 /**
@@ -17,12 +17,12 @@ async function hashPassword(plainTextPassword) {
  * @return {Promise<boolean>}
  */
 async function compare(plainTextPassword, passwordHash) {
-  const match = await bcrypt.compare(plainTextPassword, passwordHash);
+	const match = await bcrypt.compare(plainTextPassword, passwordHash);
 
-  return match;
+	return match;
 }
 
-module.exports = {
-  hashPassword,
-  compare,
+export default {
+	hashPassword,
+	compare,
 };

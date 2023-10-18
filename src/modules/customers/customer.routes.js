@@ -1,49 +1,49 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const customerController = require('./customer.controller');
+import customerController from '#modules/customers/customer.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexCustomerSchema = require('./schemas/index.schema');
-const showCustomerSchema = require('./schemas/show.schema');
-const storeCustomerSchema = require('./schemas/store.schema');
-const updateCustomerSchema = require('./schemas/update.schema');
+import indexCustomerSchema from './schemas/index.schema.js';
+import showCustomerSchema from './schemas/show.schema.js';
+import storeCustomerSchema from './schemas/store.schema.js';
+import updateCustomerSchema from './schemas/update.schema.js';
 
-module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+export default () => {
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(indexCustomerSchema),
-    adminGuardMiddleware,
-    customerController.index
-  );
+	router.get(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(indexCustomerSchema),
+		adminGuardMiddleware,
+		customerController.index
+	);
 
-  router.get(
-    '/:customer_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(showCustomerSchema),
-    customerController.show
-  );
+	router.get(
+		'/:customer_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(showCustomerSchema),
+		customerController.show
+	);
 
-  router.post(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(storeCustomerSchema),
-    adminGuardMiddleware,
-    customerController.store
-  );
+	router.post(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(storeCustomerSchema),
+		adminGuardMiddleware,
+		customerController.store
+	);
 
-  router.put(
-    '/:customer_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(updateCustomerSchema),
-    customerController.update
-  );
+	router.put(
+		'/:customer_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(updateCustomerSchema),
+		customerController.update
+	);
 
-  return router;
+	return router;
 };

@@ -1,37 +1,39 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const authController = require('./auth.controller');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
-const loginSchema = require('./schemas/login.schema');
-const refreshTokenSchema = require('./schemas/refreshToken.schema');
-const resetPasswordSchema = require('./schemas/resetPassword.schema');
-const forgotPasswordSchema = require('./schemas/forgotPassword.schema');
+import authController from '#modules/auth/auth.controller.js';
 
-module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-  router.post('/login', validateRequestMiddleware(loginSchema), authController.login);
+import loginSchema from './schemas/login.schema.js';
+import refreshTokenSchema from './schemas/refreshToken.schema.js';
+import resetPasswordSchema from './schemas/resetPassword.schema.js';
+import forgotPasswordSchema from './schemas/forgotPassword.schema.js';
 
-  router.post('/logout', authController.logout);
+export default () => {
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.post(
-    '/refresh-token',
-    validateRequestMiddleware(refreshTokenSchema),
-    authController.refreshToken
-  );
+	router.post('/login', validateRequestMiddleware(loginSchema), authController.login);
 
-  router.post(
-    '/forgot-password',
-    validateRequestMiddleware(forgotPasswordSchema),
-    authController.forgotPassword
-  );
+	router.post('/logout', authController.logout);
 
-  router.post(
-    '/reset-password',
-    validateRequestMiddleware(resetPasswordSchema),
-    authController.resetPassword
-  );
+	router.post(
+		'/refresh-token',
+		validateRequestMiddleware(refreshTokenSchema),
+		authController.refreshToken
+	);
 
-  return router;
+	router.post(
+		'/forgot-password',
+		validateRequestMiddleware(forgotPasswordSchema),
+		authController.forgotPassword
+	);
+
+	router.post(
+		'/reset-password',
+		validateRequestMiddleware(resetPasswordSchema),
+		authController.resetPassword
+	);
+
+	return router;
 };

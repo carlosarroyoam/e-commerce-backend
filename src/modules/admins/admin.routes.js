@@ -1,51 +1,51 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const adminController = require('./admin.controller');
+import adminController from '#modules/admins/admin.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexAdminSchema = require('./schemas/index.schema');
-const showAdminSchema = require('./schemas/show.schema');
-const storeAdminSchema = require('./schemas/store.schema');
-const updateAdminSchema = require('./schemas/update.schema');
+import indexAdminSchema from './schemas/index.schema.js';
+import showAdminSchema from './schemas/show.schema.js';
+import storeAdminSchema from './schemas/store.schema.js';
+import updateAdminSchema from './schemas/update.schema.js';
 
-module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+export default () => {
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(indexAdminSchema),
-    adminGuardMiddleware,
-    adminController.index
-  );
+	router.get(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(indexAdminSchema),
+		adminGuardMiddleware,
+		adminController.index
+	);
 
-  router.get(
-    '/:admin_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(showAdminSchema),
-    adminGuardMiddleware,
-    adminController.show
-  );
+	router.get(
+		'/:admin_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(showAdminSchema),
+		adminGuardMiddleware,
+		adminController.show
+	);
 
-  router.post(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(storeAdminSchema),
-    adminGuardMiddleware,
-    adminController.store
-  );
+	router.post(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(storeAdminSchema),
+		adminGuardMiddleware,
+		adminController.store
+	);
 
-  router.put(
-    '/:admin_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(updateAdminSchema),
-    adminGuardMiddleware,
-    adminController.update
-  );
+	router.put(
+		'/:admin_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(updateAdminSchema),
+		adminGuardMiddleware,
+		adminController.update
+	);
 
-  return router;
+	return router;
 };

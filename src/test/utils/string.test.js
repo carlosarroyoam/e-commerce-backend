@@ -1,37 +1,37 @@
-const stringUtils = require('../../common/utils/string.utils');
+import stringUtils from '#common/utils/string.utils.js';
 
 describe('capitalize', () => {
-  it('word to be capitalized', () => {
-    expect(stringUtils.capitalize('carlos')).toBe('Carlos');
-  });
+	it('word to be capitalized', () => {
+		expect(stringUtils.capitalize('carlos')).toBe('Carlos');
+	});
 
-  it('empty to be empty', () => {
-    expect(stringUtils.capitalize('')).toBe('');
-  });
+	it('empty to be empty', () => {
+		expect(stringUtils.capitalize('')).toBe('');
+	});
 
-  it('undefined to be empty', () => {
-    expect(stringUtils.capitalize(undefined)).toBe('');
-  });
+	it('undefined to be empty', () => {
+		expect(stringUtils.capitalize(undefined)).toBe('');
+	});
 
-  it('null to be empty', () => {
-    expect(stringUtils.capitalize(null)).toBe('');
-  });
+	it('null to be empty', () => {
+		expect(stringUtils.capitalize(null)).toBe('');
+	});
 });
 
 describe('capitalizeWords', () => {
-  it('sentence to be capitalized', () => {
-    expect(stringUtils.capitalizeWords('carlos alberto')).toBe('Carlos Alberto');
-  });
+	it('sentence to be capitalized', () => {
+		expect(stringUtils.capitalizeWords('carlos alberto')).toBe('Carlos Alberto');
+	});
 
-  it('empty to be empty', () => {
-    expect(stringUtils.capitalizeWords('')).toBe('');
-  });
+	it('empty to be empty', () => {
+		expect(stringUtils.capitalizeWords('')).toBe('');
+	});
 
-  it('undefined to be empty', () => {
-    expect(stringUtils.capitalizeWords(undefined)).toBe('');
-  });
+	it('undefined to be empty', () => {
+		expect(stringUtils.capitalizeWords(undefined)).toBe('');
+	});
 
-  it('null to be empty', () => {
-    expect(stringUtils.capitalizeWords(null)).toBe('');
-  });
+	it('null to be empty', () => {
+		expect(stringUtils.capitalizeWords(null)).toBe('');
+	});
 });

@@ -1,61 +1,61 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const categoryController = require('./category.controller');
+import categoryController from '#modules/categories/category.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexCategorySchema = require('./schemas/index.schema');
-const showCategorySchema = require('./schemas/show.schema');
-const storeCategorySchema = require('./schemas/store.schema');
-const updateCategorySchema = require('./schemas/update.schema');
-const deleteCategorySchema = require('./schemas/delete.schema');
-const restoreCategorySchema = require('./schemas/restore.schema');
+import indexCategorySchema from './schemas/index.schema.js';
+import showCategorySchema from './schemas/show.schema.js';
+import storeCategorySchema from './schemas/store.schema.js';
+import updateCategorySchema from './schemas/update.schema.js';
+import deleteCategorySchema from './schemas/delete.schema.js';
+import restoreCategorySchema from './schemas/restore.schema.js';
 
-module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+export default () => {
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get('/', validateRequestMiddleware(indexCategorySchema), categoryController.index);
+	router.get('/', validateRequestMiddleware(indexCategorySchema), categoryController.index);
 
-  router.get(
-    '/:category_id',
-    validateRequestMiddleware(showCategorySchema),
-    categoryController.index
-  );
+	router.get(
+		'/:category_id',
+		validateRequestMiddleware(showCategorySchema),
+		categoryController.index
+	);
 
-  router.post(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(storeCategorySchema),
-    adminGuardMiddleware,
-    categoryController.store
-  );
+	router.post(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(storeCategorySchema),
+		adminGuardMiddleware,
+		categoryController.store
+	);
 
-  router.put(
-    '/:category_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(updateCategorySchema),
-    adminGuardMiddleware,
-    categoryController.update
-  );
+	router.put(
+		'/:category_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(updateCategorySchema),
+		adminGuardMiddleware,
+		categoryController.update
+	);
 
-  router.delete(
-    '/:category_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(deleteCategorySchema),
-    adminGuardMiddleware,
-    categoryController.destroy
-  );
+	router.delete(
+		'/:category_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(deleteCategorySchema),
+		adminGuardMiddleware,
+		categoryController.destroy
+	);
 
-  router.put(
-    '/:category_id/restore',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(restoreCategorySchema),
-    adminGuardMiddleware,
-    categoryController.restore
-  );
+	router.put(
+		'/:category_id/restore',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(restoreCategorySchema),
+		adminGuardMiddleware,
+		categoryController.restore
+	);
 
-  return router;
+	return router;
 };

@@ -1,9 +1,9 @@
-module.exports = {
-  securitySchemes: {
-    BearerAuth: {
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-    },
-  },
+export default {
+	securitySchemes: {
+		BearerAuth: {
+			type: 'http',
+			scheme: 'bearer',
+			bearerFormat: 'JWT',
+		},
+	},
 };

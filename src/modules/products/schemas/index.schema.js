@@ -1,9 +1,9 @@
-const validators = require('../../../common/utils/validators.util');
+import validators from '#common/utils/validators.util.js';
 
-module.exports = [
-  validators.sort(['id', '-id', 'title', '-title']),
-  validators.userStatus,
-  validators.skip,
-  validators.limit,
-  validators.search,
+export default [
+	validators.sort(['id', '-id', 'title', '-title']),
+	validators.userStatus,
+	validators.skip,
+	validators.limit,
+	validators.search,
 ];

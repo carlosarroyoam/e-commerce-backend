@@ -1,40 +1,42 @@
-const express = require('express');
-const cors = require('cors');
-const compression = require('compression');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
+import express from 'express';
+import cors from 'cors';
+import compression from 'compression';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 
-const config = require('../common/config');
-const router = require('./router');
-const logger = require('../common/lib/winston/logger');
-const validateJsonPayloadMiddleware = require('../common/middlewares/validateJsonPayload.middleware');
-const errorHandlerMiddleware = require('../common/middlewares/errorHandler.middleware');
+import router from '#app/api/router.js';
 
-module.exports = {
-  start: () => {
-    const app = express();
+import config from '#common/config/index.js';
+import logger from '#common/lib/winston/logger.js';
 
-    app
-      .use(cors({ origin: 'http://localhost:3001', credentials: true }))
-      .use(express.json())
-      .use(cookieParser())
-      .use(compression())
-      .use(morgan('dev'))
-      .use(helmet())
-      .use(router())
-      .use(validateJsonPayloadMiddleware())
-      .use(errorHandlerMiddleware());
+import validateJsonPayloadMiddleware from '#common/middlewares/validateJsonPayload.middleware.js';
+import errorHandlerMiddleware from '#common/middlewares/errorHandler.middleware.js';
 
-    return new Promise((resolve) => {
-      app.listen(config.APP.PORT, () => {
-        logger.log({
-          level: 'info',
-          message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
-        });
+export default {
+	start: () => {
+		const app = express();
 
-        resolve();
-      });
-    });
-  },
+		app
+			.use(cors({ origin: ['http://localhost:3001', 'http://localhost:4200'], credentials: true }))
+			.use(express.json())
+			.use(cookieParser())
+			.use(compression())
+			.use(morgan('dev'))
+			.use(helmet())
+			.use(router())
+			.use(validateJsonPayloadMiddleware())
+			.use(errorHandlerMiddleware());
+
+		return new Promise((resolve) => {
+			app.listen(config.APP.PORT, () => {
+				logger.log({
+					level: 'info',
+					message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
+				});
+
+				resolve();
+			});
+		});
+	},
 };

@@ -1,54 +1,54 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const customerAddressController = require('./customerAddress.controller');
+import customerAddressController from '#modules/customerAddresses/customerAddress.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexCustomerAddressSchema = require('./schemas/index.schema');
-const showCustomerAddressSchema = require('./schemas/show.schema');
-const storeCustomerAddressSchema = require('./schemas/store.schema');
-const updateCustomerAddressSchema = require('./schemas/update.schema');
-const deleteCustomerAddressSchema = require('./schemas/delete.schema');
+import indexCustomerAddressSchema from './schemas/index.schema.js';
+import showCustomerAddressSchema from './schemas/show.schema.js';
+import storeCustomerAddressSchema from './schemas/store.schema.js';
+import updateCustomerAddressSchema from './schemas/update.schema.js';
+import deleteCustomerAddressSchema from './schemas/delete.schema.js';
 
-module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+export default () => {
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get(
-    '/customers/:customer_id/addresses',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(indexCustomerAddressSchema),
-    customerAddressController.index
-  );
+	router.get(
+		'/customers/:customer_id/addresses',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(indexCustomerAddressSchema),
+		customerAddressController.index
+	);
 
-  router.get(
-    '/customers/:customer_id/addresses/:address_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(showCustomerAddressSchema),
-    customerAddressController.show
-  );
+	router.get(
+		'/customers/:customer_id/addresses/:address_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(showCustomerAddressSchema),
+		customerAddressController.show
+	);
 
-  router.post(
-    '/customers/:customer_id/addresses',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(storeCustomerAddressSchema),
-    customerAddressController.store
-  );
+	router.post(
+		'/customers/:customer_id/addresses',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(storeCustomerAddressSchema),
+		customerAddressController.store
+	);
 
-  router.put(
-    '/customers/:customer_id/addresses/:address_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(updateCustomerAddressSchema),
-    customerAddressController.update
-  );
+	router.put(
+		'/customers/:customer_id/addresses/:address_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(updateCustomerAddressSchema),
+		customerAddressController.update
+	);
 
-  router.delete(
-    '/customers/:customer_id/addresses/:address_id',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(deleteCustomerAddressSchema),
-    customerAddressController.destroy
-  );
+	router.delete(
+		'/customers/:customer_id/addresses/:address_id',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(deleteCustomerAddressSchema),
+		customerAddressController.destroy
+	);
 
-  return router;
+	return router;
 };

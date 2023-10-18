@@ -1,13 +1,13 @@
-const validators = require('../../../common/utils/validators.util');
+import validators from '#common/utils/validators.util.js';
 
-module.exports = [
-  validators.firstName,
+export default [
+	validators.firstName,
 
-  validators.lastName,
+	validators.lastName,
 
-  validators.email,
+	validators.email,
 
-  validators.password,
+	validators.password,
 
-  validators.confirmPassword('password'),
+	validators.confirmPassword('password'),
 ];

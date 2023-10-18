@@ -1,31 +1,31 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
-const productController = require('./product.controller');
+import productController from '#modules/products/product.controller.js';
 
-const verifyTokenMiddleware = require('../../common/middlewares/verifyToken.middleware');
-const adminGuardMiddleware = require('../../common/middlewares/adminGuard.middleware');
-const validateRequestMiddleware = require('../../common/middlewares/validateRequest.middleware');
+import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
 
-const indexProductSchema = require('./schemas/index.schema');
-const showProductSchema = require('./schemas/show.schema');
-const storeProductSchema = require('./schemas/store.schema');
-const updateProductSchema = require('./schemas/update.schema');
+import indexProductSchema from './schemas/index.schema.js';
+import showProductSchema from './schemas/show.schema.js';
+import storeProductSchema from './schemas/store.schema.js';
+import updateProductSchema from './schemas/update.schema.js';
 
-module.exports = () => {
-  // eslint-disable-next-line new-cap
-  const router = Router();
+export default () => {
+	// eslint-disable-next-line new-cap
+	const router = Router();
 
-  router.get('/', validateRequestMiddleware(indexProductSchema), productController.index);
+	router.get('/', validateRequestMiddleware(indexProductSchema), productController.index);
 
-  router.get('/:product_id', validateRequestMiddleware(showProductSchema), productController.show);
+	router.get('/:product_id', validateRequestMiddleware(showProductSchema), productController.show);
 
-  router.post(
-    '/',
-    verifyTokenMiddleware,
-    validateRequestMiddleware(storeProductSchema),
-    adminGuardMiddleware,
-    productController.store
-  );
+	router.post(
+		'/',
+		verifyTokenMiddleware,
+		validateRequestMiddleware(storeProductSchema),
+		adminGuardMiddleware,
+		productController.store
+	);
 
-  return router;
+	return router;
 };
