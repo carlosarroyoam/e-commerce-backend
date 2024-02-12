@@ -14,7 +14,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -47,7 +47,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -91,7 +91,7 @@ export default {
 					$ref: '#/components/responses/CREATED',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -139,7 +139,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -178,7 +178,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -222,7 +222,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',

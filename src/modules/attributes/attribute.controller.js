@@ -20,7 +20,7 @@ class AttributeController {
 
 			response.json({
 				message: 'Ok',
-				data: attributesDto,
+				attributes: attributesDto,
 			});
 		} catch (error) {
 			next(error);
@@ -44,7 +44,7 @@ class AttributeController {
 
 			response.json({
 				message: 'Ok',
-				data: attributeDto,
+				attribute: attributeDto,
 			});
 		} catch (error) {
 			next(error);
@@ -70,7 +70,7 @@ class AttributeController {
 
 			response.status(201).json({
 				message: 'Ok',
-				data: createdAttributeDto,
+				attribute: createdAttributeDto,
 			});
 		} catch (error) {
 			next(error);
@@ -97,7 +97,7 @@ class AttributeController {
 
 			response.json({
 				message: 'Ok',
-				data: updatedAttributeDto,
+				attribute: updatedAttributeDto,
 			});
 		} catch (error) {
 			next(error);
@@ -119,8 +119,8 @@ class AttributeController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					attribute_id: deletedAttributeId,
+				attribute: {
+					id: deletedAttributeId,
 				},
 			});
 		} catch (error) {
@@ -143,8 +143,8 @@ class AttributeController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					attribute_id: restoredAttributeId,
+				attribute: {
+					id: restoredAttributeId,
 				},
 			});
 		} catch (error) {

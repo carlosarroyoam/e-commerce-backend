@@ -28,7 +28,7 @@ class UserController {
 
 			response.json({
 				message: 'Ok',
-				data: usersDto,
+				users: usersDto,
 			});
 		} catch (error) {
 			next(error);
@@ -52,7 +52,7 @@ class UserController {
 
 			response.json({
 				message: 'Ok',
-				data: userDto,
+				user: userDto,
 			});
 		} catch (error) {
 			next(error);
@@ -75,8 +75,8 @@ class UserController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					user_id: deletedUserId,
+				user: {
+					id: deletedUserId,
 				},
 			});
 		} catch (error) {
@@ -100,8 +100,8 @@ class UserController {
 
 			response.json({
 				message: 'Ok',
-				data: {
-					user_id: restoredUserId,
+				user: {
+					id: restoredUserId,
 				},
 			});
 		} catch (error) {

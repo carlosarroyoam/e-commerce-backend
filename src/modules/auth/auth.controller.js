@@ -38,7 +38,7 @@ class AuthController {
 				})
 				.json({
 					message: 'Ok',
-					data: auth,
+					user: auth,
 				});
 		} catch (error) {
 			response.clearCookie('access_token').clearCookie('refresh_token');
@@ -98,7 +98,7 @@ class AuthController {
 				})
 				.json({
 					message: 'Ok',
-					data: refreshToken,
+					tokens: refreshToken,
 				});
 		} catch (error) {
 			response.clearCookie('access_token').clearCookie('refresh_token');

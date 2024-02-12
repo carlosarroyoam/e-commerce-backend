@@ -20,7 +20,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -41,7 +41,7 @@ export default {
 					$ref: '#/components/responses/NO_CONTENT',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				500: {
 					$ref: '#/components/responses/INTERNAL_SERVER_ERROR',
@@ -70,7 +70,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				401: {
 					$ref: '#/components/responses/UNAUTHORIZED',
@@ -102,7 +102,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				500: {
 					$ref: '#/components/responses/INTERNAL_SERVER_ERROR',
@@ -132,7 +132,7 @@ export default {
 					$ref: '#/components/responses/OK',
 				},
 				422: {
-					$ref: '#/components/responses/UNPROCESABLE_ENTITY',
+					$ref: '#/components/responses/UNPROCESSABLE_ENTITY',
 				},
 				500: {
 					$ref: '#/components/responses/INTERNAL_SERVER_ERROR',
