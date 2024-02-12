@@ -2,7 +2,16 @@
 
 ## Description
 
-Repository contains nodejs-api for a e-commerce source code.
+Repository contains source code for a e-commerce using nodejs.
+
+## Prerequisites
+
+To start developing you will need to install the following dependencies on your dev local
+machine.
+
+- NodeJs v18
+- MySQL v8.x.x
+- Docker
 
 ## Developing
 
