@@ -37,9 +37,9 @@ class ProductDao {
     WHERE 1`;
 
 		if (search) {
-			query += ` AND MATCH(title, description) AGAINST("${this.connection.escape(
+			query += ` AND MATCH(p.title, p.description) AGAINST(${this.connection.escape(
 				search
-			)}*" IN BOOLEAN MODE)`;
+			)} IN BOOLEAN MODE)`;
 		}
 
 		if (sort) {
