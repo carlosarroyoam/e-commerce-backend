@@ -3,7 +3,7 @@ FROM node:18-bullseye-slim
 
 # Set the environment variables
 ENV APP_ENV=development
-ENV DB_HOST=localhost
+ENV DB_HOST=host.docker.internal
 
 # Create app directory
 WORKDIR /usr/src/app

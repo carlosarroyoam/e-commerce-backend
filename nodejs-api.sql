@@ -103,7 +103,7 @@ INSERT INTO `customer_addresses` VALUES (1,'Leona Vicario','12',NULL,'Centro','A
 
 CREATE TABLE `admins` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `is_super` TINYINT NOT NULL DEFAULT 0,
+    `is_super` BIT NOT NULL DEFAULT 0,
     `user_id` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id`),
     KEY `admins_user_id_fk` (`user_id`),
@@ -168,8 +168,8 @@ CREATE TABLE `products` (
     `title` VARCHAR(96) NOT NULL,
     `slug` VARCHAR(96) NOT NULL,
     `description` TEXT,
-    `featured` TINYINT UNSIGNED NOT NULL DEFAULT '0',
-    `active` TINYINT UNSIGNED NOT NULL DEFAULT '0',
+    `featured` BIT NOT NULL DEFAULT 0,
+    `active` BIT NOT NULL DEFAULT 0,
     `category_id` TINYINT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
