@@ -1,7 +1,7 @@
 {
 	"name": "e-commerce-backend",
 	"version": "1.4.0-snapshot",
-	"description": "Backend for an e-commerce system.",
+	"description": "Node.js and Express.js Rest Api",
 	"type": "module",
 	"exports": "./index.js",
 	"imports": {
