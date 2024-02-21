@@ -1,0 +1,48 @@
+version: '3.8'
+name: ecommerce-app
+
+services:
+  ecommerce-mysql:
+    container_name: ecommerce-mysql
+    image: mysql:8.0.35
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ecommerce-db:/var/lib/mysql
+      - ./nodejs-api.sql:/docker-entrypoint-initdb.d/1.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+
+  ecommerce-backend:
+    container_name: ecommerce-backend
+    build: .
+    restart: always
+    ports:
+      - 3000:${APP_PORT}
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_NAME=${APP_NAME}
+      - APP_URL=${APP_URL}
+      - APP_PORT=${APP_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=ecommerce-mysql
+      - DB_PORT=${DB_PORT}
+      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - JWT_REFRESH_SECRET_KEY=${JWT_REFRESH_SECRET_KEY}
+      - JWT_REFRESH_EXPIRES_IN=${JWT_REFRESH_EXPIRES_IN}
+      - JWT_PASSWORD_RECOVERY_SECRET_KEY=${JWT_PASSWORD_RECOVERY_SECRET_KEY}
+      - JWT_PASSWORD_RECOVERY_EXPIRES_IN=${JWT_PASSWORD_RECOVERY_EXPIRES_IN}
+    depends_on:
+      - ecommerce-mysql
+
+volumes:
+  ecommerce-db:
+    external: false
+
+networks:
+  ecommerce-app:
