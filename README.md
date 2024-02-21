@@ -18,8 +18,8 @@ $ navigate to `http://localhost:3000/api/v1/docs`
 # Deploying
 
 ```
-$ docker build -t ecommerce:${appVersion} .
-$ docker run --name ecommerce --publish 3000:3000 --network dev --env APP_ENV=development --env DB_HOST=mysql-db-dev ecommerce:${appVersion}
+$ docker build -t ecommerce .
+$ docker container run --name ecommerce --publish 3000:3000 --env APP_ENV=development --env DB_HOST=localhost ecommerce
 ```
 
 # License

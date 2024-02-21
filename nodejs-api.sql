@@ -17,7 +17,8 @@ CREATE TABLE `user_roles` (
 -- Dumping data for table `user_roles`
 --
 
-INSERT INTO `user_roles` VALUES (1, 'App/Admin'), (2, 'App/Customer');
+INSERT INTO `user_roles` VALUES
+	(1, 'App/Admin'), (2, 'App/Customer');
 
 --
 -- Table structure for table `users`
@@ -47,8 +48,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users`
 VALUES
-    (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL),
-    (2,'Cathy Stefania','Guido Rojas','cathy.guido@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,'2022-01-31 21:45:56','2022-01-31 21:45:56',NULL);
+  (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL),
+	(2,'Cathy Stefania','Guido Rojas','cathy.guido@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL);
 
 --
 -- Table structure for table `customers`
@@ -68,7 +69,8 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` VALUES (1,2);
+INSERT INTO `customers` VALUES
+	(1,2);
 
 --
 -- Table structure for table `customer_addresses`
@@ -95,7 +97,8 @@ CREATE TABLE `customer_addresses` (
 -- Dumping data for table `customer_addresses`
 --
 
-INSERT INTO `customer_addresses` VALUES (1,'Leona Vicario','12',NULL,'Centro','Acambaro','Guanajuato','38923','4431232123',1);
+INSERT INTO `customer_addresses` VALUES
+	(1,'Leona Vicario','12',NULL,'Centro','Acambaro','Guanajuato','38923','4431232123',1);
 
 --
 -- Table structure for table `admins`
@@ -116,7 +119,8 @@ CREATE TABLE `admins` (
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`id`, `is_super`, `user_id`) VALUES (1, 1, 1);
+INSERT INTO `admins` (`id`, `is_super`, `user_id`) VALUES
+	(1, 1, 1);
 
 --
 -- Table structure for table `personal_access_tokens`
@@ -157,7 +161,8 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` VALUES (1,'Smartphones',NULL),(2,'Headphones',NULL),(3,'Accesories',NULL);
+INSERT INTO `categories` VALUES
+	(1,'Smartphones',NULL),(2,'Headphones',NULL),(3,'Accesories',NULL);
 
 --
 -- Table structure for table `products`
@@ -186,7 +191,8 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` VALUES (1,'Moto G100','moto-g100','Moto G100',0,1,1,'2022-01-31 20:58:02','2022-02-01 14:23:27',NULL),(2,'Moto G60','moto-g60','Moto G60',1,1,1,'2022-02-01 19:25:28','2022-02-01 19:25:28',NULL);
+INSERT INTO `products` VALUES
+	(1,'Moto G100','moto-g100','Moto G100',0,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL),(2,'Moto G60','moto-g60','Moto G60',1,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL);
 
 --
 -- Table structure for table `properties`
@@ -205,7 +211,8 @@ CREATE TABLE `properties` (
 -- Dumping data for table `properties`
 --
 
-INSERT INTO `properties` VALUES (1,'Brand',NULL),(2,'Model',NULL);
+INSERT INTO `properties` VALUES
+	(1,'Brand',NULL),(2,'Model',NULL);
 
 --
 -- Table structure for table `product_property_values`
@@ -230,7 +237,8 @@ CREATE TABLE `product_property_values` (
 -- Dumping data for table `product_property_values`
 --
 
-INSERT INTO `product_property_values` VALUES (1,'Motorola',1,1),(2,'Moto G100',1,2),(4,'Motorola',2,1),(5,'Moto G60',2,2);
+INSERT INTO `product_property_values` VALUES
+	(1,'Motorola',1,1),(2,'Moto G100',1,2),(4,'Motorola',2,1),(5,'Moto G60',2,2);
 
 --
 -- Table structure for table `variants`
@@ -255,7 +263,8 @@ CREATE TABLE `variants` (
 -- Dumping data for table `variants`
 --
 
-INSERT INTO `variants` VALUES (1,'motog100nimbusblue',500,0,400,23,1),(2,'motog100borealgreen',479,0,400,34,1),(3,'motog60blue',248,0,200,78,2);
+INSERT INTO `variants` VALUES
+	(1,'motog100nimbusblue',500,0,400,23,1),(2,'motog100borealgreen',479,0,400,34,1),(3,'motog60blue',248,0,200,78,2);
 
 --
 -- Table structure for table `variant_images`
@@ -276,7 +285,8 @@ CREATE TABLE `variant_images` (
 -- Dumping data for table `variant_images`
 --
 
-INSERT INTO `variant_images` VALUES (1,'motog100nimbusblue.jpg',1),(2,'motog100borealgreen.jpg',2),(3,'motog60blue.jpg',3);
+INSERT INTO `variant_images` VALUES
+	(1,'motog100nimbusblue.jpg',1),(2,'motog100borealgreen.jpg',2),(3,'motog60blue.jpg',3);
 
 --
 -- Table structure for table `attributes`
@@ -295,7 +305,8 @@ CREATE TABLE `attributes` (
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` VALUES (1,'Color',NULL),(2,'Storage',NULL);
+INSERT INTO `attributes` VALUES
+	(1,'Color',NULL),(2,'Storage',NULL);
 
 --
 -- Table structure for table `variant_attribute_values`
@@ -320,7 +331,8 @@ CREATE TABLE `variant_attribute_values` (
 -- Dumping data for table `variant_attribute_values`
 --
 
-INSERT INTO `variant_attribute_values` VALUES (1,'Blue Nimbus',1,1),(2,'Boreal Green',2,1),(3,'Blue',3,1),(4,'128gb',1,2),(5,'128gb',2,2),(6,'128gb',3,2);
+INSERT INTO `variant_attribute_values` VALUES
+	(1,'Blue Nimbus',1,1),(2,'Boreal Green',2,1),(3,'Blue',3,1),(4,'128gb',1,2),(5,'128gb',2,2),(6,'128gb',3,2);
 
 --
 -- Table structure for table `movement_types`
@@ -337,7 +349,8 @@ CREATE TABLE `movement_types` (
 -- Dumping data for table `movement_types`
 --
 
-INSERT INTO `movement_types` VALUES (1,'In'),(2,'Out');
+INSERT INTO `movement_types` VALUES
+	(1,'In'),(2,'Out');
 
 --
 -- Table structure for table `movements`
@@ -355,7 +368,8 @@ CREATE TABLE `movements` (
 -- Dumping data for table `movements`
 --
 
-INSERT INTO `movements` VALUES (1,'Inital product registration',1),(2,'Inventory reception',1),(3,'Sale',2);
+INSERT INTO `movements` VALUES
+	(1,'Inital product registration',1),(2,'Inventory reception',1),(3,'Sale',2);
 
 --
 -- Table structure for table `inventory_movements`
