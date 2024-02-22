@@ -19,7 +19,7 @@ services:
     build: .
     restart: always
     ports:
-      - 3000:${APP_PORT}
+      - ${APP_PORT}:${APP_PORT}
     environment:
       - APP_ENV=${APP_ENV}
       - APP_NAME=${APP_NAME}

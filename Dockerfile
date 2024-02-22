@@ -24,7 +24,7 @@ ENV JWT_PASSWORD_RECOVERY_EXPIRES_IN=15m
 ENV SALT_ROUNDS=10
 
 # Expose the port the app runs in
-EXPOSE 3000
+EXPOSE ${APP_PORT}
 
 # Add a healtcheck
 HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
