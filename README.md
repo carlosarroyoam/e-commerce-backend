@@ -15,7 +15,7 @@ $ npm run dev:start
 $ navigate to `http://localhost:3000/api/v1/docs`
 ```
 
-# Deploying
+# Run
 
 ```
 $ docker build -t ecommerce .
