@@ -24,7 +24,7 @@ ENV SALT_ROUNDS=${SALT_ROUNDS}
 EXPOSE ${APP_PORT}
 
 # Add a healtcheck
-HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:${APP_PORT} || exit 1
 
 # Create app directory
 WORKDIR /usr/app
