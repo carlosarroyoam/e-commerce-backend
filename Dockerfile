@@ -23,21 +23,18 @@ ENV JWT_PASSWORD_RECOVERY_EXPIRES_IN=15m
 
 ENV SALT_ROUNDS=10
 
+# Expose the port the app runs in
+EXPOSE 3000
+
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app/src
 
 # Copy dependency definitions
-COPY package.json ./package.json
-COPY package-lock.json ./package-lock.json
+COPY package.json .
+COPY package-lock.json .
 
 # Install app dependencies
 RUN npm ci
-
-# Copy all the code needed to run the app
-COPY . .
-
-# Expose the port the app runs in
-EXPOSE 3000
 
 # Create a non-root user for security purpose
 RUN <<EOF
@@ -47,11 +44,14 @@ RUN <<EOF
 EOF
 
 # Give non-root user permitions to app folders
-RUN chown ecommerceapp /usr/src/app/
-RUN chgrp ecommerceapp /usr/src/app/
+RUN chown ecommerceapp /app/src
+RUN chgrp ecommerceapp /app/src
 
 # Set non-root user
 USER ecommerceapp
+
+# Copy all the code needed to run the app
+COPY . .
 
 # Serve the app
 CMD ["npm", "start"]
