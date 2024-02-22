@@ -1,8 +1,16 @@
 # Dependency directories
 node_modules/
 
-# Env file
+# Env files
 .env
+.env.example
+
+# Docker files
+compose.yaml
+Dockerfile
+
+# vscode configs
+.vscode/
 
 # Database script files
 *.sql
