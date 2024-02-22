@@ -26,8 +26,11 @@ ENV SALT_ROUNDS=10
 # Expose the port the app runs in
 EXPOSE 3000
 
+# Add a healtcheck
+HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
+
 # Create app directory
-WORKDIR /app/src
+WORKDIR /usr/app
 
 # Copy dependency definitions
 COPY package.json .
@@ -38,17 +41,17 @@ RUN npm ci
 
 # Create a non-root user for security purpose
 RUN <<EOF
-   useradd -s /bin/bash -m ecommerceapp
+   useradd -s /bin/bash -m app
    groupadd docker
-   usermod -aG docker ecommerceapp
+   usermod -aG docker app
 EOF
 
 # Give non-root user permitions to app folders
-RUN chown ecommerceapp /app/src
-RUN chgrp ecommerceapp /app/src
+RUN chown app /usr/app
+RUN chgrp app /usr/app
 
 # Set non-root user
-USER ecommerceapp
+USER app
 
 # Copy all the code needed to run the app
 COPY . .
