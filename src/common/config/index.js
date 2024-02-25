@@ -3,9 +3,9 @@ import Joi from 'joi';
 
 const envSchema = Joi.object()
 	.keys({
-		APP_ENV: Joi.string().lowercase().valid('production', 'development', 'test').required(),
+		APP_ENV: Joi.string().lowercase().valid('prod', 'dev', 'test').required(),
 		APP_NAME: Joi.string().default('app'),
-		APP_URL: Joi.string().uri().default('http://localhost'),
+		APP_HOST: Joi.string().uri().default('http://localhost'),
 		APP_PORT: Joi.number().default(3000),
 
 		DB_USER: Joi.string().required(),
@@ -36,7 +36,7 @@ export default {
 	APP: {
 		ENV: env.APP_ENV,
 		NAME: env.APP_NAME,
-		URL: env.APP_URL,
+		URL: env.APP_HOST,
 		PORT: env.APP_PORT,
 	},
 	DB: {

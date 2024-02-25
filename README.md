@@ -19,7 +19,7 @@ $ navigate to `http://localhost:3000/api/v1/docs`
 
 ```
 $ docker build -t ecommerce .
-$ docker container run -dp 3000:3000 --name ecommerce-backend --env APP_ENV=development --env DB_HOST=localhost ecommerce
+$ docker container run -dp 3000:3000 --name ecommerce-backend --env APP_ENV=dev --env DB_HOST=localhost ecommerce
 ```
 
 # License

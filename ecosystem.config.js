@@ -5,10 +5,10 @@ module.exports = {
 			script: './index.js',
 			instances: 2,
 			env_development: {
-				NODE_ENV: 'development',
+				NODE_ENV: 'dev',
 			},
 			env_production: {
-				NODE_ENV: 'production',
+				NODE_ENV: 'prod',
 			},
 		},
 	],

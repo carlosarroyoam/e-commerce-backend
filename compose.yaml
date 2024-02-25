@@ -23,7 +23,7 @@ services:
     environment:
       - APP_ENV=${APP_ENV}
       - APP_NAME=${APP_NAME}
-      - APP_URL=${APP_URL}
+      - APP_HOST=${APP_HOST}
       - APP_PORT=${APP_PORT}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
