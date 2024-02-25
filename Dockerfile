@@ -34,7 +34,7 @@ COPY package.json .
 COPY package-lock.json .
 
 # Install app dependencies
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Create a non-root user for security purpose
 RUN <<EOF
