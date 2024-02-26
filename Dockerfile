@@ -54,4 +54,4 @@ USER app
 COPY . .
 
 # Serve the app
-CMD ["npm", "start"]
+CMD npm run start
