@@ -22,7 +22,7 @@ export default () => {
 	router.get(
 		'/:category_id',
 		validateRequestMiddleware(showCategorySchema),
-		categoryController.index
+		categoryController.show
 	);
 
 	router.post(
