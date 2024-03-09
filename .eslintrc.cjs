@@ -11,6 +11,6 @@ module.exports = {
   plugins: ['prettier'],
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   rules: {
-    'linebreak-style': ['error', 'unix | windows'],
+    'prettier/prettier': ['error', { endOfLine: 'auto' }, { usePrettierrc: true }], // Use our .prettierrc file as source
   },
 };
