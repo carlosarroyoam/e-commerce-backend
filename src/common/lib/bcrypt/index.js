@@ -6,9 +6,9 @@ import config from '#common/config/index.js';
  * @return {Promise<string>} The password hashed.
  */
 async function hashPassword(plainTextPassword) {
-	const hash = await bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
+  const hash = await bcrypt.hash(plainTextPassword, config.BCRYPT.SALT_ROUNDS);
 
-	return hash;
+  return hash;
 }
 
 /**
@@ -17,12 +17,12 @@ async function hashPassword(plainTextPassword) {
  * @return {Promise<boolean>}
  */
 async function compare(plainTextPassword, passwordHash) {
-	const match = await bcrypt.compare(plainTextPassword, passwordHash);
+  const match = await bcrypt.compare(plainTextPassword, passwordHash);
 
-	return match;
+  return match;
 }
 
 export default {
-	hashPassword,
-	compare,
+  hashPassword,
+  compare,
 };

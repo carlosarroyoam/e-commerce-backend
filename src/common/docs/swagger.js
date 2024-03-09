@@ -14,20 +14,20 @@ import properties from './paths/properties.js';
 import categories from './paths/categories.js';
 
 export default {
-	...info,
-	...servers,
-	...tags,
-	paths: {
-		...auth,
-		...users,
-		...admins,
-		...customers,
-		...customersAddresses,
-		...products,
-		...productVariants,
-		...attributes,
-		...properties,
-		...categories,
-	},
-	...components,
+  ...info,
+  ...servers,
+  ...tags,
+  paths: {
+    ...auth,
+    ...users,
+    ...admins,
+    ...customers,
+    ...customersAddresses,
+    ...products,
+    ...productVariants,
+    ...attributes,
+    ...properties,
+    ...categories,
+  },
+  ...components,
 };

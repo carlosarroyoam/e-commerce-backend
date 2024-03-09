@@ -4,10 +4,10 @@ import parameters from './parameters.js';
 import schemas from './schemas.js';
 
 export default {
-	components: {
-		...securitySchemas,
-		...responses,
-		...parameters,
-		...schemas,
-	},
+  components: {
+    ...securitySchemas,
+    ...responses,
+    ...parameters,
+    ...schemas,
+  },
 };

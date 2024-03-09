@@ -8,12 +8,12 @@ import ResourceNotFoundError from '#common/errors/resourceNotFound.error.js';
 import InternalServerError from '#common/errors/internalServerError.error.js';
 
 export default {
-	BadRequestError,
-	EmailAlreadyTakenError,
-	ForbiddenError,
-	UnauthorizedError,
-	UnprocessableEntityError,
-	UserNotFoundError,
-	ResourceNotFoundError,
-	InternalServerError,
+  BadRequestError,
+  EmailAlreadyTakenError,
+  ForbiddenError,
+  UnauthorizedError,
+  UnprocessableEntityError,
+  UserNotFoundError,
+  ResourceNotFoundError,
+  InternalServerError,
 };

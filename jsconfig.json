@@ -1,14 +1,14 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"module": "NodeNext",
-		"checkJs": true,
-		"resolveJsonModule": true,
-		"paths": {
-			"#app/*": ["./src/*"],
-			"#common/*": ["./src/common/*"],
-			"#modules/*": ["./src/modules/*"]
-		}
-	},
-	"exclude": ["node_modules"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "NodeNext",
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "#app/*": ["./src/*"],
+      "#common/*": ["./src/common/*"],
+      "#modules/*": ["./src/modules/*"]
+    }
+  },
+  "exclude": ["node_modules"]
 }

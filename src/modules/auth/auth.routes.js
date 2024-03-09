@@ -10,30 +10,30 @@ import resetPasswordSchema from './schemas/resetPassword.schema.js';
 import forgotPasswordSchema from './schemas/forgotPassword.schema.js';
 
 export default () => {
-	// eslint-disable-next-line new-cap
-	const router = Router();
+  // eslint-disable-next-line new-cap
+  const router = Router();
 
-	router.post('/login', validateRequestMiddleware(loginSchema), authController.login);
+  router.post('/login', validateRequestMiddleware(loginSchema), authController.login);
 
-	router.post('/logout', authController.logout);
+  router.post('/logout', authController.logout);
 
-	router.post(
-		'/refresh-token',
-		validateRequestMiddleware(refreshTokenSchema),
-		authController.refreshToken
-	);
+  router.post(
+    '/refresh-token',
+    validateRequestMiddleware(refreshTokenSchema),
+    authController.refreshToken
+  );
 
-	router.post(
-		'/forgot-password',
-		validateRequestMiddleware(forgotPasswordSchema),
-		authController.forgotPassword
-	);
+  router.post(
+    '/forgot-password',
+    validateRequestMiddleware(forgotPasswordSchema),
+    authController.forgotPassword
+  );
 
-	router.post(
-		'/reset-password',
-		validateRequestMiddleware(resetPasswordSchema),
-		authController.resetPassword
-	);
+  router.post(
+    '/reset-password',
+    validateRequestMiddleware(resetPasswordSchema),
+    authController.resetPassword
+  );
 
-	return router;
+  return router;
 };

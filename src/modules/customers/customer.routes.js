@@ -12,38 +12,38 @@ import storeCustomerSchema from './schemas/store.schema.js';
 import updateCustomerSchema from './schemas/update.schema.js';
 
 export default () => {
-	// eslint-disable-next-line new-cap
-	const router = Router();
+  // eslint-disable-next-line new-cap
+  const router = Router();
 
-	router.get(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(indexCustomerSchema),
-		adminGuardMiddleware,
-		customerController.index
-	);
+  router.get(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(indexCustomerSchema),
+    adminGuardMiddleware,
+    customerController.index
+  );
 
-	router.get(
-		'/:customer_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(showCustomerSchema),
-		customerController.show
-	);
+  router.get(
+    '/:customer_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(showCustomerSchema),
+    customerController.show
+  );
 
-	router.post(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(storeCustomerSchema),
-		adminGuardMiddleware,
-		customerController.store
-	);
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storeCustomerSchema),
+    adminGuardMiddleware,
+    customerController.store
+  );
 
-	router.put(
-		'/:customer_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(updateCustomerSchema),
-		customerController.update
-	);
+  router.put(
+    '/:customer_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(updateCustomerSchema),
+    customerController.update
+  );
 
-	return router;
+  return router;
 };

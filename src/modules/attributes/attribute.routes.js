@@ -14,56 +14,56 @@ import deleteAttributeSchema from './schemas/delete.schema.js';
 import restoreAttributeSchema from './schemas/restore.schema.js';
 
 export default () => {
-	// eslint-disable-next-line new-cap
-	const router = Router();
+  // eslint-disable-next-line new-cap
+  const router = Router();
 
-	router.get(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(indexAttributeSchema),
-		adminGuardMiddleware,
-		attributeController.index
-	);
+  router.get(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(indexAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.index
+  );
 
-	router.get(
-		'/:attribute_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(showAttributeSchema),
-		adminGuardMiddleware,
-		attributeController.show
-	);
+  router.get(
+    '/:attribute_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(showAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.show
+  );
 
-	router.post(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(storeAttributeSchema),
-		adminGuardMiddleware,
-		attributeController.store
-	);
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storeAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.store
+  );
 
-	router.put(
-		'/:attribute_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(updateAttributeSchema),
-		adminGuardMiddleware,
-		attributeController.update
-	);
+  router.put(
+    '/:attribute_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(updateAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.update
+  );
 
-	router.delete(
-		'/:attribute_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(deleteAttributeSchema),
-		adminGuardMiddleware,
-		attributeController.destroy
-	);
+  router.delete(
+    '/:attribute_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(deleteAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.destroy
+  );
 
-	router.put(
-		'/:attribute_id/restore',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(restoreAttributeSchema),
-		adminGuardMiddleware,
-		attributeController.restore
-	);
+  router.put(
+    '/:attribute_id/restore',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(restoreAttributeSchema),
+    adminGuardMiddleware,
+    attributeController.restore
+  );
 
-	return router;
+  return router;
 };

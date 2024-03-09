@@ -4,42 +4,42 @@ import objectUtils from '#common/utils/object.utils.js';
  * CustomerMapper class.
  */
 class CustomerMapper {
-	/**
-	 * Maps a customer object to a customer dto object.
-	 *
-	 * @param {object} customer The customer object to map.
-	 * @return {object} The customer dto object.
-	 */
-	toDto(customer) {
-		return {
-			id: customer.id,
-			user_id: customer.user_id,
-			first_name: customer.first_name,
-			last_name: customer.last_name,
-			email: customer.email,
-			password: customer.password,
-			addresses: customer.addresses,
-			created_at: customer.created_at,
-			updated_at: customer.updated_at,
-			deleted_at: customer.deleted_at,
-		};
-	}
+  /**
+   * Maps a customer object to a customer dto object.
+   *
+   * @param {object} customer The customer object to map.
+   * @return {object} The customer dto object.
+   */
+  toDto(customer) {
+    return {
+      id: customer.id,
+      user_id: customer.user_id,
+      first_name: customer.first_name,
+      last_name: customer.last_name,
+      email: customer.email,
+      password: customer.password,
+      addresses: customer.addresses,
+      created_at: customer.created_at,
+      updated_at: customer.updated_at,
+      deleted_at: customer.deleted_at,
+    };
+  }
 
-	/**
-	 * Maps a customerDto object to a customer database entity object.
-	 *
-	 * @param {object} customerDto The customer dto object to map.
-	 * @return {object} The customer database entity object.
-	 */
-	toDatabaseEntity(customerDto) {
-		const customerDbEntity = {
-			user_id: customerDto.user_id,
-		};
+  /**
+   * Maps a customerDto object to a customer database entity object.
+   *
+   * @param {object} customerDto The customer dto object to map.
+   * @return {object} The customer database entity object.
+   */
+  toDatabaseEntity(customerDto) {
+    const customerDbEntity = {
+      user_id: customerDto.user_id,
+    };
 
-		const cleanedCustomerDbEntity = objectUtils.removeUndefined(customerDbEntity);
+    const cleanedCustomerDbEntity = objectUtils.removeUndefined(customerDbEntity);
 
-		return cleanedCustomerDbEntity;
-	}
+    return cleanedCustomerDbEntity;
+  }
 }
 
 export default new CustomerMapper();

@@ -14,48 +14,48 @@ import deleteCategorySchema from './schemas/delete.schema.js';
 import restoreCategorySchema from './schemas/restore.schema.js';
 
 export default () => {
-	// eslint-disable-next-line new-cap
-	const router = Router();
+  // eslint-disable-next-line new-cap
+  const router = Router();
 
-	router.get('/', validateRequestMiddleware(indexCategorySchema), categoryController.index);
+  router.get('/', validateRequestMiddleware(indexCategorySchema), categoryController.index);
 
-	router.get(
-		'/:category_id',
-		validateRequestMiddleware(showCategorySchema),
-		categoryController.show
-	);
+  router.get(
+    '/:category_id',
+    validateRequestMiddleware(showCategorySchema),
+    categoryController.show
+  );
 
-	router.post(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(storeCategorySchema),
-		adminGuardMiddleware,
-		categoryController.store
-	);
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storeCategorySchema),
+    adminGuardMiddleware,
+    categoryController.store
+  );
 
-	router.put(
-		'/:category_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(updateCategorySchema),
-		adminGuardMiddleware,
-		categoryController.update
-	);
+  router.put(
+    '/:category_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(updateCategorySchema),
+    adminGuardMiddleware,
+    categoryController.update
+  );
 
-	router.delete(
-		'/:category_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(deleteCategorySchema),
-		adminGuardMiddleware,
-		categoryController.destroy
-	);
+  router.delete(
+    '/:category_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(deleteCategorySchema),
+    adminGuardMiddleware,
+    categoryController.destroy
+  );
 
-	router.put(
-		'/:category_id/restore',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(restoreCategorySchema),
-		adminGuardMiddleware,
-		categoryController.restore
-	);
+  router.put(
+    '/:category_id/restore',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(restoreCategorySchema),
+    adminGuardMiddleware,
+    categoryController.restore
+  );
 
-	return router;
+  return router;
 };

@@ -14,56 +14,56 @@ import deletePropertySchema from './schemas/delete.schema.js';
 import restorePropertySchema from './schemas/restore.schema.js';
 
 export default () => {
-	// eslint-disable-next-line new-cap
-	const router = Router();
+  // eslint-disable-next-line new-cap
+  const router = Router();
 
-	router.get(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(indexPropertySchema),
-		adminGuardMiddleware,
-		propertyController.index
-	);
+  router.get(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(indexPropertySchema),
+    adminGuardMiddleware,
+    propertyController.index
+  );
 
-	router.get(
-		'/:property_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(showPropertySchema),
-		adminGuardMiddleware,
-		propertyController.show
-	);
+  router.get(
+    '/:property_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(showPropertySchema),
+    adminGuardMiddleware,
+    propertyController.show
+  );
 
-	router.post(
-		'/',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(storePropertySchema),
-		adminGuardMiddleware,
-		propertyController.store
-	);
+  router.post(
+    '/',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(storePropertySchema),
+    adminGuardMiddleware,
+    propertyController.store
+  );
 
-	router.put(
-		'/:property_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(updatePropertySchema),
-		adminGuardMiddleware,
-		propertyController.update
-	);
+  router.put(
+    '/:property_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(updatePropertySchema),
+    adminGuardMiddleware,
+    propertyController.update
+  );
 
-	router.delete(
-		'/:property_id',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(deletePropertySchema),
-		adminGuardMiddleware,
-		propertyController.destroy
-	);
+  router.delete(
+    '/:property_id',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(deletePropertySchema),
+    adminGuardMiddleware,
+    propertyController.destroy
+  );
 
-	router.put(
-		'/:property_id/restore',
-		verifyTokenMiddleware,
-		validateRequestMiddleware(restorePropertySchema),
-		adminGuardMiddleware,
-		propertyController.restore
-	);
+  router.put(
+    '/:property_id/restore',
+    verifyTokenMiddleware,
+    validateRequestMiddleware(restorePropertySchema),
+    adminGuardMiddleware,
+    propertyController.restore
+  );
 
-	return router;
+  return router;
 };

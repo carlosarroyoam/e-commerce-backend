@@ -18,26 +18,26 @@ import propertyRoutes from '#modules/properties/property.routes.js';
 import categoryRoutes from '#modules/categories/category.routes.js';
 
 export default () => {
-	// eslint-disable-next-line new-cap
-	const router = Router();
-	// eslint-disable-next-line new-cap
-	const apiRouter = Router();
+  // eslint-disable-next-line new-cap
+  const router = Router();
+  // eslint-disable-next-line new-cap
+  const apiRouter = Router();
 
-	apiRouter.use('/auth', authRoutes());
-	apiRouter.use('/users', userRoutes());
-	apiRouter.use('/admins', adminRoutes());
-	apiRouter.use('/customers', customerRoutes());
-	apiRouter.use('/', customerAddressesRoutes());
-	apiRouter.use('/products', productRoutes());
-	apiRouter.use('/', productPropertyRoutes());
-	apiRouter.use('/attributes', attributeRoutes());
-	apiRouter.use('/properties', propertyRoutes());
-	apiRouter.use('/categories', categoryRoutes());
-	apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  apiRouter.use('/auth', authRoutes());
+  apiRouter.use('/users', userRoutes());
+  apiRouter.use('/admins', adminRoutes());
+  apiRouter.use('/customers', customerRoutes());
+  apiRouter.use('/', customerAddressesRoutes());
+  apiRouter.use('/products', productRoutes());
+  apiRouter.use('/', productPropertyRoutes());
+  apiRouter.use('/attributes', attributeRoutes());
+  apiRouter.use('/properties', propertyRoutes());
+  apiRouter.use('/categories', categoryRoutes());
+  apiRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-	router.use('/', rootRoute());
-	router.use('/api/v1', apiRouter);
-	router.use('*', defaultRoute());
+  router.use('/', rootRoute());
+  router.use('/api/v1', apiRouter);
+  router.use('*', defaultRoute());
 
-	return router;
+  return router;
 };
