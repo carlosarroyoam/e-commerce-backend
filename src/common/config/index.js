@@ -36,7 +36,7 @@ export default {
   APP: {
     ENV: env.APP_ENV,
     NAME: env.APP_NAME,
-    URL: env.APP_HOST,
+    HOST: env.APP_HOST,
     PORT: env.APP_PORT,
   },
   DB: {

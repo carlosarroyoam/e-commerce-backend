@@ -310,7 +310,7 @@ class AuthService {
       );
 
       // TODO send mail recovery link
-      const passwordRecoveryURL = `${config.APP.URL}:${config.APP.PORT}/auth/recover-password/${token}`;
+      const passwordRecoveryURL = `${config.APP.HOST}:${config.APP.PORT}/auth/recover-password/${token}`;
 
       console.log(passwordRecoveryURL);
 

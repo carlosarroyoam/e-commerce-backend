@@ -32,7 +32,7 @@ export default {
       app.listen(config.APP.PORT, () => {
         logger.log({
           level: 'info',
-          message: `Application running on: ${config.APP.URL}:${config.APP.PORT}`,
+          message: `Application running on: ${config.APP.HOST}:${config.APP.PORT}`,
         });
 
         resolve();
