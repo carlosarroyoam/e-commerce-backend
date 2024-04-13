@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/carlosarroyoam/e-commerce-backend#readme",
   "scripts": {
-    "start": "node index.js",
-    "start:dev": "nodemon index.js",
+    "start": "node src/main.js",
+    "start:dev": "nodemon src/main.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll --detectOpenHandles"
   },
   "devDependencies": {
