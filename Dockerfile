@@ -24,6 +24,16 @@ USER app
 # Expose the port the app runs in
 EXPOSE ${APP_PORT}
 
+# Copy dependency definitions
+COPY package.json .
+COPY package-lock.json .
+
+# Install app dependencies
+RUN npm ci --omit=dev
+
+# Copy all the code needed to run the app
+COPY . .
+
 # Set the environment variables
 ENV APP_ENV=${APP_ENV}
 ENV APP_NAME=${APP_NAME}
@@ -42,16 +52,6 @@ ENV JWT_REFRESH_EXPIRES_IN=${JWT_REFRESH_EXPIRES_IN}
 ENV JWT_PASSWORD_RECOVERY_SECRET_KEY=${JWT_PASSWORD_RECOVERY_SECRET_KEY}
 ENV JWT_PASSWORD_RECOVERY_EXPIRES_IN=${JWT_PASSWORD_RECOVERY_EXPIRES_IN}
 ENV SALT_ROUNDS=${SALT_ROUNDS}
-
-# Copy dependency definitions
-COPY package.json .
-COPY package-lock.json .
-
-# Install app dependencies
-RUN npm ci --omit=dev
-
-# Copy all the code needed to run the app
-COPY . .
 
 # Serve the app
 CMD npm run start
