@@ -72,7 +72,7 @@ const refreshToken = body('refresh_token')
   .isJWT()
   .withMessage('The refresh_token format is invalid');
 
-const browserFingerprint = body('device_fingerprint')
+const deviceFingerprint = body('device_fingerprint')
   .trim()
   .exists({ checkNull: true, checkFalsy: true })
   .withMessage('The device_fingerprint is required')
@@ -257,7 +257,7 @@ export default {
   search,
   userStatus,
   refreshToken,
-  browserFingerprint,
+  deviceFingerprint,
   firstName,
   lastName,
   email,

@@ -19,7 +19,7 @@ export default async (request, response, next) => {
       return next(unauthorizedError);
     }
 
-    const decoded = await jsonwebtoken.decode(accessToken);
+    const decoded = jsonwebtoken.decode(accessToken);
 
     if (!decoded?.sub) {
       const unauthorizedError = new sharedErrors.UnauthorizedError({
