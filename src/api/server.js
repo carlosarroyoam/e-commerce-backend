@@ -18,7 +18,12 @@ export default {
     const app = express();
 
     app
-      .use(cors({ origin: ['http://localhost:3001', 'http://localhost:4200'], credentials: true }))
+      .use(
+        cors({
+          origin: ['http://localhost:3001', 'http://localhost:4200'],
+          credentials: true,
+        })
+      )
       .use(express.json())
       .use(cookieParser())
       .use(compression())
