@@ -33,7 +33,7 @@ class AuthService {
       const userByEmail = await userRepository.findByEmail(email);
 
       if (!userByEmail) {
-        throw new sharedErrors.UserNotFoundError({ email });
+        throw new sharedErrors.UnauthorizedError({ message: undefined, email });
       }
 
       if (userByEmail.deleted_at !== null) {
