@@ -38,7 +38,14 @@ class AuthController {
         })
         .json({
           message: 'Ok',
-          user: auth,
+          user: {
+            id: auth.id,
+            email: auth.email,
+            first_name: auth.first_name,
+            last_name: auth.last_name,
+            user_role_id: auth.user_role_id,
+            user_role: auth.user_role,
+          },
         });
     } catch (error) {
       response.clearCookie('access_token').clearCookie('refresh_token');
@@ -96,10 +103,8 @@ class AuthController {
           httpOnly: true,
           sameSite: true,
         })
-        .json({
-          message: 'Ok',
-          tokens: refreshToken,
-        });
+        .status(204)
+        .end();
     } catch (error) {
       response.clearCookie('access_token').clearCookie('refresh_token');
 

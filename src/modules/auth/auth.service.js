@@ -86,7 +86,7 @@ class AuthService {
       connection.release();
 
       return {
-        user_id: userByEmail.id,
+        id: userByEmail.id,
         email: userByEmail.email,
         first_name: userByEmail.first_name,
         last_name: userByEmail.last_name,
@@ -94,7 +94,6 @@ class AuthService {
         user_role: userByEmail.user_role,
         access_token: token,
         refresh_token: refreshToken,
-        device_fingerprint,
       };
     } catch (err) {
       if (connection) connection.release();
