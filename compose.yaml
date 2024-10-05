@@ -7,7 +7,7 @@ services:
     image: mysql:8.0.35
     restart: always
     ports:
-      - 3306:3306
+      - ${DB_PORT}:3306
     volumes:
       - ecommerce-db:/var/lib/mysql
       - ./nodejs-api.sql:/docker-entrypoint-initdb.d/1.sql
@@ -19,17 +19,17 @@ services:
     build: .
     restart: always
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${APP_PORT}:3000
     environment:
       - APP_ENV=${APP_ENV}
       - APP_NAME=${APP_NAME}
       - APP_HOST=${APP_HOST}
       - APP_PORT=${APP_PORT}
+      - DB_HOST=ecommerce-mysql
+      - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-      - DB_HOST=ecommerce-mysql
-      - DB_PORT=${DB_PORT}
       - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
