@@ -14,7 +14,7 @@ function sign({ subject, userRole }, password) {
 
   const options = {
     expiresIn: config.JWT.EXPIRES_IN,
-    issuer: config.APP.NAME,
+    issuer: `${config.APP.HOST}:${config.APP.PORT}`,
   };
 
   const token = jwt.sign(payload, config.JWT.SECRET_KEY + password, options);
@@ -34,7 +34,7 @@ function signRefresh({ subject }) {
 
   const options = {
     expiresIn: config.JWT.REFRESH_EXPIRES_IN,
-    issuer: config.APP.NAME,
+    issuer: `${config.APP.HOST}:${config.APP.PORT}`,
   };
 
   const token = jwt.sign(payload, config.JWT.REFRESH_SECRET_KEY, options);
@@ -54,7 +54,7 @@ function signPasswordRecoveryToken({ subject }, password) {
 
   const options = {
     expiresIn: config.JWT.PASSWORD_RECOVERY_EXPIRES_IN,
-    issuer: config.APP.NAME,
+    issuer: `${config.APP.HOST}:${config.APP.PORT}`,
   };
 
   const token = jwt.sign(payload, config.JWT.PASSWORD_RECOVERY_SECRET_KEY + password, options);

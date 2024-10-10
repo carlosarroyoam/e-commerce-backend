@@ -22,6 +22,13 @@ $ docker build -t ecommerce .
 $ docker container run -dp 3000:3000 --name ecommerce-backend -e APP_ENV=dev -e DB_HOST=localhost ecommerce
 ```
 
+or
+
+```
+$ docker compose build
+$ docker compose up --detach
+```
+
 # License
 
 This project is licensed under the [Apache 2.0](LICENSE).
