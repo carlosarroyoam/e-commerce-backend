@@ -29,12 +29,14 @@ class AuthController {
         .cookie('access_token', `Bearer ${auth.access_token}`, {
           maxAge: ms(config.JWT.EXPIRES_IN),
           httpOnly: true,
-          sameSite: true,
+          sameSite: config.APP.ENV === 'prod' ? 'none' : 'lax',
+          secure: config.APP.ENV === 'prod',
         })
         .cookie('refresh_token', auth.refresh_token, {
           maxAge: ms(config.JWT.REFRESH_EXPIRES_IN),
           httpOnly: true,
-          sameSite: true,
+          sameSite: config.APP.ENV === 'prod' ? 'none' : 'lax',
+          secure: config.APP.ENV === 'prod',
         })
         .json({
           message: 'Ok',
@@ -96,12 +98,14 @@ class AuthController {
         .cookie('access_token', `Bearer ${refreshToken.access_token}`, {
           maxAge: ms(config.JWT.EXPIRES_IN),
           httpOnly: true,
-          sameSite: true,
+          sameSite: config.APP.ENV === 'prod' ? 'none' : 'lax',
+          secure: config.APP.ENV === 'prod',
         })
         .cookie('refresh_token', refreshToken.refresh_token, {
           maxAge: ms(config.JWT.REFRESH_EXPIRES_IN),
           httpOnly: true,
-          sameSite: true,
+          sameSite: config.APP.ENV === 'prod' ? 'none' : 'lax',
+          secure: config.APP.ENV === 'prod',
         })
         .status(204)
         .end();
