@@ -131,7 +131,7 @@ CREATE TABLE `personal_access_tokens` (
     `token` VARCHAR(254) NOT NULL,
     `last_used_at` TIMESTAMP DEFAULT NULL,
     `fingerprint` VARCHAR(36) NOT NULL,
-    `user_agent` VARCHAR(128),
+    `user_agent` VARCHAR(254),
     `user_id` BIGINT UNSIGNED NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
