@@ -11,20 +11,33 @@ class AttributeService {
   /**
    * Retrieves all product attributes.
    *
-   * @return {Promise} The list of products.
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
+   * @param {string} queryOptions.sort The order for the results.
+   * * @return {Promise} The list of products.
    */
-  async findAll() {
+  async findAll({ page = 1, size = 50, sort = 'id' }) {
     let connection;
 
     try {
       connection = await dbConnectionPool.getConnection();
       const attributeRepository = new AttributeRepository(connection);
 
-      const attributes = await attributeRepository.findAll();
+      const totalAttributes = await attributeRepository.count();
+      const attributes = await attributeRepository.findAll({ page, size, sort });
 
       connection.release();
 
-      return attributes;
+      return {
+        attributes,
+        page: {
+          page,
+          size,
+          totalElements: totalAttributes,
+          totalPages: Math.ceil(totalAttributes / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

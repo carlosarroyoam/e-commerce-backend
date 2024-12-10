@@ -26,17 +26,17 @@ const resourceIdInBody = (parameterName) =>
     .withMessage(`The ${parameterName} must be a numeric value`)
     .toInt();
 
-const skip = query('skip')
+const page = query('page')
   .trim()
-  .isInt({ min: 0 })
-  .withMessage('The skip parameter must be an integer value and greater or equals than 0')
+  .isInt({ min: 1 })
+  .withMessage('The page parameter must be an integer value and greater or equals than 1')
   .toInt()
   .optional();
 
-const limit = query('limit')
+const size = query('size')
   .trim()
   .isInt({ min: 1, max: 100 })
-  .withMessage('The limit parameter must be an integer value and between 1 and 100')
+  .withMessage('The size parameter must be an integer value and between 1 and 100')
   .toInt()
   .optional();
 
@@ -252,8 +252,8 @@ export default {
   resourceId,
   resourceIdInBody,
   sort,
-  skip,
-  limit,
+  page,
+  size,
   search,
   userStatus,
   refreshToken,

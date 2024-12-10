@@ -14,13 +14,14 @@ class AttributeController {
    */
   async index(request, response, next) {
     try {
-      const attributes = await attributeService.findAll();
+      const { page, size, sort } = request.query;
 
-      const attributesDto = attributes.map((attribute) => attributeMapper.toDto(attribute));
+      const result = await attributeService.findAll({ page, size, sort });
 
       response.json({
         message: 'Ok',
-        attributes: attributesDto,
+        attributes: result.attributes.map((attribute) => attributeMapper.toDto(attribute)),
+        page: result.page,
       });
     } catch (error) {
       next(error);
@@ -40,11 +41,9 @@ class AttributeController {
 
       const attributeById = await attributeService.findById(attribute_id);
 
-      const attributeDto = attributeMapper.toDto(attributeById);
-
       response.json({
         message: 'Ok',
-        attribute: attributeDto,
+        attribute: attributeMapper.toDto(attributeById),
       });
     } catch (error) {
       next(error);
@@ -66,11 +65,9 @@ class AttributeController {
         title,
       });
 
-      const createdAttributeDto = attributeMapper.toDto(createdAttribute);
-
       response.status(201).json({
         message: 'Ok',
-        attribute: createdAttributeDto,
+        attribute: attributeMapper.toDto(createdAttribute),
       });
     } catch (error) {
       next(error);
@@ -93,11 +90,9 @@ class AttributeController {
         title,
       });
 
-      const updatedAttributeDto = attributeMapper.toDto(updatedAttribute);
-
       response.json({
         message: 'Ok',
-        attribute: updatedAttributeDto,
+        attribute: attributeMapper.toDto(updatedAttribute),
       });
     } catch (error) {
       next(error);

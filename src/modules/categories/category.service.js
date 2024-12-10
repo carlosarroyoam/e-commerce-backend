@@ -12,27 +12,36 @@ class CategoryService {
    * Retrieves all product variants.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @return {Promise} The list of products.
    */
-  async findAll({ skip, limit, sort }) {
+  async findAll({ page = 1, size = 50, sort = 'id' }) {
     let connection;
 
     try {
       connection = await dbConnectionPool.getConnection();
       const categoryRepository = new CategoryRepository(connection);
 
+      const totalCategories = await categoryRepository.count();
       const categories = await categoryRepository.findAll({
-        skip,
-        limit,
+        page,
+        size,
         sort,
       });
 
       connection.release();
 
-      return categories;
+      return {
+        categories,
+        page: {
+          page,
+          size,
+          totalElements: totalCategories,
+          totalPages: Math.ceil(totalCategories / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

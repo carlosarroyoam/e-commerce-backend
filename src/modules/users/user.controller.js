@@ -14,21 +14,20 @@ class UserController {
    */
   async index(request, response, next) {
     try {
-      const { skip, limit, sort, status, search } = request.query;
+      const { page, size, sort, status, search } = request.query;
 
-      const users = await userService.findAll({
-        skip,
-        limit,
+      const result = await userService.findAll({
+        page,
+        size,
         sort,
         status,
         search,
       });
 
-      const usersDto = users.map((user) => userMapper.toDto(user));
-
       response.json({
         message: 'Ok',
-        users: usersDto,
+        users: result.users.map((user) => userMapper.toDto(user)),
+        page: result.page,
       });
     } catch (error) {
       next(error);
@@ -48,11 +47,9 @@ class UserController {
 
       const user = await userService.findById(user_id);
 
-      const userDto = userMapper.toDto(user);
-
       response.json({
         message: 'Ok',
-        user: userDto,
+        user: userMapper.toDto(user),
       });
     } catch (error) {
       next(error);

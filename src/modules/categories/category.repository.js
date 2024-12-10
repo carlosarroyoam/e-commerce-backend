@@ -19,13 +19,24 @@ class CategoryRepository {
    * Retrieves all categories.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @return {Promise} The result of the query.
    */
-  async findAll({ skip, limit, sort }) {
-    const [result] = await this.categoryDao.getAll({ skip, limit, sort });
+  async findAll({ page, size, sort }) {
+    const [result] = await this.categoryDao.getAll({ page, size, sort });
+
+    return result;
+  }
+
+  /**
+   * Retrieves the categories count.
+   *
+   * @return {Promise} The result of the query
+   */
+  async count() {
+    const [[{ count: result }]] = await this.categoryDao.count();
 
     return result;
   }

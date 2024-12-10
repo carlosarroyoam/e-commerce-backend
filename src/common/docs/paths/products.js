@@ -5,8 +5,8 @@ export default {
       summary: 'Gets all products',
       operationId: 'getProducts',
       parameters: [
-        { $ref: '#/components/parameters/SkipParam' },
-        { $ref: '#/components/parameters/LimitParam' },
+        { $ref: '#/components/parameters/PageParam' },
+        { $ref: '#/components/parameters/SizeParam' },
         { $ref: '#/components/parameters/ProductSortParam' },
         { $ref: '#/components/parameters/SearchParam' },
       ],

@@ -15,14 +15,14 @@ class UserDao {
    * Performs the SQL query to get all users.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The query result.
    */
-  async getAll({ skip = 0, limit = 50, sort = 'id', status, search }) {
+  async getAll({ page, size, sort = 'id', status, search }) {
     let query = `SELECT
             usr.id,
             usr.first_name,
@@ -62,9 +62,40 @@ class UserDao {
       query += ` ORDER BY ${this.connection.escapeId(sort)} ${order}`;
     }
 
-    query += ` LIMIT ${this.connection.escape(skip)}, ${this.connection.escape(limit)}`;
+    query += ` LIMIT ${this.connection.escape((page - 1) * size)}, ${this.connection.escape(size)}`;
 
-    return this.connection.query(query, [skip, limit]);
+    return this.connection.query(query);
+  }
+
+  /**
+   * Performs the SQL query to count all users.
+   *
+   * @param {object} queryOptions The query options.
+   * @param {string} queryOptions.status The user status to query.
+   * @param {string} queryOptions.search The search criteria.
+   * @return {Promise} The query result.
+   */
+  async count({ status, search }) {
+    let query = `SELECT
+        count(usr.id) as count
+    FROM users usr
+    WHERE 1`;
+
+    if (status) {
+      if (status === 'active') {
+        query += ' AND usr.deleted_at IS NULL';
+      } else {
+        query += ' AND usr.deleted_at IS NOT NULL';
+      }
+    }
+
+    if (search) {
+      query += ` AND MATCH(first_name, last_name) AGAINST("${this.connection.escape(
+        search
+      )}*" IN BOOLEAN MODE)`;
+    }
+
+    return this.connection.query(query);
   }
 
   /**

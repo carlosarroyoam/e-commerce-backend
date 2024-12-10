@@ -16,14 +16,14 @@ class CustomerService {
    * Retrieves all customer users.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The list of customers.
    */
-  async findAll({ skip, limit, sort, status, search }) {
+  async findAll({ page = 1, size = 50, sort = 'id', status, search }) {
     let connection;
 
     try {
@@ -31,9 +31,13 @@ class CustomerService {
       const customerRepository = new CustomerRepository(connection);
       const customerAddressRepository = new CustomerAddressRepository(connection);
 
+      const totalCustomers = await customerRepository.count({
+        status,
+        search,
+      });
       const rawCustomers = await customerRepository.findAll({
-        skip,
-        limit,
+        page,
+        size,
         sort,
         status,
         search,
@@ -54,7 +58,15 @@ class CustomerService {
 
       connection.release();
 
-      return customers;
+      return {
+        customers,
+        page: {
+          page,
+          size,
+          totalElements: totalCustomers,
+          totalPages: Math.ceil(totalCustomers / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

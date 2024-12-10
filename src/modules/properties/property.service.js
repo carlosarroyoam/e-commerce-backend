@@ -11,20 +11,33 @@ class PropertyService {
   /**
    * Retrieves all product properties.
    *
-   * @return {Promise} The list of products.
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
+   * @param {string} queryOptions.sort The order for the results.
+   * @return {Promise} The list of product properties.
    */
-  async findAll() {
+  async findAll({ page = 1, size = 50, sort = 'id' }) {
     let connection;
 
     try {
       connection = await dbConnectionPool.getConnection();
       const propertyRepository = new PropertyRepository(connection);
 
-      const properties = await propertyRepository.findAll();
+      const totalProperties = await propertyRepository.count();
+      const properties = await propertyRepository.findAll({ page, size, sort });
 
       connection.release();
 
-      return properties;
+      return {
+        properties,
+        page: {
+          page,
+          size,
+          totalElements: totalProperties,
+          totalPages: Math.ceil(totalProperties / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

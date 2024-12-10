@@ -18,10 +18,25 @@ class AttributeRepository {
   /**
    * Retrieves all attributes.
    *
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
+   * @param {string} queryOptions.sort The order for the results.
    * @return {Promise} The result of the query.
    */
-  async findAll() {
-    const [result] = await this.attributeDao.getAllByProductId();
+  async findAll({ page, size, sort }) {
+    const [result] = await this.attributeDao.getAll({ page, size, sort });
+
+    return result;
+  }
+
+  /**
+   * Retrieves the attributes count.
+   *
+   * @return {Promise} The result of the query
+   */
+  async count() {
+    const [[{ count: result }]] = await this.attributeDao.count();
 
     return result;
   }

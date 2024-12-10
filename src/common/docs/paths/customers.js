@@ -5,8 +5,8 @@ export default {
       summary: 'Gets all customers',
       operationId: 'getCustomers',
       parameters: [
-        { $ref: '#/components/parameters/SkipParam' },
-        { $ref: '#/components/parameters/LimitParam' },
+        { $ref: '#/components/parameters/PageParam' },
+        { $ref: '#/components/parameters/SizeParam' },
         { $ref: '#/components/parameters/UserSortParam' },
         { $ref: '#/components/parameters/UserStatusParam' },
         { $ref: '#/components/parameters/SearchParam' },

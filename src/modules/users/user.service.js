@@ -13,23 +13,27 @@ class UserService {
    * Retrieves all users.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The list of users.
    */
-  async findAll({ skip, limit, sort, status, search }) {
+  async findAll({ page = 1, size = 50, sort = 'id', status, search }) {
     let connection;
 
     try {
       connection = await dbConnectionPool.getConnection();
       const userRepository = new UserRepository(connection);
 
+      const totalUsers = await userRepository.count({
+        status,
+        search,
+      });
       const users = await userRepository.findAll({
-        skip,
-        limit,
+        page,
+        size,
         sort,
         status,
         search,
@@ -37,7 +41,15 @@ class UserService {
 
       connection.release();
 
-      return users;
+      return {
+        users,
+        page: {
+          page,
+          size,
+          totalElements: totalUsers,
+          totalPages: Math.ceil(totalUsers / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

@@ -16,23 +16,27 @@ class AdminService {
    * Retrieves all admin users.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The list of admins.
    */
-  async findAll({ skip, limit, sort, status, search }) {
+  async findAll({ page = 1, size = 50, sort = 'id', status, search }) {
     let connection;
 
     try {
       connection = await dbConnectionPool.getConnection();
       const adminRepository = new AdminRepository(connection);
 
+      const totalAdmins = await adminRepository.count({
+        status,
+        search,
+      });
       const admins = await adminRepository.findAll({
-        skip,
-        limit,
+        page,
+        size,
         sort,
         status,
         search,
@@ -40,7 +44,15 @@ class AdminService {
 
       connection.release();
 
-      return admins;
+      return {
+        admins,
+        page: {
+          page,
+          size,
+          totalElements: totalAdmins,
+          totalPages: Math.ceil(totalAdmins / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

@@ -14,21 +14,20 @@ class AdminController {
    */
   async index(request, response, next) {
     try {
-      const { skip, limit, sort, status, search } = request.query;
+      const { page, size, sort, status, search } = request.query;
 
-      const admins = await adminService.findAll({
-        skip,
-        limit,
+      const result = await adminService.findAll({
+        page,
+        size,
         sort,
         status,
         search,
       });
 
-      const adminsDto = admins.map((admin) => adminMapper.toDto(admin));
-
       response.json({
         message: 'Ok',
-        admins: adminsDto,
+        admins: result.admins.map((admin) => adminMapper.toDto(admin)),
+        page: result.page,
       });
     } catch (error) {
       next(error);
@@ -47,11 +46,10 @@ class AdminController {
       const { admin_id } = request.params;
 
       const admin = await adminService.findById({ admin_id });
-      const adminDto = adminMapper.toDto(admin);
 
       response.json({
         message: 'Ok',
-        admin: adminDto,
+        admin: adminMapper.toDto(admin),
       });
     } catch (error) {
       next(error);
@@ -77,11 +75,9 @@ class AdminController {
         is_super,
       });
 
-      const createdAdminDto = adminMapper.toDto(createdAdmin);
-
       response.status(201).json({
         message: 'Ok',
-        admin: createdAdminDto,
+        admin: adminMapper.toDto(createdAdmin),
       });
     } catch (error) {
       next(error);
@@ -105,11 +101,9 @@ class AdminController {
         last_name,
       });
 
-      const updatedAdminDto = adminMapper.toDto(updatedAdmin);
-
       response.json({
         message: 'Ok',
-        admin: updatedAdminDto,
+        admin: adminMapper.toDto(updatedAdmin),
       });
     } catch (error) {
       next(error);

@@ -14,15 +14,14 @@ class CategoryController {
    */
   async index(request, response, next) {
     try {
-      const { skip, limit, sort } = request.query;
+      const { page, size, sort } = request.query;
 
-      const categories = await categoryService.findAll({ skip, limit, sort });
-
-      const categoriesDto = categories.map((category) => categoryMapper.toDto(category));
+      const result = await categoryService.findAll({ page, size, sort });
 
       response.json({
         message: 'Ok',
-        categories: categoriesDto,
+        categories: result.categories.map((category) => categoryMapper.toDto(category)),
+        page: result.page,
       });
     } catch (error) {
       next(error);
@@ -42,11 +41,9 @@ class CategoryController {
 
       const categoryById = await categoryService.findById(category_id);
 
-      const categoryDto = categoryMapper.toDto(categoryById);
-
       response.json({
         message: 'Ok',
-        category: categoryDto,
+        category: categoryMapper.toDto(categoryById),
       });
     } catch (error) {
       next(error);
@@ -68,11 +65,9 @@ class CategoryController {
         title,
       });
 
-      const createdCategoryDto = categoryMapper.toDto(createdCategory);
-
       response.status(201).json({
         message: 'Ok',
-        category: createdCategoryDto,
+        category: categoryMapper.toDto(createdCategory),
       });
     } catch (error) {
       next(error);
@@ -95,11 +90,9 @@ class CategoryController {
         title,
       });
 
-      const updatedCategoryDto = categoryMapper.toDto(updatedCategory);
-
       response.json({
         message: 'Ok',
-        category: updatedCategoryDto,
+        category: categoryMapper.toDto(updatedCategory),
       });
     } catch (error) {
       next(error);

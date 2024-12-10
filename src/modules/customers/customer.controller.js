@@ -14,21 +14,20 @@ class CustomerController {
    */
   async index(request, response, next) {
     try {
-      const { skip, limit, sort, status, search } = request.query;
+      const { page, size, sort, status, search } = request.query;
 
-      const customers = await customerService.findAll({
-        skip,
-        limit,
+      const result = await customerService.findAll({
+        page,
+        size,
         sort,
         status,
         search,
       });
 
-      const customersDto = customers.map((customer) => customerMapper.toDto(customer));
-
       response.json({
         message: 'Ok',
-        customers: customersDto,
+        customers: result.customers.map((customer) => customerMapper.toDto(customer)),
+        page: result.page,
       });
     } catch (error) {
       next(error);
@@ -47,11 +46,10 @@ class CustomerController {
       const { customer_id } = request.params;
 
       const customer = await customerService.findById(customer_id);
-      const customerDto = customerMapper.toDto(customer);
 
       response.json({
         message: 'Ok',
-        customer: customerDto,
+        customer: customerMapper.toDto(customer),
       });
     } catch (error) {
       next(error);
@@ -76,11 +74,9 @@ class CustomerController {
         password,
       });
 
-      const createdCustomerDto = customerMapper.toDto(createdCustomer);
-
       response.status(201).json({
         message: 'Ok',
-        customer: createdCustomerDto,
+        customer: customerMapper.toDto(createdCustomer),
       });
     } catch (error) {
       next(error);
@@ -104,11 +100,9 @@ class CustomerController {
         last_name,
       });
 
-      const updatedCustomerDto = customerMapper.toDto(updatedCustomer);
-
       response.json({
         message: 'Ok',
-        customer: updatedCustomerDto,
+        customer: customerMapper.toDto(updatedCustomer),
       });
     } catch (error) {
       next(error);

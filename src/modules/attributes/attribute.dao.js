@@ -14,16 +14,45 @@ class AttributeDao {
   /**
    * Performs the SQL query to get all attributes.
    *
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
+   * @param {string} queryOptions.sort The order for the results.
    * @return {Promise} The query result.
    */
-  async getAllByProductId() {
-    const query = `SELECT
+  async getAll({ page, size, sort }) {
+    let query = `SELECT
       id,
       title
     FROM attributes`;
 
+    if (sort) {
+      let order = 'ASC';
+
+      if (sort.charAt(0) === '-') {
+        order = 'DESC';
+        sort = sort.substring(1);
+      }
+
+      query += ` ORDER BY ${this.connection.escapeId(sort)} ${order}`;
+    }
+
+    query += ` LIMIT ${this.connection.escape((page - 1) * size)}, ${this.connection.escape(size)}`;
+
     return this.connection.query(query);
   }
+
+  /**
+   * Performs the SQL query to count all attributes.
+   *
+   * @return {Promise} The query result.
+   */
+  async count() {
+    const query = 'SELECT count(id) as count FROM attributes';
+
+    return this.connection.query(query);
+  }
+
   /**
    * Performs the SQL query to get a attribute by its id.
    *

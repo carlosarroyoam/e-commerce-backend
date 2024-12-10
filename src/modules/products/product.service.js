@@ -14,13 +14,13 @@ class ProductService {
    * Retrieves all products.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The list of products.
    */
-  async findAll({ skip, limit, sort, search }) {
+  async findAll({ page = 1, size = 50, sort = 'id', search }) {
     let connection;
 
     try {
@@ -28,9 +28,10 @@ class ProductService {
       const productRepository = new ProductRepository(connection);
       const productVariantRepository = new ProductVariantRepository(connection);
 
+      const totalProducts = await productRepository.count({ search });
       const rawProducts = await productRepository.findAll({
-        skip,
-        limit,
+        page,
+        size,
         sort,
         search,
       });
@@ -70,7 +71,15 @@ class ProductService {
 
       connection.release();
 
-      return products;
+      return {
+        products,
+        page: {
+          page,
+          size,
+          totalElements: totalProducts,
+          totalPages: Math.ceil(totalProducts / size),
+        },
+      };
     } catch (err) {
       if (connection) connection.release();
 

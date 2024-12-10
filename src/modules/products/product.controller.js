@@ -16,16 +16,16 @@ class ProductController {
    */
   async index(request, response, next) {
     try {
-      const { skip, limit, sort, search } = request.query;
+      const { page, size, sort, search } = request.query;
 
-      const products = await productService.findAll({
-        skip,
-        limit,
+      const result = await productService.findAll({
+        page,
+        size,
         sort,
         search,
       });
 
-      const productsDto = products.map((product) => {
+      const productsDto = result.products.map((product) => {
         const productDto = productMapper.toDto(product);
 
         const productPropertiesDto = product.properties.map((property) =>
@@ -59,6 +59,7 @@ class ProductController {
       response.json({
         message: 'Ok',
         products: productsDto,
+        page: result.page,
       });
     } catch (error) {
       next(error);

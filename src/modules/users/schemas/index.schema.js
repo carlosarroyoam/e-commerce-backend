@@ -12,7 +12,7 @@ export default [
     '-email',
   ]),
   validators.userStatus,
-  validators.skip,
-  validators.limit,
+  validators.page,
+  validators.size,
   validators.search,
 ];

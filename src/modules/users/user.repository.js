@@ -16,24 +16,38 @@ class UserRepository {
   }
 
   /**
-   * Retrieves all non-deleted/active users.
+   * Retrieves all users.
    *
    * @param {object} queryOptions The query options.
-   * @param {number} queryOptions.skip The query skip.
-   * @param {number} queryOptions.limit The query limit.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
    * @return {Promise} The result of the query
    */
-  async findAll({ skip, limit, sort, status, search }) {
+  async findAll({ page, size, sort, status, search }) {
     const [result] = await this.userDao.getAll({
-      skip,
-      limit,
+      page,
+      size,
       sort,
       status,
       search,
     });
+
+    return result;
+  }
+
+  /**
+   * Retrieves the users count.
+   *
+   * @param {object} queryOptions The query options.
+   * @param {string} queryOptions.status The user status to query.
+   * @param {string} queryOptions.search The search criteria.
+   * @return {Promise} The result of the query
+   */
+  async count({ status, search }) {
+    const [[{ count: result }]] = await this.userDao.count({ status, search });
 
     return result;
   }

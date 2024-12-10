@@ -14,9 +14,13 @@ class CategoryDao {
   /**
    * Performs the SQL query to get all categories.
    *
-   * @return {Promise} The query result.
+   * @param {object} queryOptions The query options.
+   * @param {number} queryOptions.page The query page.
+   * @param {number} queryOptions.size The query size.
+   * @param {string} queryOptions.sort The order for the results.
+   * * @return {Promise} The query result.
    */
-  async getAll({ skip = 0, limit = 50, sort = 'id' }) {
+  async getAll({ page, size, sort }) {
     let query = `SELECT
       id,
       title,
@@ -34,7 +38,18 @@ class CategoryDao {
       query += ` ORDER BY ${this.connection.escapeId(sort)} ${order}`;
     }
 
-    query += ` LIMIT ${this.connection.escape(skip)}, ${this.connection.escape(limit)}`;
+    query += ` LIMIT ${this.connection.escape((page - 1) * size)}, ${this.connection.escape(size)}`;
+
+    return this.connection.query(query);
+  }
+
+  /**
+   * Performs the SQL query to count all categories.
+   *
+   * @return {Promise} The query result.
+   */
+  async count() {
+    const query = 'SELECT count(id) as count FROM categories';
 
     return this.connection.query(query);
   }

@@ -1,21 +1,21 @@
 export default {
   parameters: {
-    LimitParam: {
-      name: 'limit',
+    SizeParam: {
+      name: 'size',
       in: 'query',
-      description: 'Pagination limit items',
+      description: 'Pagination size items',
       schema: {
         type: 'integer',
         default: 50,
       },
     },
-    SkipParam: {
-      name: 'skip',
+    PageParam: {
+      name: 'page',
       in: 'query',
-      description: 'Pagination skip items',
+      description: 'Pagination page number',
       schema: {
         type: 'integer',
-        default: 0,
+        default: 1,
       },
     },
     SearchParam: {

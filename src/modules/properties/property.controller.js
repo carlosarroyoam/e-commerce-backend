@@ -14,13 +14,14 @@ class PropertyController {
    */
   async index(request, response, next) {
     try {
-      const properties = await propertyService.findAll();
+      const { page, size, sort } = request.query;
 
-      const propertiesDto = properties.map((property) => propertyMapper.toDto(property));
+      const result = await propertyService.findAll({ page, size, sort });
 
       response.json({
         message: 'Ok',
-        properties: propertiesDto,
+        properties: result.properties.map((property) => propertyMapper.toDto(property)),
+        page: result.page,
       });
     } catch (error) {
       next(error);
@@ -40,11 +41,9 @@ class PropertyController {
 
       const propertyById = await propertyService.findById(property_id);
 
-      const propertyDto = propertyMapper.toDto(propertyById);
-
       response.json({
         message: 'Ok',
-        property: propertyDto,
+        property: propertyMapper.toDto(propertyById),
       });
     } catch (error) {
       next(error);
@@ -66,11 +65,9 @@ class PropertyController {
         title,
       });
 
-      const createdPropertyDto = propertyMapper.toDto(createdProperty);
-
       response.status(201).json({
         message: 'Ok',
-        property: createdPropertyDto,
+        property: propertyMapper.toDto(createdProperty),
       });
     } catch (error) {
       next(error);
@@ -93,11 +90,9 @@ class PropertyController {
         title,
       });
 
-      const updatedPropertyDto = propertyMapper.toDto(updatedProperty);
-
       response.json({
         message: 'Ok',
-        property: updatedPropertyDto,
+        property: propertyMapper.toDto(updatedProperty),
       });
     } catch (error) {
       next(error);
