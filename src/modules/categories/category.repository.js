@@ -33,7 +33,7 @@ class CategoryRepository {
   /**
    * Retrieves the categories count.
    *
-   * @return {Promise} The result of the query
+   * @return {Promise} The result of the query.
    */
   async count() {
     const [[{ count: result }]] = await this.categoryDao.count();

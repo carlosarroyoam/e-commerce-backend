@@ -46,7 +46,7 @@ class AdminService {
 
       return {
         admins,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalAdmins,

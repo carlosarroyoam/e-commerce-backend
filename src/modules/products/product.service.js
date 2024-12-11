@@ -73,7 +73,7 @@ class ProductService {
 
       return {
         products,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalProducts,

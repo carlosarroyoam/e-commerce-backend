@@ -44,7 +44,7 @@ class CustomerRepository {
    * @param {object} queryOptions The query options.
    * @param {string} queryOptions.status The user status to query.
    * @param {string} queryOptions.search The search criteria.
-   * @return {Promise} The result of the query
+   * @return {Promise} The result of the query.
    */
   async count({ status, search }) {
     const [[{ count: result }]] = await this.customerDao.count({ status, search });

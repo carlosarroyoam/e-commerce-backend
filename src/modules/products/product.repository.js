@@ -41,7 +41,7 @@ class ProductRepository {
    *
    * @param {object} queryOptions The query options.
    * @param {string} queryOptions.search The search criteria.
-   * @return {Promise} The result of the query
+   * @return {Promise} The result of the query.
    */
   async count({ search }) {
     const [[{ count: result }]] = await this.productDao.count({ search });

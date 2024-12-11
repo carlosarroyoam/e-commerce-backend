@@ -33,7 +33,7 @@ class AttributeRepository {
   /**
    * Retrieves the attributes count.
    *
-   * @return {Promise} The result of the query
+   * @return {Promise} The result of the query.
    */
   async count() {
     const [[{ count: result }]] = await this.attributeDao.count();

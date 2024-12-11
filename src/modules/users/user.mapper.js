@@ -8,7 +8,7 @@ class UserMapper {
    * Maps a user object to a UserDto object.
    *
    * @param {object} user The user object to map.
-   * @return {object} The admin dto object.
+   * @return {object} The user dto object.
    */
   toDto(user) {
     return {
@@ -28,7 +28,7 @@ class UserMapper {
    * Maps a userDto to a Admin database entity object.
    *
    * @param {object} userDto The user dto object to map.
-   * @return {object} The admin database entity object.
+   * @return {object} The user database entity object.
    */
   toDatabaseEntity(userDto) {
     const userDbEntity = {

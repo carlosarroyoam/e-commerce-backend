@@ -31,7 +31,7 @@ class PropertyService {
 
       return {
         properties,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalProperties,

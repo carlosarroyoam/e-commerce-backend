@@ -43,7 +43,7 @@ class UserService {
 
       return {
         users,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalUsers,

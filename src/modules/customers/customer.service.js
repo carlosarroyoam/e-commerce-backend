@@ -60,7 +60,7 @@ class CustomerService {
 
       return {
         customers,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalCustomers,

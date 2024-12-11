@@ -59,7 +59,7 @@ class ProductController {
       response.json({
         message: 'Ok',
         products: productsDto,
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);

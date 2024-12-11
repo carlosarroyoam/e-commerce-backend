@@ -27,7 +27,7 @@ class AdminController {
       response.json({
         message: 'Ok',
         admins: result.admins.map((admin) => adminMapper.toDto(admin)),
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);

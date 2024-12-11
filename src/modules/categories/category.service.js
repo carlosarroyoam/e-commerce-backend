@@ -35,7 +35,7 @@ class CategoryService {
 
       return {
         categories,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalCategories,

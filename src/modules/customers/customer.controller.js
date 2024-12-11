@@ -27,7 +27,7 @@ class CustomerController {
       response.json({
         message: 'Ok',
         customers: result.customers.map((customer) => customerMapper.toDto(customer)),
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);

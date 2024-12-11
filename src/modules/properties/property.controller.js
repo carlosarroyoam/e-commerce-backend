@@ -21,7 +21,7 @@ class PropertyController {
       response.json({
         message: 'Ok',
         properties: result.properties.map((property) => propertyMapper.toDto(property)),
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);

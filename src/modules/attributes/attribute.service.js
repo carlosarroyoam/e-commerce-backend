@@ -15,7 +15,7 @@ class AttributeService {
    * @param {number} queryOptions.page The query page.
    * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
-   * * @return {Promise} The list of products.
+   * @return {Promise} The list of products.
    */
   async findAll({ page = 1, size = 50, sort = 'id' }) {
     let connection;
@@ -31,7 +31,7 @@ class AttributeService {
 
       return {
         attributes,
-        page: {
+        pagination: {
           page,
           size,
           totalElements: totalAttributes,

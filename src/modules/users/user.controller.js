@@ -27,7 +27,7 @@ class UserController {
       response.json({
         message: 'Ok',
         users: result.users.map((user) => userMapper.toDto(user)),
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);

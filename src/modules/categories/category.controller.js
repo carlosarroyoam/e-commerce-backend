@@ -21,7 +21,7 @@ class CategoryController {
       response.json({
         message: 'Ok',
         categories: result.categories.map((category) => categoryMapper.toDto(category)),
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);

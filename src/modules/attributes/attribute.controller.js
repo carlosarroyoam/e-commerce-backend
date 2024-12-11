@@ -21,7 +21,7 @@ class AttributeController {
       response.json({
         message: 'Ok',
         attributes: result.attributes.map((attribute) => attributeMapper.toDto(attribute)),
-        page: result.page,
+        pagination: result.pagination,
       });
     } catch (error) {
       next(error);
