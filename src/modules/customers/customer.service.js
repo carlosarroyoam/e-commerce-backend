@@ -62,7 +62,7 @@ class CustomerService {
         customers,
         pagination: {
           page,
-          size,
+          size: customers.length,
           totalElements: totalCustomers,
           totalPages: Math.ceil(totalCustomers / size),
         },

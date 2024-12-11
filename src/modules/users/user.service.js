@@ -45,7 +45,7 @@ class UserService {
         users,
         pagination: {
           page,
-          size,
+          size: users.length,
           totalElements: totalUsers,
           totalPages: Math.ceil(totalUsers / size),
         },

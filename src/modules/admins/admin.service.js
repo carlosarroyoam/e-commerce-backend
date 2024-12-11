@@ -48,7 +48,7 @@ class AdminService {
         admins,
         pagination: {
           page,
-          size,
+          size: admins.length,
           totalElements: totalAdmins,
           totalPages: Math.ceil(totalAdmins / size),
         },

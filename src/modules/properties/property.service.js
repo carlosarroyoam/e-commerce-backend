@@ -33,7 +33,7 @@ class PropertyService {
         properties,
         pagination: {
           page,
-          size,
+          size: properties.length,
           totalElements: totalProperties,
           totalPages: Math.ceil(totalProperties / size),
         },

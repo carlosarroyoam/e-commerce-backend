@@ -75,7 +75,7 @@ class ProductService {
         products,
         pagination: {
           page,
-          size,
+          size: products.length,
           totalElements: totalProducts,
           totalPages: Math.ceil(totalProducts / size),
         },

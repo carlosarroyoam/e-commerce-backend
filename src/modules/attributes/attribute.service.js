@@ -33,7 +33,7 @@ class AttributeService {
         attributes,
         pagination: {
           page,
-          size,
+          size: attributes.length,
           totalElements: totalAttributes,
           totalPages: Math.ceil(totalAttributes / size),
         },
