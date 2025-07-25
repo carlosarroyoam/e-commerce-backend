@@ -49,7 +49,7 @@ CREATE TABLE `users` (
 INSERT INTO `users`
 VALUES
   (1,'Carlos Alberto','Arroyo Martínez','carlos.arroyo@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL),
-	(2,'Cathy Stefania','Guido Rojas','cathy.guido@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL);
+	(2,'Cathy Stefania','Guido Rojas','cathy.guido@e-commerce.com','$2b$10$vNVtCVv7IxX1Q9Whwb//ie6SZROFY4IYcDOSn146SWph8UBEzSYte',2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL);
 
 --
 -- Table structure for table `customers`
