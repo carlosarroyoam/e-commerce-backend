@@ -18,8 +18,8 @@ $ navigate to `http://localhost:3000/api/v1/docs`
 # Run
 
 ```
-$ docker build -t ecommerce .
-$ docker container run -dp 3000:3000 --name ecommerce-backend ecommerce
+$ docker build -t ecommerce:1.4.0-snapshot .
+$ docker container run -dp 3000:3000 --name ecommerce-backend ecommerce:1.4.0-snapshot
 ```
 
 or

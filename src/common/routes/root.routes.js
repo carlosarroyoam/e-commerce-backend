@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import packageJson from '../../../package.json' assert { type: 'json' };
+import packageJson from '../../../package.json' with { type: 'json' };
 
 export default () => {
   // eslint-disable-next-line new-cap
