@@ -1,4 +1,4 @@
-import objectUtils from '#common/utils/object.utils.js';
+import objectUtils from '#core/utils/object.utils.js';
 
 /**
  * ProductMapper class.

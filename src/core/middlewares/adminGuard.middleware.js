@@ -1,4 +1,4 @@
-import sharedErrors from '#common/errors/index.js';
+import sharedErrors from '#core/errors/index.js';
 import userRoles from '#modules/auth/roles.js';
 
 export default async (request, response, next) => {

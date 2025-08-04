@@ -3,10 +3,10 @@ import UserRepository from '#modules/users/user.repository.js';
 
 import userRoles from '#modules/auth/roles.js';
 
-import bcrypt from '#common/lib/bcrypt/index.js';
-import sharedErrors from '#common/errors/index.js';
-import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
-import logger from '#common/lib/winston/logger.js';
+import bcrypt from '#core/lib/bcrypt/index.js';
+import sharedErrors from '#core/errors/index.js';
+import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
+import logger from '#core/lib/winston/logger.js';
 
 /**
  * AdminService class.

@@ -1,10 +1,10 @@
 import ProductRepository from '#modules/products/product.repository.js';
 import ProductVariantRepository from '#modules/productVariants/productVariant.repository.js';
 
-import sharedErrors from '#common/errors/index.js';
-import dbConnectionPool from '#common/lib/mysql/connectionPool.js';
-import logger from '#common/lib/winston/logger.js';
-import stringUtils from '#common/utils/string.utils.js';
+import sharedErrors from '#core/errors/index.js';
+import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
+import logger from '#core/lib/winston/logger.js';
+import stringUtils from '#core/utils/string.utils.js';
 
 /**
  * ProductService class.

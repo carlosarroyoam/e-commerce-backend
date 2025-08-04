@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import authController from '#modules/auth/auth.controller.js';
 
-import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
+import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
 
 import loginSchema from './schemas/login.schema.js';
 import refreshTokenSchema from './schemas/refreshToken.schema.js';

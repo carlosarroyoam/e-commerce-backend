@@ -6,7 +6,7 @@
   "exports": "./index.js",
   "imports": {
     "#app/*": "./src/*",
-    "#common/*": "./src/common/*",
+    "#core/*": "./src/core/*",
     "#modules/*": "./src/modules/*"
   },
   "repository": {

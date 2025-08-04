@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import userController from '#modules/users/user.controller.js';
 
-import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
-import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
-import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
 
 import indexUserSchema from './schemas/index.schema.js';
 import showUserSchema from './schemas/show.schema.js';

@@ -1,4 +1,4 @@
-import logger from '#common/lib/winston/logger.js';
+import logger from '#core/lib/winston/logger.js';
 
 export default () => async (error, request, response, next) => {
   logger.log({

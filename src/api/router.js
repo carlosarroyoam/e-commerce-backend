@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-import swaggerDocument from '#common/docs/swagger.js';
+import swaggerDocument from '#core/docs/swagger.js';
 
-import rootRoute from '#common/routes/root.routes.js';
-import defaultRoute from '#common/routes/default.routes.js';
+import rootRoute from '#core/routes/root.routes.js';
+import defaultRoute from '#core/routes/default.routes.js';
 
 import authRoutes from '#modules/auth/auth.routes.js';
 import userRoutes from '#modules/users/user.routes.js';

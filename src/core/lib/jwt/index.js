@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import config from '#common/config/index.js';
+import config from '#core/config/index.js';
 
 /**
  * @param {object} payload

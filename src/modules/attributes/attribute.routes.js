@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import attributeController from '#modules/attributes/attribute.controller.js';
 
-import verifyTokenMiddleware from '#common/middlewares/verifyToken.middleware.js';
-import adminGuardMiddleware from '#common/middlewares/adminGuard.middleware.js';
-import validateRequestMiddleware from '#common/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
+import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
 
 import indexAttributeSchema from './schemas/index.schema.js';
 import showAttributeSchema from './schemas/show.schema.js';
