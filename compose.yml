@@ -4,7 +4,7 @@ services:
   ecommerce-mysql:
     container_name: ecommerce-mysql
     image: mysql:8.0.35
-    restart: always
+    restart: unless-stopped
     ports:
       - ${DB_PORT}:3306
     volumes:
@@ -16,7 +16,7 @@ services:
   ecommerce-backend:
     container_name: ecommerce-backend
     build: .
-    restart: always
+    restart: unless-stopped
     ports:
       - ${APP_PORT}:3000
     environment:
