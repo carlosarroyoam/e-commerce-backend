@@ -74,9 +74,9 @@ class ProductService {
       return {
         products,
         pagination: {
-          page,
+          page: products.length > 0 ? page : 0,
           size: products.length,
-          totalElements: totalProducts,
+          totalItems: totalProducts,
           totalPages: Math.ceil(totalProducts / size),
         },
       };

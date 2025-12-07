@@ -61,9 +61,9 @@ class CustomerService {
       return {
         customers,
         pagination: {
-          page,
+          page: customers.length > 0 ? page : 0,
           size: customers.length,
-          totalElements: totalCustomers,
+          totalItems: totalCustomers,
           totalPages: Math.ceil(totalCustomers / size),
         },
       };

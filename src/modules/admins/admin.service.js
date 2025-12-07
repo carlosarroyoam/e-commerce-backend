@@ -47,9 +47,9 @@ class AdminService {
       return {
         admins,
         pagination: {
-          page,
+          page: admins.length > 0 ? page : 0,
           size: admins.length,
-          totalElements: totalAdmins,
+          totalItems: totalAdmins,
           totalPages: Math.ceil(totalAdmins / size),
         },
       };

@@ -36,9 +36,9 @@ class CategoryService {
       return {
         categories,
         pagination: {
-          page,
+          page: categories.length > 0 ? page : 0,
           size: categories.length,
-          totalElements: totalCategories,
+          totalItems: totalCategories,
           totalPages: Math.ceil(totalCategories / size),
         },
       };
