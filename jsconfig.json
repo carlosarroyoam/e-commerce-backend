@@ -7,7 +7,7 @@
     "paths": {
       "#app/*": ["./src/*"],
       "#core/*": ["./src/core/*"],
-      "#modules/*": ["./src/modules/*"]
+      "#features/*": ["./src/features/*"]
     }
   },
   "exclude": ["node_modules"]

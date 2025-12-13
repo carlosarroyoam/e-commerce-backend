@@ -6,16 +6,16 @@ import swaggerDocument from '#core/docs/swagger.js';
 import rootRoute from '#core/routes/root.routes.js';
 import defaultRoute from '#core/routes/default.routes.js';
 
-import authRoutes from '#modules/auth/auth.routes.js';
-import userRoutes from '#modules/users/user.routes.js';
-import adminRoutes from '#modules/admins/admin.routes.js';
-import customerRoutes from '#modules/customers/customer.routes.js';
-import customerAddressesRoutes from '#modules/customerAddresses/customerAddress.routes.js';
-import productRoutes from '#modules/products/product.routes.js';
-import productPropertyRoutes from '#modules/productVariants/productVariant.routes.js';
-import attributeRoutes from '#modules/attributes/attribute.routes.js';
-import propertyRoutes from '#modules/properties/property.routes.js';
-import categoryRoutes from '#modules/categories/category.routes.js';
+import authRoutes from '#features/auth/auth.routes.js';
+import userRoutes from '#features/users/user.routes.js';
+import adminRoutes from '#features/admins/admin.routes.js';
+import customerRoutes from '#features/customers/customer.routes.js';
+import customerAddressesRoutes from '#features/customerAddresses/customerAddress.routes.js';
+import productRoutes from '#features/products/product.routes.js';
+import productPropertyRoutes from '#features/productVariants/productVariant.routes.js';
+import attributeRoutes from '#features/attributes/attribute.routes.js';
+import propertyRoutes from '#features/properties/property.routes.js';
+import categoryRoutes from '#features/categories/category.routes.js';
 
 export default () => {
   // eslint-disable-next-line new-cap

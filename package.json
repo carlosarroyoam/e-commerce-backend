@@ -7,7 +7,7 @@
   "imports": {
     "#app/*": "./src/*",
     "#core/*": "./src/core/*",
-    "#modules/*": "./src/modules/*"
+    "#features/*": "./src/features/*"
   },
   "repository": {
     "type": "git",

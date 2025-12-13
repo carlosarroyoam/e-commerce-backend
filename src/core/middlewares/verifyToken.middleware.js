@@ -1,4 +1,4 @@
-import authService from '#modules/auth/auth.service.js';
+import authService from '#features/auth/auth.service.js';
 import sharedErrors from '#core/errors/index.js';
 import jsonwebtoken from '#core/lib/jwt/index.js';
 import logger from '#core/lib/winston/logger.js';

@@ -1,4 +1,4 @@
-import userService from '#modules/users/user.service.js';
+import userService from '#features/users/user.service.js';
 
 test('should fetch user by id', async () => {
   const response = await userService.findById(1);
