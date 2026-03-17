@@ -1,106 +1,199 @@
 # E-Commerce Backend
 
-A production-ready REST API built with Node.js and Express.js for e-commerce applications.
+REST API for an e-commerce platform built with Node.js, Express, and MySQL. The project follows a feature-based structure and exposes versioned endpoints under `/api/v1`, with Swagger UI available for exploration and manual testing.
 
-## Features
+## What It Includes
 
-- User authentication (JWT-based with refresh tokens)
-- Role-based access control (Admin, Customer)
-- Password reset functionality
+- JWT authentication with access, refresh, and password recovery tokens
+- Role-aware modules for users, admins, and customers
 - Customer address management
-- Product management with variants and attributes
-- Category and property management
-- Swagger API documentation
+- Product, product variant, category, attribute, and property management
+- Request validation, centralized error handling, and structured logging
+- Swagger documentation at `/api/v1/docs`
+- Jest test setup for service and module testing
 
-## Tech Stack
+## Stack
 
-- **Runtime**: Node.js 20+
-- **Framework**: Express.js
-- **Database**: MySQL 8.0+
-- **Authentication**: JWT with refresh tokens
-- **Validation**: Joi
-- **Documentation**: Swagger UI
-- **Logging**: Winston
-- **Testing**: Jest
+- Node.js 20
+- Express 4
+- MySQL 8
+- Joi
+- JWT
+- Winston
+- Jest
+- Docker and Docker Compose
 
-## Prerequisites
+## Requirements
 
-- Node.js 20 or higher
-- MySQL 8.0.35 or higher
-- Docker (optional, for containerized deployment)
+- Node.js 20+
+- npm
+- MySQL 8+
+- Docker Desktop or Docker Engine (optional)
 
 ## Quick Start
 
-1. **Clone the repository**
+### Option 1: Run Locally
 
-   ```bash
-   git clone https://github.com/carlosarroyoam/e-commerce-backend.git
-   cd e-commerce-backend
-   ```
+1. Clone the repository.
 
-2. **Set up the database**
+```bash
+git clone https://github.com/carlosarroyoam/e-commerce-backend.git
+cd e-commerce-backend
+```
 
-   ```bash
-   # Run the SQL script in your MySQL management system
-   mysql -u root -p < nodejs-api.sql
-   ```
+2. Install dependencies.
 
-3. **Configure environment variables**
+```bash
+npm install
+```
 
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials and JWT settings
-   ```
+3. Create your environment file.
 
-4. **Install dependencies**
+```bash
+cp .env.example .env
+```
 
-   ```bash
-   npm install
-   ```
+4. Import the schema and seed data.
 
-5. **Start development server**
+```bash
+mysql -u root -p < nodejs-api.sql
+```
 
-   ```bash
-   npm run start:dev
-   ```
+5. Update `.env` with your local database credentials and JWT secrets.
 
-6. **Access the API**
-   - API Base URL: `http://localhost:3000/api/v1`
-   - Swagger Docs: `http://localhost:3000/api/v1/docs`
+6. Start the API in development mode.
 
-## Scripts
+```bash
+npm run start:dev
+```
 
-| Command             | Description                               |
-| ------------------- | ----------------------------------------- |
-| `npm start`         | Start production server                   |
-| `npm run start:dev` | Start development server with auto-reload |
-| `npm test`          | Run tests in watch mode                   |
+### Option 2: Run With Docker Compose
+
+1. Create your environment file.
+
+```bash
+cp .env.example .env
+```
+
+2. Start the database and API.
+
+```bash
+docker compose up --build
+```
+
+The SQL dump in `nodejs-api.sql` is mounted into the MySQL container and imported automatically on first startup.
+
+## Default Local URLs
+
+- API base URL: `http://localhost:3000/api/v1`
+- Swagger UI: `http://localhost:3000/api/v1/docs`
+- App root: `http://localhost:3000/`
+
+## Available Scripts
+
+| Command             | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `npm start`         | Start the server with Node.js                     |
+| `npm run start:dev` | Start the server with `nodemon`                   |
+| `npm test`          | Run Jest in watch mode with open-handle detection |
+
+To run Jest once instead of watch mode:
+
+```bash
+node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll=false
+```
+
+To run a single test file:
+
+```bash
+node --experimental-vm-modules node_modules/jest/bin/jest.js src/test/user.service.test.js
+```
+
+## Environment Variables
+
+Use `.env.example` as the source of truth. The main variables are:
+
+```env
+APP_ENV=dev
+APP_HOST=http://localhost
+APP_PORT=3000
+DB_USER=yourdbuser
+DB_PASSWORD=yourdbpassword
+DB_NAME=ecommerce
+DB_HOST=localhost
+DB_PORT=3306
+DB_CONNECTION_LIMIT=20
+JWT_SECRET_KEY=secret
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET_KEY=refreshsecret
+JWT_REFRESH_EXPIRES_IN=1d
+JWT_PASSWORD_RECOVERY_SECRET_KEY=recoverysecret
+JWT_PASSWORD_RECOVERY_EXPIRES_IN=15m
+SALT_ROUNDS=10
+```
 
 ## Project Structure
 
-```
+```text
 src/
-├── api/              # Router configuration
-├── core/
-│   ├── config/       # Environment configuration
-│   ├── docs/         # Swagger documentation
-│   ├── errors/       # Custom error classes
-│   ├── lib/          # Libraries (bcrypt, jwt, mysql, winston)
-│   ├── middlewares/  # Express middlewares
-│   └── utils/        # Utility functions
-├── features/         # Feature modules
-│   ├── auth/         # Authentication
-│   ├── users/        # User management
-│   ├── products/     # Product management
-│   ├── categories/   # Category management
-│   └── ...
-└── test/            # Test files
+|-- api/                 # Express server and router bootstrap
+|-- core/
+|   |-- config/          # Environment and app configuration
+|   |-- docs/            # Swagger document definition
+|   |-- errors/          # Shared error classes
+|   |-- lib/             # MySQL, JWT, bcrypt, logger
+|   |-- middlewares/     # Error and request middlewares
+|   `-- routes/          # Root and fallback routes
+|-- features/
+|   |-- admins/
+|   |-- attributes/
+|   |-- auth/
+|   |-- categories/
+|   |-- customerAddresses/
+|   |-- customers/
+|   |-- products/
+|   |-- productVariants/
+|   |-- properties/
+|   `-- users/
+|-- test/                # Jest tests
+`-- main.js              # Application entry point
 ```
+
+## Architecture Notes
+
+The codebase follows a layered flow inside each feature:
+
+`Controller -> Service -> Repository -> DAO`
+
+This keeps HTTP concerns, business logic, data mapping, and SQL responsibilities separated.
+
+## API Modules
+
+The main route groups mounted under `/api/v1` are:
+
+- `/auth`
+- `/users`
+- `/admins`
+- `/customers`
+- `/products`
+- `/attributes`
+- `/properties`
+- `/categories`
+- `/docs`
+
+Some customer address and product variant routes are also mounted from their feature modules at the API root level.
+
+## Development Notes
+
+- Path aliases are configured in `package.json` for `#app/*`, `#core/*`, and `#features/*`.
+- Logs are written through Winston.
+- CORS is currently configured for `http://localhost:3001` and `http://localhost:4200`.
+- Swagger is served directly by the Express app.
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+Licensed under the [Apache License 2.0](LICENSE).
 
----
+## Contributor Reference
 
-For more details, see [AGENTS.md](./AGENTS.md) for developer guidelines.
+Developer-oriented conventions for this repository live in `AGENTS.md`.
