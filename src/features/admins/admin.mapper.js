@@ -17,7 +17,6 @@ class AdminMapper {
       first_name: admin.first_name,
       last_name: admin.last_name,
       email: admin.email,
-      password: admin.password,
       is_super: admin.is_super,
       created_at: admin.created_at,
       updated_at: admin.updated_at,

@@ -56,7 +56,7 @@ cp .env.example .env
 4. Import the schema and seed data.
 
 ```bash
-mysql -u root -p < nodejs-api.sql
+mysql -u root -p < database/schema.sql
 ```
 
 5. Update `.env` with your local database credentials and JWT secrets.
@@ -81,7 +81,7 @@ cp .env.example .env
 docker compose up --build
 ```
 
-The SQL dump in `nodejs-api.sql` is mounted into the MySQL container and imported automatically on first startup.
+The SQL dump in `database/schema.sql` is mounted into the MySQL container and imported automatically on first startup.
 
 ## Default Local URLs
 

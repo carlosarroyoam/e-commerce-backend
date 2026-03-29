@@ -134,7 +134,7 @@ class AdminService {
 
       const createdUserId = await userRepository.store({
         ...admin,
-        password: passwordHash,
+        password_hash: passwordHash,
         user_role_id: userRoles.admin.id,
       });
 

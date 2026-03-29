@@ -228,7 +228,7 @@ class UserService {
         });
       }
 
-      const passwordMatchResult = await bcrypt.compare(current_password, userById.password);
+      const passwordMatchResult = await bcrypt.compare(current_password, userById.password_hash);
 
       if (!passwordMatchResult) {
         throw new sharedErrors.BadRequestError('Invalid credentials. Please try again');

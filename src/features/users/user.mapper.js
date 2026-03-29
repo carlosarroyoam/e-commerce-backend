@@ -36,7 +36,7 @@ class UserMapper {
       first_name: userDto.first_name,
       last_name: userDto.last_name,
       email: userDto.email,
-      password: userDto.password,
+      password_hash: userDto.password_hash,
       user_role_id: userDto.user_role_id,
     };
 

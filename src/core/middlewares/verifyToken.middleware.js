@@ -43,7 +43,7 @@ export default async (request, response, next) => {
       return next(unauthorizedError);
     }
 
-    jsonwebtoken.verify(accessToken, userById.password);
+    jsonwebtoken.verify(accessToken, userById.password_hash);
 
     request.user = {
       id: userById.id,

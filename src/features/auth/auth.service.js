@@ -43,7 +43,7 @@ class AuthService {
         });
       }
 
-      const passwordMatchResult = await bcrypt.compare(password, userByEmail.password);
+      const passwordMatchResult = await bcrypt.compare(password, userByEmail.password_hash);
 
       if (!passwordMatchResult) {
         throw new sharedErrors.UnauthorizedError({ message: undefined, email });
@@ -60,7 +60,7 @@ class AuthService {
           subject: userByEmail.id,
           userRole: userByEmail.user_role,
         },
-        userByEmail.password
+        userByEmail.password_hash
       );
 
       const refreshToken = jsonwebtoken.signRefresh({
@@ -180,7 +180,7 @@ class AuthService {
           subject: userById.id,
           userRole: userById.user_role,
         },
-        userById.password
+        userById.password_hash
       );
 
       const currentPersonalAccessToken = await authRepository.getPersonalAccessToken(refresh_token);
@@ -305,7 +305,7 @@ class AuthService {
         {
           subject: userByEmail.id,
         },
-        userByEmail.password
+        userByEmail.password_hash
       );
 
       // TODO send mail recovery link
@@ -358,7 +358,10 @@ class AuthService {
         throw new sharedErrors.UserNotFoundError({ email: undefined });
       }
 
-      const decodedVerified = jsonwebtoken.verifyPasswordRecoveryToken(token, userById.password);
+      const decodedVerified = jsonwebtoken.verifyPasswordRecoveryToken(
+        token,
+        userById.password_hash
+      );
 
       const hashPassword = await bcrypt.hashPassword(password);
 

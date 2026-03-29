@@ -153,7 +153,7 @@ class CustomerService {
 
       const createdUserId = await userRepository.store({
         ...customer,
-        password: passwordHash,
+        password_hash: passwordHash,
         user_role_id: userRoles.customer.id,
       });
 

@@ -9,7 +9,8 @@ services:
       - ${DB_PORT}:3306
     volumes:
       - ecommerce-data:/var/lib/mysql
-      - ./nodejs-api.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
 
