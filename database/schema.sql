@@ -1,4 +1,7 @@
+-- E-commerce Management System MySQL Schema
+
 CREATE DATABASE IF NOT EXISTS `ecommerce`;
+
 USE `ecommerce`;
 
 CREATE TABLE IF NOT EXISTS user_roles (

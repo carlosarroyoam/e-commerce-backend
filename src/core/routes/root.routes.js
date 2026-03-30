@@ -14,7 +14,6 @@ export default () => {
       author: packageJson.author,
       version: packageJson.version,
       licence: packageJson.license,
-      documentation: `${APP_URL}/api/v1/docs`,
     });
   });
 

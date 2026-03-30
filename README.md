@@ -1,6 +1,6 @@
 # E-Commerce Backend
 
-REST API for an e-commerce platform built with Node.js, Express, and MySQL. The project follows a feature-based structure and exposes versioned endpoints under `/api/v1`, with Swagger UI available for exploration and manual testing.
+REST API for an e-commerce platform built with Node.js, Express, and MySQL. The project follows a feature-based structure and exposes versioned endpoints under `/api/v1`.
 
 ## What It Includes
 
