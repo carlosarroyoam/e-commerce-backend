@@ -1,17 +1,14 @@
--- E-commerce Management System MySQL Schema
-
 CREATE DATABASE IF NOT EXISTS `ecommerce`;
-
 USE `ecommerce`;
 
-CREATE TABLE user_roles (
+CREATE TABLE IF NOT EXISTS user_roles (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     type VARCHAR(32) NOT NULL,
-    UNIQUE KEY user_roles_type_idx (type),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_user_roles_type (type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
@@ -22,24 +19,23 @@ CREATE TABLE users (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY users_email_idx (email),
-    INDEX users_deleted_at_idx (deleted_at),
-    FULLTEXT users_full_name_idx (first_name , last_name),
-    CONSTRAINT users_user_role_id_fk FOREIGN KEY (user_role_id)
-        REFERENCES user_roles (id)
+    UNIQUE KEY uk_users_email (email),
+    INDEX idx_users_deleted_at (deleted_at),
+    FULLTEXT idx_users_full_name (first_name, last_name),
+    CONSTRAINT fk_users_user_role_id
+        FOREIGN KEY (user_role_id) REFERENCES user_roles (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    KEY customers_user_id_fk (user_id),
-    UNIQUE KEY customers_user_id_idx (user_id),
-    CONSTRAINT customers_user_id_fk FOREIGN KEY (user_id)
-        REFERENCES users (id)
+    UNIQUE KEY uk_customers_user_id (user_id),
+    CONSTRAINT fk_customers_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE customer_addresses (
+CREATE TABLE IF NOT EXISTS customer_addresses (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     street_name VARCHAR(64) NOT NULL,
     street_number VARCHAR(5) NOT NULL,
@@ -52,23 +48,22 @@ CREATE TABLE customer_addresses (
     phone_number VARCHAR(10) NOT NULL,
     customer_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    KEY customer_addresses_customer_id_fk (customer_id),
-    CONSTRAINT customer_addresses_customer_id_fk FOREIGN KEY (customer_id)
-        REFERENCES customers (id)
+    INDEX idx_customer_addresses_customer_id (customer_id),
+    CONSTRAINT fk_customer_addresses_customer_id
+        FOREIGN KEY (customer_id) REFERENCES customers (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE admins (
+CREATE TABLE IF NOT EXISTS admins (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    is_super BIT NOT NULL DEFAULT 0,
+    is_super TINYINT(1) NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
     user_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    KEY admins_user_id_fk (user_id),
-    UNIQUE KEY admins_user_id_idx (user_id),
-    CONSTRAINT admins_user_id_fk FOREIGN KEY (user_id)
-        REFERENCES users (id)
+    UNIQUE KEY uk_admins_user_id (user_id),
+    CONSTRAINT fk_admins_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE personal_access_tokens (
+CREATE TABLE IF NOT EXISTS personal_access_tokens (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     token VARCHAR(254) NOT NULL,
     last_used_at TIMESTAMP DEFAULT NULL,
@@ -78,67 +73,65 @@ CREATE TABLE personal_access_tokens (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    UNIQUE KEY personal_access_tokens_token_idx (token),
-    UNIQUE KEY personal_access_tokens_fingerprint_user_id_idx (user_id, fingerprint),
-    KEY personal_access_tokens_user_id_fk (user_id),
-    CONSTRAINT personal_access_tokens_user_id_fk FOREIGN KEY (user_id)
-        REFERENCES users (id)
-        ON DELETE CASCADE
+    UNIQUE KEY uk_tokens_token (token),
+    UNIQUE KEY uk_tokens_user_fingerprint (user_id, fingerprint),
+    CONSTRAINT fk_tokens_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(45) NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX categories_deleted_at_idx (deleted_at),
-    UNIQUE KEY categories_title_idx (title)
+    UNIQUE KEY uk_categories_title (title),
+    INDEX idx_categories_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(96) NOT NULL,
     slug VARCHAR(96) NOT NULL,
     description TEXT,
-    featured BIT NOT NULL DEFAULT 0,
-    active BIT NOT NULL DEFAULT 0,
+    featured TINYINT(1) NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
+    active TINYINT(1) NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
     category_id TINYINT UNSIGNED NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY products_slug_idx (slug),
-    FULLTEXT products_title_description_idx (title, description),
-    KEY products_category_id_fk (category_id),
-    CONSTRAINT products_category_id_fk FOREIGN KEY (category_id)
-        REFERENCES categories (id)
+    UNIQUE KEY uk_products_slug (slug),
+    FULLTEXT idx_products_title_description (title, description),
+    INDEX idx_products_category_id (category_id),
+    CONSTRAINT fk_products_category_id
+        FOREIGN KEY (category_id) REFERENCES categories (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE properties (
+CREATE TABLE IF NOT EXISTS properties (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(45) NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX properties_deleted_at_idx (deleted_at),
-    UNIQUE KEY properties_title_idx (title)
+    UNIQUE KEY uk_properties_title (title),
+    INDEX idx_properties_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE product_property_values (
+CREATE TABLE IF NOT EXISTS product_property_values (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     value VARCHAR(45) NOT NULL,
     product_id BIGINT UNSIGNED NOT NULL,
     property_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY product_property_values_idx (product_id, property_id),
-    KEY product_property_values_product_fk (product_id),
-    CONSTRAINT product_property_values_product_fk FOREIGN KEY (product_id)
-        REFERENCES products (id),
-    KEY product_property_values_property_fk (property_id),
-    CONSTRAINT product_property_values_property_fk FOREIGN KEY (property_id)
-        REFERENCES properties (id)
+    UNIQUE KEY uk_product_property (product_id, property_id),
+    INDEX idx_product_property_product_id (product_id),
+    INDEX idx_product_property_property_id (property_id),
+    CONSTRAINT fk_product_property_product_id
+        FOREIGN KEY (product_id) REFERENCES products (id),
+    CONSTRAINT fk_product_property_property_id
+        FOREIGN KEY (property_id) REFERENCES properties (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE variants (
+CREATE TABLE IF NOT EXISTS variants (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     sku VARCHAR(64) NOT NULL,
     price DECIMAL(10,2) NOT NULL DEFAULT '0',
@@ -147,72 +140,75 @@ CREATE TABLE variants (
     quantity_on_stock INT UNSIGNED NOT NULL DEFAULT '0',
     product_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    KEY variants_product_id_fk (product_id),
-    UNIQUE KEY variants_sku_idx (sku),
-    CONSTRAINT variants_product_id_fk FOREIGN KEY (product_id)
-        REFERENCES products (id)
+    UNIQUE KEY uk_variants_sku (sku),
+    INDEX idx_variants_product_id (product_id),
+    CONSTRAINT fk_variants_product_id
+        FOREIGN KEY (product_id) REFERENCES products (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE variant_images (
+CREATE TABLE IF NOT EXISTS variant_images (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     url VARCHAR(128) NOT NULL,
     variant_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY variant_images_url_idx (url),
-    KEY variant_images_variant_id_fk (variant_id),
-    CONSTRAINT variant_images_variant_id_fk FOREIGN KEY (variant_id)
-        REFERENCES variants (id)
+    UNIQUE KEY uk_variant_images_url (url),
+    INDEX idx_variant_images_variant_id (variant_id),
+    CONSTRAINT fk_variant_images_variant_id
+        FOREIGN KEY (variant_id) REFERENCES variants (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE attributes (
+CREATE TABLE IF NOT EXISTS attributes (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(45) NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (id),
-    INDEX attributes_deleted_at_idx (deleted_at),
-    UNIQUE KEY attributes_title_idx (title)
+    UNIQUE KEY uk_attributes_title (title),
+    INDEX idx_attributes_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE variant_attribute_values (
+CREATE TABLE IF NOT EXISTS variant_attribute_values (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     value VARCHAR(45) NOT NULL,
     variant_id BIGINT UNSIGNED NOT NULL,
     attribute_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY variant_attribute_values_idx (variant_id, attribute_id),
-    KEY variant_attribute_values_variant_id_fk (variant_id),
-    CONSTRAINT variant_attribute_values_variant_id_fk FOREIGN KEY (variant_id)
-        REFERENCES variants (id),
-    KEY variant_attribute_values_attribute_id_fk (attribute_id),
-    CONSTRAINT variant_attribute_values_attribute_id_fk FOREIGN KEY (attribute_id)
-        REFERENCES attributes (id)
+    UNIQUE KEY uk_variant_attribute (variant_id, attribute_id),
+    INDEX idx_variant_attribute_variant_id (variant_id),
+    INDEX idx_variant_attribute_attribute_id (attribute_id),
+    CONSTRAINT fk_variant_attribute_variant_id
+        FOREIGN KEY (variant_id) REFERENCES variants (id),
+    CONSTRAINT fk_variant_attribute_attribute_id
+        FOREIGN KEY (attribute_id) REFERENCES attributes (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE movement_types (
+CREATE TABLE IF NOT EXISTS movement_types (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(45) NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY movement_types_title_idx (title)
-)  ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+    UNIQUE KEY uk_movement_types_title (title)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE movements (
+CREATE TABLE IF NOT EXISTS movements (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(45) NOT NULL,
     movement_type_id TINYINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY movement_title_idx (title)
+    UNIQUE KEY uk_movements_title (title),
+    INDEX idx_movements_type_id (movement_type_id),
+    CONSTRAINT fk_movements_type_id
+        FOREIGN KEY (movement_type_id) REFERENCES movement_types (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE inventory_movements (
+CREATE TABLE IF NOT EXISTS inventory_movements (
     id BIGINT UNSIGNED NOT NULL,
     quantity INT NOT NULL DEFAULT '0',
     variant_id BIGINT UNSIGNED NOT NULL,
     movement_id TINYINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    KEY inventory_movements_variant_id_fk_idx (variant_id),
-    KEY inventory_movements_movement_id_fk (movement_id),
-    CONSTRAINT inventory_movements_movement_id_fk FOREIGN KEY (movement_id)
-        REFERENCES movements (id),
-    CONSTRAINT inventory_movements_variant_id_fk FOREIGN KEY (variant_id)
-        REFERENCES variants (id)
+    INDEX idx_inventory_movements_variant_id (variant_id),
+    INDEX idx_inventory_movements_movement_id (movement_id),
+    CONSTRAINT fk_inventory_movements_variant_id
+        FOREIGN KEY (variant_id) REFERENCES variants (id),
+    CONSTRAINT fk_inventory_movements_movement_id
+        FOREIGN KEY (movement_id) REFERENCES movements (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

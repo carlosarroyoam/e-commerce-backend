@@ -17,7 +17,7 @@ class AdminMapper {
       first_name: admin.first_name,
       last_name: admin.last_name,
       email: admin.email,
-      is_super: admin.is_super,
+      is_super: admin.is_super === 1,
       created_at: admin.created_at,
       updated_at: admin.updated_at,
       deleted_at: admin.deleted_at,
@@ -32,7 +32,7 @@ class AdminMapper {
    */
   toDatabaseEntity(adminDto) {
     const adminDbEntity = {
-      is_super: adminDto.is_super,
+      is_super: adminDto.is_super ? 1 : 0,
       user_id: adminDto.user_id,
     };
 
