@@ -9,7 +9,6 @@ REST API for an e-commerce platform built with Node.js, Express, and MySQL. The 
 - Customer address management
 - Product, product variant, category, attribute, and property management
 - Request validation, centralized error handling, and structured logging
-- Swagger documentation at `/api/v1/docs`
 - Jest test setup for service and module testing
 
 ## Stack
@@ -86,8 +85,6 @@ The SQL dump in `database/schema.sql` is mounted into the MySQL container and im
 ## Default Local URLs
 
 - API base URL: `http://localhost:3000/api/v1`
-- Swagger UI: `http://localhost:3000/api/v1/docs`
-- App root: `http://localhost:3000/`
 
 ## Available Scripts
 
@@ -139,7 +136,6 @@ src/
 |-- api/                 # Express server and router bootstrap
 |-- core/
 |   |-- config/          # Environment and app configuration
-|   |-- docs/            # Swagger document definition
 |   |-- errors/          # Shared error classes
 |   |-- lib/             # MySQL, JWT, bcrypt, logger
 |   |-- middlewares/     # Error and request middlewares
@@ -179,7 +175,6 @@ The main route groups mounted under `/api/v1` are:
 - `/attributes`
 - `/properties`
 - `/categories`
-- `/docs`
 
 Some customer address and product variant routes are also mounted from their feature modules at the API root level.
 
