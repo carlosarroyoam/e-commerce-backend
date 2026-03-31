@@ -44,7 +44,7 @@ class ProductController {
 
       const productById = await productService.findById(product_id);
 
-      response.status(200).json({ ...productById });
+      response.status(200).json(productById);
     } catch (error) {
       next(error);
     }

@@ -115,9 +115,10 @@ class OrderController {
   async track(request, response, next) {
     try {
       const { orderNumber } = request.params;
-      const result = await orderService.findByOrderNumber(orderNumber);
 
-      response.status(200).json(result);
+      const orderTrack = await orderService.findByOrderNumber(orderNumber);
+
+      response.status(200).json(orderTrack);
     } catch (err) {
       next(err);
     }

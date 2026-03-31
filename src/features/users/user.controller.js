@@ -45,9 +45,7 @@ class UserController {
 
       const userById = await userService.findById(user_id);
 
-      response.status(200).json({
-        ...userById,
-      });
+      response.status(200).json(userById);
     } catch (error) {
       next(error);
     }

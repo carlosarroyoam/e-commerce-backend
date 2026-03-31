@@ -39,7 +39,7 @@ class PropertyController {
 
       const propertyById = await propertyService.findById(property_id);
 
-      response.status(200).json({ ...propertyById });
+      response.status(200).json(propertyById);
     } catch (error) {
       next(error);
     }

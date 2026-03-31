@@ -37,9 +37,10 @@ class ShipmentController {
   async findById(request, response, next) {
     try {
       const { shipment_id } = request.params;
-      const result = await shipmentService.findById(Number(shipment_id));
 
-      response.status(200).json(result);
+      const shipmentById = await shipmentService.findById(Number(shipment_id));
+
+      response.status(200).json(shipmentById);
     } catch (err) {
       next(err);
     }
@@ -55,9 +56,10 @@ class ShipmentController {
   async findByOrderId(request, response, next) {
     try {
       const { order_id } = request.params;
-      const result = await shipmentService.findByOrderId(Number(order_id));
 
-      response.status(200).json(result);
+      const shipmentByOrderId = await shipmentService.findByOrderId(Number(order_id));
+
+      response.status(200).json(shipmentByOrderId);
     } catch (err) {
       next(err);
     }
@@ -73,9 +75,10 @@ class ShipmentController {
   async create(request, response, next) {
     try {
       const { order_id } = request.params;
-      const result = await shipmentService.create(Number(order_id), request.body);
 
-      response.status(201).json(result);
+      const createdShipment = await shipmentService.create(Number(order_id), request.body);
+
+      response.status(201).set('Location', `/shipments/${createdShipment.id}`).end();
     } catch (err) {
       next(err);
     }
@@ -91,9 +94,10 @@ class ShipmentController {
   async markDelivered(request, response, next) {
     try {
       const { shipment_id } = request.params;
-      const result = await shipmentService.updateDelivered(Number(shipment_id));
 
-      response.status(200).json(result);
+      await shipmentService.updateDelivered(Number(shipment_id));
+
+      response.status(204).end();
     } catch (err) {
       next(err);
     }
@@ -108,9 +112,9 @@ class ShipmentController {
    */
   async getCarriers(request, response, next) {
     try {
-      const result = await shipmentService.getCarriers();
+      const carriers = await shipmentService.getCarriers();
 
-      response.status(200).json(result);
+      response.status(200).json(carriers);
     } catch (err) {
       next(err);
     }
