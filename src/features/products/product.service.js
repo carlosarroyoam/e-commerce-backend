@@ -1,6 +1,9 @@
 import ProductRepository from '#features/products/product.repository.js';
 import ProductVariantRepository from '#features/productVariants/productVariant.repository.js';
 
+import attributeMapper from '#app/features/attributes/attribute.mapper.js';
+import productMapper from '#app/features/products/product.mapper.js';
+import productVariantMapper from '#app/features/productVariants/productVariant.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
@@ -71,8 +74,39 @@ class ProductService {
 
       connection.release();
 
+      const mappedProducts = products.map((product) => {
+        const productDto = productMapper.toDto(product);
+
+        const productPropertiesDto = product.properties.map((property) =>
+          attributeMapper.toDto(property)
+        );
+
+        const productVariantsDto = product.variants.map(function (variant) {
+          const variantDto = productVariantMapper.toDto(variant);
+
+          const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
+            attributeMapper.toDto(attribute)
+          );
+
+          // TODO add product images dto
+          const variantImagesDto = variant.images;
+
+          return {
+            ...variantDto,
+            attibute_combinations: variantAttributesDto,
+            images: variantImagesDto,
+          };
+        });
+
+        return {
+          ...productDto,
+          properties: productPropertiesDto,
+          variants: productVariantsDto,
+        };
+      });
+
       return {
-        products,
+        items: mappedProducts,
         pagination: {
           page: products.length > 0 ? page : 0,
           size: products.length,
@@ -139,10 +173,33 @@ class ProductService {
 
       connection.release();
 
+      const mappedProduct = productMapper.toDto(productById);
+
+      const mappedProductProperties = propertiesByProductId.map((property) =>
+        attributeMapper.toDto(property)
+      );
+
+      const mappedProductVariants = variantsByProductId.map(function (variant) {
+        const variantDto = productVariantMapper.toDto(variant);
+
+        const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
+          attributeMapper.toDto(attribute)
+        );
+
+        // TODO add product images dto
+        const variantImagesDto = variant.images;
+
+        return {
+          ...variantDto,
+          attibute_combinations: variantAttributesDto,
+          images: variantImagesDto,
+        };
+      });
+
       return {
-        ...productById,
-        properties: propertiesByProductId,
-        variants: variantsByProductId,
+        ...mappedProduct,
+        properties: mappedProductProperties,
+        variants: mappedProductVariants,
       };
     } catch (err) {
       if (connection) connection.release();
@@ -171,7 +228,6 @@ class ProductService {
     try {
       connection = await dbConnectionPool.getConnection();
       const productRepository = new ProductRepository(connection);
-      const productVariantRepository = new ProductVariantRepository(connection);
 
       connection.beginTransaction();
 
@@ -192,39 +248,10 @@ class ProductService {
 
       const productById = await productRepository.findById(createdProductId);
 
-      const propertiesByProductId = await productRepository.findPropertiesByProductId(
-        productById.id
-      );
-
-      const rawVariantsByProductId = await productVariantRepository.findByProductId(productById.id);
-
-      const variantsByProductId = await Promise.all(
-        rawVariantsByProductId.map(async (variant) => {
-          const attributesByVariantId = await productVariantRepository.findAttributesByVariantId(
-            variant.id
-          );
-
-          const imagesByVariantId = await productVariantRepository.findImagesByVariantId(
-            variant.id
-          );
-
-          return {
-            ...variant,
-            attribute_combinations: attributesByVariantId,
-            images: imagesByVariantId,
-          };
-        })
-      );
-
-      connection.rollback();
-
+      connection.commit();
       connection.release();
 
-      return {
-        ...productById,
-        properties: propertiesByProductId,
-        variants: variantsByProductId,
-      };
+      return productMapper.toDto(productById);
     } catch (err) {
       if (connection) {
         connection.rollback();

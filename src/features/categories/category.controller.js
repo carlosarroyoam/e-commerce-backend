@@ -1,5 +1,4 @@
 import categoryService from '#features/categories/category.service.js';
-import categoryMapper from '#features/categories/category.mapper.js';
 
 /**
  * CategoryController class.
@@ -19,8 +18,7 @@ class CategoryController {
       const result = await categoryService.findAll({ page, size, sort });
 
       response.json({
-        message: 'Ok',
-        categories: result.categories.map((category) => categoryMapper.toDto(category)),
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -41,10 +39,7 @@ class CategoryController {
 
       const categoryById = await categoryService.findById(category_id);
 
-      response.json({
-        message: 'Ok',
-        category: categoryMapper.toDto(categoryById),
-      });
+      response.json({ ...categoryById });
     } catch (error) {
       next(error);
     }
@@ -65,10 +60,7 @@ class CategoryController {
         title,
       });
 
-      response.status(201).json({
-        message: 'Ok',
-        category: categoryMapper.toDto(createdCategory),
-      });
+      response.status(201).set('Location', `/categories/${createdCategory.id}`).end();
     } catch (error) {
       next(error);
     }
@@ -86,14 +78,11 @@ class CategoryController {
       const { category_id } = request.params;
       const { title } = request.body;
 
-      const updatedCategory = await categoryService.update(category_id, {
+      await categoryService.update(category_id, {
         title,
       });
 
-      response.json({
-        message: 'Ok',
-        category: categoryMapper.toDto(updatedCategory),
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -110,14 +99,9 @@ class CategoryController {
     try {
       const { category_id } = request.params;
 
-      const deletedCategoryId = await categoryService.deleteById(category_id);
+      await categoryService.deleteById(category_id);
 
-      response.json({
-        message: 'Ok',
-        category: {
-          id: deletedCategoryId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -134,14 +118,9 @@ class CategoryController {
     try {
       const { category_id } = request.params;
 
-      const restoredCategoryId = await categoryService.restore(category_id);
+      await categoryService.restore(category_id);
 
-      response.json({
-        message: 'Ok',
-        category: {
-          id: restoredCategoryId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

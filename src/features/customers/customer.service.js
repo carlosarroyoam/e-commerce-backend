@@ -1,12 +1,13 @@
-import CustomerRepository from '#features/customers/customer.repository.js';
 import CustomerAddressRepository from '#features/customerAddresses/customerAddress.repository.js';
+import CustomerRepository from '#features/customers/customer.repository.js';
 import UserRepository from '#features/users/user.repository.js';
 
-import userRoles from '#features/auth/roles.js';
+import customerMapper from '#app/features/customers/customer.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import bcrypt from '#core/lib/bcrypt/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
+import userRoles from '#features/auth/roles.js';
 
 /**
  * CustomerService class.
@@ -59,7 +60,7 @@ class CustomerService {
       connection.release();
 
       return {
-        customers,
+        items: customers.map((customer) => customerMapper.toDto(customer)),
         pagination: {
           page: customers.length > 0 ? page : 0,
           size: customers.length,
@@ -106,10 +107,10 @@ class CustomerService {
 
       connection.release();
 
-      return {
+      return customerMapper.toDto({
         ...customerById,
         addresses: addressesByCustomerId,
-      };
+      });
     } catch (err) {
       if (connection) connection.release();
 
@@ -164,10 +165,9 @@ class CustomerService {
       const createdCustomer = await customerRepository.findById(createdCustomerId);
 
       connection.commit();
-
       connection.release();
 
-      return createdCustomer;
+      return customerMapper.toDto(createdCustomer);
     } catch (err) {
       if (connection) {
         connection.rollback();
@@ -226,7 +226,7 @@ class CustomerService {
 
       connection.release();
 
-      return updatedCustomer;
+      return customerMapper.toDto(updatedCustomer);
     } catch (err) {
       if (connection) {
         connection.rollback();

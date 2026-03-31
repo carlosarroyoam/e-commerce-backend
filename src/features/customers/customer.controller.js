@@ -1,5 +1,4 @@
 import customerService from '#features/customers/customer.service.js';
-import customerMapper from '#features/customers/customer.mapper.js';
 
 /**
  * CustomerController class.
@@ -25,8 +24,7 @@ class CustomerController {
       });
 
       response.json({
-        message: 'Ok',
-        customers: result.customers.map((customer) => customerMapper.toDto(customer)),
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -45,12 +43,9 @@ class CustomerController {
     try {
       const { customer_id } = request.params;
 
-      const customer = await customerService.findById(customer_id);
+      const customerById = await customerService.findById(customer_id);
 
-      response.json({
-        message: 'Ok',
-        customer: customerMapper.toDto(customer),
-      });
+      response.json({ ...customerById });
     } catch (error) {
       next(error);
     }
@@ -74,10 +69,7 @@ class CustomerController {
         password,
       });
 
-      response.status(201).json({
-        message: 'Ok',
-        customer: customerMapper.toDto(createdCustomer),
-      });
+      response.status(201).set('Location', `/customers/${createdCustomer.id}`).end();
     } catch (error) {
       next(error);
     }
@@ -95,15 +87,12 @@ class CustomerController {
       const { customer_id } = request.params;
       const { first_name, last_name } = request.body;
 
-      const updatedCustomer = await customerService.update(customer_id, {
+      await customerService.update(customer_id, {
         first_name,
         last_name,
       });
 
-      response.json({
-        message: 'Ok',
-        customer: customerMapper.toDto(updatedCustomer),
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

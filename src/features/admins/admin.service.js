@@ -3,8 +3,9 @@ import UserRepository from '#features/users/user.repository.js';
 
 import userRoles from '#features/auth/roles.js';
 
-import bcrypt from '#core/lib/bcrypt/index.js';
+import adminMapper from '#app/features/admins/admin.mapper.js';
 import sharedErrors from '#core/errors/index.js';
+import bcrypt from '#core/lib/bcrypt/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
 
@@ -45,7 +46,7 @@ class AdminService {
       connection.release();
 
       return {
-        admins,
+        items: admins.map((admin) => adminMapper.toDto(admin)),
         pagination: {
           page: admins.length > 0 ? page : 0,
           size: admins.length,
@@ -90,7 +91,7 @@ class AdminService {
 
       connection.release();
 
-      return adminById;
+      return adminMapper.toDto(adminById);
     } catch (err) {
       if (connection) connection.release();
 
@@ -146,10 +147,9 @@ class AdminService {
       const createdAdmin = await adminRepository.findById(createdAdminId);
 
       connection.commit();
-
       connection.release();
 
-      return createdAdmin;
+      return adminMapper.toDto(createdAdmin);
     } catch (err) {
       if (connection) {
         connection.rollback();
@@ -209,7 +209,7 @@ class AdminService {
 
       connection.release();
 
-      return updatedAdmin;
+      return adminMapper.toDto(updatedAdmin);
     } catch (err) {
       if (connection) {
         connection.rollback();

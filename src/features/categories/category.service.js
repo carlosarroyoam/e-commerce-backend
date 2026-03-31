@@ -1,5 +1,6 @@
 import CategoryRepository from '#features/categories/category.repository.js';
 
+import categoryMapper from '#app/features/categories/category.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
@@ -34,7 +35,7 @@ class CategoryService {
       connection.release();
 
       return {
-        categories,
+        items: categories.map((category) => categoryMapper.toDto(category)),
         pagination: {
           page: categories.length > 0 ? page : 0,
           size: categories.length,
@@ -78,7 +79,7 @@ class CategoryService {
 
       connection.release();
 
-      return categoryById;
+      return categoryMapper.toDto(categoryById);
     } catch (err) {
       if (connection) connection.release();
 
@@ -126,7 +127,7 @@ class CategoryService {
 
       connection.release();
 
-      return createdCategory;
+      return categoryMapper.toDto(createdCategory);
     } catch (err) {
       if (connection) connection.release();
 
@@ -179,7 +180,7 @@ class CategoryService {
 
       connection.release();
 
-      return updatedCategory;
+      return categoryMapper.toDto(updatedCategory);
     } catch (err) {
       if (connection) connection.release();
 
@@ -221,8 +222,6 @@ class CategoryService {
       await categoryRepository.deleteById(category_id);
 
       connection.release();
-
-      return category_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -264,8 +263,6 @@ class CategoryService {
       await categoryRepository.restore(category_id);
 
       connection.release();
-
-      return category_id;
     } catch (err) {
       if (connection) connection.release();
 

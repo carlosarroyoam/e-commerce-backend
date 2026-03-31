@@ -1,5 +1,4 @@
 import adminService from '#features/admins/admin.service.js';
-import adminMapper from '#features/admins/admin.mapper.js';
 
 /**
  * AdminController class.
@@ -25,8 +24,7 @@ class AdminController {
       });
 
       response.json({
-        message: 'Ok',
-        admins: result.admins.map((admin) => adminMapper.toDto(admin)),
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -45,11 +43,10 @@ class AdminController {
     try {
       const { admin_id } = request.params;
 
-      const admin = await adminService.findById({ admin_id });
+      const adminById = await adminService.findById({ admin_id });
 
       response.json({
-        message: 'Ok',
-        admin: adminMapper.toDto(admin),
+        ...adminById,
       });
     } catch (error) {
       next(error);
@@ -75,10 +72,7 @@ class AdminController {
         is_super,
       });
 
-      response.status(201).json({
-        message: 'Ok',
-        admin: adminMapper.toDto(createdAdmin),
-      });
+      response.status(201).set('Location', `/admins/${createdAdmin.id}`).end();
     } catch (error) {
       next(error);
     }
@@ -96,15 +90,12 @@ class AdminController {
       const { admin_id } = request.params;
       const { first_name, last_name } = request.body;
 
-      const updatedAdmin = await adminService.update(admin_id, {
+      await adminService.update(admin_id, {
         first_name,
         last_name,
       });
 
-      response.json({
-        message: 'Ok',
-        admin: adminMapper.toDto(updatedAdmin),
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

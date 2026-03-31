@@ -1,7 +1,4 @@
 import productService from '#features/products/product.service.js';
-import productMapper from '#features/products/product.mapper.js';
-import productVariantMapper from '#features/productVariants/productVariant.mapper.js';
-import attributeMapper from '#features/attributes/attribute.mapper.js';
 
 /**
  * ProductController class.
@@ -25,40 +22,8 @@ class ProductController {
         search,
       });
 
-      const productsDto = result.products.map((product) => {
-        const productDto = productMapper.toDto(product);
-
-        const productPropertiesDto = product.properties.map((property) =>
-          attributeMapper.toDto(property)
-        );
-
-        const productVariantsDto = product.variants.map(function (variant) {
-          const variantDto = productVariantMapper.toDto(variant);
-
-          const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
-            attributeMapper.toDto(attribute)
-          );
-
-          // TODO add product images dto
-          const variantImagesDto = variant.images;
-
-          return {
-            ...variantDto,
-            attibute_combinations: variantAttributesDto,
-            images: variantImagesDto,
-          };
-        });
-
-        return {
-          ...productDto,
-          properties: productPropertiesDto,
-          variants: productVariantsDto,
-        };
-      });
-
       response.json({
-        message: 'Ok',
-        products: productsDto,
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -79,37 +44,7 @@ class ProductController {
 
       const productById = await productService.findById(product_id);
 
-      const productDto = productMapper.toDto(productById);
-
-      const productPropertiesDto = productById.properties.map((property) =>
-        attributeMapper.toDto(property)
-      );
-
-      const productVariantsDto = productById.variants.map(function (variant) {
-        const variantDto = productVariantMapper.toDto(variant);
-
-        const variantAttributesDto = variant.attribute_combinations.map((attribute) =>
-          attributeMapper.toDto(attribute)
-        );
-
-        // TODO add product images dto
-        const variantImagesDto = variant.images;
-
-        return {
-          ...variantDto,
-          attibute_combinations: variantAttributesDto,
-          images: variantImagesDto,
-        };
-      });
-
-      response.json({
-        message: 'Ok',
-        product: {
-          ...productDto,
-          properties: productPropertiesDto,
-          variants: productVariantsDto,
-        },
-      });
+      response.json({ ...productById });
     } catch (error) {
       next(error);
     }
@@ -138,12 +73,7 @@ class ProductController {
         variants,
       });
 
-      const createdProductDto = productMapper.toDto(createdProduct);
-
-      response.status(201).json({
-        message: 'Ok',
-        product: createdProductDto,
-      });
+      response.status(201).set('Location', `/products/${createdProduct.id}`).end();
     } catch (error) {
       next(error);
     }

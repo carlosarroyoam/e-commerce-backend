@@ -1,5 +1,6 @@
 import PropertyRepository from '#features/properties/property.repository.js';
 
+import propertyMapper from '#app/features/properties/property.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
@@ -30,7 +31,7 @@ class PropertyService {
       connection.release();
 
       return {
-        properties,
+        items: properties.map((property) => propertyMapper.toDto(property)),
         pagination: {
           page: properties.length > 0 ? page : 0,
           size: properties.length,
@@ -74,7 +75,7 @@ class PropertyService {
 
       connection.release();
 
-      return propertyById;
+      return propertyMapper.toDto(propertyById);
     } catch (err) {
       if (connection) connection.release();
 
@@ -122,7 +123,7 @@ class PropertyService {
 
       connection.release();
 
-      return createdProperty;
+      return propertyMapper.toDto(createdProperty);
     } catch (err) {
       if (connection) connection.release();
 
@@ -164,7 +165,7 @@ class PropertyService {
 
       connection.release();
 
-      return updatedProperty;
+      return propertyMapper.toDto(updatedProperty);
     } catch (err) {
       if (connection) connection.release();
 
@@ -206,8 +207,6 @@ class PropertyService {
       await propertyRepository.deleteById(property_id);
 
       connection.release();
-
-      return property_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -249,8 +248,6 @@ class PropertyService {
       await propertyRepository.restore(property_id);
 
       connection.release();
-
-      return property_id;
     } catch (err) {
       if (connection) connection.release();
 

@@ -1,5 +1,4 @@
 import propertyService from '#features/properties/property.service.js';
-import propertyMapper from '#features/properties/property.mapper.js';
 
 /**
  * PropertyController class.
@@ -19,8 +18,7 @@ class PropertyController {
       const result = await propertyService.findAll({ page, size, sort });
 
       response.json({
-        message: 'Ok',
-        properties: result.properties.map((property) => propertyMapper.toDto(property)),
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -41,10 +39,7 @@ class PropertyController {
 
       const propertyById = await propertyService.findById(property_id);
 
-      response.json({
-        message: 'Ok',
-        property: propertyMapper.toDto(propertyById),
-      });
+      response.json({ ...propertyById });
     } catch (error) {
       next(error);
     }
@@ -65,10 +60,7 @@ class PropertyController {
         title,
       });
 
-      response.status(201).json({
-        message: 'Ok',
-        property: propertyMapper.toDto(createdProperty),
-      });
+      response.status(201).set('Location', `/properties/${createdProperty.id}`).end();
     } catch (error) {
       next(error);
     }
@@ -86,14 +78,11 @@ class PropertyController {
       const { property_id } = request.params;
       const { title } = request.body;
 
-      const updatedProperty = await propertyService.update(property_id, {
+      await propertyService.update(property_id, {
         title,
       });
 
-      response.json({
-        message: 'Ok',
-        property: propertyMapper.toDto(updatedProperty),
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -110,14 +99,9 @@ class PropertyController {
     try {
       const { property_id } = request.params;
 
-      const deletedPropertyId = await propertyService.deleteById(property_id);
+      await propertyService.deleteById(property_id);
 
-      response.json({
-        message: 'Ok',
-        property: {
-          id: deletedPropertyId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -134,14 +118,9 @@ class PropertyController {
     try {
       const { property_id } = request.params;
 
-      const restoredPropertyId = await propertyService.restore(property_id);
+      await propertyService.restore(property_id);
 
-      response.json({
-        message: 'Ok',
-        property: {
-          id: restoredPropertyId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

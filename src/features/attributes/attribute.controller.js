@@ -1,5 +1,4 @@
 import attributeService from '#features/attributes/attribute.service.js';
-import attributeMapper from '#features/attributes/attribute.mapper.js';
 
 /**
  * AttributeController class.
@@ -19,8 +18,7 @@ class AttributeController {
       const result = await attributeService.findAll({ page, size, sort });
 
       response.json({
-        message: 'Ok',
-        attributes: result.attributes.map((attribute) => attributeMapper.toDto(attribute)),
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -41,10 +39,7 @@ class AttributeController {
 
       const attributeById = await attributeService.findById(attribute_id);
 
-      response.json({
-        message: 'Ok',
-        attribute: attributeMapper.toDto(attributeById),
-      });
+      response.json({ ...attributeById });
     } catch (error) {
       next(error);
     }
@@ -65,10 +60,7 @@ class AttributeController {
         title,
       });
 
-      response.status(201).json({
-        message: 'Ok',
-        attribute: attributeMapper.toDto(createdAttribute),
-      });
+      response.status(201).set('Location', `/attributes/${createdAttribute.id}`).end();
     } catch (error) {
       next(error);
     }
@@ -86,14 +78,11 @@ class AttributeController {
       const { attribute_id } = request.params;
       const { title } = request.body;
 
-      const updatedAttribute = await attributeService.update(attribute_id, {
+      await attributeService.update(attribute_id, {
         title,
       });
 
-      response.json({
-        message: 'Ok',
-        attribute: attributeMapper.toDto(updatedAttribute),
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -110,14 +99,9 @@ class AttributeController {
     try {
       const { attribute_id } = request.params;
 
-      const deletedAttributeId = await attributeService.deleteById(attribute_id);
+      await attributeService.deleteById(attribute_id);
 
-      response.json({
-        message: 'Ok',
-        attribute: {
-          id: deletedAttributeId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -134,14 +118,9 @@ class AttributeController {
     try {
       const { attribute_id } = request.params;
 
-      const restoredAttributeId = await attributeService.restore(attribute_id);
+      await attributeService.restore(attribute_id);
 
-      response.json({
-        message: 'Ok',
-        attribute: {
-          id: restoredAttributeId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

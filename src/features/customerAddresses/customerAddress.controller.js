@@ -1,5 +1,4 @@
 import customerAddressService from '#features/customerAddresses/customerAddress.service.js';
-import customerAddressMapper from '#features/customerAddresses/customerAddress.mapper.js';
 
 /**
  * CustomerController class.
@@ -18,13 +17,8 @@ class CustomerAddressController {
 
       const customerAddresses = await customerAddressService.findAll(customer_id);
 
-      const customerAddressesDto = customerAddresses.map((address) =>
-        customerAddressMapper.toDto(address)
-      );
-
       response.json({
-        message: 'Ok',
-        addresses: customerAddressesDto,
+        items: customerAddresses,
       });
     } catch (error) {
       next(error);
@@ -43,12 +37,8 @@ class CustomerAddressController {
       const { customer_id, address_id } = request.params;
 
       const customerAddress = await customerAddressService.findById(customer_id, address_id);
-      const customerAddressDto = customerAddressMapper.toDto(customerAddress);
 
-      response.json({
-        message: 'Ok',
-        address: customerAddressDto,
-      });
+      response.json({ ...customerAddress });
     } catch (error) {
       next(error);
     }
@@ -89,12 +79,7 @@ class CustomerAddressController {
         customer_id
       );
 
-      const createdAddressDto = customerAddressMapper.toDto(createdAddress);
-
-      response.status(201).json({
-        message: 'Ok',
-        address: createdAddressDto,
-      });
+      response.status(201).set('Location', `/customer-addresses/${createdAddress.id}`).end();
     } catch (error) {
       next(error);
     }
@@ -120,7 +105,7 @@ class CustomerAddressController {
         postal_code,
       } = request.body;
 
-      const updatedAddress = await customerAddressService.update(
+      await customerAddressService.update(
         {
           street_name,
           street_number,
@@ -134,12 +119,7 @@ class CustomerAddressController {
         address_id
       );
 
-      const updatedAddressDto = customerAddressMapper.toDto(updatedAddress);
-
-      response.json({
-        message: 'Ok',
-        address: updatedAddressDto,
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -156,14 +136,9 @@ class CustomerAddressController {
     try {
       const { customer_id, address_id } = request.params;
 
-      const addressDeletedId = await customerAddressService.deleteById(customer_id, address_id);
+      await customerAddressService.deleteById(customer_id, address_id);
 
-      response.json({
-        message: 'The address was successfully deleted',
-        address: {
-          id: addressDeletedId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

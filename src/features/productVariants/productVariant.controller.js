@@ -1,6 +1,4 @@
 import productVariantService from '#features/productVariants/productVariant.service.js';
-import productVariantMapper from '#features/productVariants/productVariant.mapper.js';
-import attributeMapper from '#features/attributes/attribute.mapper.js';
 
 /**
  * ProductVariantController class.
@@ -19,27 +17,7 @@ class ProductVariantController {
 
       const variants = await productVariantService.findAll(product_id);
 
-      const productVariantsDto = variants.map((variant) => {
-        const productVariantDto = productVariantMapper.toDto(variant);
-
-        const productVariantAttributesDto = variant.attribute_combinations.map((attribute) =>
-          attributeMapper.toDto(attribute)
-        );
-
-        // TODO add product images dto
-        const variantImagesDto = variant.images;
-
-        return {
-          ...productVariantDto,
-          attribute_combinations: productVariantAttributesDto,
-          images: variantImagesDto,
-        };
-      });
-
-      response.json({
-        message: 'Ok',
-        product_variants: productVariantsDto,
-      });
+      response.json({ items: variants.items });
     } catch (error) {
       next(error);
     }
@@ -58,23 +36,7 @@ class ProductVariantController {
 
       const variantById = await productVariantService.findById(product_id, variant_id);
 
-      const productVariantDto = productVariantMapper.toDto(variantById);
-
-      const productVariantAttributesDto = variantById.attribute_combinations.map((attribute) =>
-        attributeMapper.toDto(attribute)
-      );
-
-      // TODO add product images dto
-      const variantImagesDto = variantById.images;
-
-      response.json({
-        message: 'Ok',
-        product_variant: {
-          ...productVariantDto,
-          attribute_combinations: productVariantAttributesDto,
-          images: variantImagesDto,
-        },
-      });
+      response.json({ ...variantById });
     } catch (error) {
       next(error);
     }

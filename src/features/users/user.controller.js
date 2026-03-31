@@ -1,5 +1,4 @@
 import userService from '#features/users/user.service.js';
-import userMapper from '#features/users/user.mapper.js';
 
 /**
  * UserController class.
@@ -25,8 +24,7 @@ class UserController {
       });
 
       response.json({
-        message: 'Ok',
-        users: result.users.map((user) => userMapper.toDto(user)),
+        items: result.items,
         pagination: result.pagination,
       });
     } catch (error) {
@@ -45,11 +43,10 @@ class UserController {
     try {
       const { user_id } = request.params;
 
-      const user = await userService.findById(user_id);
+      const userById = await userService.findById(user_id);
 
       response.json({
-        message: 'Ok',
-        user: userMapper.toDto(user),
+        ...userById,
       });
     } catch (error) {
       next(error);
@@ -68,14 +65,9 @@ class UserController {
       const { user_id } = request.params;
       const { id: auth_user_id } = request.user;
 
-      const deletedUserId = await userService.deleteById(user_id, auth_user_id);
+      await userService.deleteById(user_id, auth_user_id);
 
-      response.json({
-        message: 'Ok',
-        user: {
-          id: deletedUserId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -93,14 +85,9 @@ class UserController {
       const { user_id } = request.params;
       const { id: auth_user_id } = request.user;
 
-      const restoredUserId = await userService.restore(user_id, auth_user_id);
+      await userService.restore(user_id, auth_user_id);
 
-      response.json({
-        message: 'Ok',
-        user: {
-          id: restoredUserId,
-        },
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -128,9 +115,7 @@ class UserController {
         auth_user_id
       );
 
-      response.json({
-        message: 'Ok',
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

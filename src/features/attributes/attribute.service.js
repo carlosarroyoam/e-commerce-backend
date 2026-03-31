@@ -1,5 +1,6 @@
 import AttributeRepository from '#features/attributes/attribute.repository.js';
 
+import attributeMapper from '#app/features/attributes/attribute.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
@@ -30,7 +31,7 @@ class AttributeService {
       connection.release();
 
       return {
-        attributes,
+        items: attributes.map((attribute) => attributeMapper.toDto(attribute)),
         pagination: {
           page: attributes.length > 0 ? page : 0,
           size: attributes.length,
@@ -74,7 +75,7 @@ class AttributeService {
 
       connection.release();
 
-      return attributeById;
+      return attributeMapper.toDto(attributeById);
     } catch (err) {
       if (connection) connection.release();
 
@@ -122,7 +123,7 @@ class AttributeService {
 
       connection.release();
 
-      return createdAttribute;
+      return attributeMapper.toDto(createdAttribute);
     } catch (err) {
       if (connection) connection.release();
 
@@ -164,7 +165,7 @@ class AttributeService {
 
       connection.release();
 
-      return updatedAttribute;
+      return attributeMapper.toDto(updatedAttribute);
     } catch (err) {
       if (connection) connection.release();
 
@@ -206,8 +207,6 @@ class AttributeService {
       await attributeRepository.deleteById(attribute_id);
 
       connection.release();
-
-      return attribute_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -249,8 +248,6 @@ class AttributeService {
       await attributeRepository.restore(attribute_id);
 
       connection.release();
-
-      return attribute_id;
     } catch (err) {
       if (connection) connection.release();
 

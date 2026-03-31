@@ -39,15 +39,12 @@ class AuthController {
           secure: config.APP.ENV === 'prod',
         })
         .json({
-          message: 'Ok',
-          user: {
-            id: auth.id,
-            email: auth.email,
-            first_name: auth.first_name,
-            last_name: auth.last_name,
-            user_role_id: auth.user_role_id,
-            user_role: auth.user_role,
-          },
+          id: auth.id,
+          email: auth.email,
+          first_name: auth.first_name,
+          last_name: auth.last_name,
+          user_role_id: auth.user_role_id,
+          user_role: auth.user_role,
         });
     } catch (error) {
       response.clearCookie('access_token').clearCookie('refresh_token');
@@ -131,9 +128,7 @@ class AuthController {
         email,
       });
 
-      response.json({
-        message: 'Ok',
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }
@@ -156,9 +151,7 @@ class AuthController {
         password,
       });
 
-      response.json({
-        message: 'Ok',
-      });
+      response.status(204).end();
     } catch (error) {
       next(error);
     }

@@ -1,5 +1,6 @@
 import UserRepository from '#features/users/user.repository.js';
 
+import userMapper from '#app/features/users/user.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import bcrypt from '#core/lib/bcrypt/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
@@ -42,7 +43,7 @@ class UserService {
       connection.release();
 
       return {
-        users,
+        items: users.map((user) => userMapper.toDto(user)),
         pagination: {
           page: users.length > 0 ? page : 0,
           size: users.length,
@@ -86,7 +87,7 @@ class UserService {
 
       connection.release();
 
-      return userById;
+      return userMapper.toDto(userById);
     } catch (err) {
       if (connection) connection.release();
 
@@ -133,8 +134,6 @@ class UserService {
       await userRepository.deleteById(user_id);
 
       connection.release();
-
-      return user_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -181,8 +180,6 @@ class UserService {
       await userRepository.restore(user_id);
 
       connection.release();
-
-      return user_id;
     } catch (err) {
       if (connection) connection.release();
 
@@ -239,8 +236,6 @@ class UserService {
       await userRepository.update({ password: hashPassword }, user_id);
 
       connection.release();
-
-      return;
     } catch (err) {
       if (connection) connection.release();
 

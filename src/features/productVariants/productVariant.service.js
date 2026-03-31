@@ -1,6 +1,8 @@
 import ProductRepository from '#features/products/product.repository.js';
 import ProductVariantRepository from '#features/productVariants/productVariant.repository.js';
 
+import attributeMapper from '#app/features/attributes/attribute.mapper.js';
+import productVariantMapper from '#app/features/productVariants/productVariant.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
@@ -51,7 +53,24 @@ class ProductVariantService {
 
       connection.release();
 
-      return productVariants;
+      return {
+        items: productVariants.map((variant) => {
+          const productVariantDto = productVariantMapper.toDto(variant);
+
+          const productVariantAttributesDto = variant.attribute_combinations.map((attribute) =>
+            attributeMapper.toDto(attribute)
+          );
+
+          // TODO add product images dto
+          const variantImagesDto = variant.images;
+
+          return {
+            ...productVariantDto,
+            attribute_combinations: productVariantAttributesDto,
+            images: variantImagesDto,
+          };
+        }),
+      };
     } catch (err) {
       if (connection) connection.release();
 
@@ -104,10 +123,19 @@ class ProductVariantService {
 
       connection.release();
 
+      const mappedProductVariant = productVariantMapper.toDto(variantById);
+
+      const mappedVariantAttributes = attributesByVariantId.map((attribute) =>
+        attributeMapper.toDto(attribute)
+      );
+
+      // TODO add product images dto
+      const mappedVariantImages = imagesByVariantId.images;
+
       return {
-        ...variantById,
-        attribute_combinations: attributesByVariantId,
-        images: imagesByVariantId,
+        ...mappedProductVariant,
+        attribute_combinations: mappedVariantAttributes,
+        images: mappedVariantImages,
       };
     } catch (err) {
       if (connection) connection.release();

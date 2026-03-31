@@ -1,6 +1,7 @@
-import CustomerRepository from '#features/customers/customer.repository.js';
 import CustomerAddressRepository from '#features/customerAddresses/customerAddress.repository.js';
+import CustomerRepository from '#features/customers/customer.repository.js';
 
+import customerAddressMapper from '#app/features/customerAddresses/customerAddress.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
@@ -33,7 +34,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddresses;
+      return customerAddresses.map((address) => customerAddressMapper.toDto(address));
     } catch (err) {
       if (connection) connection.release();
 
@@ -78,7 +79,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddressById;
+      return customerAddressMapper.toDto(customerAddressById);
     } catch (err) {
       if (connection) connection.release();
 
@@ -128,7 +129,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddressById;
+      return customerAddressMapper.toDto(customerAddressById);
     } catch (err) {
       if (connection) {
         connection.release();
@@ -183,7 +184,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return updatedCustomerAddress;
+      return customerAddressMapper.toDto(updatedCustomerAddress);
     } catch (err) {
       if (connection) {
         connection.release();
@@ -231,8 +232,6 @@ class CustomerAddressService {
       await customerAddressRepository.deleteById(addressById.id);
 
       connection.release();
-
-      return addressById;
     } catch (err) {
       if (connection) {
         connection.release();
