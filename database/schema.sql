@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS customer_addresses (
 
 CREATE TABLE IF NOT EXISTS admins (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    is_super TINYINT(1) NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
+    is_super TINYINT NOT NULL DEFAULT 0 CHECK (is_super IN (0, 1)),
     user_id BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uk_admins_user_id (user_id),
@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS products (
     title VARCHAR(96) NOT NULL,
     slug VARCHAR(96) NOT NULL,
     description TEXT,
-    featured TINYINT(1) NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
-    active TINYINT(1) NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
+    featured TINYINT NOT NULL DEFAULT 0 CHECK (featured IN (0, 1)),
+    active TINYINT NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
     category_id TINYINT UNSIGNED NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -214,4 +214,114 @@ CREATE TABLE IF NOT EXISTS inventory_movements (
         FOREIGN KEY (variant_id) REFERENCES variants (id),
     CONSTRAINT fk_inventory_movements_movement_id
         FOREIGN KEY (movement_id) REFERENCES movements (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS order_payment_statuses (
+    id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(32) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_order_payment_statuses_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS order_statuses (
+    id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(32) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_order_statuses_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS carriers (
+    id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    active TINYINT NOT NULL DEFAULT 0 CHECK (active IN (0, 1)),
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_carriers_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS orders (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    order_number VARCHAR(36) NOT NULL,
+    customer_id BIGINT UNSIGNED NOT NULL,
+    shipping_address_id BIGINT UNSIGNED NOT NULL,
+    status_id TINYINT UNSIGNED NOT NULL,
+    payment_status_id TINYINT UNSIGNED NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    tax_total DECIMAL(10,2) NOT NULL DEFAULT '0',
+    shipping_total DECIMAL(10,2) NOT NULL DEFAULT '0',
+    total DECIMAL(10,2) NOT NULL,
+    notes TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_orders_order_number (order_number),
+    INDEX idx_orders_customer_id (customer_id),
+    INDEX idx_orders_status_id (status_id),
+    CONSTRAINT fk_orders_customer_id FOREIGN KEY (customer_id) REFERENCES customers (id),
+    CONSTRAINT fk_orders_shipping_address_id FOREIGN KEY (shipping_address_id) REFERENCES customer_addresses (id),
+    CONSTRAINT fk_orders_status_id FOREIGN KEY (status_id) REFERENCES order_statuses (id),
+    CONSTRAINT fk_orders_payment_status_id FOREIGN KEY (payment_status_id) REFERENCES order_payment_statuses (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    order_id BIGINT UNSIGNED NOT NULL,
+    product_id BIGINT UNSIGNED NOT NULL,
+    variant_id BIGINT UNSIGNED NOT NULL,
+    quantity INT UNSIGNED NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (id),
+    INDEX idx_order_items_order_id (order_id),
+    CONSTRAINT fk_order_items_order_id FOREIGN KEY (order_id) REFERENCES orders (id),
+    CONSTRAINT fk_order_items_product_id FOREIGN KEY (product_id) REFERENCES products (id),
+    CONSTRAINT fk_order_items_variant_id FOREIGN KEY (variant_id) REFERENCES variants (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS order_status_history (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    order_id BIGINT UNSIGNED NOT NULL,
+    status_id TINYINT UNSIGNED NOT NULL,
+    note TEXT,
+    changed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    INDEX idx_order_status_history_order_id (order_id),
+    CONSTRAINT fk_order_status_history_order_id FOREIGN KEY (order_id) REFERENCES orders (id),
+    CONSTRAINT fk_order_status_history_status_id FOREIGN KEY (status_id) REFERENCES order_statuses (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS shipments (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    order_id BIGINT UNSIGNED NOT NULL,
+    carrier_id TINYINT UNSIGNED NOT NULL,
+    tracking_number VARCHAR(128),
+    shipped_at TIMESTAMP,
+    delivered_at TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_shipments_order_id (order_id),
+    CONSTRAINT fk_shipments_order_id FOREIGN KEY (order_id) REFERENCES orders (id),
+    CONSTRAINT fk_shipments_carrier_id FOREIGN KEY (carrier_id) REFERENCES carriers (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS refunds (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    order_id BIGINT UNSIGNED NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    reason TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    INDEX idx_refunds_order_id (order_id),
+    CONSTRAINT fk_refunds_order_id FOREIGN KEY (order_id) REFERENCES orders (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS refund_items (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    refund_id BIGINT UNSIGNED NOT NULL,
+    order_item_id BIGINT UNSIGNED NOT NULL,
+    quantity INT UNSIGNED NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (id),
+    INDEX idx_refund_items_refund_id (refund_id),
+    INDEX idx_refund_items_order_item_id (order_item_id),
+    CONSTRAINT fk_refund_items_refund_id FOREIGN KEY (refund_id) REFERENCES refunds (id),
+    CONSTRAINT fk_refund_items_order_item_id FOREIGN KEY (order_item_id) REFERENCES order_items (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
