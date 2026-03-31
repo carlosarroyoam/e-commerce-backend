@@ -17,9 +17,7 @@ class CustomerAddressController {
 
       const customerAddresses = await customerAddressService.findAll(customer_id);
 
-      response.json({
-        items: customerAddresses,
-      });
+      response.status(200).json(customerAddresses);
     } catch (error) {
       next(error);
     }
@@ -38,7 +36,7 @@ class CustomerAddressController {
 
       const customerAddress = await customerAddressService.findById(customer_id, address_id);
 
-      response.json({ ...customerAddress });
+      response.status(200).json(customerAddress);
     } catch (error) {
       next(error);
     }

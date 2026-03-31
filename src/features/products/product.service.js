@@ -248,14 +248,13 @@ class ProductService {
 
       const productById = await productRepository.findById(createdProductId);
 
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       return productMapper.toDto(productById);
     } catch (err) {
       if (connection) {
-        connection.rollback();
-
+        await connection.rollback();
         connection.release();
       }
 

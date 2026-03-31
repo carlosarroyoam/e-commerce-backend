@@ -23,7 +23,7 @@ class UserController {
         search,
       });
 
-      response.json({
+      response.status(200).json({
         items: result.items,
         pagination: result.pagination,
       });
@@ -45,7 +45,7 @@ class UserController {
 
       const userById = await userService.findById(user_id);
 
-      response.json({
+      response.status(200).json({
         ...userById,
       });
     } catch (error) {

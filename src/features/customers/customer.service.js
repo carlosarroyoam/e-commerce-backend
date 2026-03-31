@@ -164,13 +164,13 @@ class CustomerService {
 
       const createdCustomer = await customerRepository.findById(createdCustomerId);
 
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       return customerMapper.toDto(createdCustomer);
     } catch (err) {
       if (connection) {
-        connection.rollback();
+        await connection.rollback();
         connection.release();
       }
 
@@ -222,14 +222,14 @@ class CustomerService {
 
       const updatedCustomer = await customerRepository.findById(customer_id);
 
-      connection.commit();
+      await connection.commit();
 
       connection.release();
 
       return customerMapper.toDto(updatedCustomer);
     } catch (err) {
       if (connection) {
-        connection.rollback();
+        await connection.rollback();
         connection.release();
       }
 

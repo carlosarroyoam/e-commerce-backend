@@ -22,7 +22,7 @@ class ProductController {
         search,
       });
 
-      response.json({
+      response.status(200).json({
         items: result.items,
         pagination: result.pagination,
       });
@@ -44,7 +44,7 @@ class ProductController {
 
       const productById = await productService.findById(product_id);
 
-      response.json({ ...productById });
+      response.status(200).json({ ...productById });
     } catch (error) {
       next(error);
     }

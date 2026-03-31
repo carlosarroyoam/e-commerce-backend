@@ -23,10 +23,7 @@ class CustomerController {
         search,
       });
 
-      response.json({
-        items: result.items,
-        pagination: result.pagination,
-      });
+      response.status(200).json(result);
     } catch (error) {
       next(error);
     }
@@ -45,7 +42,7 @@ class CustomerController {
 
       const customerById = await customerService.findById(customer_id);
 
-      response.json({ ...customerById });
+      response.status(200).json(customerById);
     } catch (error) {
       next(error);
     }

@@ -34,7 +34,9 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddresses.map((address) => customerAddressMapper.toDto(address));
+      return {
+        items: customerAddresses.map((address) => customerAddressMapper.toDto(address)),
+      };
     } catch (err) {
       if (connection) connection.release();
 

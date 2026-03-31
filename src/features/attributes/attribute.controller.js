@@ -17,10 +17,7 @@ class AttributeController {
 
       const result = await attributeService.findAll({ page, size, sort });
 
-      response.json({
-        items: result.items,
-        pagination: result.pagination,
-      });
+      response.status(200).json(result);
     } catch (error) {
       next(error);
     }
@@ -39,7 +36,7 @@ class AttributeController {
 
       const attributeById = await attributeService.findById(attribute_id);
 
-      response.json({ ...attributeById });
+      response.status(200).json(attributeById);
     } catch (error) {
       next(error);
     }

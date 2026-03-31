@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "0984c53b-3b27-41fe-844d-913c04a8dac9",
+    "_postman_id": "5b13f529-43c6-48ff-b1a9-b3df55734fb4",
     "name": "Nodejs e-commerce",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "6677786"
@@ -575,7 +575,9 @@
                 "exec": [
                   ""
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -1662,6 +1664,506 @@
               "variable": [
                 {
                   "key": "propertyId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "/orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "20",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "-created_at",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/orders",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subtotal\": 999.99,\r\n    \"tax_total\": 159.99,\r\n    \"shipping_total\": 99.99,\r\n    \"total\": 1259.97,\r\n    \"items\": [\r\n        {\r\n            \"product_id\": 1,\r\n            \"variant_id\": 1,\r\n            \"quantity\": 1,\r\n            \"unit_price\": 999.99\r\n        }\r\n    ],\r\n    \"notes\": \"Leave at front desk\",\r\n    \"customer_id\": 1,\r\n    \"shipping_address_id\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/orders/track/:orderNumber",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/track/:orderNumber",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "track",
+                ":orderNumber"
+              ],
+              "variable": [
+                {
+                  "key": "orderNumber",
+                  "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/orders/:orderId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/:orderId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ":orderId"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/orders/:orderId/status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status_id\": 2,\r\n    \"note\": \"Packed and ready for shipment\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/:orderId/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ":orderId",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/orders/:orderId/payment-status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"payment_status_id\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/:orderId/payment-status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ":orderId",
+                "payment-status"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "shipments",
+      "item": [
+        {
+          "name": "/shipments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shipments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shipments"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "20",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "-shipped_at",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/shipments/carriers",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shipments/carriers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shipments",
+                "carriers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/shipments/:shipmentId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shipments/:shipmentId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shipments",
+                ":shipmentId"
+              ],
+              "variable": [
+                {
+                  "key": "shipmentId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/shipments/order/:orderId",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shipments/order/:orderId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shipments",
+                "order",
+                ":orderId"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/shipments/:orderId",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"carrier_id\": 1,\r\n  \"tracking_number\": \"DHL-123456789\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shipments/:orderId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shipments",
+                ":orderId"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/shipments/:shipmentId/delivered",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shipments/:shipmentId/delivered",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shipments",
+                ":shipmentId",
+                "delivered"
+              ],
+              "variable": [
+                {
+                  "key": "shipmentId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "refunds",
+      "item": [
+        {
+          "name": "/refunds",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/refunds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refunds"
+              ],
+              "query": [
+                {
+                  "key": "orderId",
+                  "value": "1",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "20",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "-created_at",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/refunds/:refundId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/refunds/:refundId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refunds",
+                ":refundId"
+              ],
+              "variable": [
+                {
+                  "key": "refundId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/refunds/order/:orderId",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/refunds/order/:orderId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refunds",
+                "order",
+                ":orderId"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/refunds/order/:orderId",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"reason\": \"Customer requested a refund\",\r\n  \"items\": [\r\n    {\r\n      \"order_item_id\": 1,\r\n      \"quantity\": 1,\r\n      \"amount\": 999.99\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refunds/order/:orderId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refunds",
+                "order",
+                ":orderId"
+              ],
+              "variable": [
+                {
+                  "key": "orderId",
                   "value": "1"
                 }
               ]

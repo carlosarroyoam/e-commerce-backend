@@ -23,10 +23,7 @@ class AdminController {
         search,
       });
 
-      response.json({
-        items: result.items,
-        pagination: result.pagination,
-      });
+      response.status(200).json(result);
     } catch (error) {
       next(error);
     }
@@ -45,9 +42,7 @@ class AdminController {
 
       const adminById = await adminService.findById({ admin_id });
 
-      response.json({
-        ...adminById,
-      });
+      response.status(200).json(adminById);
     } catch (error) {
       next(error);
     }

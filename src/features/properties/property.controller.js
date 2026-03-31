@@ -17,7 +17,7 @@ class PropertyController {
 
       const result = await propertyService.findAll({ page, size, sort });
 
-      response.json({
+      response.status(200).json({
         items: result.items,
         pagination: result.pagination,
       });
@@ -39,7 +39,7 @@ class PropertyController {
 
       const propertyById = await propertyService.findById(property_id);
 
-      response.json({ ...propertyById });
+      response.status(200).json({ ...propertyById });
     } catch (error) {
       next(error);
     }

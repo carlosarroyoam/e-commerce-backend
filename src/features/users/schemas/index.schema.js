@@ -1,6 +1,9 @@
 import validators from '#core/utils/validators.util.js';
 
 export default [
+  validators.page,
+  validators.size,
+  validators.search,
   validators.sort([
     'id',
     '-id',
@@ -11,8 +14,5 @@ export default [
     'email',
     '-email',
   ]),
-  validators.userStatus,
-  validators.page,
-  validators.size,
-  validators.search,
+  validators.enumInQuery('status', ['active', 'inactive']),
 ];

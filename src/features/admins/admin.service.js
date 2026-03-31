@@ -146,14 +146,13 @@ class AdminService {
 
       const createdAdmin = await adminRepository.findById(createdAdminId);
 
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       return adminMapper.toDto(createdAdmin);
     } catch (err) {
       if (connection) {
-        connection.rollback();
-
+        await connection.rollback();
         connection.release();
       }
 
@@ -205,15 +204,14 @@ class AdminService {
 
       const updatedAdmin = await adminRepository.findById(admin_id);
 
-      connection.commit();
+      await connection.commit();
 
       connection.release();
 
       return adminMapper.toDto(updatedAdmin);
     } catch (err) {
       if (connection) {
-        connection.rollback();
-
+        await connection.rollback();
         connection.release();
       }
 

@@ -1,9 +1,7 @@
 import validators from '#core/utils/validators.util.js';
 
 export default [
-  validators.currentPassword,
-
-  validators.newPassword,
-
-  validators.confirmPassword('new_password'),
+  validators.password('current_password'),
+  validators.password('new_password'),
+  validators.confirmPassword('new_password', 'confirm_password'),
 ];

@@ -17,10 +17,7 @@ class CategoryController {
 
       const result = await categoryService.findAll({ page, size, sort });
 
-      response.json({
-        items: result.items,
-        pagination: result.pagination,
-      });
+      response.status(200).json(result);
     } catch (error) {
       next(error);
     }
@@ -39,7 +36,7 @@ class CategoryController {
 
       const categoryById = await categoryService.findById(category_id);
 
-      response.json({ ...categoryById });
+      response.status(200).json(categoryById);
     } catch (error) {
       next(error);
     }

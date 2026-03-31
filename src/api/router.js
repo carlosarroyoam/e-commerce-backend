@@ -18,6 +18,9 @@ import productPropertyRoutes from '#features/productVariants/productVariant.rout
 import attributeRoutes from '#features/attributes/attribute.routes.js';
 import propertyRoutes from '#features/properties/property.routes.js';
 import categoryRoutes from '#features/categories/category.routes.js';
+import orderRoutes from '#features/orders/order.routes.js';
+import shipmentRoutes from '#features/shipments/shipment.routes.js';
+import refundRoutes from '#features/refunds/refund.routes.js';
 
 export default () => {
   // eslint-disable-next-line new-cap
@@ -35,8 +38,12 @@ export default () => {
   apiRouter.use('/attributes', attributeRoutes());
   apiRouter.use('/properties', propertyRoutes());
   apiRouter.use('/categories', categoryRoutes());
-  apiRouter.use('/docs', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../docs/openapi/api-docs.yaml'));
+  apiRouter.use('/orders', orderRoutes());
+  apiRouter.use('/shipments', shipmentRoutes());
+  apiRouter.use('/refunds', refundRoutes());
+
+  apiRouter.use('/docs', (request, res) => {
+    response.sendFile(path.join(__dirname, '../../docs/openapi/api-docs.yaml'));
   });
 
   router.use('/', rootRoute());

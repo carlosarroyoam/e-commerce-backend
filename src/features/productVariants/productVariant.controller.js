@@ -17,7 +17,7 @@ class ProductVariantController {
 
       const variants = await productVariantService.findAll(product_id);
 
-      response.json({ items: variants.items });
+      response.status(200).json({ items: variants.items });
     } catch (error) {
       next(error);
     }
@@ -36,7 +36,7 @@ class ProductVariantController {
 
       const variantById = await productVariantService.findById(product_id, variant_id);
 
-      response.json({ ...variantById });
+      response.status(200).json({ ...variantById });
     } catch (error) {
       next(error);
     }
