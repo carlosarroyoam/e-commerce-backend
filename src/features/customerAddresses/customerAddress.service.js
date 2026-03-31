@@ -81,7 +81,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddressMapper.toDto(customerAddressById);
+      return { ...customerAddressMapper.toDto(customerAddressById) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -131,7 +131,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddressMapper.toDto(customerAddressById);
+      return { ...customerAddressMapper.toDto(customerAddressById) };
     } catch (err) {
       if (connection) {
         connection.release();
@@ -186,7 +186,7 @@ class CustomerAddressService {
 
       connection.release();
 
-      return customerAddressMapper.toDto(updatedCustomerAddress);
+      return { ...customerAddressMapper.toDto(updatedCustomerAddress) };
     } catch (err) {
       if (connection) {
         connection.release();

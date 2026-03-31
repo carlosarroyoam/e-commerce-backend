@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class CustomerMapper {
   /**
-   * Maps a customer object to a customer dto object.
+   * Maps a Customer database entity object to a CustomerDto object.
    *
-   * @param {object} customer The customer object to map.
-   * @return {object} The customer dto object.
+   * @param {object} customer The Customer database entity object to map.
+   * @return {object} The CustomerDto object.
    */
   toDto(customer) {
     return {
@@ -17,7 +17,6 @@ class CustomerMapper {
       first_name: customer.first_name,
       last_name: customer.last_name,
       email: customer.email,
-      addresses: customer.addresses,
       created_at: customer.created_at,
       updated_at: customer.updated_at,
       deleted_at: customer.deleted_at,
@@ -25,19 +24,19 @@ class CustomerMapper {
   }
 
   /**
-   * Maps a customerDto object to a customer database entity object.
+   * Maps a CustomerDto object to a Customer database entity object.
    *
-   * @param {object} customerDto The customer dto object to map.
-   * @return {object} The customer database entity object.
+   * @param {object} customerDto The CustomerDto object to map.
+   * @return {object} The Customer database entity object.
    */
   toDatabaseEntity(customerDto) {
-    const customerDbEntity = {
+    const dbEntity = {
       user_id: customerDto.user_id,
     };
 
-    const cleanedCustomerDbEntity = objectUtils.removeUndefined(customerDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedCustomerDbEntity;
+    return cleanedDbEntity;
   }
 }
 

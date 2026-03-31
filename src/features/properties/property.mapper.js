@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class PropertyMapper {
   /**
-   * Maps a property object to a property dto object.
+   * Maps a property database entity object to a PropertyDto object.
    *
-   * @param {object} property The property object to map.
-   * @return {object} The property dto object.
+   * @param {object} property The Property database entity object to map.
+   * @return {object} The PropertyDto object.
    */
   toDto(property) {
     return {
@@ -20,20 +20,20 @@ class PropertyMapper {
   }
 
   /**
-   * Maps a propertyDto object to a property database entity object.
+   * Maps a PropertyDto object to a Property database entity object.
    *
-   * @param {object} propertyDto The property dto object to map.
-   * @return {object} The property database entity object.
+   * @param {object} propertyDto The PropertyDto object to map.
+   * @return {object} The Property database entity object.
    */
   toDatabaseEntity(propertyDto) {
-    const propertyDbEntity = {
+    const dbEntity = {
       id: propertyDto.id,
       title: propertyDto.title,
     };
 
-    const cleanedPropertyDbEntity = objectUtils.removeUndefined(propertyDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedPropertyDbEntity;
+    return cleanedDbEntity;
   }
 }
 

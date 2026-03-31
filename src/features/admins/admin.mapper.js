@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class AdminMapper {
   /**
-   * Maps a admin object to a admin dto object.
+   * Maps an Admin database entity object to an AdminDto object.
    *
-   * @param {object} admin The admin object to map.
-   * @return {object} The admin dto object.
+   * @param {object} admin The Admin database entity object to map.
+   * @return {object} The AdminDto object.
    */
   toDto(admin) {
     return {
@@ -25,20 +25,20 @@ class AdminMapper {
   }
 
   /**
-   * Maps a admin dto object to a admin database entity object.
+   * Maps an AdminDto object to an Admin database entity object.
    *
-   * @param {object} adminDto The admin dto object to map.
-   * @return {object} The admin database entity object.
+   * @param {object} adminDto The AdminDto object to map.
+   * @return {object} The Admin database entity object.
    */
   toDatabaseEntity(adminDto) {
-    const adminDbEntity = {
+    const dbEntity = {
       is_super: adminDto.is_super ? 1 : 0,
       user_id: adminDto.user_id,
     };
 
-    const cleanedAdminDbEntity = objectUtils.removeUndefined(adminDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedAdminDbEntity;
+    return cleanedDbEntity;
   }
 }
 

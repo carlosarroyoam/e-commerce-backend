@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class UserMapper {
   /**
-   * Maps a user object to a UserDto object.
+   * Maps a User database entity object to a UserDto object.
    *
-   * @param {object} user The user object to map.
-   * @return {object} The user dto object.
+   * @param {object} user The User database entity object to map.
+   * @return {object} The UserDto object.
    */
   toDto(user) {
     return {
@@ -25,13 +25,13 @@ class UserMapper {
   }
 
   /**
-   * Maps a userDto to a Admin database entity object.
+   * Maps a UserDto to a User database entity object.
    *
-   * @param {object} userDto The user dto object to map.
-   * @return {object} The user database entity object.
+   * @param {object} userDto The UserDto object to map.
+   * @return {object} The User database entity object.
    */
   toDatabaseEntity(userDto) {
-    const userDbEntity = {
+    const dbEntity = {
       id: userDto.id,
       first_name: userDto.first_name,
       last_name: userDto.last_name,
@@ -40,9 +40,9 @@ class UserMapper {
       user_role_id: userDto.user_role_id,
     };
 
-    const cleanedUserDbEntity = objectUtils.removeUndefined(userDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedUserDbEntity;
+    return cleanedDbEntity;
   }
 }
 

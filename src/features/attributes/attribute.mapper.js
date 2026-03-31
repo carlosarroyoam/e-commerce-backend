@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class AttributeMapper {
   /**
-   * Maps a attribute object to a attribute dto object.
+   * Maps a Attribute object to a AttributeDto object.
    *
-   * @param {object} attribute The attribute object to map.
-   * @return {object} The attribute dto object.
+   * @param {object} attribute The Attribute database entity object to map.
+   * @return {object} The AttributeDto object.
    */
   toDto(attribute) {
     return {
@@ -19,20 +19,20 @@ class AttributeMapper {
   }
 
   /**
-   * Maps a attributeDto object to a attribute database entity object.
+   * Maps an AttributeDto object to an Attribute database entity object.
    *
-   * @param {object} attributeDto The attribute dto object to map.
-   * @return {object} The attribute database entity object.
+   * @param {object} attributeDto The AttributeDto object to map.
+   * @return {object} The Attribute database entity object.
    */
   toDatabaseEntity(attributeDto) {
-    const attributeDbEntity = {
+    const dbEntity = {
       id: attributeDto.id,
       title: attributeDto.title,
     };
 
-    const cleanedAttributeDbEntity = objectUtils.removeUndefined(attributeDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedAttributeDbEntity;
+    return cleanedDbEntity;
   }
 }
 

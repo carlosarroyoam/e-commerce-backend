@@ -251,7 +251,7 @@ class ProductService {
       await connection.commit();
       connection.release();
 
-      return productMapper.toDto(productById);
+      return { ...productMapper.toDto(productById) };
     } catch (err) {
       if (connection) {
         await connection.rollback();

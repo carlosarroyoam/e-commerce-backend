@@ -70,24 +70,23 @@ class OrderService {
       connection = await dbConnectionPool.getConnection();
       const orderRepository = new OrderRepository(connection);
 
-      const order = await orderRepository.findByOrderNumber(orderNumber);
+      const orderById = await orderRepository.findByOrderNumber(orderNumber);
 
-      if (!order) {
+      if (!orderById) {
         throw new sharedErrors.ResourceNotFoundError();
       }
 
-      const statusHistory = await orderRepository.findStatusHistoryByOrderId(order.id);
-      const shipment = await orderRepository.findShipmentByOrderId(order.id);
+      const statusHistoryByOrderId = await orderRepository.findStatusHistoryByOrderId(orderById.id);
+      const shipmentByOrderId = await orderRepository.findShipmentByOrderId(orderById.id);
 
       connection.release();
 
       return {
-        orderNumber: order.order_number,
-        status: order.status,
-        total: order.total,
-        statusHistory: statusHistory.map((history) => orderMapper.toStatusHistoryDto(history)),
-        shipment: shipment ? shipmentMapper.toDto(shipment) : null,
-        createdAt: order.created_at,
+        ...orderMapper.toDto(orderById),
+        statusHistory: statusHistoryByOrderId.map((history) =>
+          orderMapper.toStatusHistoryDto(history)
+        ),
+        shipment: shipmentByOrderId ? shipmentMapper.toDto(shipmentByOrderId) : null,
       };
     } catch (err) {
       if (connection) connection.release();
@@ -114,32 +113,32 @@ class OrderService {
       connection = await dbConnectionPool.getConnection();
       const orderRepository = new OrderRepository(connection);
 
-      const order = await orderRepository.findById(order_id);
+      const orderById = await orderRepository.findById(order_id);
 
-      if (!order) {
+      if (!orderById) {
         throw new sharedErrors.ResourceNotFoundError();
       }
 
-      const items = await orderRepository.findItemsByOrderId(order_id);
-      const statusHistory = await orderRepository.findStatusHistoryByOrderId(order_id);
-      const shipment = await orderRepository.findShipmentByOrderId(order_id);
-      const refund = await orderRepository.findRefundByOrderId(order_id);
+      const itemsByOrderId = await orderRepository.findItemsByOrderId(order_id);
+      const statusHistoryByOrderId = await orderRepository.findStatusHistoryByOrderId(order_id);
+      const shipmentByOrderId = await orderRepository.findShipmentByOrderId(order_id);
+      const refundByOrderId = await orderRepository.findRefundByOrderId(order_id);
 
       let refundItems = null;
-      if (refund) {
-        refundItems = await orderRepository.findRefundItemsByRefundId(refund.id);
+      if (refundByOrderId) {
+        refundItems = await orderRepository.findRefundItemsByRefundId(refundByOrderId.id);
       }
 
       connection.release();
 
       return {
-        ...orderMapper.toDto(order),
-        items: items.map((item) => orderMapper.toItemDto(item)),
-        statusHistory: statusHistory.map((sh) => orderMapper.toStatusHistoryDto(sh)),
-        shipment: shipment ? shipmentMapper.toDto(shipment) : null,
-        refund: refund
+        ...orderMapper.toDto(orderById),
+        items: itemsByOrderId.map((item) => orderMapper.toItemDto(item)),
+        statusHistory: statusHistoryByOrderId.map((sh) => orderMapper.toStatusHistoryDto(sh)),
+        shipment: shipmentByOrderId ? shipmentMapper.toDto(shipmentByOrderId) : null,
+        refund: refundByOrderId
           ? {
-            ...refundMapper.toDto(refund),
+            ...refundMapper.toDto(refundByOrderId),
             items: refundItems.map((item) => refundMapper.toItemDto(item)),
           }
           : null,
@@ -171,12 +170,12 @@ class OrderService {
 
       connection.beginTransaction();
 
-      const orderNumber = randomUUID();
+      const order_number = randomUUID();
       const pendingStatusId = 1;
 
       const createdOrderId = await orderRepository.store({
         ...orderData,
-        orderNumber,
+        orderNumber: order_number,
         status_id: pendingStatusId,
         payment_status_id: 1,
       });
@@ -209,10 +208,12 @@ class OrderService {
         });
       }
 
+      const createdOrder = this.findById(createdOrderId);
+
       await connection.commit();
       connection.release();
 
-      return this.findById(createdOrderId);
+      return { ...orderMapper.toDto(createdOrder) };
     } catch (err) {
       if (connection) {
         await connection.rollback();
@@ -291,17 +292,19 @@ class OrderService {
       connection = await dbConnectionPool.getConnection();
       const orderRepository = new OrderRepository(connection);
 
-      const order = await orderRepository.findById(order_id);
+      const orderById = await orderRepository.findById(order_id);
 
-      if (!order) {
+      if (!orderById) {
         throw new sharedErrors.ResourceNotFoundError();
       }
 
       await orderRepository.updatePaymentStatus(order_id, payment_status_id);
 
+      const updatedOrder = this.findById(orderById.id);
+
       connection.release();
 
-      return this.findById(order_id);
+      return { ...orderMapper.toDto(updatedOrder) };
     } catch (err) {
       if (connection) connection.release();
 

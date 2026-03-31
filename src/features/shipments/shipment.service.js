@@ -29,15 +29,13 @@ class ShipmentService {
       const totalShipments = await shipmentRepository.count();
       const shipments = await shipmentRepository.findAll({ page, size, sort });
 
-      const mappedShipments = shipments.map((shipment) => shipmentMapper.toDto(shipment));
-
       connection.release();
 
       return {
-        items: mappedShipments,
+        items: shipments.map((shipment) => shipmentMapper.toDto(shipment)),
         pagination: {
-          page: mappedShipments.length > 0 ? page : 0,
-          size: mappedShipments.length,
+          page: shipments.length > 0 ? page : 0,
+          size: shipments.length,
           totalItems: totalShipments,
           totalPages: Math.ceil(totalShipments / size),
         },
@@ -67,15 +65,15 @@ class ShipmentService {
       connection = await dbConnectionPool.getConnection();
       const shipmentRepository = new ShipmentRepository(connection);
 
-      const shipment = await shipmentRepository.findById(shipment_id);
+      const shipmentById = await shipmentRepository.findById(shipment_id);
 
-      if (!shipment) {
+      if (!shipmentById) {
         throw new sharedErrors.ResourceNotFoundError();
       }
 
       connection.release();
 
-      return shipmentMapper.toDto(shipment);
+      return { ...shipmentMapper.toDto(shipmentById) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -101,11 +99,15 @@ class ShipmentService {
       connection = await dbConnectionPool.getConnection();
       const shipmentRepository = new ShipmentRepository(connection);
 
-      const shipment = await shipmentRepository.findByOrderId(order_id);
+      const shipmentById = await shipmentRepository.findByOrderId(order_id);
+
+      if (!shipmentById) {
+        throw new sharedErrors.ResourceNotFoundError();
+      }
 
       connection.release();
 
-      return shipment ? shipmentMapper.toDto(shipment) : null;
+      return { ...shipmentMapper.toDto(shipmentById) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -133,9 +135,9 @@ class ShipmentService {
       const orderRepository = new OrderRepository(connection);
       const shipmentRepository = new ShipmentRepository(connection);
 
-      const order = await orderRepository.findById(order_id);
+      const orderById = await orderRepository.findById(order_id);
 
-      if (!order) {
+      if (!orderById) {
         throw new sharedErrors.ResourceNotFoundError('Order not found');
       }
 
@@ -161,10 +163,12 @@ class ShipmentService {
         shippedAt: new Date(),
       });
 
+      const shipmentByOrderId = await shipmentRepository.findByOrderId(order_id);
+
       await connection.commit();
       connection.release();
 
-      return this.findByOrderId(order_id);
+      return { ...shipmentMapper.toDto(shipmentByOrderId) };
     } catch (err) {
       if (connection) {
         await connection.rollback();
@@ -214,10 +218,12 @@ class ShipmentService {
         note: 'Order delivered',
       });
 
+      const shipmentId = await shipmentRepository.findById(shipment_id);
+
       await connection.commit();
       connection.release();
 
-      return this.findById(shipment_id);
+      return { ...shipmentMapper.toDto(shipmentId) };
     } catch (err) {
       if (connection) {
         await connection.rollback();

@@ -79,7 +79,7 @@ class CategoryService {
 
       connection.release();
 
-      return categoryMapper.toDto(categoryById);
+      return { ...categoryMapper.toDto(categoryById) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -127,7 +127,7 @@ class CategoryService {
 
       connection.release();
 
-      return categoryMapper.toDto(createdCategory);
+      return { ...categoryMapper.toDto(createdCategory) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -180,7 +180,7 @@ class CategoryService {
 
       connection.release();
 
-      return categoryMapper.toDto(updatedCategory);
+      return { ...categoryMapper.toDto(updatedCategory) };
     } catch (err) {
       if (connection) connection.release();
 

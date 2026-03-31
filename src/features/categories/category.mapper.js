@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class CategoryMapper {
   /**
-   * Maps a category object to a category dto object.
+   * Maps a Category database entity object to a CategoryDto object.
    *
-   * @param {object} category The category object to map.
-   * @return {object} The category dto object.
+   * @param {object} category The category database entity object to map.
+   * @return {object} The CategoryDto object.
    */
   toDto(category) {
     return {
@@ -18,20 +18,20 @@ class CategoryMapper {
   }
 
   /**
-   * Maps a categoryDto object to a category database entity object.
+   * Maps a CategoryDto object to a Category database entity object.
    *
-   * @param {object} categoryDto The category dto object to map.
-   * @return {object} The category database entity object.
+   * @param {object} categoryDto The CategoryDto object to map.
+   * @return {object} The Category database entity object.
    */
   toDatabaseEntity(categoryDto) {
-    const categoryDbEntity = {
+    const dbEntity = {
       id: categoryDto.id,
       title: categoryDto.title,
     };
 
-    const cleanedCategoryDbEntity = objectUtils.removeUndefined(categoryDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedCategoryDbEntity;
+    return cleanedDbEntity;
   }
 }
 

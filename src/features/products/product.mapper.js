@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class ProductMapper {
   /**
-   * Maps a product object to a product dto object.
+   * Maps a Product database entity object to a ProductDto object.
    *
-   * @param {object} product The product object to map.
-   * @return {object} The product dto object.
+   * @param {object} product The Product database entity object to map.
+   * @return {object} The ProductDto object.
    */
   toDto(product) {
     return {
@@ -26,13 +26,13 @@ class ProductMapper {
   }
 
   /**
-   * Maps a productDto object to a product database entity object.
+   * Maps a ProductDto object to a product database entity object.
    *
-   * @param {object} productDto The product dto object to map.
-   * @return {object} The product database entity object.
+   * @param {object} productDto The ProductDto object to map.
+   * @return {object} The Product database entity object.
    */
   toDatabaseEntity(productDto) {
-    const productDbEntity = {
+    const dbEntity = {
       id: productDto.id,
       title: productDto.title,
       slug: productDto.slug,
@@ -45,9 +45,9 @@ class ProductMapper {
       deleted_at: productDto.deleted_at,
     };
 
-    const cleanedProductDbEntity = objectUtils.removeUndefined(productDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedProductDbEntity;
+    return cleanedDbEntity;
   }
 }
 

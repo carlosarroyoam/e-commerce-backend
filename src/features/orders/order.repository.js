@@ -1,3 +1,5 @@
+import refundMapper from '#app/features/refunds/refund.mapper.js';
+import shipmentMapper from '#app/features/shipments/shipment.mapper.js';
 import OrderDao from '#features/orders/order.dao.js';
 import orderMapper from '#features/orders/order.mapper.js';
 
@@ -188,7 +190,7 @@ class OrderRepository {
    * @return {Promise} The created shipment id.
    */
   async storeShipment(shipment) {
-    const shipmentDbEntity = orderMapper.toDatabaseShipmentEntity(shipment);
+    const shipmentDbEntity = shipmentMapper.toDatabaseShipmentEntity(shipment);
     const [result] = await this.orderDao.createShipment(shipmentDbEntity);
     return result.insertId;
   }
@@ -200,7 +202,7 @@ class OrderRepository {
    * @return {Promise} The created refund id.
    */
   async storeRefund(refund) {
-    const refundDbEntity = orderMapper.toDatabaseRefundEntity(refund);
+    const refundDbEntity = refundMapper.toDatabaseEntity(refund);
     const [result] = await this.orderDao.createRefund(refundDbEntity);
     return result.insertId;
   }
@@ -212,7 +214,7 @@ class OrderRepository {
    * @return {Promise} The created refund item id.
    */
   async storeRefundItem(refundItem) {
-    const refundItemDbEntity = orderMapper.toDatabaseRefundItemEntity(refundItem);
+    const refundItemDbEntity = refundMapper.toDatabaseItemEntity(refundItem);
     const [result] = await this.orderDao.createRefundItem(refundItemDbEntity);
     return result.insertId;
   }

@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class ProductVariantMapper {
   /**
-   * Maps a variant object to a variant dto object.
+   * Maps a Variant database entity object to a VariantDto object.
    *
-   * @param {object} variant The variant object to map.
-   * @return {object} The variant dto object.
+   * @param {object} variant The variant database entity object to map.
+   * @return {object} The VariantDto object.
    */
   toDto(variant) {
     return {
@@ -23,13 +23,13 @@ class ProductVariantMapper {
   }
 
   /**
-   * Maps a variantDto object to a variant database entity object.
+   * Maps a VariantDto object to a Variant database entity object.
    *
-   * @param {object} variantDto The variant dto object to map.
-   * @return {object} The variant database entity object.
+   * @param {object} variantDto The VariantDto object to map.
+   * @return {object} The Variant database entity object.
    */
   toDatabaseEntity(variantDto) {
-    const variantDbEntity = {
+    const dbEntity = {
       id: variantDto.id,
       sku: variantDto.sku,
       price: variantDto.price,
@@ -39,9 +39,9 @@ class ProductVariantMapper {
       product_id: variantDto.product_id,
     };
 
-    const cleanedVariantDbEntity = objectUtils.removeUndefined(variantDbEntity);
+    const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);
 
-    return cleanedVariantDbEntity;
+    return cleanedDbEntity;
   }
 }
 

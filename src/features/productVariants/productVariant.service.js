@@ -53,23 +53,25 @@ class ProductVariantService {
 
       connection.release();
 
+      const mappedProductVariants = productVariants.map((variant) => {
+        const productVariantDto = productVariantMapper.toDto(variant);
+
+        const productVariantAttributesDto = variant.attribute_combinations.map((attribute) =>
+          attributeMapper.toDto(attribute)
+        );
+
+        // TODO add product images dto
+        const variantImagesDto = variant.images;
+
+        return {
+          ...productVariantDto,
+          attribute_combinations: productVariantAttributesDto,
+          images: variantImagesDto,
+        };
+      });
+
       return {
-        items: productVariants.map((variant) => {
-          const productVariantDto = productVariantMapper.toDto(variant);
-
-          const productVariantAttributesDto = variant.attribute_combinations.map((attribute) =>
-            attributeMapper.toDto(attribute)
-          );
-
-          // TODO add product images dto
-          const variantImagesDto = variant.images;
-
-          return {
-            ...productVariantDto,
-            attribute_combinations: productVariantAttributesDto,
-            images: variantImagesDto,
-          };
-        }),
+        items: mappedProductVariants,
       };
     } catch (err) {
       if (connection) connection.release();
@@ -123,19 +125,12 @@ class ProductVariantService {
 
       connection.release();
 
-      const mappedProductVariant = productVariantMapper.toDto(variantById);
-
-      const mappedVariantAttributes = attributesByVariantId.map((attribute) =>
-        attributeMapper.toDto(attribute)
-      );
-
-      // TODO add product images dto
-      const mappedVariantImages = imagesByVariantId.images;
-
       return {
-        ...mappedProductVariant,
-        attribute_combinations: mappedVariantAttributes,
-        images: mappedVariantImages,
+        ...productVariantMapper.toDto(variantById),
+        attribute_combinations: attributesByVariantId.map((attribute) =>
+          attributeMapper.toDto(attribute)
+        ),
+        images: imagesByVariantId.images,
       };
     } catch (err) {
       if (connection) connection.release();

@@ -91,7 +91,7 @@ class AdminService {
 
       connection.release();
 
-      return adminMapper.toDto(adminById);
+      return { ...adminMapper.toDto(adminById) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -149,7 +149,7 @@ class AdminService {
       await connection.commit();
       connection.release();
 
-      return adminMapper.toDto(createdAdmin);
+      return { ...adminMapper.toDto(createdAdmin) };
     } catch (err) {
       if (connection) {
         await connection.rollback();
@@ -208,7 +208,7 @@ class AdminService {
 
       connection.release();
 
-      return adminMapper.toDto(updatedAdmin);
+      return { ...adminMapper.toDto(updatedAdmin) };
     } catch (err) {
       if (connection) {
         await connection.rollback();

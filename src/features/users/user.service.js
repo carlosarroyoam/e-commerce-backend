@@ -87,7 +87,7 @@ class UserService {
 
       connection.release();
 
-      return userMapper.toDto(userById);
+      return { ...userMapper.toDto(userById) };
     } catch (err) {
       if (connection) connection.release();
 

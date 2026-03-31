@@ -30,15 +30,13 @@ class RefundService {
       const totalRefunds = await refundRepository.count({ order_id });
       const refunds = await refundRepository.findAll({ page, size, sort, order_id });
 
-      const mappedRefunds = refunds.map((r) => refundMapper.toDto(r));
-
       connection.release();
 
       return {
-        refunds: mappedRefunds,
+        refunds: refunds.map((refund) => refundMapper.toDto(refund)),
         pagination: {
-          page: mappedRefunds.length > 0 ? page : 0,
-          size: mappedRefunds.length,
+          page: refunds.length > 0 ? page : 0,
+          size: refunds.length,
           totalItems: totalRefunds,
           totalPages: Math.ceil(totalRefunds / size),
         },
@@ -80,7 +78,7 @@ class RefundService {
 
       return {
         ...refundMapper.toDto(refund),
-        items: items.map((i) => refundMapper.toItemDto(i)),
+        items: items.map((item) => refundMapper.toItemDto(item)),
       };
     } catch (err) {
       if (connection) connection.release();
@@ -107,19 +105,19 @@ class RefundService {
       connection = await dbConnectionPool.getConnection();
       const refundRepository = new RefundRepository(connection);
 
-      const refund = await refundRepository.findByOrderId(order_id);
+      const refundById = await refundRepository.findByOrderId(order_id);
 
-      if (!refund) {
-        return [];
+      if (!refundById) {
+        throw new sharedErrors.ResourceNotFoundError();
       }
 
-      const items = await refundRepository.findItemsByRefundId(refund.id);
+      const itemsByRefundId = await refundRepository.findItemsByRefundId(refundById.id);
 
       connection.release();
 
       return {
-        ...refundMapper.toDto(refund),
-        items: items.map((i) => refundMapper.toItemDto(i)),
+        ...refundMapper.toDto(refundById),
+        items: itemsByRefundId.map((item) => refundMapper.toItemDto(item)),
       };
     } catch (err) {
       if (connection) connection.release();
@@ -184,7 +182,7 @@ class RefundService {
         ]);
       }
 
-      const refund_id = await refundRepository.store({
+      const createdRefundId = await refundRepository.store({
         order_id,
         amount: totalRefundAmount,
         reason: refundData.reason,
@@ -192,7 +190,7 @@ class RefundService {
 
       for (const item of refundData.items) {
         await refundRepository.storeItem({
-          refund_id,
+          refund_id: createdRefundId,
           order_item_id: item.order_item_id,
           quantity: item.quantity,
           amount: item.amount,
@@ -207,10 +205,16 @@ class RefundService {
         note: 'Order refunded',
       });
 
+      const createdRefound = await refundRepository.findById(createdRefundId);
+      const items = await refundRepository.findItemsByRefundId(createdRefound.id);
+
       await connection.commit();
       connection.release();
 
-      return this.findById(refund_id);
+      return {
+        ...refundMapper.toDto(createdRefound),
+        items: items.map((item) => refundMapper.toItemDto(item)),
+      };
     } catch (err) {
       if (connection) {
         await connection.rollback();

@@ -5,10 +5,10 @@ import objectUtils from '#core/utils/object.utils.js';
  */
 class CustomerAddressMapper {
   /**
-   * Maps a customer address object to a customer address dto object.
+   * Maps a CustomerAddress database entity object to a CustomerAddressDto object.
    *
-   * @param {object} customerAddress The customer address object to map.
-   * @return {object} The customer address dto object.
+   * @param {object} customerAddress The CustomerAddress database entity object to map.
+   * @return {object} The CustomerAddressDto object.
    */
   toDto(customerAddress) {
     return {
@@ -19,6 +19,7 @@ class CustomerAddressMapper {
       sublocality: customerAddress.sublocality,
       locality: customerAddress.locality,
       state: customerAddress.state,
+      country: customerAddress.country,
       postal_code: customerAddress.postal_code,
       phone_number: customerAddress.phone_number,
       customer_id: customerAddress.customer_id,
@@ -26,10 +27,10 @@ class CustomerAddressMapper {
   }
 
   /**
-   * Maps a customer address dto object to a customer address database entity object.
+   * Maps a CustomerAddressDto object to a CustomerAddress database entity object.
    *
-   * @param {object} customerAddressDto The customer address dto object to map.
-   * @return {object} The customer address database entity object.
+   * @param {object} customerAddressDto The CustomerAddressDto object to map.
+   * @return {object} The CustomerAddress database entity object.
    */
   toDatabaseEntity(customerAddressDto) {
     const customerAddressDbEntity = {
@@ -40,6 +41,7 @@ class CustomerAddressMapper {
       sublocality: customerAddressDto.sublocality,
       locality: customerAddressDto.locality,
       state: customerAddressDto.state,
+      country: customerAddressDto.country,
       postal_code: customerAddressDto.postal_code,
       phone_number: customerAddressDto.phone_number,
       customer_id: customerAddressDto.customer_id,

@@ -75,7 +75,7 @@ class PropertyService {
 
       connection.release();
 
-      return propertyMapper.toDto(propertyById);
+      return { ...propertyMapper.toDto(propertyById) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -123,7 +123,7 @@ class PropertyService {
 
       connection.release();
 
-      return propertyMapper.toDto(createdProperty);
+      return { ...propertyMapper.toDto(createdProperty) };
     } catch (err) {
       if (connection) connection.release();
 
@@ -165,7 +165,7 @@ class PropertyService {
 
       connection.release();
 
-      return propertyMapper.toDto(updatedProperty);
+      return { ...propertyMapper.toDto(updatedProperty) };
     } catch (err) {
       if (connection) connection.release();
 

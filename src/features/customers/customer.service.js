@@ -8,6 +8,7 @@ import bcrypt from '#core/lib/bcrypt/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
 import userRoles from '#features/auth/roles.js';
+import customerAddressMapper from '#app/features/customerAddresses/customerAddress.mapper.js';
 
 /**
  * CustomerService class.
@@ -107,10 +108,10 @@ class CustomerService {
 
       connection.release();
 
-      return customerMapper.toDto({
-        ...customerById,
-        addresses: addressesByCustomerId,
-      });
+      return {
+        ...customerMapper.toDto(customerById),
+        addresses: addressesByCustomerId.map((address) => customerAddressMapper.toDto(address)),
+      };
     } catch (err) {
       if (connection) connection.release();
 
@@ -167,7 +168,7 @@ class CustomerService {
       await connection.commit();
       connection.release();
 
-      return customerMapper.toDto(createdCustomer);
+      return { ...customerMapper.toDto(createdCustomer) };
     } catch (err) {
       if (connection) {
         await connection.rollback();
@@ -226,7 +227,7 @@ class CustomerService {
 
       connection.release();
 
-      return customerMapper.toDto(updatedCustomer);
+      return { ...customerMapper.toDto(updatedCustomer) };
     } catch (err) {
       if (connection) {
         await connection.rollback();
