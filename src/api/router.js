@@ -1,31 +1,24 @@
 import { Router } from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-import rootRoute from '#core/routes/root.routes.js';
 import defaultRoute from '#core/routes/default.routes.js';
+import rootRoute from '#core/routes/root.routes.js';
 
-import authRoutes from '#features/auth/auth.routes.js';
-import userRoutes from '#features/users/user.routes.js';
 import adminRoutes from '#features/admins/admin.routes.js';
-import customerRoutes from '#features/customers/customer.routes.js';
+import attributeRoutes from '#features/attributes/attribute.routes.js';
+import authRoutes from '#features/auth/auth.routes.js';
+import categoryRoutes from '#features/categories/category.routes.js';
 import customerAddressesRoutes from '#features/customerAddresses/customerAddress.routes.js';
+import customerRoutes from '#features/customers/customer.routes.js';
+import orderRoutes from '#features/orders/order.routes.js';
 import productRoutes from '#features/products/product.routes.js';
 import productPropertyRoutes from '#features/productVariants/productVariant.routes.js';
-import attributeRoutes from '#features/attributes/attribute.routes.js';
 import propertyRoutes from '#features/properties/property.routes.js';
-import categoryRoutes from '#features/categories/category.routes.js';
-import orderRoutes from '#features/orders/order.routes.js';
-import shipmentRoutes from '#features/shipments/shipment.routes.js';
 import refundRoutes from '#features/refunds/refund.routes.js';
+import shipmentRoutes from '#features/shipments/shipment.routes.js';
+import userRoutes from '#features/users/user.routes.js';
 
 export default () => {
-  // eslint-disable-next-line new-cap
   const router = Router();
-  // eslint-disable-next-line new-cap
   const apiRouter = Router();
 
   apiRouter.use('/auth', authRoutes());
@@ -41,10 +34,6 @@ export default () => {
   apiRouter.use('/orders', orderRoutes());
   apiRouter.use('/shipments', shipmentRoutes());
   apiRouter.use('/refunds', refundRoutes());
-
-  apiRouter.use('/docs', (request, res) => {
-    response.sendFile(path.join(__dirname, '../../docs/openapi/api-docs.yaml'));
-  });
 
   router.use('/', rootRoute());
   router.use('/api/v1', apiRouter);

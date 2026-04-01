@@ -43,28 +43,23 @@ import { body, param, query } from 'express-validator';
  *
  * @param {'body' | 'query' | 'param'} location
  * @param {string} parameterName
- * @param {{ format?: 'id' | 'uuid', required?: boolean, min?: number }} [options]
+ * @param {{ format?: 'id' | 'uuid', required?: boolean }} [options]
  * @returns {*}
  */
-const resourceValue = (location, parameterName, { format = 'id', required = true, min } = {}) => {
+const resourceValue = (location, parameterName, { format = 'id', required = true } = {}) => {
   const resolver = { body, query, param }[location];
   let validator = resolver(parameterName).trim();
 
-  if (!required) {
+  if (required) {
+    validator = validator
+      .exists({ checkNull: true, checkFalsy: true })
+      .withMessage(`The ${parameterName} is required`);
+  } else {
     validator = validator.optional();
   }
 
   if (format === 'uuid') {
     return validator.isUUID(4).withMessage(`The ${parameterName} format is invalid`);
-  }
-
-  if (min !== undefined) {
-    return validator
-      .isInt({ min })
-      .withMessage(
-        `The ${parameterName} must be an integer value and greater or equals than ${min}`
-      )
-      .toInt();
   }
 
   return validator
@@ -89,18 +84,16 @@ const numericValue = (
   const resolver = { body, query, param }[location];
   let validator = resolver(parameterName);
 
-  if (!required) {
+  if (required) {
+    validator = validator
+      .exists({ checkNull: true, checkFalsy: true })
+      .withMessage(`The ${parameterName} is required`);
+  } else {
     validator = validator.optional();
   }
 
   if (location !== 'param') {
     validator = validator.trim();
-  }
-
-  if (required) {
-    validator = validator
-      .exists({ checkNull: true, checkFalsy: true })
-      .withMessage(`The ${parameterName} is required`);
   }
 
   const range = max === undefined ? { min } : { min, max };
@@ -136,14 +129,12 @@ const textValue = (
   const resolver = { body, query, param }[location];
   let validator = resolver(parameterName).trim();
 
-  if (!required) {
-    validator = validator.optional();
-  }
-
   if (required) {
     validator = validator
       .exists({ checkNull: true, checkFalsy: true })
       .withMessage(`The ${parameterName} is required`);
+  } else {
+    validator = validator.optional();
   }
 
   validator = validator
@@ -172,14 +163,12 @@ const enumValue = (location, parameterName, validValues, { required = false, mes
   const resolver = { body, query, param }[location];
   let validator = resolver(parameterName).trim();
 
-  if (!required) {
-    validator = validator.optional();
-  }
-
   if (required) {
     validator = validator
       .exists({ checkNull: true, checkFalsy: true })
       .withMessage(`The ${parameterName} is required`);
+  } else {
+    validator = validator.optional();
   }
 
   return validator
@@ -203,14 +192,12 @@ const emailValue = (
   const resolver = { body, query, param }[location];
   let validator = resolver(parameterName).trim().toLowerCase();
 
-  if (!required) {
-    validator = validator.optional();
-  }
-
   if (required) {
     validator = validator
       .exists({ checkNull: true, checkFalsy: true })
       .withMessage(`The ${parameterName} is required`);
+  } else {
+    validator = validator.optional();
   }
 
   return validator
@@ -251,7 +238,7 @@ const resourceIdInBody = (parameterName) => resourceValue('body', parameterName)
  * @returns {*}
  */
 const resourceIdInQuery = (parameterName) =>
-  resourceValue('query', parameterName, { required: false, min: 1 });
+  resourceValue('query', parameterName, { required: false });
 
 /**
  * Creates a UUID v4 validator for a body field.
@@ -433,23 +420,17 @@ const confirmPassword = (passwordParameterName, confirmationParameterName) =>
     });
 
 /**
- * Validates the required email body field.
- *
- * @type {*}
+ * Validates the email body field.
  */
 const email = (parameterName) => emailInBody(parameterName);
 
 /**
- * Validates the required password body field.
- *
- * @type {*}
+ * Validates the password body field.
  */
 const password = (parameterName) => passwordInBody(parameterName);
 
 /**
  * Validates search query in query parameters.
- *
- * @type {*}
  */
 const search = query('search')
   .trim()
@@ -461,8 +442,6 @@ const search = query('search')
 
 /**
  * Validates page in query parameters.
- *
- * @type {*}
  */
 const page = query('page')
   .trim()
@@ -473,8 +452,6 @@ const page = query('page')
 
 /**
  * Validates page in query parameters.
- *
- * @type {*}
  */
 const size = query('size')
   .trim()
@@ -485,8 +462,6 @@ const size = query('size')
 
 /**
  * Validates sort in query parameters.
- *
- * @type {*}
  */
 const sort = (validValues, options = {}) => enumValue('query', 'sort', validValues, options);
 

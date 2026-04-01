@@ -1,8 +1,8 @@
 /**
  * Capitalizes the first char of string.
  *
- * @param {string} string The string to capitalize
- * @return {string} The capitalized string
+ * @param {string} string The string to capitalize.
+ * @return {string} The capitalized string.
  */
 function capitalize(string) {
   if (typeof string !== 'string') return '';
@@ -13,8 +13,8 @@ function capitalize(string) {
 /**
  * Capitalizes every word in a string.
  *
- * @param {string} string
- * @return {string}
+ * @param {string} string The string to capitalize.
+ * @return {string} The capitalized string.
  */
 function capitalizeWords(string) {
   if (typeof string !== 'string') return '';
@@ -31,8 +31,8 @@ function capitalizeWords(string) {
 /**
  * Returns a slugify string.
  *
- * @param {string} string
- * @return {string}
+ * @param {string} string The string to slugify.
+ * @return {string} The slugify string.
  */
 function slugify(string) {
   if (typeof string !== 'string') return '';
