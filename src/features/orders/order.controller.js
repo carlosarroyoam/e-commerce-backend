@@ -75,9 +75,9 @@ class OrderController {
   async updateStatus(request, response, next) {
     try {
       const { order_id } = request.params;
-      const { status_id, note } = request.body;
+      const { status_id, notes } = request.body;
 
-      await orderService.updateStatus(Number(order_id), status_id, note);
+      await orderService.updateStatus(Number(order_id), status_id, notes);
 
       response.status(204).end();
     } catch (err) {

@@ -183,7 +183,7 @@ class OrderService {
       await orderRepository.storeStatusHistory({
         order_id: createdOrderId,
         status_id: pendingStatusId,
-        note: 'Order created',
+        notes: 'Order created',
       });
 
       for (const item of orderData.items) {
@@ -234,10 +234,10 @@ class OrderService {
    *
    * @param {number} order_id The id of the order to update.
    * @param {number} status_id The status id to update.
-   * @param {string} note The note for the status history entry.
+   * @param {string} notes The notes for the status history entry.
    * @return {Promise} The updated order.
    */
-  async updateStatus(order_id, status_id, note) {
+  async updateStatus(order_id, status_id, notes) {
     let connection;
 
     try {
@@ -256,7 +256,7 @@ class OrderService {
       await orderRepository.storeStatusHistory({
         order_id,
         status_id,
-        note,
+        notes,
       });
 
       await connection.commit();

@@ -71,7 +71,7 @@ class OrderMapper {
       id: statusHistory.id,
       status_id: statusHistory.status_id,
       status: statusHistory.status,
-      note: statusHistory.note,
+      notes: statusHistory.notes,
       changedAt: statusHistory.changed_at,
     };
   }
@@ -132,7 +132,7 @@ class OrderMapper {
     const dbEntity = {
       order_id: orderStatusHistoryDto.order_id,
       status_id: orderStatusHistoryDto.status_id,
-      note: orderStatusHistoryDto.note,
+      notes: orderStatusHistoryDto.notes,
     };
 
     const cleanedDbEntity = objectUtils.removeUndefined(dbEntity);

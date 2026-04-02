@@ -32,8 +32,8 @@ class OrderDao {
       ca.locality,
       ca.state,
       ca.postal_code,
-      os.name AS status,
-      ops.name AS payment_status,
+      os.title AS status,
+      ops.title AS payment_status,
       o.subtotal,
       o.tax_total,
       o.shipping_total,
@@ -114,9 +114,9 @@ class OrderDao {
       ca.country,
       ca.phone_number,
       os.id AS status_id,
-      os.name AS status,
+      os.title AS status,
       ops.id AS payment_status_id,
-      ops.name AS payment_status,
+      ops.title AS payment_status,
       o.subtotal,
       o.tax_total,
       o.shipping_total,
@@ -197,8 +197,8 @@ class OrderDao {
     const query = `SELECT
       osh.id,
       osh.status_id,
-      os.name AS status,
-      osh.note,
+      os.title AS status,
+      osh.notes,
       osh.changed_at
     FROM order_status_history osh
     LEFT JOIN order_statuses os ON osh.status_id = os.id

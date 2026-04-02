@@ -202,7 +202,7 @@ class RefundService {
       await orderRepository.storeStatusHistory({
         order_id,
         status_id: refundedStatusId,
-        note: 'Order refunded',
+        notes: 'Order refunded',
       });
 
       const createdRefound = await refundRepository.findById(createdRefundId);

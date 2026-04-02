@@ -153,7 +153,7 @@ class ShipmentService {
       await orderRepository.storeStatusHistory({
         order_id,
         status_id: shippedStatusId,
-        note: 'Order shipped',
+        notes: 'Order shipped',
       });
 
       await shipmentRepository.store({
@@ -215,7 +215,7 @@ class ShipmentService {
       await orderRepository.storeStatusHistory({
         order_id: shipment.order_id,
         status_id: deliveredStatusId,
-        note: 'Order delivered',
+        notes: 'Order delivered',
       });
 
       const shipmentId = await shipmentRepository.findById(shipment_id);

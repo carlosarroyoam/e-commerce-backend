@@ -378,7 +378,7 @@ INSERT INTO order_items (id, order_id, product_id, variant_id, quantity, unit_pr
 (4, 4, 7, 15, 1, 4999.00, 4999.00),
 (5, 5, 10, 20, 1, 15999.00, 15999.00);
 
-INSERT INTO order_status_history (id, order_id, status_id, note, changed_at) VALUES
+INSERT INTO order_status_history (id, order_id, status_id, notes, changed_at) VALUES
 (1, 1, 1, 'Order created', '2025-01-15 10:30:00'),
 (2, 1, 2, 'Payment received', '2025-01-15 11:00:00'),
 (3, 1, 3, 'Order shipped', '2025-01-16 09:00:00'),

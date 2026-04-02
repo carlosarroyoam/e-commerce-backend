@@ -218,16 +218,16 @@ CREATE TABLE IF NOT EXISTS inventory_movements (
 
 CREATE TABLE IF NOT EXISTS order_payment_statuses (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(32) NOT NULL,
+    title VARCHAR(32) NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY uk_order_payment_statuses_name (name)
+    UNIQUE KEY uk_order_payment_statuses_title (title)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS order_statuses (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(32) NOT NULL,
+    title VARCHAR(32) NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY uk_order_statuses_name (name)
+    UNIQUE KEY uk_order_statuses_title (title)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS carriers (
@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS order_status_history (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     order_id BIGINT UNSIGNED NOT NULL,
     status_id TINYINT UNSIGNED NOT NULL,
-    note TEXT,
+    notes TEXT,
     changed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     INDEX idx_order_status_history_order_id (order_id),

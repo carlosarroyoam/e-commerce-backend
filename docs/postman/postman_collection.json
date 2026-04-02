@@ -15,9 +15,7 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -26,9 +24,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -55,13 +51,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
             },
             "description": "Authenticates a user"
           },
@@ -73,18 +64,14 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             },
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -100,13 +87,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/auth/logout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "logout"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
             },
             "description": "Authenticates a user"
           },
@@ -118,18 +100,14 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             },
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -151,13 +129,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/refresh-token",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "refresh-token"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "refresh-token"]
             },
             "description": "Authenticates a user"
           },
@@ -169,18 +142,14 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             },
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -202,13 +171,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/forgot-password",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "forgot-password"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "forgot-password"]
             },
             "description": "Authenticates a user"
           },
@@ -220,18 +184,14 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             },
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -253,13 +213,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/reset-password?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY0MzM5MzAyNywiZXhwIjoxNjQzMzkzOTI3LCJpc3MiOiJub2RlanNfYXBpIn0.9d91u67zx2Cr3p038X414e2idxJU2UoHOnNqVDuwjv0",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "reset-password"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "reset-password"],
               "query": [
                 {
                   "key": "token",
@@ -282,9 +237,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -293,9 +246,7 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -310,12 +261,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/users",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["users"],
               "query": [
                 {
                   "key": "status",
@@ -353,9 +300,7 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -365,13 +310,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/users/:userId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                ":userId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":userId"],
               "variable": [
                 {
                   "key": "userId",
@@ -388,9 +328,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -411,14 +349,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/users/:userId/change-password",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                ":userId",
-                "change-password"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":userId", "change-password"],
               "variable": [
                 {
                   "key": "userId",
@@ -446,13 +378,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/users/:userId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                ":userId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":userId"],
               "variable": [
                 {
                   "key": "userId",
@@ -470,14 +397,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/users/:userId/restore",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                ":userId",
-                "restore"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":userId", "restore"],
               "variable": [
                 {
                   "key": "userId",
@@ -500,12 +421,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/admins",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "admins"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["admins"],
               "query": [
                 {
                   "key": "status",
@@ -549,13 +466,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/admins/:adminId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "admins",
-                ":adminId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["admins", ":adminId"],
               "variable": [
                 {
                   "key": "adminId",
@@ -572,9 +484,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -595,12 +505,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/admins",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "admins"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["admins"]
             }
           },
           "response": []
@@ -621,13 +527,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/admins/:adminId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "admins",
-                ":adminId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["admins", ":adminId"],
               "variable": [
                 {
                   "key": "adminId",
@@ -649,9 +550,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript",
                 "packages": {},
                 "requests": {}
@@ -663,12 +562,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/customers",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers"],
               "query": [
                 {
                   "key": "status",
@@ -712,13 +607,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId"],
               "variable": [
                 {
                   "key": "customerId",
@@ -735,9 +625,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -756,12 +644,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/customers",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["customers"]
             }
           },
           "response": []
@@ -782,13 +666,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId"],
               "variable": [
                 {
                   "key": "customerId",
@@ -811,14 +690,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId/addresses",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId",
-                "addresses"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId", "addresses"],
               "variable": [
                 {
                   "key": "customerId",
@@ -836,15 +709,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId/addresses/:addressId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId",
-                "addresses",
-                ":addressId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId", "addresses", ":addressId"],
               "variable": [
                 {
                   "key": "customerId",
@@ -865,9 +731,7 @@
             {
               "listen": "prerequest",
               "script": {
-                "exec": [
-                  ""
-                ],
+                "exec": [""],
                 "type": "text/javascript"
               }
             }
@@ -886,14 +750,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId/addresses",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId",
-                "addresses"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId", "addresses"],
               "variable": [
                 {
                   "key": "customerId",
@@ -920,15 +778,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId/addresses/:addressId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId",
-                "addresses",
-                ":addressId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId", "addresses", ":addressId"],
               "variable": [
                 {
                   "key": "customerId",
@@ -960,15 +811,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/customers/:customerId/addresses/:addressId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "customers",
-                ":customerId",
-                "addresses",
-                ":addressId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", ":customerId", "addresses", ":addressId"],
               "variable": [
                 {
                   "key": "customerId",
@@ -995,12 +839,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/products",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
               "query": [
                 {
                   "key": "search",
@@ -1036,13 +876,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/products/:productId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                ":productId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["products", ":productId"],
               "variable": [
                 {
                   "key": "productId",
@@ -1069,12 +904,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/products",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
             }
           },
           "response": []
@@ -1091,14 +922,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/products/:productId/variants",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                ":productId",
-                "variants"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["products", ":productId", "variants"],
               "variable": [
                 {
                   "key": "productId",
@@ -1116,15 +941,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/products/:productId/variants/:variantId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                ":productId",
-                "variants",
-                ":variantId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["products", ":productId", "variants", ":variantId"],
               "variable": [
                 {
                   "key": "productId",
@@ -1151,12 +969,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/categories",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"],
               "query": [
                 {
                   "key": "page",
@@ -1188,13 +1002,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/categories/:categoryId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                ":categoryId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", ":categoryId"],
               "variable": [
                 {
                   "key": "categoryId",
@@ -1221,12 +1030,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/categories",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
             }
           },
           "response": []
@@ -1247,13 +1052,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/categories/:categoryId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                ":categoryId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", ":categoryId"],
               "variable": [
                 {
                   "key": "categoryId",
@@ -1280,13 +1080,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/categories/:categoryId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                ":categoryId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", ":categoryId"],
               "variable": [
                 {
                   "key": "categoryId",
@@ -1304,14 +1099,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/categories/:categoryId/restore",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                ":categoryId",
-                "restore"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", ":categoryId", "restore"],
               "variable": [
                 {
                   "key": "categoryId",
@@ -1334,12 +1123,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/attributes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "attributes"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["attributes"],
               "query": [
                 {
                   "key": "page",
@@ -1371,13 +1156,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/attributes/:attributeId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "attributes",
-                ":attributeId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["attributes", ":attributeId"],
               "variable": [
                 {
                   "key": "attributeId",
@@ -1404,12 +1184,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/attributes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "attributes"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["attributes"]
             }
           },
           "response": []
@@ -1430,13 +1206,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/attributes/:attributeId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "attributes",
-                ":attributeId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["attributes", ":attributeId"],
               "variable": [
                 {
                   "key": "attributeId",
@@ -1454,13 +1225,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/attributes/:attributeId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "attributes",
-                ":attributeId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["attributes", ":attributeId"],
               "variable": [
                 {
                   "key": "attributeId",
@@ -1478,15 +1244,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/attributes/:attributeId/restore/restore",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "attributes",
-                ":attributeId",
-                "restore",
-                "restore"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["attributes", ":attributeId", "restore", "restore"],
               "variable": [
                 {
                   "key": "attributeId",
@@ -1509,12 +1268,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/properties",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "properties"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["properties"],
               "query": [
                 {
                   "key": "page",
@@ -1546,13 +1301,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/properties/:propertyId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "properties",
-                ":propertyId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["properties", ":propertyId"],
               "variable": [
                 {
                   "key": "propertyId",
@@ -1579,12 +1329,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/properties",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "properties"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["properties"]
             }
           },
           "response": []
@@ -1605,13 +1351,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/properties/:propertyId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "properties",
-                ":propertyId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["properties", ":propertyId"],
               "variable": [
                 {
                   "key": "propertyId",
@@ -1629,13 +1370,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/properties/:propertyId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "properties",
-                ":propertyId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["properties", ":propertyId"],
               "variable": [
                 {
                   "key": "propertyId",
@@ -1653,14 +1389,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/properties/:propertyId/restore",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "properties",
-                ":propertyId",
-                "restore"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["properties", ":propertyId", "restore"],
               "variable": [
                 {
                   "key": "propertyId",
@@ -1683,12 +1413,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/orders",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"],
               "query": [
                 {
                   "key": "search",
@@ -1734,12 +1460,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/orders",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
             }
           },
           "response": []
@@ -1754,14 +1476,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/orders/track/:orderNumber",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders",
-                "track",
-                ":orderNumber"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "track", ":orderNumber"],
               "variable": [
                 {
                   "key": "orderNumber",
@@ -1779,13 +1495,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/orders/:orderId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders",
-                ":orderId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", ":orderId"],
               "variable": [
                 {
                   "key": "orderId",
@@ -1803,7 +1514,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"status_id\": 2,\r\n    \"note\": \"Packed and ready for shipment\"\r\n}",
+              "raw": "{\r\n    \"status_id\": 2,\r\n    \"notes\": \"Packed and ready for shipment\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1812,14 +1523,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/orders/:orderId/status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders",
-                ":orderId",
-                "status"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", ":orderId", "status"],
               "variable": [
                 {
                   "key": "orderId",
@@ -1846,14 +1551,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/orders/:orderId/payment-status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders",
-                ":orderId",
-                "payment-status"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", ":orderId", "payment-status"],
               "variable": [
                 {
                   "key": "orderId",
@@ -1876,12 +1575,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/shipments",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "shipments"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments"],
               "query": [
                 {
                   "key": "page",
@@ -1916,13 +1611,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/shipments/carriers",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "shipments",
-                "carriers"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", "carriers"]
             }
           },
           "response": []
@@ -1934,13 +1624,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/shipments/:shipmentId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "shipments",
-                ":shipmentId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", ":shipmentId"],
               "variable": [
                 {
                   "key": "shipmentId",
@@ -1961,14 +1646,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/shipments/order/:orderId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "shipments",
-                "order",
-                ":orderId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", "order", ":orderId"],
               "variable": [
                 {
                   "key": "orderId",
@@ -1995,13 +1674,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/shipments/:orderId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "shipments",
-                ":orderId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", ":orderId"],
               "variable": [
                 {
                   "key": "orderId",
@@ -2019,14 +1693,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/shipments/:shipmentId/delivered",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "shipments",
-                ":shipmentId",
-                "delivered"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["shipments", ":shipmentId", "delivered"],
               "variable": [
                 {
                   "key": "shipmentId",
@@ -2049,12 +1717,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/refunds",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "refunds"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["refunds"],
               "query": [
                 {
                   "key": "orderId",
@@ -2092,13 +1756,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/refunds/:refundId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "refunds",
-                ":refundId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["refunds", ":refundId"],
               "variable": [
                 {
                   "key": "refundId",
@@ -2119,14 +1778,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/refunds/order/:orderId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "refunds",
-                "order",
-                ":orderId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["refunds", "order", ":orderId"],
               "variable": [
                 {
                   "key": "orderId",
@@ -2153,14 +1806,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/refunds/order/:orderId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "refunds",
-                "order",
-                ":orderId"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["refunds", "order", ":orderId"],
               "variable": [
                 {
                   "key": "orderId",
@@ -2189,18 +1836,14 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     },
     {
       "listen": "test",
       "script": {
         "type": "text/javascript",
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     }
   ],
