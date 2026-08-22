@@ -1,10 +1,9 @@
-import CustomerAddressRepository from '#features/customerAddresses/customerAddress.repository.js';
-import CustomerRepository from '#features/customers/customer.repository.js';
-
-import customerAddressMapper from '#app/features/customerAddresses/customerAddress.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
+import customerAddressMapper from '#features/customerAddresses/customerAddress.mapper.js';
+import CustomerAddressRepository from '#features/customerAddresses/customerAddress.repository.js';
+import CustomerRepository from '#features/customers/customer.repository.js';
 
 /**
  * CustomerAddressService class.

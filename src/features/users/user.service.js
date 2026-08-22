@@ -1,10 +1,9 @@
-import UserRepository from '#features/users/user.repository.js';
-
-import userMapper from '#app/features/users/user.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import bcrypt from '#core/lib/bcrypt/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
+import userMapper from '#features/users/user.mapper.js';
+import UserRepository from '#features/users/user.repository.js';
 
 /**
  * UserService class.

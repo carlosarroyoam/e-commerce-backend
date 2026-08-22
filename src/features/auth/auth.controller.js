@@ -1,6 +1,7 @@
 import ms from 'ms';
-import authService from '#features/auth/auth.service.js';
+
 import config from '#core/config/index.js';
+import authService from '#features/auth/auth.service.js';
 
 /**
  * AuthController class.

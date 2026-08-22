@@ -1,10 +1,9 @@
 import { Router } from 'express';
 
-import adminController from '#features/admins/admin.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import adminController from '#features/admins/admin.controller.js';
 
 import indexAdminSchema from './schemas/index.schema.js';
 import showAdminSchema from './schemas/show.schema.js';

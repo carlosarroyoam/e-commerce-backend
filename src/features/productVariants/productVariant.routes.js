@@ -1,10 +1,7 @@
 import { Router } from 'express';
 
-import productVariantController from '#features/productVariants/productVariant.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
-import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import productVariantController from '#features/productVariants/productVariant.controller.js';
 
 import indexProductVariantSchema from './schemas/index.schema.js';
 import showProductVariantSchema from './schemas/show.schema.js';

@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+
 import config from '#core/config/index.js';
 
 /**

@@ -1,17 +1,16 @@
 import { Router } from 'express';
 
-import propertyController from '#features/properties/property.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import propertyController from '#features/properties/property.controller.js';
 
+import deletePropertySchema from './schemas/delete.schema.js';
 import indexPropertySchema from './schemas/index.schema.js';
+import restorePropertySchema from './schemas/restore.schema.js';
 import showPropertySchema from './schemas/show.schema.js';
 import storePropertySchema from './schemas/store.schema.js';
 import updatePropertySchema from './schemas/update.schema.js';
-import deletePropertySchema from './schemas/delete.schema.js';
-import restorePropertySchema from './schemas/restore.schema.js';
 
 export default () => {
   // eslint-disable-next-line new-cap

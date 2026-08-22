@@ -1,9 +1,8 @@
-import AttributeRepository from '#features/attributes/attribute.repository.js';
-
-import attributeMapper from '#app/features/attributes/attribute.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
+import attributeMapper from '#features/attributes/attribute.mapper.js';
+import AttributeRepository from '#features/attributes/attribute.repository.js';
 
 /**
  * AttributeService class.

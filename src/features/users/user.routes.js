@@ -1,16 +1,15 @@
 import { Router } from 'express';
 
-import userController from '#features/users/user.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import userController from '#features/users/user.controller.js';
 
-import indexUserSchema from './schemas/index.schema.js';
-import showUserSchema from './schemas/show.schema.js';
-import deleteUserSchema from './schemas/delete.schema.js';
-import restoreUserSchema from './schemas/restore.schema.js';
 import changePasswordSchema from './schemas/changePassword.schema.js';
+import deleteUserSchema from './schemas/delete.schema.js';
+import indexUserSchema from './schemas/index.schema.js';
+import restoreUserSchema from './schemas/restore.schema.js';
+import showUserSchema from './schemas/show.schema.js';
 
 export default () => {
   // eslint-disable-next-line new-cap

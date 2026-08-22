@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import sharedErrors from '#core/errors/index.js';
 
 export default () => {

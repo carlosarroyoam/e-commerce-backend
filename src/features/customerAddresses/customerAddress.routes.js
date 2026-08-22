@@ -1,15 +1,14 @@
 import { Router } from 'express';
 
+import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import customerAddressController from '#features/customerAddresses/customerAddress.controller.js';
 
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
-import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
-
+import deleteCustomerAddressSchema from './schemas/delete.schema.js';
 import indexCustomerAddressSchema from './schemas/index.schema.js';
 import showCustomerAddressSchema from './schemas/show.schema.js';
 import storeCustomerAddressSchema from './schemas/store.schema.js';
 import updateCustomerAddressSchema from './schemas/update.schema.js';
-import deleteCustomerAddressSchema from './schemas/delete.schema.js';
 
 export default () => {
   // eslint-disable-next-line new-cap

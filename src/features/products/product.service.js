@@ -1,13 +1,12 @@
-import ProductRepository from '#features/products/product.repository.js';
-import ProductVariantRepository from '#features/productVariants/productVariant.repository.js';
-
-import attributeMapper from '#app/features/attributes/attribute.mapper.js';
-import productMapper from '#app/features/products/product.mapper.js';
-import productVariantMapper from '#app/features/productVariants/productVariant.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
 import stringUtils from '#core/utils/string.utils.js';
+import attributeMapper from '#features/attributes/attribute.mapper.js';
+import productMapper from '#features/products/product.mapper.js';
+import ProductRepository from '#features/products/product.repository.js';
+import productVariantMapper from '#features/productVariants/productVariant.mapper.js';
+import ProductVariantRepository from '#features/productVariants/productVariant.repository.js';
 
 /**
  * ProductService class.

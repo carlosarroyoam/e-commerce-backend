@@ -1,17 +1,16 @@
 import { Router } from 'express';
 
-import categoryController from '#features/categories/category.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import categoryController from '#features/categories/category.controller.js';
 
+import deleteCategorySchema from './schemas/delete.schema.js';
 import indexCategorySchema from './schemas/index.schema.js';
+import restoreCategorySchema from './schemas/restore.schema.js';
 import showCategorySchema from './schemas/show.schema.js';
 import storeCategorySchema from './schemas/store.schema.js';
 import updateCategorySchema from './schemas/update.schema.js';
-import deleteCategorySchema from './schemas/delete.schema.js';
-import restoreCategorySchema from './schemas/restore.schema.js';
 
 export default () => {
   // eslint-disable-next-line new-cap

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import packageJson from '../../../package.json' with { type: 'json' };
 
 export default () => {

@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+
 import sharedErrors from '#core/errors/index.js';
 
 const errorFormatter = ({ msg }) => msg;

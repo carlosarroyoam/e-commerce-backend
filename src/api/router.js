@@ -2,7 +2,6 @@ import { Router } from 'express';
 
 import defaultRoute from '#core/routes/default.routes.js';
 import rootRoute from '#core/routes/root.routes.js';
-
 import adminRoutes from '#features/admins/admin.routes.js';
 import attributeRoutes from '#features/attributes/attribute.routes.js';
 import authRoutes from '#features/auth/auth.routes.js';

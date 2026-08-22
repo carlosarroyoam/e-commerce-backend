@@ -1,10 +1,9 @@
 import { Router } from 'express';
 
-import customerController from '#features/customers/customer.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import adminGuardMiddleware from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import customerController from '#features/customers/customer.controller.js';
 
 import indexCustomerSchema from './schemas/index.schema.js';
 import showCustomerSchema from './schemas/show.schema.js';

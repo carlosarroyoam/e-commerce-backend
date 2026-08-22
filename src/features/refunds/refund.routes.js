@@ -1,10 +1,9 @@
 import { Router } from 'express';
 
-import RefundController from '#features/refunds/refund.controller.js';
-
-import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
 import adminGuard from '#core/middlewares/adminGuard.middleware.js';
 import validateRequestMiddleware from '#core/middlewares/validateRequest.middleware.js';
+import verifyTokenMiddleware from '#core/middlewares/verifyToken.middleware.js';
+import RefundController from '#features/refunds/refund.controller.js';
 
 import indexRefundSchema from './schemas/index.schema.js';
 import showRefundSchema from './schemas/show.schema.js';

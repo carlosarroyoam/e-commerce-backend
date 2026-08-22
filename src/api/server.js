@@ -1,17 +1,15 @@
-import express from 'express';
-import cors from 'cors';
 import compression from 'compression';
-import morgan from 'morgan';
-import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
 
 import router from '#app/api/router.js';
-
 import config from '#core/config/index.js';
 import logger from '#core/lib/winston/logger.js';
-
-import validateJsonPayloadMiddleware from '#core/middlewares/validateJsonPayload.middleware.js';
 import errorHandlerMiddleware from '#core/middlewares/errorHandler.middleware.js';
+import validateJsonPayloadMiddleware from '#core/middlewares/validateJsonPayload.middleware.js';
 
 export default {
   start: () => {

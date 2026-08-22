@@ -1,9 +1,8 @@
-import PropertyRepository from '#features/properties/property.repository.js';
-
-import propertyMapper from '#app/features/properties/property.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
+import propertyMapper from '#features/properties/property.mapper.js';
+import PropertyRepository from '#features/properties/property.repository.js';
 
 /**
  * PropertyService class.

@@ -1,9 +1,8 @@
-import CategoryRepository from '#features/categories/category.repository.js';
-
-import categoryMapper from '#app/features/categories/category.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
+import categoryMapper from '#features/categories/category.mapper.js';
+import CategoryRepository from '#features/categories/category.repository.js';
 
 /**
  * CategoryService class.

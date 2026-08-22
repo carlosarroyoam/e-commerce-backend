@@ -1,13 +1,12 @@
 import { randomUUID } from 'crypto';
 
-import OrderRepository from '#features/orders/order.repository.js';
-
-import orderMapper from '#app/features/orders/order.mapper.js';
-import shipmentMapper from '#app/features/shipments/shipment.mapper.js';
 import sharedErrors from '#core/errors/index.js';
 import dbConnectionPool from '#core/lib/mysql/connectionPool.js';
 import logger from '#core/lib/winston/logger.js';
-import refundMapper from '#app/features/refunds/refund.mapper.js';
+import orderMapper from '#features/orders/order.mapper.js';
+import OrderRepository from '#features/orders/order.repository.js';
+import refundMapper from '#features/refunds/refund.mapper.js';
+import shipmentMapper from '#features/shipments/shipment.mapper.js';
 
 /**
  * OrderService class.
@@ -138,9 +137,9 @@ class OrderService {
         shipment: shipmentByOrderId ? shipmentMapper.toDto(shipmentByOrderId) : null,
         refund: refundByOrderId
           ? {
-            ...refundMapper.toDto(refundByOrderId),
-            items: refundItems.map((item) => refundMapper.toItemDto(item)),
-          }
+              ...refundMapper.toDto(refundByOrderId),
+              items: refundItems.map((item) => refundMapper.toItemDto(item)),
+            }
           : null,
       };
     } catch (err) {

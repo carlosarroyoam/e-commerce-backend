@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import config from '#core/config/index.js';
 
 /**
