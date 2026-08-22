@@ -12,33 +12,45 @@ import errorHandlerMiddleware from '#core/middlewares/errorHandler.middleware.js
 import validateJsonPayloadMiddleware from '#core/middlewares/validateJsonPayload.middleware.js';
 
 export default {
+  /**
+   * @returns {Promise<void>}
+   */
   start: () => {
     const app = express();
 
     app
       .use(
         cors({
-          origin: ['http://localhost:3001', 'http://localhost:4200'],
+          origin: config.APP.CORS_ORIGIN,
           credentials: true,
         })
       )
+      .use(helmet())
+      .use(compression())
       .use(express.json())
       .use(cookieParser())
-      .use(compression())
-      .use(morgan('dev'))
-      .use(helmet())
+      .use(morgan(config.APP.ENV === 'prod' ? 'combined' : 'dev'))
       .use(router())
       .use(validateJsonPayloadMiddleware())
       .use(errorHandlerMiddleware());
 
-    return new Promise((resolve) => {
-      app.listen(config.APP.PORT, () => {
+    return new Promise((resolve, reject) => {
+      const server = app.listen(config.APP.PORT, () => {
         logger.log({
           level: 'info',
           message: `Application running on: ${config.APP.HOST}:${config.APP.PORT}`,
         });
 
         resolve();
+      });
+
+      server.on('error', (error) => {
+        logger.log({
+          level: 'error',
+          message: error.message,
+        });
+
+        reject(error);
       });
     });
   },

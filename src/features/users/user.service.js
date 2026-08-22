@@ -106,8 +106,8 @@ class UserService {
    * Deletes a user by its id.
    *
    * @param {number} user_id The id of the user to delete.
-   * @param {object} auth_user_id The id of the authenticated user.
-   * @return {Promise} The id of the deleted user.
+   * @param {number} auth_user_id The id of the authenticated user.
+   * @return {Promise<void>}
    */
   async deleteById(user_id, auth_user_id) {
     let connection;
@@ -152,8 +152,8 @@ class UserService {
    * Restores a user by its id.
    *
    * @param {number} user_id The id of the user to restore.
-   * @param {object} auth_user_id The id of the authenticated user.
-   * @return {Promise} The id of the restored user.
+   * @param {number} auth_user_id The id of the authenticated user.
+   * @return {Promise<void>}
    */
   async restore(user_id, auth_user_id) {
     let connection;
@@ -198,11 +198,11 @@ class UserService {
    * Changes a user's password.
    *
    * @param {object} user The user object.
-   * @param {number} user.user_id The id of the user to restore.
+   * @param {number} user.user_id The id of the user whose password is being changed.
    * @param {string} user.current_password The current password of the user.
    * @param {string} user.new_password The new password of the user.
-   * @param {object} auth_user_id The id of the authenticated user.
-   * @return {Promise} The id of the restored user.
+   * @param {number} auth_user_id The id of the authenticated user.
+   * @return {Promise<void>}
    */
   async changePassword({ user_id, current_password, new_password }, auth_user_id) {
     let connection;

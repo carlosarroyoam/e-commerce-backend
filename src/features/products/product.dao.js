@@ -5,13 +5,14 @@ class ProductDao {
   /**
    * ProductDao class constructor.
    *
+   * @param {*} connection The database connection object.
    */
   constructor(connection) {
     this.connection = connection;
   }
 
   /**
-   * Performs the SQL query to get all customer users.
+   * Performs the SQL query to get all products.
    *
    * @param {object} queryOptions The query options.
    * @param {number} queryOptions.page The query page.

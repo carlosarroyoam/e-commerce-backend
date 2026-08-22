@@ -2,6 +2,11 @@ import { Router } from 'express';
 
 import sharedErrors from '#core/errors/index.js';
 
+/**
+ * Builds the catch-all router that forwards a ResourceNotFoundError for any unmatched route.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();

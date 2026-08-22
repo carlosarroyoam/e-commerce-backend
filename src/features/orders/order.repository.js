@@ -187,10 +187,10 @@ class OrderRepository {
    * Stores a shipment.
    *
    * @param {object} shipment The shipment to store.
-   * @return {Promise} The created shipment id.
+   * @return {Promise<number>} The created shipment id.
    */
   async storeShipment(shipment) {
-    const shipmentDbEntity = shipmentMapper.toDatabaseShipmentEntity(shipment);
+    const shipmentDbEntity = shipmentMapper.toDatabaseEntity(shipment);
     const [result] = await this.orderDao.createShipment(shipmentDbEntity);
     return result.insertId;
   }
@@ -199,7 +199,7 @@ class OrderRepository {
    * Stores a refund.
    *
    * @param {object} refund The refund to store.
-   * @return {Promise} The created refund id.
+   * @return {Promise<number>} The created refund id.
    */
   async storeRefund(refund) {
     const refundDbEntity = refundMapper.toDatabaseEntity(refund);
@@ -211,7 +211,7 @@ class OrderRepository {
    * Stores a refund item.
    *
    * @param {object} refundItem The refund item to store.
-   * @return {Promise} The created refund item id.
+   * @return {Promise<number>} The created refund item id.
    */
   async storeRefundItem(refundItem) {
     const refundItemDbEntity = refundMapper.toDatabaseItemEntity(refundItem);

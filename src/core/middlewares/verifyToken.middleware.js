@@ -3,6 +3,13 @@ import jsonwebtoken from '#core/lib/jwt/index.js';
 import logger from '#core/lib/winston/logger.js';
 import authService from '#features/auth/auth.service.js';
 
+/**
+ * Verifies the access token cookie and attaches the authenticated user to the request.
+ *
+ * @param {*} request The express.js request object.
+ * @param {*} response The express.js response object.
+ * @param {*} next The express.js next object.
+ */
 export default async (request, response, next) => {
   try {
     const { access_token } = request.cookies;

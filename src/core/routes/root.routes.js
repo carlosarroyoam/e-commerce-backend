@@ -2,6 +2,11 @@ import { Router } from 'express';
 
 import packageJson from '../../../package.json' with { type: 'json' };
 
+/**
+ * Builds the router that exposes the API's root endpoint with package metadata.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();
@@ -13,7 +18,8 @@ export default () => {
       author: packageJson.author,
       version: packageJson.version,
       licence: packageJson.license,
-    }));
+    })
+  );
 
   return router;
 };

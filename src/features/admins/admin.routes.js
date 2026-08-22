@@ -10,6 +10,11 @@ import showAdminSchema from './schemas/show.schema.js';
 import storeAdminSchema from './schemas/store.schema.js';
 import updateAdminSchema from './schemas/update.schema.js';
 
+/**
+ * Builds the router exposing the /admins endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();

@@ -16,6 +16,12 @@ import refundRoutes from '#features/refunds/refund.routes.js';
 import shipmentRoutes from '#features/shipments/shipment.routes.js';
 import userRoutes from '#features/users/user.routes.js';
 
+/**
+ * Builds the application's root router, mounting the root, API v1 feature routers,
+ * and the default catch-all route.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   const router = Router();
   const apiRouter = Router();

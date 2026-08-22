@@ -30,7 +30,7 @@ class ProductVariantRepository {
   /**
    * Retrieves all product variants by product_id.
    *
-   * @param {number} product_id The query options.
+   * @param {number} product_id The id of the product to query.
    * @return {Promise} The result of the query.
    */
   async findByProductId(product_id) {
@@ -42,7 +42,7 @@ class ProductVariantRepository {
   /**
    * Retrieves all product attributes by variant_id.
    *
-   * @param {number} variant_id The query options.
+   * @param {number} variant_id The id of the variant to query.
    * @return {Promise} The result of the query.
    */
   async findAttributesByVariantId(variant_id) {
@@ -54,7 +54,7 @@ class ProductVariantRepository {
   /**
    * Retrieves all product images by variant_id.
    *
-   * @param {number} variant_id The query options.
+   * @param {number} variant_id The id of the variant to query.
    * @return {Promise} The result of the query.
    */
   async findImagesByVariantId(variant_id) {

@@ -71,9 +71,9 @@ class AttributeDao {
   }
 
   /**
-   * Performs the SQL query to get a category by its title.
+   * Performs the SQL query to get a attribute by its title.
    *
-   * @param {number} title The title of the category to query.
+   * @param {string} title The title of the attribute to query.
    * @return {Promise} The query result.
    */
   async getByTitle(title) {

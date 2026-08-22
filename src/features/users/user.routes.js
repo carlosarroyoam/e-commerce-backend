@@ -11,6 +11,11 @@ import indexUserSchema from './schemas/index.schema.js';
 import restoreUserSchema from './schemas/restore.schema.js';
 import showUserSchema from './schemas/show.schema.js';
 
+/**
+ * Builds the router exposing the /users endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();

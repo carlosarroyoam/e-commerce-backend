@@ -44,7 +44,7 @@ class CategoryRepository {
   /**
    * Retrieves a category by its id.
    *
-   * @param {number} category_id The query options.
+   * @param {number} category_id The id of the category to retrieve.
    * @return {Promise} The result of the query.
    */
   async findById(category_id) {
@@ -56,7 +56,7 @@ class CategoryRepository {
   /**
    * Retrieves a category by its title.
    *
-   * @param {number} title The query options.
+   * @param {string} title The title of the category to retrieve.
    * @return {Promise} The result of the query.
    */
   async findByTitle(title) {

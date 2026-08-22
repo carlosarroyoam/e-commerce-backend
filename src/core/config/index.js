@@ -7,6 +7,8 @@ const envSchema = Joi.object()
     APP_HOST: Joi.string().uri().default('http://localhost'),
     APP_PORT: Joi.number().default(3000),
 
+    CORS_ORIGIN: Joi.string().default('http://localhost:4200'),
+
     DB_USER: Joi.string().required(),
     DB_PASSWORD: Joi.string().required(),
     DB_NAME: Joi.string().required(),
@@ -36,6 +38,7 @@ export default {
     ENV: env.APP_ENV,
     HOST: env.APP_HOST,
     PORT: env.APP_PORT,
+    CORS_ORIGIN: env.CORS_ORIGIN.split(',').map((origin) => origin.trim()),
   },
   DB: {
     CONNECTION_LIMIT: env.DB_CONNECTION_LIMIT,

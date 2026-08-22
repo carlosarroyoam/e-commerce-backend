@@ -9,6 +9,11 @@ import indexProductSchema from './schemas/index.schema.js';
 import showProductSchema from './schemas/show.schema.js';
 import storeProductSchema from './schemas/store.schema.js';
 
+/**
+ * Builds the router exposing the /products endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();

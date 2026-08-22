@@ -18,7 +18,7 @@ class CategoryDao {
    * @param {number} queryOptions.page The query page.
    * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
-   * * @return {Promise} The query result.
+   * @return {Promise} The query result.
    */
   async getAll({ page, size, sort }) {
     let query = `SELECT
@@ -74,7 +74,7 @@ class CategoryDao {
   /**
    * Performs the SQL query to get a category by its title.
    *
-   * @param {number} title The title of the category to query.
+   * @param {string} title The title of the category to query.
    * @return {Promise} The query result.
    */
   async getByTitle(title) {

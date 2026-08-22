@@ -56,7 +56,7 @@ class CustomerAddressService {
    *
    * @param {number} customer_id The id of the customer.
    * @param {number} address_id The id of the address to retrieve.
-   * @return {Promise} The user.
+   * @return {Promise} The customer address.
    */
   async findById(customer_id, address_id) {
     let connection;
@@ -100,8 +100,8 @@ class CustomerAddressService {
    * Stores a customer address.
    *
    * @param {object} customerAddress The address to store.
-   * @param {number} customer_id The address to store.
-   * @return {Promise} The created admin user.
+   * @param {number} customer_id The id of the customer.
+   * @return {Promise} The created customer address.
    */
   async store(customerAddress, customer_id) {
     let connection;
@@ -154,7 +154,7 @@ class CustomerAddressService {
    * @param {object} customer_address The customer address to update.
    * @param {number} customer_id The id of the customer.
    * @param {number} address_id The id of the customer address to update.
-   * @return {Promise} The updated admin user.
+   * @return {Promise} The updated customer address.
    */
   async update(customer_address, customer_id, address_id) {
     let connection;
@@ -208,7 +208,7 @@ class CustomerAddressService {
    *
    * @param {number} customer_id The id of the customer.
    * @param {number} address_id The id of the address to delete.
-   * @return {Promise} The deleted address.
+   * @return {Promise<void>}
    */
   async deleteById(customer_id, address_id) {
     let connection;

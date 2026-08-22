@@ -1,5 +1,10 @@
 import logger from '#core/lib/winston/logger.js';
 
+/**
+ * Creates the error-handling middleware that logs and formats thrown errors as JSON responses.
+ *
+ * @return {Function} The error-handling middleware.
+ */
 export default () => async (error, request, response, next) => {
   logger.log({
     level: error.status !== 500 ? 'info' : 'error',

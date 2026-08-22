@@ -6,7 +6,7 @@ import productMapper from '#features/products/product.mapper.js';
  */
 class ProductRepository {
   /**
-   * ProductVariantRepository class constructor.
+   * ProductRepository class constructor.
    *
    * @param {*} connection The database connection object.
    */
@@ -74,9 +74,9 @@ class ProductRepository {
   }
 
   /**
-   * Retrieves all product attributes by product_id.
+   * Retrieves all product properties by product_id.
    *
-   * @param {number} product_id The query options.
+   * @param {number} product_id The id of the product to query.
    * @return {Promise} The result of the query.
    */
   async findPropertiesByProductId(product_id) {
@@ -89,6 +89,7 @@ class ProductRepository {
    * Stores a product.
    *
    * @param {object} product The product to store.
+   * @return {Promise<number>} The created product id.
    */
   async store(product) {
     const productDbEntity = productMapper.toDatabaseEntity(product);

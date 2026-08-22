@@ -401,7 +401,7 @@ const passwordInBody = (parameterName = 'password', options = {}) =>
  * Creates a confirmation password validator for a body field.
  *
  * @param {string} passwordParameterName
- * @param {string} [confirmationParameterName]
+ * @param {string} confirmationParameterName
  * @returns {*}
  */
 const confirmPassword = (passwordParameterName, confirmationParameterName) =>
@@ -421,11 +421,17 @@ const confirmPassword = (passwordParameterName, confirmationParameterName) =>
 
 /**
  * Validates the email body field.
+ *
+ * @param {string} parameterName
+ * @returns {*}
  */
 const email = (parameterName) => emailInBody(parameterName);
 
 /**
  * Validates the password body field.
+ *
+ * @param {string} parameterName
+ * @returns {*}
  */
 const password = (parameterName) => passwordInBody(parameterName);
 
@@ -462,6 +468,10 @@ const size = query('size')
 
 /**
  * Validates sort in query parameters.
+ *
+ * @param {string[]} validValues
+ * @param {EnumValidatorOptions} [options]
+ * @returns {*}
  */
 const sort = (validValues, options = {}) => enumValue('query', 'sort', validValues, options);
 

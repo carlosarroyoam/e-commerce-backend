@@ -1,7 +1,7 @@
 import objectUtils from '#core/utils/object.utils.js';
 
 /**
- * CustomerMapper class.
+ * OrderMapper class.
  */
 class OrderMapper {
   /**

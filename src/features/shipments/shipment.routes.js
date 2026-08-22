@@ -11,6 +11,11 @@ import showShipmentByOrderSchema from './schemas/showByOrder.schema.js';
 import storeShipmentSchema from './schemas/store.schema.js';
 import updateDeliveredShipmentSchema from './schemas/updateDelivered.schema.js';
 
+/**
+ * Builds the router exposing the /shipments endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   const router = Router();
 

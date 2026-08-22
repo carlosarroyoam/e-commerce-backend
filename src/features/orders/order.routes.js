@@ -12,6 +12,11 @@ import trackOrderSchema from './schemas/track.schema.js';
 import updatePaymentStatusOrderSchema from './schemas/updatePaymentStatus.schema.js';
 import updateStatusOrderSchema from './schemas/updateStatus.schema.js';
 
+/**
+ * Builds the router exposing the /orders endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   const router = Router();
 

@@ -22,7 +22,7 @@ class PropertyRepository {
    * @param {number} queryOptions.page The query page.
    * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
-   * * @return {Promise} The result of the query.
+   * @return {Promise} The result of the query.
    */
   async findAll({ page, size, sort }) {
     const [result] = await this.propertyDao.getAll({ page, size, sort });
@@ -44,7 +44,7 @@ class PropertyRepository {
   /**
    * Retrieves a property by its id.
    *
-   * @param {number} property_id The query options.
+   * @param {number} property_id The id of the property to retrieve.
    * @return {Promise} The result of the query.
    */
   async findById(property_id) {
@@ -54,9 +54,9 @@ class PropertyRepository {
   }
 
   /**
-   * Retrieves a property by its id.
+   * Retrieves a property by its title.
    *
-   * @param {number} title The query options.
+   * @param {string} title The title of the property to retrieve.
    * @return {Promise} The result of the query.
    */
   async findByTitle(title) {

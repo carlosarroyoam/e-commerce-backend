@@ -170,7 +170,7 @@ class AdminService {
    * Updates an admin user by its id.
    *
    * @param {number} admin_id The id of the admin user to update.
-   * @param {object} admin The admin user to store.
+   * @param {object} admin The admin user to update.
    * @return {Promise} The updated admin user.
    */
   async update(admin_id, admin) {

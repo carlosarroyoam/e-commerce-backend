@@ -57,7 +57,7 @@ class PropertyService {
    * Retrieves an property by its id.
    *
    * @param {number} property_id The id of the property to retrieve.
-   * @return {Promise} The variant.
+   * @return {Promise} The property.
    */
   async findById(property_id) {
     let connection;
@@ -141,9 +141,9 @@ class PropertyService {
   /**
    * Updates an property.
    *
-   * @param {number} property_id The id of the property to delete.
+   * @param {number} property_id The id of the property to update.
    * @param {object} property The property to update.
-   * @return {Promise} The created property.
+   * @return {Promise} The updated property.
    */
   async update(property_id, property) {
     let connection;
@@ -184,7 +184,7 @@ class PropertyService {
    * Deletes an property by its id.
    *
    * @param {number} property_id The id of the property to delete.
-   * @return {Promise} The id of the deleted property.
+   * @return {Promise<void>} Resolves when the property has been deleted.
    */
   async deleteById(property_id) {
     let connection;
@@ -225,7 +225,7 @@ class PropertyService {
    * Restores a property by its id.
    *
    * @param {number} property_id The id of the property to restore.
-   * @return {Promise} The id of the restored property.
+   * @return {Promise<void>} Resolves when the property has been restored.
    */
   async restore(property_id) {
     let connection;

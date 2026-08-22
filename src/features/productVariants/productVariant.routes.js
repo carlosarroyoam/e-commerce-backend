@@ -6,6 +6,11 @@ import productVariantController from '#features/productVariants/productVariant.c
 import indexProductVariantSchema from './schemas/index.schema.js';
 import showProductVariantSchema from './schemas/show.schema.js';
 
+/**
+ * Builds the router exposing the /products/:product_id/variants endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();

@@ -79,7 +79,7 @@ class AuthRepository {
   }
 
   /**
-   * Updates a personal access token.
+   * Deletes a personal access token.
    *
    * @param {string} personal_access_token The personal access token.
    * @return {Promise} The query result.

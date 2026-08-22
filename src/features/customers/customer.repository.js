@@ -80,6 +80,7 @@ class CustomerRepository {
    * Stores a customer user.
    *
    * @param {object} customer The customer user to store.
+   * @return {Promise} The created customer user id.
    */
   async store(customer) {
     const userDbEntity = customerMapper.toDatabaseEntity(customer);

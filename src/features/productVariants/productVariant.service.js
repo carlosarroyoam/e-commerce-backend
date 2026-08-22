@@ -13,8 +13,8 @@ class ProductVariantService {
   /**
    * Retrieves all product variants.
    *
-   * @param {number} product_id The query options.
-   * @return {Promise} The list of products.
+   * @param {number} product_id The id of the product to query.
+   * @return {Promise} The list of product variants.
    */
   async findAll(product_id) {
     let connection;

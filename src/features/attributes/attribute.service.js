@@ -9,13 +9,13 @@ import AttributeRepository from '#features/attributes/attribute.repository.js';
  */
 class AttributeService {
   /**
-   * Retrieves all product attributes.
+   * Retrieves all attributes.
    *
    * @param {object} queryOptions The query options.
    * @param {number} queryOptions.page The query page.
    * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
-   * @return {Promise} The list of products.
+   * @return {Promise} The list of attributes.
    */
   async findAll({ page = 1, size = 50, sort = 'id' }) {
     let connection;
@@ -57,7 +57,7 @@ class AttributeService {
    * Retrieves an attribute by its id.
    *
    * @param {number} attribute_id The id of the attribute to retrieve.
-   * @return {Promise} The variant.
+   * @return {Promise} The attribute.
    */
   async findById(attribute_id) {
     let connection;
@@ -141,9 +141,9 @@ class AttributeService {
   /**
    * Updates an attribute.
    *
-   * @param {number} attribute_id The id of the attribute to delete.
+   * @param {number} attribute_id The id of the attribute to update.
    * @param {object} attribute The attribute to update.
-   * @return {Promise} The created attribute.
+   * @return {Promise} The updated attribute.
    */
   async update(attribute_id, attribute) {
     let connection;
@@ -184,7 +184,7 @@ class AttributeService {
    * Deletes an attribute by its id.
    *
    * @param {number} attribute_id The id of the attribute to delete.
-   * @return {Promise} The id of the deleted attribute.
+   * @return {Promise<void>}
    */
   async deleteById(attribute_id) {
     let connection;
@@ -225,7 +225,7 @@ class AttributeService {
    * Restores a attribute by its id.
    *
    * @param {number} attribute_id The id of the attribute to restore.
-   * @return {Promise} The id of the restored attribute.
+   * @return {Promise<void>}
    */
   async restore(attribute_id) {
     let connection;

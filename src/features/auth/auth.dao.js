@@ -76,7 +76,7 @@ class AuthDao {
   }
 
   /**
-   * Performs the SQL query to update a personal access token.
+   * Performs the SQL query to delete a personal access token.
    *
    * @param {string} personal_access_token The personal access token.
    * @return {Promise} The query result.

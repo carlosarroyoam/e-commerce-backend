@@ -44,7 +44,7 @@ class AttributeRepository {
   /**
    * Retrieves a attribute by its id.
    *
-   * @param {number} attribute_id The query options.
+   * @param {number} attribute_id The id of the attribute to retrieve.
    * @return {Promise} The result of the query.
    */
   async findById(attribute_id) {
@@ -54,9 +54,9 @@ class AttributeRepository {
   }
 
   /**
-   * Retrieves a attribute by its id.
+   * Retrieves a attribute by its title.
    *
-   * @param {number} title The query options.
+   * @param {string} title The title of the attribute to retrieve.
    * @return {Promise} The result of the query.
    */
   async findByTitle(title) {

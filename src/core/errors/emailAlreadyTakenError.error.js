@@ -7,7 +7,7 @@ class EmailAlreadyTakenError extends Error {
    * Constructor for EmailAlreadyTakenError.
    *
    * @param {object} args The error args.
-   * @param {object} args.email The email of the user.
+   * @param {string} args.email The email of the user.
    */
   constructor({ email }) {
     super(`The email address: ${email} is already in use`);

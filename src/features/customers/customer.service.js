@@ -190,7 +190,7 @@ class CustomerService {
    * Updates a customer user by its id.
    *
    * @param {number} customer_id The id of the customer user to update.
-   * @param {object} customer The customer user to store.
+   * @param {object} customer The customer user to update.
    * @return {Promise} The updated customer user.
    */
   async update(customer_id, customer) {

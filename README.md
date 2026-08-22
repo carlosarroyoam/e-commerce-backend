@@ -114,6 +114,7 @@ Use `.env.example` as the source of truth. The main variables are:
 APP_ENV=dev
 APP_HOST=http://localhost
 APP_PORT=3000
+CORS_ORIGIN=http://localhost:4200
 DB_USER=yourdbuser
 DB_PASSWORD=yourdbpassword
 DB_NAME=ecommerce
@@ -139,7 +140,8 @@ src/
 |   |-- errors/          # Shared error classes
 |   |-- lib/             # MySQL, JWT, bcrypt, logger
 |   |-- middlewares/     # Error and request middlewares
-|   `-- routes/          # Root and fallback routes
+|   |-- routes/          # Root and fallback routes
+|   `-- utils/           # Shared helper utilities
 |-- features/
 |   |-- admins/
 |   |-- attributes/
@@ -147,9 +149,12 @@ src/
 |   |-- categories/
 |   |-- customerAddresses/
 |   |-- customers/
+|   |-- orders/
 |   |-- products/
 |   |-- productVariants/
 |   |-- properties/
+|   |-- refunds/
+|   |-- shipments/
 |   `-- users/
 |-- test/                # Jest tests
 `-- main.js              # Application entry point
@@ -175,6 +180,9 @@ The main route groups mounted under `/api/v1` are:
 - `/attributes`
 - `/properties`
 - `/categories`
+- `/orders`
+- `/shipments`
+- `/refunds`
 
 Some customer address and product variant routes are also mounted from their feature modules at the API root level.
 
@@ -182,13 +190,9 @@ Some customer address and product variant routes are also mounted from their fea
 
 - Path aliases are configured in `package.json` for `#app/*`, `#core/*`, and `#features/*`.
 - Logs are written through Winston.
-- CORS is currently configured for `http://localhost:3001` and `http://localhost:4200`.
-- Swagger is served directly by the Express app.
+- CORS allowed origins are configured via the `CORS_ORIGIN` env var (comma-separated list, defaults to `http://localhost:3001` and `http://localhost:4200`).
+- A static OpenAPI spec is available at `docs/openapi/api-docs.yaml`, and a Postman collection at `docs/postman/postman_collection.json`.
 
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE).
-
-## Contributor Reference
-
-Developer-oriented conventions for this repository live in `AGENTS.md`.

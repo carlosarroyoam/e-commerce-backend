@@ -9,13 +9,13 @@ import CategoryRepository from '#features/categories/category.repository.js';
  */
 class CategoryService {
   /**
-   * Retrieves all product variants.
+   * Retrieves all categories.
    *
    * @param {object} queryOptions The query options.
    * @param {number} queryOptions.page The query page.
    * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
-   * @return {Promise} The list of products.
+   * @return {Promise} The list of categories.
    */
   async findAll({ page = 1, size = 50, sort = 'id' }) {
     let connection;
@@ -61,7 +61,7 @@ class CategoryService {
    * Retrieves a category by its id.
    *
    * @param {number} category_id The id of the category to retrieve.
-   * @return {Promise} The variant.
+   * @return {Promise} The category.
    */
   async findById(category_id) {
     let connection;
@@ -146,8 +146,8 @@ class CategoryService {
    * Updates a category by its id.
    *
    * @param {number} category_id The id of the category to update.
-   * @param {object} category The category to store.
-   * @return {Promise} The created category.
+   * @param {object} category The category to update.
+   * @return {Promise} The updated category.
    */
   async update(category_id, category) {
     let connection;
@@ -199,7 +199,7 @@ class CategoryService {
    * Deletes an category by its id.
    *
    * @param {number} category_id The id of the category to delete.
-   * @return {Promise} The id of the deleted category.
+   * @return {Promise<void>}
    */
   async deleteById(category_id) {
     let connection;
@@ -240,7 +240,7 @@ class CategoryService {
    * Restores a category by its id.
    *
    * @param {number} category_id The id of the category to restore.
-   * @return {Promise} The id of the restored category.
+   * @return {Promise<void>}
    */
   async restore(category_id) {
     let connection;

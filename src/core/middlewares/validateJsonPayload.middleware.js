@@ -1,5 +1,10 @@
 import sharedErrors from '#core/errors/index.js';
 
+/**
+ * Creates the middleware that converts malformed JSON body errors into a BadRequestError.
+ *
+ * @return {Function} The error-handling middleware.
+ */
 export default () => async (error, request, response, next) => {
   // @ts-ignore
   if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {

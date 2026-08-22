@@ -8,6 +8,11 @@ import loginSchema from './schemas/login.schema.js';
 import refreshTokenSchema from './schemas/refreshToken.schema.js';
 import resetPasswordSchema from './schemas/resetPassword.schema.js';
 
+/**
+ * Builds the router exposing the /auth endpoints.
+ *
+ * @return {Router} The configured express.js router.
+ */
 export default () => {
   // eslint-disable-next-line new-cap
   const router = Router();

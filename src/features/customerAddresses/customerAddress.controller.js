@@ -1,7 +1,7 @@
 import customerAddressService from '#features/customerAddresses/customerAddress.service.js';
 
 /**
- * CustomerController class.
+ * CustomerAddressController class.
  */
 class CustomerAddressController {
   /**
@@ -124,7 +124,7 @@ class CustomerAddressController {
   }
 
   /**
-   * Handles incoming request from the /users/:user_id endpoint.
+   * Handles incoming request from the /customers/:customer_id/addresses/:address_id endpoint.
    *
    * @param {*} request The express.js request object.
    * @param {*} response The express.js response object.

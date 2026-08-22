@@ -5,7 +5,7 @@ import userService from '#features/users/user.service.js';
  */
 class UserController {
   /**
-   * Handles incoming request from the /user endpoint.
+   * Handles incoming request from the /users endpoint.
    *
    * @param {*} request The express.js request object.
    * @param {*} response The express.js response object.

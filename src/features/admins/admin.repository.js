@@ -80,6 +80,7 @@ class AdminRepository {
    * Stores an admin user.
    *
    * @param {object} admin The admin user to store.
+   * @return {Promise} The created admin user id.
    */
   async store(admin) {
     const userDbEntity = adminMapper.toDatabaseEntity(admin);

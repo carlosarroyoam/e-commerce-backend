@@ -18,7 +18,7 @@ class PropertyDao {
    * @param {number} queryOptions.page The query page.
    * @param {number} queryOptions.size The query size.
    * @param {string} queryOptions.sort The order for the results.
-   * * @return {Promise} The query result.
+   * @return {Promise} The query result.
    */
   async getAll({ page, size, sort }) {
     let query = `SELECT
@@ -73,9 +73,9 @@ class PropertyDao {
   }
 
   /**
-   * Performs the SQL query to get a category by its title.
+   * Performs the SQL query to get a property by its title.
    *
-   * @param {number} title The title of the category to query.
+   * @param {string} title The title of the property to query.
    * @return {Promise} The query result.
    */
   async getByTitle(title) {

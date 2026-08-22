@@ -44,6 +44,7 @@ class CustomerAddressRepository {
    * Stores a customer address.
    *
    * @param {object} customerAddress The customer address to store.
+   * @return {Promise} The created customer address id.
    */
   async store(customerAddress) {
     const customerAddressDbEntity = customerAddressMapper.toDatabaseEntity(customerAddress);

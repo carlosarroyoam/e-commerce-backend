@@ -67,7 +67,7 @@ class UserRepository {
   /**
    * Retrieves a non-deleted/active user by its email address.
    *
-   * @param {string} email
+   * @param {string} email The email address of the user to query.
    * @return {Promise} The result of the query
    */
   async findByEmail(email) {
@@ -93,7 +93,7 @@ class UserRepository {
   /**
    * Updates a user.
    *
-   * @param {object} user
+   * @param {object} user The user data to update.
    * @param {number} user_id The id of the user to update.
    * @return {Promise} The result of the query
    */

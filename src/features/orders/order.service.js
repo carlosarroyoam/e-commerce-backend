@@ -207,7 +207,7 @@ class OrderService {
         });
       }
 
-      const createdOrder = this.findById(createdOrderId);
+      const createdOrder = await this.findById(createdOrderId);
 
       await connection.commit();
       connection.release();
