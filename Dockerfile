@@ -1,5 +1,5 @@
 # Create image based on the official Node image from dockerhub
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Add a healtcheck
 HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1

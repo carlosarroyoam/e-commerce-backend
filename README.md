@@ -13,7 +13,7 @@ REST API for an e-commerce platform built with Node.js, Express, and MySQL. The 
 
 ## Stack
 
-- Node.js 20
+- Node.js 24
 - Express 4
 - MySQL 8
 - Joi
@@ -24,7 +24,7 @@ REST API for an e-commerce platform built with Node.js, Express, and MySQL. The 
 
 ## Requirements
 
-- Node.js 20+
+- Node.js 24+
 - npm
 - MySQL 8+
 - Docker Desktop or Docker Engine (optional)
