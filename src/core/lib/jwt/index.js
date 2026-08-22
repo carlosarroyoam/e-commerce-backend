@@ -23,6 +23,8 @@ import config from '#core/config/index.js';
  */
 
 /**
+ * Signs an access token for a subject, salted with the user's password hash.
+ *
  * @param {SignPayload} payload
  * @param {string} password
  * @return {string} The signed token.
@@ -44,6 +46,7 @@ function sign({ subject, userRole }, password) {
 }
 
 /**
+ * Signs a refresh token for a subject.
  *
  * @param {SubjectPayload} payload
  * @return {string} The signed token.
@@ -62,6 +65,8 @@ function signRefresh({ subject }) {
 }
 
 /**
+ * Signs a password recovery token for a subject, salted with the user's password hash.
+ *
  * @param {SubjectPayload} payload
  * @param {string} password
  * @return {string} The signed token.
@@ -82,6 +87,8 @@ function signPasswordRecoveryToken({ subject }, password) {
 }
 
 /**
+ * Verifies an access token's signature and expiration against the user's password hash.
+ *
  * @param {string} accessToken
  * @param {string} password
  * @return {string | TokenPayload} The decoded token.
@@ -92,6 +99,8 @@ function verify(accessToken, password) {
 }
 
 /**
+ * Verifies a refresh token's signature and expiration.
+ *
  * @param {string} refreshToken
  * @return {string | TokenPayload} The decoded token.
  */
@@ -101,6 +110,8 @@ function verifyRefresh(refreshToken) {
 }
 
 /**
+ * Verifies a password recovery token's signature and expiration against the user's password hash.
+ *
  * @param {string} accessToken
  * @param {string} password
  * @return {string | TokenPayload} The decoded token.
@@ -111,6 +122,8 @@ function verifyPasswordRecoveryToken(accessToken, password) {
 }
 
 /**
+ * Decodes a token's payload without verifying its signature.
+ *
  * @param {string} accessToken
  * @return {string | TokenPayload | null} The decoded token.
  */

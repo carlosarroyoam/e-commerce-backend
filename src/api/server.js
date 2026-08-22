@@ -13,7 +13,10 @@ import validateJsonPayloadMiddleware from '#core/middlewares/validateJsonPayload
 
 export default {
   /**
-   * @returns {Promise<void>}
+   * Configures the express.js application (middlewares, routes, error handlers) and
+   * starts it listening on the configured host and port.
+   *
+   * @returns {Promise<void>} Resolves once the server is listening, rejects if it fails to start.
    */
   start: () => {
     const app = express();
