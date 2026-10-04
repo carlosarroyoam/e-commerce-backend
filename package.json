@@ -1,7 +1,7 @@
 {
   "name": "e-commerce-backend",
-  "version": "1.4.0-snapshot",
   "description": "Node.js and Express.js Rest Api",
+  "version": "1.4.0-snapshot",
   "type": "module",
   "exports": "./index.js",
   "imports": {
@@ -9,25 +9,11 @@
     "#core/*": "./src/core/*",
     "#features/*": "./src/features/*"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/carlosarroyoam/e-commerce-backend.git"
-  },
-  "keywords": [
-    "nodejs",
-    "express-js",
-    "mysql",
-    "api"
-  ],
   "author": "Carlos Alberto Arroyo Martínez",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/carlosarroyoam/e-commerce-backend/issues"
-  },
-  "homepage": "https://github.com/carlosarroyoam/e-commerce-backend#readme",
   "scripts": {
     "start": "node src/main.js",
-    "start:dev": "nodemon src/main.js",
+    "start:dev": "node --watch src/main.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll --detectOpenHandles"
   },
   "dependencies": {
@@ -55,7 +41,6 @@
     "eslint-plugin-prettier": "^5.5.6",
     "globals": "^16.5.0",
     "jest": "^30.4.2",
-    "nodemon": "^3.1.7",
     "prettier": "^3.9.6"
   }
 }
