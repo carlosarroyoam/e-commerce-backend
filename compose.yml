@@ -12,7 +12,7 @@ services:
       --collation-server=utf8mb4_0900_ai_ci
       --character-set-client-handshake=FALSE
     ports:
-      - 3306:3306
+      - '3306:3306'
     volumes:
       - ecommerce-data:/var/lib/mysql
       - ./database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
@@ -52,7 +52,7 @@ services:
       JWT_PASSWORD_RECOVERY_EXPIRES_IN: ${JWT_PASSWORD_RECOVERY_EXPIRES_IN}
       SALT_ROUNDS: ${SALT_ROUNDS}
     ports:
-      - 3000:3000
+      - '3000:3000'
     networks:
       - ecommerce-network
 
